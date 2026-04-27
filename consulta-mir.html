@@ -328,11 +328,12 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
       <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
     </div>
     <div class="filter-select-wrap">
-      <select class="filter-select" id="filterMV">
-        <option value="">Tipo MV</option>
-        <option>Interno</option>
-        <option>Externo</option>
-        <option>Mixto</option>
+      <select class="filter-select" id="filterUA">
+        <option value="">Unidad administrativa</option>
+        <option value="Planeación Estratégica">Planeación Estratégica</option>
+        <option value="Técnica">Técnica</option>
+        <option value="Comercial">Comercial</option>
+        <option value="Administrativa">Administrativa</option>
       </select>
       <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
     </div>
@@ -444,14 +445,13 @@ function frClass(f) { return {'Semanal':'semanal','Mensual':'mensual','Bimestral
 function mvClass(t) { return {'Interno':'interno','Externo':'externo','Mixto':'mixto'}[t]||''; }
 function lvIndent(n){ return {'Fin':'','Propósito':'lv-proposito','Componente':'lv-componente','Actividad':'lv-actividad'}[n]||''; }
 
-const state = { gerencia:'Todas', nivel:'', frecuencia:'', mv:'', den:'', search:'', view:'tabla', selected:null };
+const state = { gerencia:'Todas', nivel:'', frecuencia:'', den:'', search:'', view:'tabla', selected:null };
 
 function getFiltered() {
   return DATA.filter(r => {
     if (state.gerencia !== 'Todas' && r.gerencia !== state.gerencia) return false;
     if (state.nivel && r.nivel !== state.nivel) return false;
     if (state.frecuencia && r.frecuenciaMedicion !== state.frecuencia) return false;
-    if (state.mv && r.medioVerificacionTipo !== state.mv) return false;
     if (state.den === 'si' && !r.tieneDenominador) return false;
     if (state.den === 'no' && r.tieneDenominador) return false;
     if (state.search) {
@@ -463,7 +463,7 @@ function getFiltered() {
 }
 
 function hasFilters() {
-  return state.gerencia !== 'Todas' || state.nivel || state.frecuencia || state.mv || state.den || state.search;
+  return state.gerencia !== 'Todas' || state.nivel || state.frecuencia || state.den || state.search;
 }
 
 function renderTable(rows) {
@@ -532,7 +532,6 @@ function updateFiltersBar(rows) {
   const chips = [];
   if (state.nivel)     chips.push(['Nivel: '+state.nivel,    ()=>{ document.getElementById('filterNivel').value=''; state.nivel=''; render(); }]);
   if (state.frecuencia)chips.push(['Frec.: '+state.frecuencia,()=>{ document.getElementById('filterFrecuencia').value=''; state.frecuencia=''; render(); }]);
-  if (state.mv)        chips.push(['MV: '+state.mv,           ()=>{ document.getElementById('filterMV').value=''; state.mv=''; render(); }]);
   if (state.den)       chips.push([state.den==='si'?'Con denominador':'Sin denominador',()=>{ document.getElementById('filterDen').value=''; state.den=''; render(); }]);
   if (state.search)    chips.push(['"'+state.search+'"',       ()=>{ document.getElementById('filterSearch').value=''; state.search=''; render(); }]);
 
@@ -629,29 +628,34 @@ function closeDrawer() {
 
 function clearFilters() {
   state.gerencia = 'Todas'; state.nivel = ''; state.frecuencia = '';
-  state.mv = ''; state.den = ''; state.search = '';
+  state.den = ''; state.search = '';
   document.getElementById('filterSearch').value = '';
   document.getElementById('filterNivel').value = '';
   document.getElementById('filterFrecuencia').value = '';
-  document.getElementById('filterMV').value = '';
+  document.getElementById('filterUA').value = '';
   document.getElementById('filterDen').value = '';
   document.querySelectorAll('.g-tab').forEach(t => t.classList.toggle('active', t.dataset.g === 'Todas'));
   render();
 }
 
 // Events
+function syncTabsAndDropdown(gerencia) {
+  state.gerencia = gerencia;
+  document.querySelectorAll('.g-tab').forEach(t => t.classList.toggle('active', t.dataset.g === gerencia));
+  document.getElementById('filterUA').value = gerencia === 'Todas' ? '' : gerencia;
+}
+
 document.getElementById('gerenciaTabs').addEventListener('click', e => {
   const tab = e.target.closest('.g-tab');
   if (!tab) return;
-  state.gerencia = tab.dataset.g;
-  document.querySelectorAll('.g-tab').forEach(t => t.classList.toggle('active', t === tab));
+  syncTabsAndDropdown(tab.dataset.g);
   render();
 });
 
 document.getElementById('filterSearch').addEventListener('input', e => { state.search = e.target.value.trim(); render(); });
 document.getElementById('filterNivel').addEventListener('change', e => { state.nivel = e.target.value; render(); });
 document.getElementById('filterFrecuencia').addEventListener('change', e => { state.frecuencia = e.target.value; render(); });
-document.getElementById('filterMV').addEventListener('change', e => { state.mv = e.target.value; render(); });
+document.getElementById('filterUA').addEventListener('change', e => { syncTabsAndDropdown(e.target.value || 'Todas'); render(); });
 document.getElementById('filterDen').addEventListener('change', e => { state.den = e.target.value; render(); });
 document.getElementById('btnClear').addEventListener('click', clearFilters);
 document.getElementById('backdrop').addEventListener('click', closeDrawer);
