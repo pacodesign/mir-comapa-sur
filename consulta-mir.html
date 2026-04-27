@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulta dinámica de MIR — COMAPA Sur</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-primary: #7C3AED;
+  --color-accent: #14B8A6;
+  --color-accent-dark: #0DBFAD;
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+  --color-link: #F97316;
+  --color-bg: #FFFFFF;
+  --color-surface: #F3F4F6;
+  --color-border: #E5E7EB;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+  --color-avatar-bg: #F87171;
+  --radius-card: 16px;
+  --radius-btn: 999px;
+  --pad-card: 20px;
+  --gap: 16px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-surface); color: var(--color-text-primary); display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar { width: 64px; background: var(--color-bg); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
+.sidebar-logo { width: 36px; height: 36px; background: var(--color-primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.sidebar-logo svg { width: 18px; height: 18px; stroke: white; fill: none; }
+.sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.nav-item { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text-secondary); transition: background 0.15s, color 0.15s; }
+.nav-item:hover { background: var(--color-surface); }
+.nav-item.active { background: #EDE9FE; color: var(--color-primary); }
+.nav-item svg { width: 20px; height: 20px; }
+.sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.avatar-xs { width: 32px; height: 32px; border-radius: 50%; background: var(--color-avatar-bg); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; }
+
+/* ── LAYOUT ── */
+.app-wrapper { display: flex; flex: 1; margin-left: 64px; }
+.main-content { flex: 1; padding: 24px; min-width: 0; transition: margin-right 0.25s ease; }
+.main-content.drawer-open { margin-right: 360px; }
+
+/* ── PAGE HEADER ── */
+.page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.page-title { font-size: 22px; font-weight: 700; color: var(--color-text-primary); line-height: 1.3; }
+.page-subtitle { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; max-width: 560px; line-height: 1.5; }
+
+/* ── BUTTONS ── */
+.btn-primary { background: var(--color-accent); color: white; border: none; border-radius: var(--radius-btn); padding: 9px 18px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s; white-space: nowrap; }
+.btn-primary:hover { background: var(--color-accent-dark); }
+.btn-detail { background: var(--color-surface); color: var(--color-accent); border: none; border-radius: var(--radius-btn); padding: 5px 12px; font-size: 11px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+.btn-detail:hover { background: #CCFBF1; }
+.btn-clear { background: transparent; color: var(--color-danger); border: none; border-radius: var(--radius-btn); padding: 7px 12px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: background 0.15s; white-space: nowrap; }
+.btn-clear:hover { background: #FEF2F2; }
+.btn-full { width: 100%; background: var(--color-accent); color: white; border: none; border-radius: var(--radius-btn); padding: 11px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.15s; }
+.btn-full:hover { background: var(--color-accent-dark); }
+
+/* ── GERENCIA TABS ── */
+.gerencia-tabs { display: flex; gap: 4px; background: var(--color-bg); border-radius: var(--radius-card); padding: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 14px; overflow-x: auto; }
+.g-tab { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius-btn); border: none; background: transparent; font-family: inherit; font-size: 12px; font-weight: 600; color: var(--color-text-secondary); cursor: pointer; transition: background 0.15s, color 0.15s; white-space: nowrap; }
+.g-tab:hover { background: var(--color-surface); color: var(--color-text-primary); }
+.g-tab.active { background: var(--color-primary); color: white; }
+.g-tab.active .tab-count { background: rgba(255,255,255,0.2); color: white; }
+.tab-count { font-size: 10px; font-weight: 700; background: var(--color-surface); color: var(--color-text-secondary); padding: 2px 7px; border-radius: var(--radius-btn); }
+
+/* ── FILTER PANEL ── */
+.filter-panel { background: var(--color-bg); border-radius: var(--radius-card); padding: 14px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.filter-search { flex: 1; min-width: 180px; display: flex; align-items: center; gap: 8px; background: var(--color-surface); border: 1px solid transparent; border-radius: var(--radius-btn); padding: 7px 14px; transition: border-color 0.15s; }
+.filter-search:focus-within { border-color: var(--color-primary); }
+.filter-search svg { width: 14px; height: 14px; color: var(--color-text-secondary); flex-shrink: 0; }
+.filter-search input { border: none; background: transparent; font-family: inherit; font-size: 12px; color: var(--color-text-primary); flex: 1; outline: none; }
+.filter-search input::placeholder { color: var(--color-text-secondary); }
+.filter-select-wrap { position: relative; display: flex; align-items: center; background: var(--color-surface); border: 1px solid transparent; border-radius: var(--radius-btn); padding: 0 32px 0 14px; height: 34px; transition: border-color 0.15s; }
+.filter-select-wrap:focus-within { border-color: var(--color-primary); }
+.filter-select-wrap .chevron { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; color: var(--color-text-secondary); pointer-events: none; }
+.filter-select { border: none; background: transparent; font-family: inherit; font-size: 12px; font-weight: 500; color: var(--color-text-primary); cursor: pointer; outline: none; appearance: none; white-space: nowrap; }
+
+/* ── ACTIVE FILTERS ── */
+.filters-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
+.filters-bar.hidden { display: none; }
+.result-count { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); }
+.result-count strong { color: var(--color-text-primary); font-weight: 700; }
+.filter-chip { display: inline-flex; align-items: center; gap: 5px; background: #EDE9FE; color: var(--color-primary); font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-btn); cursor: pointer; transition: background 0.15s; }
+.filter-chip:hover { background: #DDD6FE; }
+.filter-chip svg { width: 11px; height: 11px; }
+
+/* ── VIEW TOGGLE ── */
+.view-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.view-toggle { display: flex; background: var(--color-bg); border-radius: var(--radius-btn); padding: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.view-btn { display: flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: var(--radius-btn); border: none; background: transparent; font-family: inherit; font-size: 12px; font-weight: 600; color: var(--color-text-secondary); cursor: pointer; transition: all 0.15s; }
+.view-btn:hover { color: var(--color-text-primary); }
+.view-btn.active { background: var(--color-primary); color: white; }
+.view-btn svg { width: 14px; height: 14px; }
+
+/* ── TABLE ── */
+.table-card { background: var(--color-bg); border-radius: var(--radius-card); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.table-scroll { overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.data-table thead th { text-align: left; font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; padding: 11px 14px; border-bottom: 1px solid var(--color-border); background: var(--color-surface); white-space: nowrap; }
+.data-table tbody td { padding: 11px 14px; color: var(--color-text-primary); border-bottom: 1px solid var(--color-surface); vertical-align: middle; }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr { cursor: pointer; transition: background 0.1s; }
+.data-table tbody tr:hover { background: #FAFAFA; }
+.data-table tbody tr.selected { background: #F5F3FF; }
+.row-id { font-size: 10px; font-weight: 700; font-family: monospace; color: var(--color-text-secondary); background: var(--color-surface); padding: 3px 7px; border-radius: 6px; white-space: nowrap; }
+.td-ind { max-width: 240px; }
+.td-ind p { font-weight: 600; line-height: 1.4; }
+.td-obj { max-width: 180px; }
+.td-obj p { font-size: 11px; color: var(--color-text-secondary); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.td-mv p { font-size: 11px; color: var(--color-text-secondary); max-width: 150px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ── LEVEL BADGES ── */
+.level-tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
+.level-tag.fin       { background: #1E1B4B; color: white; }
+.level-tag.proposito { background: #312E81; color: white; }
+.level-tag.componente{ background: #4338CA; color: white; }
+.level-tag.actividad { background: #6D28D9; color: white; }
+
+/* ── GERENCIA CHIPS ── */
+.g-chip { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
+.g-chip.pe  { background: #EDE9FE; color: #7C3AED; }
+.g-chip.tec { background: #CCFBF1; color: #0F766E; }
+.g-chip.com { background: #FFF7ED; color: #C2410C; }
+.g-chip.adm { background: #EFF6FF; color: #1D4ED8; }
+
+/* ── FREQ BADGES ── */
+.freq-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
+.freq-tag.semanal    { background: #E0F2FE; color: #075985; }
+.freq-tag.mensual    { background: #DCFCE7; color: #166534; }
+.freq-tag.bimestral  { background: #FCE7F3; color: #9D174D; }
+.freq-tag.trimestral { background: #DBEAFE; color: #1E40AF; }
+.freq-tag.semestral  { background: #EDE9FE; color: #5B21B6; }
+.freq-tag.anual      { background: #FEF9C3; color: #854D0E; }
+
+/* ── MV BADGES ── */
+.mv-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
+.mv-tag.interno { background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; }
+.mv-tag.externo { background: #FFF7ED; color: #9A3412; border: 1px solid #FED7AA; }
+.mv-tag.mixto   { background: #F5F3FF; color: #4C1D95; border: 1px solid #C4B5FD; }
+
+/* ── TREE VIEW ── */
+.tree-view { display: flex; flex-direction: column; gap: 12px; }
+.tree-gerencia { background: var(--color-bg); border-radius: var(--radius-card); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.tree-g-header { display: flex; align-items: center; gap: 10px; padding: 14px 20px; background: var(--color-surface); border-bottom: 1px solid var(--color-border); cursor: pointer; user-select: none; }
+.tree-g-header:hover { background: #EBEBEB; }
+.tree-g-name { font-size: 14px; font-weight: 700; color: var(--color-text-primary); flex: 1; }
+.tree-g-count { font-size: 11px; color: var(--color-text-secondary); }
+.tree-chevron { width: 16px; height: 16px; color: var(--color-text-secondary); transition: transform 0.2s; flex-shrink: 0; }
+.tree-gerencia.collapsed .tree-chevron { transform: rotate(-90deg); }
+.tree-gerencia.collapsed .tree-body { display: none; }
+.tree-body { padding: 6px 0; }
+.tree-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 20px; cursor: pointer; transition: background 0.1s; }
+.tree-item:hover { background: #FAFAFA; }
+.tree-item.selected { background: #F5F3FF; }
+.tree-item.lv-proposito  { padding-left: 40px; }
+.tree-item.lv-componente { padding-left: 60px; }
+.tree-item.lv-actividad  { padding-left: 80px; }
+.tree-item-content { flex: 1; min-width: 0; }
+.tree-item-name { font-size: 12px; font-weight: 600; color: var(--color-text-primary); line-height: 1.4; }
+.tree-item-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 5px; }
+.tree-item-id { font-size: 10px; font-weight: 700; color: var(--color-text-secondary); font-family: monospace; }
+
+/* ── DETAIL DRAWER ── */
+.drawer-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.1); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+.drawer-backdrop.active { opacity: 1; pointer-events: auto; }
+.detail-drawer { position: fixed; top: 0; right: 0; width: 360px; height: 100vh; background: var(--color-bg); border-left: 1px solid var(--color-border); box-shadow: -8px 0 24px rgba(0,0,0,0.1); z-index: 300; display: flex; flex-direction: column; transform: translateX(360px); transition: transform 0.25s ease; }
+.detail-drawer.open { transform: translateX(0); }
+.drawer-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; background: var(--color-bg); z-index: 1; flex-shrink: 0; }
+.drawer-title { font-size: 11px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
+.drawer-close { width: 28px; height: 28px; border-radius: 50%; border: none; background: var(--color-surface); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text-secondary); transition: background 0.15s; }
+.drawer-close:hover { background: var(--color-border); }
+.drawer-close svg { width: 14px; height: 14px; }
+.drawer-body { padding: 20px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+.drawer-id-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.d-id { font-size: 11px; font-weight: 700; font-family: monospace; color: var(--color-text-secondary); background: var(--color-surface); padding: 4px 10px; border-radius: 8px; }
+.drawer-name { font-size: 14px; font-weight: 700; color: var(--color-text-primary); line-height: 1.5; }
+.d-divider { height: 1px; background: var(--color-border); flex-shrink: 0; }
+.d-field { display: flex; flex-direction: column; gap: 4px; }
+.d-label { font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 5px; }
+.d-value { font-size: 12px; color: var(--color-text-primary); line-height: 1.5; }
+.d-value.code { font-family: monospace; font-size: 11px; background: var(--color-surface); padding: 8px 10px; border-radius: 8px; line-height: 1.6; display: block; }
+.drawer-footer { padding: 16px 20px; border-top: 1px solid var(--color-border); flex-shrink: 0; }
+
+/* ── TOOLTIPS ── */
+.tip-wrap { position: relative; display: inline-flex; align-items: center; gap: 4px; }
+.tip-icon { width: 14px; height: 14px; border-radius: 50%; background: var(--color-border); color: var(--color-text-secondary); display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; cursor: help; flex-shrink: 0; line-height: 1; position: relative; }
+.tip-icon::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%); background: #111827; color: white; font-size: 11px; line-height: 1.4; padding: 7px 10px; border-radius: 8px; white-space: normal; min-width: 160px; max-width: 220px; text-align: left; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 500; font-weight: 400; font-family: 'Plus Jakarta Sans', sans-serif; }
+.tip-icon:hover::after { opacity: 1; }
+
+/* ── BREADCRUMB ── */
+.breadcrumb { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.breadcrumb a { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-decoration: none; transition: color 0.15s; }
+.breadcrumb a:hover { color: var(--color-primary); }
+.breadcrumb .sep { font-size: 12px; color: var(--color-border); }
+.breadcrumb .current { font-size: 12px; font-weight: 700; color: var(--color-text-primary); }
+
+/* ── EMPTY STATE ── */
+.empty-state { padding: 56px 24px; text-align: center; }
+.empty-state-icon { width: 48px; height: 48px; background: var(--color-surface); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+.empty-state-icon svg { width: 24px; height: 24px; color: var(--color-text-secondary); }
+.empty-state p { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 14px; }
+
+/* ── UTILS ── */
+.hidden { display: none !important; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .filter-panel { flex-wrap: wrap; }
+  .filter-search { min-width: 200px; }
+  .data-table { font-size: 11px; }
+  .data-table thead th, .data-table tbody td { padding: 9px 10px; }
+}
+@media (max-width: 860px) {
+  .gerencia-tabs { overflow-x: auto; white-space: nowrap; padding-bottom: 2px; }
+  .table-scroll { overflow-x: auto; }
+  .td-ind { max-width: 160px; }
+  .td-obj { display: none; }
+}
+@media (max-width: 640px) {
+  .main-content { padding: 16px; }
+  .page-header { flex-direction: column; gap: 12px; }
+  .view-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .filter-panel { gap: 6px; padding: 12px 14px; }
+  .filter-select-wrap { flex: 1; min-width: 130px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+    </svg>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-item" title="Inicio" onclick="window.location='dashboard-inicio.html'">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" /></svg>
+    </div>
+    <div class="nav-item active" title="Consulta MIR">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" /></svg>
+    </div>
+    <div class="nav-item" title="Indicadores">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>
+    </div>
+    <div class="nav-item" title="Reportar avance" onclick="window.location='reporte-avance.html'">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" /></svg>
+    </div>
+    <div class="nav-item" title="Medios de verificación">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" /></svg>
+    </div>
+    <div class="nav-item" title="Guía MIR">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>
+    </div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="nav-item" title="Configuración">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+    </div>
+    <div class="avatar-xs">LP</div>
+  </div>
+</nav>
+
+<!-- ═══ MAIN WRAPPER ═══ -->
+<div class="app-wrapper">
+<main class="main-content" id="mainContent">
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard-inicio.html">Inicio</a>
+    <span class="sep">›</span>
+    <span class="current">Consulta MIR</span>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Consulta dinámica de MIR</h1>
+      <p class="page-subtitle">Explora la estructura de las Matrices de Indicadores para Resultados por gerencia, nivel, indicador, frecuencia y medio de verificación.</p>
+    </div>
+    <button class="btn-primary">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>
+      Guía MIR
+    </button>
+  </div>
+
+  <!-- GERENCIA TABS -->
+  <div class="gerencia-tabs" id="gerenciaTabs">
+    <button class="g-tab active" data-g="Todas">Todas <span class="tab-count">21</span></button>
+    <button class="g-tab" data-g="Planeación Estratégica">Planeación Estratégica <span class="tab-count">4</span></button>
+    <button class="g-tab" data-g="Técnica">Técnica <span class="tab-count">6</span></button>
+    <button class="g-tab" data-g="Comercial">Comercial <span class="tab-count">6</span></button>
+    <button class="g-tab" data-g="Administrativa">Administrativa <span class="tab-count">5</span></button>
+  </div>
+
+  <!-- FILTER PANEL -->
+  <div class="filter-panel">
+    <div class="filter-search">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+      <input type="text" id="filterSearch" placeholder="Buscar indicador, objetivo o ID...">
+    </div>
+    <div class="filter-select-wrap">
+      <select class="filter-select" id="filterNivel">
+        <option value="">Nivel MIR</option>
+        <option>Fin</option>
+        <option>Propósito</option>
+        <option>Componente</option>
+        <option>Actividad</option>
+      </select>
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+    </div>
+    <div class="filter-select-wrap">
+      <select class="filter-select" id="filterFrecuencia">
+        <option value="">Frecuencia</option>
+        <option>Semanal</option>
+        <option>Mensual</option>
+        <option>Bimestral</option>
+        <option>Trimestral</option>
+        <option>Semestral</option>
+        <option>Anual</option>
+      </select>
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+    </div>
+    <div class="filter-select-wrap">
+      <select class="filter-select" id="filterMV">
+        <option value="">Tipo MV</option>
+        <option>Interno</option>
+        <option>Externo</option>
+        <option>Mixto</option>
+      </select>
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+    </div>
+    <div class="filter-select-wrap">
+      <select class="filter-select" id="filterDen">
+        <option value="">Denominador</option>
+        <option value="si">Con denominador</option>
+        <option value="no">Sin denominador</option>
+      </select>
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+    </div>
+    <button class="btn-clear hidden" id="btnClear">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
+      Limpiar filtros
+    </button>
+  </div>
+
+  <!-- ACTIVE FILTERS BAR -->
+  <div class="filters-bar hidden" id="filtersBar"></div>
+
+  <!-- VIEW BAR -->
+  <div class="view-bar">
+    <div class="view-toggle">
+      <button class="view-btn active" id="btnTabla">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75.125v-5.625A1.125 1.125 0 0 1 3.375 12h1.5C5.496 12 6 12.504 6 13.125v5.625m-6 0v-5.625M6 18.375V13.125m0 0a1.125 1.125 0 0 1 1.125-1.125h1.5A1.125 1.125 0 0 1 9.75 13.125v5.25A1.125 1.125 0 0 1 8.625 19.5h-1.5A1.125 1.125 0 0 1 6 18.375Zm3.75 0V9.375A1.125 1.125 0 0 1 10.875 8.25h1.5A1.125 1.125 0 0 1 13.5 9.375v9A1.125 1.125 0 0 1 12.375 19.5h-1.5A1.125 1.125 0 0 1 9.75 18.375Zm3.75 0V4.875A1.125 1.125 0 0 1 14.625 3.75h1.5A1.125 1.125 0 0 1 17.25 4.875v13.5A1.125 1.125 0 0 1 16.125 19.5h-1.5A1.125 1.125 0 0 1 13.5 18.375Z" /></svg>
+        Vista tabla
+      </button>
+      <button class="view-btn" id="btnJerarquica">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" /></svg>
+        Vista jerárquica
+      </button>
+    </div>
+    <p class="result-count" id="resultCount"><strong>21</strong> indicadores encontrados</p>
+  </div>
+
+  <!-- TABLE VIEW -->
+  <div id="viewTabla" class="table-card">
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Gerencia</th>
+            <th>
+              <span class="tip-wrap">
+                Nivel
+                <span class="tip-icon" data-tip="Posición en la lógica causal de la MIR: Fin, Propósito, Componente o Actividad">?</span>
+              </span>
+            </th>
+            <th>Indicador</th>
+            <th>Objetivo resumido</th>
+            <th>
+              <span class="tip-wrap">
+                Frecuencia
+                <span class="tip-icon" data-tip="Periodicidad con la que se mide y reporta el indicador">?</span>
+              </span>
+            </th>
+            <th>Unidad</th>
+            <th>
+              <span class="tip-wrap">
+                Medio de verificación
+                <span class="tip-icon" data-tip="Fuente o documento que permite comprobar el valor reportado del indicador">?</span>
+              </span>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TREE VIEW -->
+  <div id="viewJerarquica" class="tree-view hidden"></div>
+
+</main>
+</div>
+
+<!-- BACKDROP -->
+<div class="drawer-backdrop" id="backdrop"></div>
+
+<!-- DETAIL DRAWER -->
+<aside class="detail-drawer" id="detailDrawer">
+  <div class="drawer-header">
+    <span class="drawer-title">Detalle del indicador</span>
+    <button class="drawer-close" id="drawerClose">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
+    </button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-footer">
+    <button class="btn-full" id="btnVerDetalle" onclick="window.location='detalle-indicador.html'">
+      Ver detalle completo
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
+    </button>
+  </div>
+</aside>
+
+<script>
+const DATA = [
+  { id:'PE-FIN-01', gerencia:'Planeación Estratégica', nivel:'Fin',
+    indicador:'Índice de desempeño institucional de COMAPA Sur',
+    objetivo:'Evaluar el cumplimiento de los objetivos estratégicos institucionales',
+    metodo:'(Objetivos estratégicos cumplidos / Total de objetivos programados) × 100',
+    frecuencia:'Anual', unidad:'Índice', mv:'Informe de evaluación institucional',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Dirección General' },
+
+  { id:'PE-PROP-01', gerencia:'Planeación Estratégica', nivel:'Propósito',
+    indicador:'Porcentaje de proyectos estratégicos con avance conforme a programa',
+    objetivo:'Medir el cumplimiento del programa de proyectos estratégicos',
+    metodo:'(Proyectos con avance en tiempo / Total de proyectos programados) × 100',
+    frecuencia:'Trimestral', unidad:'Porcentaje', mv:'Reporte trimestral de proyectos',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia de Planeación' },
+
+  { id:'PE-COMP-01', gerencia:'Planeación Estratégica', nivel:'Componente',
+    indicador:'Número de instrumentos de planeación actualizados',
+    objetivo:'Mantener vigentes los instrumentos de planeación institucional',
+    metodo:'Conteo de instrumentos actualizados en el periodo',
+    frecuencia:'Anual', unidad:'Número', mv:'Actas de aprobación',
+    mv_tipo:'Interno', tiene_den:false, fuente:'Gerencia de Planeación' },
+
+  { id:'PE-ACT-01', gerencia:'Planeación Estratégica', nivel:'Actividad',
+    indicador:'Porcentaje de reuniones de seguimiento realizadas',
+    objetivo:'Garantizar el seguimiento periódico a los proyectos estratégicos',
+    metodo:'(Reuniones realizadas / Reuniones programadas) × 100',
+    frecuencia:'Mensual', unidad:'Porcentaje', mv:'Minutas de reunión',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia de Planeación' },
+
+  { id:'TEC-FIN-01', gerencia:'Técnica', nivel:'Fin',
+    indicador:'Cobertura de agua potable en el área de servicio',
+    objetivo:'Medir el porcentaje de la población con acceso a agua potable',
+    metodo:'(Tomas activas / Total de tomas registradas) × 100',
+    frecuencia:'Anual', unidad:'Porcentaje', mv:'Padrón de usuarios / INEGI',
+    mv_tipo:'Mixto', tiene_den:true, fuente:'INEGI / Gerencia Técnica' },
+
+  { id:'TEC-PROP-01', gerencia:'Técnica', nivel:'Propósito',
+    indicador:'Eficiencia física del sistema de agua potable',
+    objetivo:'Medir las pérdidas de agua en la red de distribución',
+    metodo:'((Vol. producido - Vol. facturado) / Vol. producido) × 100',
+    frecuencia:'Trimestral', unidad:'Porcentaje', mv:'Registros de macromedición',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Técnica' },
+
+  { id:'TEC-COMP-01', gerencia:'Técnica', nivel:'Componente',
+    indicador:'Volumen de agua producida',
+    objetivo:'Registrar el volumen total de agua extraída para distribución',
+    metodo:'Suma de lecturas de macromedidores en el periodo',
+    frecuencia:'Mensual', unidad:'m³', mv:'Bitácora de macromedición',
+    mv_tipo:'Interno', tiene_den:false, fuente:'Gerencia Técnica' },
+
+  { id:'TEC-COMP-02', gerencia:'Técnica', nivel:'Componente',
+    indicador:'Número de tomas de agua en servicio',
+    objetivo:'Mantener actualizado el inventario de tomas activas',
+    metodo:'Conteo de tomas activas al cierre del periodo',
+    frecuencia:'Semestral', unidad:'Número', mv:'Padrón de usuarios',
+    mv_tipo:'Interno', tiene_den:false, fuente:'Gerencia Técnica' },
+
+  { id:'TEC-ACT-01', gerencia:'Técnica', nivel:'Actividad',
+    indicador:'Porcentaje de mantenimiento preventivo de redes ejecutado',
+    objetivo:'Ejecutar el programa anual de mantenimiento de la red de distribución',
+    metodo:'(Km de red con mantenimiento / Km programados) × 100',
+    frecuencia:'Mensual', unidad:'Porcentaje', mv:'Bitácora de mantenimiento',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Técnica' },
+
+  { id:'TEC-ACT-02', gerencia:'Técnica', nivel:'Actividad',
+    indicador:'Número de reparaciones de fugas realizadas',
+    objetivo:'Reducir fugas visibles en la red de distribución',
+    metodo:'Conteo de órdenes de reparación cerradas en el periodo',
+    frecuencia:'Mensual', unidad:'Número', mv:'Órdenes de trabajo',
+    mv_tipo:'Interno', tiene_den:false, fuente:'Gerencia Técnica' },
+
+  { id:'COM-FIN-01', gerencia:'Comercial', nivel:'Fin',
+    indicador:'Índice de eficiencia comercial',
+    objetivo:'Evaluar la capacidad de recaudación respecto al potencial facturado',
+    metodo:'(Monto recaudado / Monto facturado) × 100',
+    frecuencia:'Anual', unidad:'Índice', mv:'Sistema de facturación / estados financieros',
+    mv_tipo:'Mixto', tiene_den:true, fuente:'Gerencia Comercial / Finanzas' },
+
+  { id:'COM-PROP-01', gerencia:'Comercial', nivel:'Propósito',
+    indicador:'Porcentaje de cobranza efectiva',
+    objetivo:'Medir la eficiencia en la recuperación de la cartera de facturación',
+    metodo:'(Monto cobrado / Monto facturado) × 100',
+    frecuencia:'Mensual', unidad:'Porcentaje', mv:'Reporte de cobranza del sistema comercial',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Comercial' },
+
+  { id:'COM-COMP-01', gerencia:'Comercial', nivel:'Componente',
+    indicador:'Porcentaje de medidores en operación',
+    objetivo:'Mantener la medición activa del mayor número de tomas',
+    metodo:'(Medidores en operación / Total de tomas activas) × 100',
+    frecuencia:'Bimestral', unidad:'Porcentaje', mv:'Inventario de medidores',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Comercial' },
+
+  { id:'COM-COMP-02', gerencia:'Comercial', nivel:'Componente',
+    indicador:'Porcentaje de facturas emitidas en tiempo',
+    objetivo:'Asegurar la emisión oportuna de la facturación bimestral',
+    metodo:'(Facturas emitidas en tiempo / Total de facturas emitidas) × 100',
+    frecuencia:'Bimestral', unidad:'Porcentaje', mv:'Reporte del sistema de facturación',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Comercial' },
+
+  { id:'COM-ACT-01', gerencia:'Comercial', nivel:'Actividad',
+    indicador:'Número de lecturas de medidor realizadas',
+    objetivo:'Garantizar la lectura completa del padrón en cada ciclo',
+    metodo:'Conteo de lecturas registradas en el sistema en el periodo',
+    frecuencia:'Bimestral', unidad:'Número', mv:'Reporte de lectura del sistema',
+    mv_tipo:'Interno', tiene_den:false, fuente:'Gerencia Comercial' },
+
+  { id:'COM-ACT-02', gerencia:'Comercial', nivel:'Actividad',
+    indicador:'Porcentaje de acuerdos de pago cumplidos',
+    objetivo:'Recuperar cartera vencida mediante acuerdos de pago formalizados',
+    metodo:'(Acuerdos de pago cumplidos / Acuerdos formalizados) × 100',
+    frecuencia:'Trimestral', unidad:'Porcentaje', mv:'Reporte de gestión de cobranza',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Comercial' },
+
+  { id:'ADM-FIN-01', gerencia:'Administrativa', nivel:'Fin',
+    indicador:'Índice de gestión administrativa eficiente',
+    objetivo:'Evaluar el desempeño global de los procesos administrativos de apoyo',
+    metodo:'Promedio ponderado de indicadores de gestión administrativa',
+    frecuencia:'Anual', unidad:'Índice', mv:'Informe de gestión administrativa',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Administrativa' },
+
+  { id:'ADM-PROP-01', gerencia:'Administrativa', nivel:'Propósito',
+    indicador:'Porcentaje de ejercicio presupuestal oportuno',
+    objetivo:'Asegurar el ejercicio del presupuesto conforme al programa anual',
+    metodo:'(Presupuesto ejercido / Presupuesto autorizado) × 100',
+    frecuencia:'Trimestral', unidad:'Porcentaje', mv:'Informe presupuestal',
+    mv_tipo:'Externo', tiene_den:true, fuente:'Contraloría / CONAGUA' },
+
+  { id:'ADM-COMP-01', gerencia:'Administrativa', nivel:'Componente',
+    indicador:'Porcentaje de adquisiciones realizadas conforme al programa',
+    objetivo:'Ejecutar el programa anual de adquisiciones en tiempo y forma',
+    metodo:'(Adquisiciones realizadas / Adquisiciones programadas) × 100',
+    frecuencia:'Trimestral', unidad:'Porcentaje', mv:'Expedientes de licitación y compra',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Administrativa' },
+
+  { id:'ADM-ACT-01', gerencia:'Administrativa', nivel:'Actividad',
+    indicador:'Número de procesos de licitación publicados',
+    objetivo:'Garantizar la transparencia en los procesos de adquisición',
+    metodo:'Conteo de licitaciones publicadas en el periodo',
+    frecuencia:'Trimestral', unidad:'Número', mv:'Compranet / Diario Oficial',
+    mv_tipo:'Externo', tiene_den:false, fuente:'SEDATU / Compranet' },
+
+  { id:'ADM-ACT-02', gerencia:'Administrativa', nivel:'Actividad',
+    indicador:'Porcentaje de nómina pagada en tiempo',
+    objetivo:'Garantizar el pago oportuno de la nómina al personal',
+    metodo:'(Nóminas pagadas en tiempo / Total de nóminas del periodo) × 100',
+    frecuencia:'Mensual', unidad:'Porcentaje', mv:'Comprobantes de pago de nómina',
+    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Administrativa' }
+];
+
+const GERENCIA_ORDER = ['Planeación Estratégica','Técnica','Comercial','Administrativa'];
+const NIVEL_ORDER    = ['Fin','Propósito','Componente','Actividad'];
+
+function gClass(g)  { return {' Planeación Estratégica':'pe','Técnica':'tec','Comercial':'com','Administrativa':'adm','Planeación Estratégica':'pe'}[g]||'pe'; }
+function gShort(g)  { return {'Planeación Estratégica':'Planeación','Técnica':'Técnica','Comercial':'Comercial','Administrativa':'Administrativa'}[g]||g; }
+function lvClass(n) { return {'Fin':'fin','Propósito':'proposito','Componente':'componente','Actividad':'actividad'}[n]||''; }
+function frClass(f) { return {'Semanal':'semanal','Mensual':'mensual','Bimestral':'bimestral','Trimestral':'trimestral','Semestral':'semestral','Anual':'anual'}[f]||''; }
+function mvClass(t) { return {'Interno':'interno','Externo':'externo','Mixto':'mixto'}[t]||''; }
+function lvIndent(n){ return {'Fin':'','Propósito':'lv-proposito','Componente':'lv-componente','Actividad':'lv-actividad'}[n]||''; }
+
+const state = { gerencia:'Todas', nivel:'', frecuencia:'', mv:'', den:'', search:'', view:'tabla', selected:null };
+
+function getFiltered() {
+  return DATA.filter(r => {
+    if (state.gerencia !== 'Todas' && r.gerencia !== state.gerencia) return false;
+    if (state.nivel && r.nivel !== state.nivel) return false;
+    if (state.frecuencia && r.frecuencia !== state.frecuencia) return false;
+    if (state.mv && r.mv_tipo !== state.mv) return false;
+    if (state.den === 'si' && !r.tiene_den) return false;
+    if (state.den === 'no' && r.tiene_den) return false;
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      if (!r.indicador.toLowerCase().includes(q) && !r.objetivo.toLowerCase().includes(q) && !r.id.toLowerCase().includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function hasFilters() {
+  return state.gerencia !== 'Todas' || state.nivel || state.frecuencia || state.mv || state.den || state.search;
+}
+
+function renderTable(rows) {
+  const tbody = document.getElementById('tableBody');
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg></div><p>No se encontraron indicadores con los filtros seleccionados.</p><button class="btn-primary" onclick="clearFilters()" style="margin:0 auto">Limpiar filtros</button></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = rows.map(r => `
+    <tr class="${state.selected===r.id?'selected':''}" onclick="openDetail('${r.id}')">
+      <td><span class="row-id">${r.id}</span></td>
+      <td><span class="g-chip ${gClass(r.gerencia)}">${gShort(r.gerencia)}</span></td>
+      <td><span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span></td>
+      <td class="td-ind"><p>${r.indicador}</p></td>
+      <td class="td-obj"><p>${r.objetivo}</p></td>
+      <td><span class="freq-tag ${frClass(r.frecuencia)}">${r.frecuencia}</span></td>
+      <td style="font-size:11px;color:var(--color-text-secondary)">${r.unidad}</td>
+      <td class="td-mv"><p>${r.mv}</p></td>
+      <td><button class="btn-detail" onclick="event.stopPropagation();openDetail('${r.id}')">Ver detalle</button></td>
+    </tr>`).join('');
+}
+
+function renderTree(rows) {
+  const container = document.getElementById('viewJerarquica');
+  if (!rows.length) {
+    container.innerHTML = `<div class="empty-state" style="background:var(--color-bg);border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06)"><p>No se encontraron indicadores con los filtros seleccionados.</p><button class="btn-primary" onclick="clearFilters()" style="margin:0 auto">Limpiar filtros</button></div>`;
+    return;
+  }
+  const grouped = {};
+  rows.forEach(r => {
+    if (!grouped[r.gerencia]) grouped[r.gerencia] = {};
+    if (!grouped[r.gerencia][r.nivel]) grouped[r.gerencia][r.nivel] = [];
+    grouped[r.gerencia][r.nivel].push(r);
+  });
+  container.innerHTML = GERENCIA_ORDER.filter(g => grouped[g]).map(g => {
+    const count = Object.values(grouped[g]).flat().length;
+    const items = NIVEL_ORDER.filter(n => grouped[g][n]).map(n =>
+      grouped[g][n].map(r => `
+        <div class="tree-item ${lvIndent(r.nivel)}${state.selected===r.id?' selected':''}" onclick="openDetail('${r.id}')">
+          <div class="tree-item-content">
+            <p class="tree-item-name">${r.indicador}</p>
+            <div class="tree-item-meta">
+              <span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span>
+              <span class="tree-item-id">${r.id}</span>
+              <span class="freq-tag ${frClass(r.frecuencia)}">${r.frecuencia}</span>
+              <span class="mv-tag ${mvClass(r.mv_tipo)}">${r.mv_tipo}</span>
+            </div>
+          </div>
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14" style="color:var(--color-text-secondary);flex-shrink:0;margin-top:3px"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+        </div>`).join('')).join('');
+    return `<div class="tree-gerencia" data-g="${g}">
+      <div class="tree-g-header" onclick="toggleTree(this.closest('.tree-gerencia'))">
+        <span class="g-chip ${gClass(g)}">${g}</span>
+        <span class="tree-g-count">${count} indicadores</span>
+        <svg class="tree-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+      </div>
+      <div class="tree-body">${items}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleTree(el) { el.classList.toggle('collapsed'); }
+
+function updateFiltersBar(rows) {
+  const bar = document.getElementById('filtersBar');
+  const chips = [];
+  if (state.nivel)     chips.push(['Nivel: '+state.nivel,    ()=>{ document.getElementById('filterNivel').value=''; state.nivel=''; render(); }]);
+  if (state.frecuencia)chips.push(['Frec.: '+state.frecuencia,()=>{ document.getElementById('filterFrecuencia').value=''; state.frecuencia=''; render(); }]);
+  if (state.mv)        chips.push(['MV: '+state.mv,           ()=>{ document.getElementById('filterMV').value=''; state.mv=''; render(); }]);
+  if (state.den)       chips.push([state.den==='si'?'Con denominador':'Sin denominador',()=>{ document.getElementById('filterDen').value=''; state.den=''; render(); }]);
+  if (state.search)    chips.push(['"'+state.search+'"',       ()=>{ document.getElementById('filterSearch').value=''; state.search=''; render(); }]);
+
+  const countHtml = `<span class="result-count"><strong>${rows.length}</strong> indicador${rows.length!==1?'es':''} encontrado${rows.length!==1?'s':''}</span>`;
+
+  if (!chips.length) { bar.classList.add('hidden'); bar.innerHTML=''; return; }
+  bar.classList.remove('hidden');
+  bar.innerHTML = countHtml + chips.map((c,i)=>`
+    <span class="filter-chip" onclick="(${c[1].toString()})()">
+      ${c[0]}
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
+    </span>`).join('');
+}
+
+function render() {
+  const rows = getFiltered();
+  document.getElementById('resultCount').innerHTML = `<strong>${rows.length}</strong> indicador${rows.length!==1?'es':''} encontrado${rows.length!==1?'s':''}`;
+  document.getElementById('btnClear').classList.toggle('hidden', !hasFilters());
+  updateFiltersBar(rows);
+  if (state.view === 'tabla') renderTable(rows);
+  else renderTree(rows);
+}
+
+function openDetail(id) {
+  const r = DATA.find(d => d.id === id);
+  if (!r) return;
+  state.selected = id;
+  render();
+  document.getElementById('drawerBody').innerHTML = `
+    <div class="drawer-id-row">
+      <span class="d-id">${r.id}</span>
+      <span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span>
+      <span class="g-chip ${gClass(r.gerencia)}">${gShort(r.gerencia)}</span>
+    </div>
+    <p class="drawer-name">${r.indicador}</p>
+    <div class="d-divider"></div>
+    <div class="d-field">
+      <span class="d-label">Gerencia</span>
+      <span class="d-value">${r.gerencia}</span>
+    </div>
+    <div class="d-field">
+      <span class="d-label">Objetivo resumido</span>
+      <span class="d-value">${r.objetivo}</span>
+    </div>
+    <div class="d-field">
+      <span class="d-label">
+        <span class="tip-wrap">Método de cálculo
+          <span class="tip-icon" data-tip="Fórmula o procedimiento para obtener el valor del indicador">?</span>
+        </span>
+      </span>
+      <span class="d-value code">${r.metodo}</span>
+    </div>
+    <div class="d-field">
+      <span class="d-label">
+        <span class="tip-wrap">Frecuencia de medición
+          <span class="tip-icon" data-tip="Periodicidad con la que se mide y reporta el indicador">?</span>
+        </span>
+      </span>
+      <span class="d-value"><span class="freq-tag ${frClass(r.frecuencia)}">${r.frecuencia}</span></span>
+    </div>
+    <div class="d-field">
+      <span class="d-label">Unidad de medida</span>
+      <span class="d-value">${r.unidad}</span>
+    </div>
+    <div class="d-field">
+      <span class="d-label">
+        <span class="tip-wrap">Medio de verificación
+          <span class="tip-icon" data-tip="Fuente o documento que permite comprobar el valor reportado">?</span>
+        </span>
+      </span>
+      <span class="d-value">${r.mv}</span>
+      <span class="mv-tag ${mvClass(r.mv_tipo)}" style="margin-top:6px;display:inline-block">${r.mv_tipo}</span>
+    </div>
+    <div class="d-field">
+      <span class="d-label">Fuente</span>
+      <span class="d-value">${r.fuente}</span>
+    </div>
+    <div class="d-field">
+      <span class="d-label">Tiene denominador</span>
+      <span class="d-value">${r.tiene_den?'Sí':'No'}</span>
+    </div>`;
+  document.getElementById('detailDrawer').classList.add('open');
+  document.getElementById('backdrop').classList.add('active');
+  document.getElementById('mainContent').classList.add('drawer-open');
+}
+
+function closeDrawer() {
+  state.selected = null;
+  render();
+  document.getElementById('detailDrawer').classList.remove('open');
+  document.getElementById('backdrop').classList.remove('active');
+  document.getElementById('mainContent').classList.remove('drawer-open');
+}
+
+function clearFilters() {
+  state.gerencia = 'Todas'; state.nivel = ''; state.frecuencia = '';
+  state.mv = ''; state.den = ''; state.search = '';
+  document.getElementById('filterSearch').value = '';
+  document.getElementById('filterNivel').value = '';
+  document.getElementById('filterFrecuencia').value = '';
+  document.getElementById('filterMV').value = '';
+  document.getElementById('filterDen').value = '';
+  document.querySelectorAll('.g-tab').forEach(t => t.classList.toggle('active', t.dataset.g === 'Todas'));
+  render();
+}
+
+// Events
+document.getElementById('gerenciaTabs').addEventListener('click', e => {
+  const tab = e.target.closest('.g-tab');
+  if (!tab) return;
+  state.gerencia = tab.dataset.g;
+  document.querySelectorAll('.g-tab').forEach(t => t.classList.toggle('active', t === tab));
+  render();
+});
+
+document.getElementById('filterSearch').addEventListener('input', e => { state.search = e.target.value.trim(); render(); });
+document.getElementById('filterNivel').addEventListener('change', e => { state.nivel = e.target.value; render(); });
+document.getElementById('filterFrecuencia').addEventListener('change', e => { state.frecuencia = e.target.value; render(); });
+document.getElementById('filterMV').addEventListener('change', e => { state.mv = e.target.value; render(); });
+document.getElementById('filterDen').addEventListener('change', e => { state.den = e.target.value; render(); });
+document.getElementById('btnClear').addEventListener('click', clearFilters);
+document.getElementById('backdrop').addEventListener('click', closeDrawer);
+document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+
+document.getElementById('btnTabla').addEventListener('click', () => {
+  state.view = 'tabla';
+  document.getElementById('btnTabla').classList.add('active');
+  document.getElementById('btnJerarquica').classList.remove('active');
+  document.getElementById('viewTabla').classList.remove('hidden');
+  document.getElementById('viewJerarquica').classList.add('hidden');
+  render();
+});
+document.getElementById('btnJerarquica').addEventListener('click', () => {
+  state.view = 'jerarquica';
+  document.getElementById('btnJerarquica').classList.add('active');
+  document.getElementById('btnTabla').classList.remove('active');
+  document.getElementById('viewJerarquica').classList.remove('hidden');
+  document.getElementById('viewTabla').classList.add('hidden');
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
