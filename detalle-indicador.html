@@ -211,8 +211,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 }
 </style>
 </head>
-<body>
-
+<script src="data/mir-comapa-sur.js"></script>
+</head>
 <!-- ═══ SIDEBAR ═══ -->
 <nav class="sidebar">
   <div class="sidebar-logo">
@@ -250,347 +250,262 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 
 <!-- ═══ MAIN ═══ -->
 <div class="app-wrapper">
-<main class="main-content">
-
-  <!-- BREADCRUMB -->
-  <div class="breadcrumb">
-    <a href="dashboard-inicio.html">Inicio</a>
-    <span class="sep">›</span>
-    <a href="consulta-mir.html">Consulta MIR</a>
-    <span class="sep">›</span>
-    <a href="consulta-mir.html">Gerencia Técnica</a>
-    <span class="sep">›</span>
-    <a href="consulta-mir.html">Componente: Sistema de agua potable</a>
-    <span class="sep">›</span>
-    <span class="current">TEC-ACT-01</span>
-  </div>
-
-  <!-- INDICATOR HEADER CARD -->
-  <div class="ind-header">
-    <div class="ind-header-top">
-      <div style="flex:1">
-        <div class="ind-meta-row">
-          <span class="ind-id">TEC-ACT-01</span>
-          <span class="level-tag actividad">Actividad</span>
-          <span class="g-chip tec">Técnica</span>
-          <span class="freq-tag mensual">Mensual</span>
-          <span class="mv-tag interno">MV Interno</span>
-          <span class="den-tag con">Con denominador</span>
-        </div>
-        <h1 class="ind-title">Porcentaje de mantenimiento preventivo de redes ejecutado</h1>
-        <div class="ind-actions">
-          <button class="btn-primary" onclick="window.location='reporte-avance.html'">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" /></svg>
-            Reportar avance
-          </button>
-          <button class="btn-secondary">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8 2a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" /></svg>
-            Capturar meta
-          </button>
-          <button class="btn-secondary">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" /></svg>
-            Subir MV
-          </button>
-          <button class="btn-ghost" onclick="window.location='consulta-mir.html'">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>
-            Volver
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SUMMARY STRIP -->
-  <div class="summary-strip">
-    <div class="sum-card">
-      <p class="sum-label">
-        <span class="tip-wrap">Nivel MIR <span class="tip-icon" data-tip="Posición del indicador en la lógica causal de la MIR">?</span></span>
-      </p>
-      <p class="sum-value" style="font-size:15px;margin-top:2px"><span class="level-tag actividad">Actividad</span></p>
-      <p class="sum-sub" style="margin-top:6px">Nivel 4 — acciones de la MIR</p>
-    </div>
-    <div class="sum-card">
-      <p class="sum-label">
-        <span class="tip-wrap">Frecuencia <span class="tip-icon" data-tip="Periodicidad con la que se mide y reporta este indicador">?</span></span>
-      </p>
-      <p class="sum-value">Mensual</p>
-      <p class="sum-sub">12 reportes al año</p>
-    </div>
-    <div class="sum-card">
-      <p class="sum-label">Unidad de medida</p>
-      <p class="sum-value">%</p>
-      <p class="sum-sub">Porcentaje</p>
-    </div>
-    <div class="sum-card">
-      <p class="sum-label">Meta anual</p>
-      <p class="sum-value accent" style="color:var(--color-accent)">90%</p>
-      <p class="sum-sub">Línea base: 72% (2022)</p>
-      <div class="progress-track" style="margin-top:8px">
-        <div class="progress-fill" style="width:80%"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TABS -->
-  <div class="tab-strip">
-    <button class="tab-btn active" data-tab="resumen">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="13" height="13" style="display:inline;margin-right:5px;vertical-align:-2px"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" /></svg>
-      Resumen
-    </button>
-    <button class="tab-btn" data-tab="medicion">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="13" height="13" style="display:inline;margin-right:5px;vertical-align:-2px"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.652 4.5 4.756V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.756c0-1.104-.807-2.057-1.907-2.184A48.507 48.507 0 0 0 12 2.25Z" /></svg>
-      Medición
-    </button>
-    <button class="tab-btn" data-tab="mv">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="13" height="13" style="display:inline;margin-right:5px;vertical-align:-2px"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" /></svg>
-      Medio de verificación
-    </button>
-    <button class="tab-btn" data-tab="planeacion">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="13" height="13" style="display:inline;margin-right:5px;vertical-align:-2px"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
-      Planeación
-    </button>
-  </div>
-
-  <!-- ─── TAB: RESUMEN ─── -->
-  <div class="tab-panel active" id="tab-resumen">
-
-    <div class="section-card">
-      <p class="section-title">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
-        Objetivo del indicador
-      </p>
-      <div class="obj-highlight" style="margin-bottom:14px">
-        <p>Ejecutar el programa anual de mantenimiento de la red de distribución.</p>
-      </div>
-      <p class="field-label" style="margin-bottom:8px">Objetivo completo</p>
-      <p class="obj-full">Garantizar la ejecución del programa anual de mantenimiento preventivo de las redes de distribución de agua potable conforme a lo programado, con el fin de reducir interrupciones en el servicio, disminuir fallas por deterioro y prolongar la vida útil de la infraestructura hidráulica de COMAPA Sur.</p>
-    </div>
-
-    <div class="section-card">
-      <p class="section-title">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" /></svg>
-        Ubicación en la MIR
-      </p>
-      <div class="field-row">
-        <div class="field">
-          <span class="field-label">Gerencia</span>
-          <span class="field-value"><span class="g-chip tec">Técnica</span></span>
-        </div>
-        <div class="field">
-          <span class="field-label">Nivel MIR</span>
-          <span class="field-value"><span class="level-tag actividad">Actividad</span></span>
-        </div>
-        <div class="field" style="grid-column:1/-1">
-          <span class="field-label">Cadena de resultados</span>
-          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:2px">
-            <span class="level-tag fin">Fin</span>
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12" style="color:var(--color-text-secondary)"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
-            <span class="level-tag proposito">Propósito</span>
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12" style="color:var(--color-text-secondary)"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
-            <span class="level-tag componente">Componente</span>
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12" style="color:var(--color-text-secondary)"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
-            <span class="level-tag actividad" style="outline:2px solid #7C3AED;outline-offset:2px">Actividad ← aquí</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ─── TAB: MEDICIÓN ─── -->
-  <div class="tab-panel" id="tab-medicion">
-
-    <div class="info-block">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg>
-      <p>El método de cálculo indica cómo se obtiene el resultado del indicador. Representa la fórmula que el responsable debe aplicar para reportar el valor de avance.</p>
-    </div>
-
-    <div class="section-card">
-      <p class="section-title">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.652 4.5 4.756V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.756c0-1.104-.807-2.057-1.907-2.184A48.507 48.507 0 0 0 12 2.25Z" /></svg>
-        <span class="tip-wrap">Método de cálculo <span class="tip-icon" data-tip="Fórmula o procedimiento que permite calcular el valor del indicador a partir de sus variables">?</span></span>
-      </p>
-      <div class="formula-block">
-        <p class="formula-label">Fórmula</p>
-        <p class="formula-text">(Km de red con mantenimiento preventivo ejecutado en el periodo<br>÷ Km programados para mantenimiento en el periodo) × 100</p>
-      </div>
-
-      <div class="divider" style="margin:20px 0"></div>
-
-      <p class="field-label" style="margin-bottom:12px">Variables del cálculo</p>
-      <div class="num-den-grid">
-        <div class="nd-item">
-          <span class="nd-label num">Numerador (X)</span>
-          <p class="nd-value">Kilómetros de red de distribución con mantenimiento preventivo ejecutado en el periodo de reporte</p>
-        </div>
-        <div class="nd-operator">÷</div>
-        <div class="nd-item">
-          <span class="nd-label den">Denominador (Y)</span>
-          <p class="nd-value">Kilómetros de red de distribución programados para mantenimiento preventivo en el periodo de reporte</p>
-        </div>
-      </div>
-
-      <div class="divider" style="margin:20px 0"></div>
-
-      <div class="field-row">
-        <div class="field">
-          <span class="field-label">Unidad de medida</span>
-          <span class="field-value">Porcentaje (%)</span>
-        </div>
-        <div class="field">
-          <span class="field-label">
-            <span class="tip-wrap">Frecuencia de medición <span class="tip-icon" data-tip="La frecuencia define cada cuánto debe reportarse este indicador">?</span></span>
-          </span>
-          <span class="field-value"><span class="freq-tag mensual">Mensual</span> <span style="font-size:11px;color:var(--color-text-secondary);margin-left:4px">→ 12 reportes al año</span></span>
-        </div>
-        <div class="field">
-          <span class="field-label">Tiene denominador</span>
-          <span class="field-value"><span class="den-tag con">Sí</span></span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ─── TAB: MEDIO DE VERIFICACIÓN ─── -->
-  <div class="tab-panel" id="tab-mv">
-
-    <div class="info-block">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg>
-      <p>El medio de verificación es el documento o fuente de información que permite comprobar el valor del avance reportado. Debe ser generado o resguardado por la unidad responsable del indicador.</p>
-    </div>
-
-    <div class="section-card">
-      <p class="section-title">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" /></svg>
-        <span class="tip-wrap">Medio de verificación <span class="tip-icon" data-tip="Fuente o documento que respalda el valor reportado del indicador">?</span></span>
-      </p>
-
-      <div class="mv-card">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-          <div>
-            <p class="mv-name">Bitácora de mantenimiento preventivo de redes</p>
-            <p class="mv-source" style="margin-top:4px">Gerencia Técnica — Departamento de Mantenimiento</p>
-          </div>
-          <span class="mv-tag interno">Interno</span>
-        </div>
-        <div class="divider"></div>
-        <div class="field-row" style="gap:12px">
-          <div class="field">
-            <span class="field-label">Tipo</span>
-            <span class="field-value"><span class="mv-tag interno">Interno</span></span>
-          </div>
-          <div class="field">
-            <span class="field-label">Número de documentos</span>
-            <span class="field-value">1 documento por reporte</span>
-          </div>
-          <div class="field" style="grid-column:1/-1">
-            <span class="field-label">Fuente</span>
-            <span class="field-value">Gerencia Técnica / Departamento de Mantenimiento de Redes</span>
-          </div>
-        </div>
-        <div class="mv-actions">
-          <button class="btn-secondary btn-sm">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
-            Ver formato
-          </button>
-          <button class="btn-primary btn-sm">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>
-            Subir evidencia
-          </button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ─── TAB: PLANEACIÓN ─── -->
-  <div class="tab-panel" id="tab-planeacion">
-
-    <div class="section-card">
-      <p class="section-title">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>
-        Línea base y meta anual
-      </p>
-      <div class="meta-visual">
-        <div class="meta-item">
-          <p class="meta-lbl" style="margin-bottom:8px">Línea base</p>
-          <p class="meta-num">72%</p>
-          <span class="meta-year">Año 2022</span>
-        </div>
-        <div class="meta-item">
-          <p class="meta-lbl" style="margin-bottom:8px">Meta anual</p>
-          <p class="meta-num accent">90%</p>
-          <span class="meta-year">Año 2024</span>
-        </div>
-      </div>
-      <div style="margin-top:16px">
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);margin-bottom:6px">
-          <span>Línea base: 72%</span>
-          <span>Meta: 90%</span>
-        </div>
-        <div class="progress-track" style="height:8px">
-          <div class="progress-fill" style="width:80%"></div>
-        </div>
-        <p style="font-size:10px;color:var(--color-text-secondary);margin-top:5px">La barra representa la distancia entre la línea base y la meta. El avance real se registra al reportar.</p>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <p class="section-title">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>
-        Supuestos
-      </p>
-      <p class="field-value" style="line-height:1.7">Se cuenta con el presupuesto asignado para las actividades de mantenimiento y con el personal técnico disponible a lo largo del año. No se presentarán contingencias climáticas o administrativas que alteren de manera sustancial el programa de trabajo establecido.</p>
-    </div>
-
-    <div class="section-card">
-      <p class="section-title">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" /></svg>
-        Observaciones
-      </p>
-      <span class="pending-tag">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
-        Pendiente de captura
-      </span>
-      <p style="font-size:11px;color:var(--color-text-secondary);margin-top:8px">Este campo aún no ha sido capturado. Puede ser completado por el enlace responsable del indicador.</p>
-    </div>
-
-  </div>
-
-  <!-- BOTTOM ACTION BAR -->
-  <div class="bottom-bar">
-    <div>
-      <p class="bottom-bar-label">Indicador <strong>TEC-ACT-01</strong> · Gerencia Técnica · Reporte mensual</p>
-    </div>
-    <div class="bottom-bar-actions">
-      <button class="btn-primary" onclick="window.location='reporte-avance.html'">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" /></svg>
-        Reportar avance
-      </button>
-      <button class="btn-secondary">Capturar meta</button>
-      <button class="btn-outline-accent">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>
-        Subir MV
-      </button>
-      <button class="btn-ghost" onclick="window.location='consulta-mir.html'">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>
-        Volver a consulta
-      </button>
-    </div>
-  </div>
-
-</main>
+<main class="main-content" id="mainContent"></main>
 </div>
 
 <script>
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.dataset.tab;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + target));
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var id = params.get('id') || 'PLA-FIN-001';
+  var r = (window.MIR_DATA || []).find(function (x) { return x.id === id; });
+  var main = document.getElementById('mainContent');
+
+  if (!r) {
+    main.innerHTML = '<p style="padding:48px 24px;color:#6B7280;text-align:center">Indicador no encontrado: ' + id + '</p>';
+    return;
+  }
+
+  document.title = r.id + ' — Detalle de indicador · MIR COMAPA Sur';
+
+  function gCls(g)  { return {'Planeación Estratégica':'pe','Técnica':'tec','Comercial':'com','Administrativa':'adm'}[g]||'pe'; }
+  function lvCls(n) { return {'Fin':'fin','Propósito':'proposito','Componente':'componente','Actividad':'actividad'}[n]||''; }
+  function frCls(f) { return {'Mensual':'mensual','Trimestral':'trimestral','Semestral':'semestral','Anual':'anual','Bimestral':'bimestral','Semanal':'semanal'}[f]||''; }
+  function mvCls(t) { return {'Interno':'interno','Externo':'externo','Mixto':'mixto'}[t]||''; }
+
+  var PENDING = '<span class="pending-tag">' +
+    '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>' +
+    'Pendiente de captura</span>';
+
+  function pend(v) { return (v !== null && v !== undefined && v !== '') ? String(v) : PENDING; }
+
+  var frecMap = {Mensual:'12',Trimestral:'4',Semestral:'2',Anual:'1',Bimestral:'6',Semanal:'52'};
+  var frecN   = frecMap[r.frecuenciaMedicion] || '—';
+  var uShort  = r.unidadMedida === 'Porcentaje' ? '%' : (r.unidadMedida || '—');
+  var denTag  = r.tieneDenominador
+    ? '<span class="den-tag con">Con denominador</span>'
+    : '<span class="den-tag sin">Sin denominador</span>';
+
+  var metaAnualHTML = r.metaAnual !== null
+    ? '<p class="sum-value" style="color:var(--color-accent)">' + r.metaAnual + '</p>'
+    : '<div style="margin-top:4px">' + PENDING + '</div>';
+
+  var mvTypeHTML = r.medioVerificacionTipo
+    ? '<span class="mv-tag ' + mvCls(r.medioVerificacionTipo) + '">' + r.medioVerificacionTipo + '</span>'
+    : PENDING;
+
+  var numDenHTML;
+  if (r.tieneDenominador) {
+    numDenHTML = '<div class="num-den-grid">' +
+      '<div class="nd-item"><span class="nd-label num">Numerador (X)</span><p class="nd-value">' + (r.numerador||'No especificado') + '</p></div>' +
+      '<div class="nd-operator">÷</div>' +
+      '<div class="nd-item"><span class="nd-label den">Denominador (Y)</span><p class="nd-value">' + (r.denominador||'No especificado') + '</p></div>' +
+      '</div>';
+  } else {
+    numDenHTML =
+      '<div class="direct-block">' +
+        '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" /></svg>' +
+        '<p>Este indicador se mide como <strong>valor directo</strong> (sin denominador). Se reporta el valor absoluto.</p>' +
+      '</div>' +
+      '<div class="nd-item" style="margin-top:12px"><span class="nd-label num">Variable (X)</span><p class="nd-value">' + (r.numerador||'No especificado') + '</p></div>';
+  }
+
+  var mvCountText = r.medioVerificacionCount !== null
+    ? r.medioVerificacionCount + ' documento' + (r.medioVerificacionCount !== 1 ? 's' : '') + ' por reporte'
+    : PENDING;
+
+  var html = '' +
+'<div class="breadcrumb">' +
+  '<a href="dashboard-inicio.html">Inicio</a>' +
+  '<span class="sep">›</span>' +
+  '<a href="consulta-mir.html">Consulta MIR</a>' +
+  '<span class="sep">›</span>' +
+  '<a href="consulta-mir.html">' + r.gerencia + '</a>' +
+  '<span class="sep">›</span>' +
+  '<span class="current">' + r.id + '</span>' +
+'</div>' +
+
+'<div class="ind-header">' +
+  '<div class="ind-header-top"><div style="flex:1">' +
+    '<div class="ind-meta-row">' +
+      '<span class="ind-id">' + r.id + '</span>' +
+      '<span class="level-tag ' + lvCls(r.nivel) + '">' + r.nivel + '</span>' +
+      '<span class="g-chip ' + gCls(r.gerencia) + '">' + r.gerencia + '</span>' +
+      '<span class="freq-tag ' + frCls(r.frecuenciaMedicion) + '">' + r.frecuenciaMedicion + '</span>' +
+      (r.medioVerificacionTipo ? '<span class="mv-tag ' + mvCls(r.medioVerificacionTipo) + '">MV ' + r.medioVerificacionTipo + '</span>' : '') +
+      denTag +
+    '</div>' +
+    '<h1 class="ind-title">' + r.denominacionIndicador + '</h1>' +
+    '<div class="ind-actions">' +
+      '<button class="btn-primary" onclick="window.location='reporte-avance.html?id=' + r.id + ''">' +
+        '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" /></svg>' +
+        'Reportar avance' +
+      '</button>' +
+      '<button class="btn-secondary">' +
+        '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8 2a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" /></svg>' +
+        'Capturar meta' +
+      '</button>' +
+      '<button class="btn-secondary">' +
+        '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" /></svg>' +
+        'Subir MV' +
+      '</button>' +
+      '<button class="btn-ghost" onclick="window.location='consulta-mir.html'">' +
+        '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>' +
+        'Volver' +
+      '</button>' +
+    '</div>' +
+  '</div></div>' +
+'</div>' +
+
+'<div class="summary-strip">' +
+  '<div class="sum-card">' +
+    '<p class="sum-label"><span class="tip-wrap">Nivel MIR <span class="tip-icon" data-tip="Posición del indicador en la lógica causal de la MIR">?</span></span></p>' +
+    '<p class="sum-value" style="font-size:15px;margin-top:2px"><span class="level-tag ' + lvCls(r.nivel) + '">' + r.nivel + '</span></p>' +
+    '<p class="sum-sub" style="margin-top:6px">Lógica causal MIR</p>' +
+  '</div>' +
+  '<div class="sum-card">' +
+    '<p class="sum-label"><span class="tip-wrap">Frecuencia <span class="tip-icon" data-tip="Periodicidad con la que se mide y reporta este indicador">?</span></span></p>' +
+    '<p class="sum-value">' + r.frecuenciaMedicion + '</p>' +
+    '<p class="sum-sub">' + frecN + ' reporte' + (frecN !== '1' ? 's' : '') + ' al año</p>' +
+  '</div>' +
+  '<div class="sum-card">' +
+    '<p class="sum-label">Unidad de medida</p>' +
+    '<p class="sum-value">' + uShort + '</p>' +
+    '<p class="sum-sub">' + r.unidadMedida + '</p>' +
+  '</div>' +
+  '<div class="sum-card">' +
+    '<p class="sum-label">Meta anual</p>' +
+    metaAnualHTML +
+    '<p class="sum-sub" style="margin-top:4px">' + (r.lineaBase !== null ? 'Línea base: ' + r.lineaBase : 'Línea base pendiente') + '</p>' +
+  '</div>' +
+'</div>' +
+
+'<div class="tab-strip">' +
+  '<button class="tab-btn active" data-tab="resumen">' +
+    '<svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="13" height="13" style="display:inline;margin-right:5px;vertical-align:-2px"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" /></svg>' +
+    'Resumen' +
+  '</button>' +
+  '<button class="tab-btn" data-tab="medicion">' +
+    '<svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="13" height="13" style="display:inline;margin-right:5px;vertical-align:-2px"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.652 4.5 4.756V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.756c0-1.104-.807-2.057-1.907-2.184A48.507 48.507 0 0 0 12 2.25Z" /></svg>' +
+    'Medición' +
+  '</button>' +
+  '<button class="tab-btn" data-tab="mv">' +
+    '<svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="13" height="13" style="display:inline;margin-right:5px;vertical-align:-2px"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" /></svg>' +
+    'Medio de verificación' +
+  '</button>' +
+  '<button class="tab-btn" data-tab="planeacion">' +
+    '<svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="13" height="13" style="display:inline;margin-right:5px;vertical-align:-2px"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>' +
+    'Planeación' +
+  '</button>' +
+'</div>' +
+
+'<div class="tab-panel active" id="tab-resumen">' +
+  '<div class="section-card">' +
+    '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>Objetivo del indicador</p>' +
+    '<div class="obj-highlight" style="margin-bottom:14px"><p>' + pend(r.objetivoResumen || r.objetivo) + '</p></div>' +
+    '<p class="field-label" style="margin-bottom:8px">Objetivo completo</p>' +
+    '<p class="obj-full">' + pend(r.objetivo) + '</p>' +
+  '</div>' +
+  '<div class="section-card">' +
+    '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" /></svg>Ubicación en la MIR</p>' +
+    '<div class="field-row">' +
+      '<div class="field"><span class="field-label">Gerencia</span><span class="field-value"><span class="g-chip ' + gCls(r.gerencia) + '">' + r.gerencia + '</span></span></div>' +
+      '<div class="field"><span class="field-label">Nivel MIR</span><span class="field-value"><span class="level-tag ' + lvCls(r.nivel) + '">' + r.nivel + '</span></span></div>' +
+      '<div class="field" style="grid-column:1/-1"><span class="field-label">Cadena de resultados</span>' +
+        '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:2px">' +
+          '<span class="level-tag fin">Fin</span>' +
+          '<svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12" style="color:#9CA3AF"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>' +
+          '<span class="level-tag proposito">Propósito</span>' +
+          '<svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12" style="color:#9CA3AF"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>' +
+          '<span class="level-tag componente">Componente</span>' +
+          '<svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12" style="color:#9CA3AF"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>' +
+          '<span class="level-tag actividad">Actividad</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+'<div class="tab-panel" id="tab-medicion">' +
+  '<div class="info-block"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg><p>El método de cálculo indica cómo se obtiene el resultado del indicador. Representa la fórmula que el responsable debe aplicar para reportar el valor de avance.</p></div>' +
+  '<div class="section-card">' +
+    '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.652 4.5 4.756V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.756c0-1.104-.807-2.057-1.907-2.184A48.507 48.507 0 0 0 12 2.25Z" /></svg><span class="tip-wrap">Método de cálculo <span class="tip-icon" data-tip="Fórmula o procedimiento que permite calcular el valor del indicador a partir de sus variables">?</span></span></p>' +
+    '<div class="formula-block"><p class="formula-label">Fórmula</p><p class="formula-text">' + pend(r.metodoCalculo) + '</p></div>' +
+    '<div class="divider" style="margin:20px 0"></div>' +
+    '<p class="field-label" style="margin-bottom:12px">Variables del cálculo</p>' +
+    numDenHTML +
+    '<div class="divider" style="margin:20px 0"></div>' +
+    '<div class="field-row">' +
+      '<div class="field"><span class="field-label">Unidad de medida</span><span class="field-value">' + pend(r.unidadMedida) + '</span></div>' +
+      '<div class="field"><span class="field-label"><span class="tip-wrap">Frecuencia de medición <span class="tip-icon" data-tip="La frecuencia define cada cuánto debe reportarse este indicador">?</span></span></span><span class="field-value"><span class="freq-tag ' + frCls(r.frecuenciaMedicion) + '">' + r.frecuenciaMedicion + '</span> <span style="font-size:11px;color:#6B7280;margin-left:4px">→ ' + frecN + ' reporte' + (frecN !== '1' ? 's' : '') + ' al año</span></span></div>' +
+      '<div class="field"><span class="field-label">Tiene denominador</span><span class="field-value">' + denTag + '</span></div>' +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+'<div class="tab-panel" id="tab-mv">' +
+  '<div class="info-block"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg><p>El medio de verificación es el documento o fuente de información que permite comprobar el valor del avance reportado. Debe ser generado o resguardado por la unidad responsable del indicador.</p></div>' +
+  '<div class="section-card">' +
+    '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" /></svg><span class="tip-wrap">Medio de verificación <span class="tip-icon" data-tip="Fuente o documento que respalda el valor reportado del indicador">?</span></span></p>' +
+    '<div class="mv-card">' +
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">' +
+        '<div><p class="mv-name">' + pend(r.medioVerificacionNombre) + '</p><p class="mv-source" style="margin-top:4px">' + (r.medioVerificacionFuente||'') + '</p></div>' +
+        mvTypeHTML +
+      '</div>' +
+      '<div class="divider"></div>' +
+      '<div class="field-row" style="gap:12px">' +
+        '<div class="field"><span class="field-label">Tipo</span><span class="field-value">' + mvTypeHTML + '</span></div>' +
+        '<div class="field"><span class="field-label">Número de documentos</span><span class="field-value">' + mvCountText + '</span></div>' +
+        '<div class="field" style="grid-column:1/-1"><span class="field-label">Fuente</span><span class="field-value">' + pend(r.medioVerificacionFuente) + '</span></div>' +
+      '</div>' +
+      '<div class="mv-actions">' +
+        '<button class="btn-secondary btn-sm"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>Ver formato</button>' +
+        '<button class="btn-primary btn-sm"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>Subir evidencia</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+'<div class="tab-panel" id="tab-planeacion">' +
+  '<div class="section-card">' +
+    '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>Línea base y meta anual</p>' +
+    '<div class="meta-visual">' +
+      '<div class="meta-item"><p class="meta-lbl" style="margin-bottom:8px">Línea base</p>' + (r.lineaBase !== null ? '<p class="meta-num">' + r.lineaBase + '</p>' : '<div style="margin:8px 0">' + PENDING + '</div>') + '</div>' +
+      '<div class="meta-item"><p class="meta-lbl" style="margin-bottom:8px">Meta anual</p>' + (r.metaAnual !== null ? '<p class="meta-num accent">' + r.metaAnual + '</p>' : '<div style="margin:8px 0">' + PENDING + '</div>') + '</div>' +
+    '</div>' +
+    '<p style="font-size:11px;color:#6B7280;margin-top:12px;line-height:1.5">La línea base y la meta anual se capturan por el responsable del indicador antes del inicio del ejercicio.</p>' +
+  '</div>' +
+  '<div class="section-card">' +
+    '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>Supuestos</p>' +
+    (r.supuestos !== null ? '<p class="field-value" style="line-height:1.7">' + r.supuestos + '</p>' : PENDING + '<p style="font-size:11px;color:#6B7280;margin-top:8px">Este campo aún no ha sido capturado.</p>') +
+  '</div>' +
+  '<div class="section-card">' +
+    '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" /></svg>Observaciones</p>' +
+    (r.observaciones !== null ? '<p class="field-value" style="line-height:1.7">' + r.observaciones + '</p>' : PENDING + '<p style="font-size:11px;color:#6B7280;margin-top:8px">Este campo aún no ha sido capturado.</p>') +
+  '</div>' +
+'</div>' +
+
+'<div class="bottom-bar">' +
+  '<div><p class="bottom-bar-label">Indicador <strong>' + r.id + '</strong> · ' + r.gerencia + ' · ' + r.frecuenciaMedicion + '</p></div>' +
+  '<div class="bottom-bar-actions">' +
+    '<button class="btn-primary" onclick="window.location='reporte-avance.html?id=' + r.id + ''">' +
+      '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" /></svg>Reportar avance' +
+    '</button>' +
+    '<button class="btn-secondary">Capturar meta</button>' +
+    '<button class="btn-outline-accent"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>Subir MV</button>' +
+    '<button class="btn-ghost" onclick="window.location='consulta-mir.html'"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>Volver a consulta</button>' +
+  '</div>' +
+'</div>';
+
+  main.innerHTML = html;
+
+  document.querySelectorAll('.tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var t = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.toggle('active', b === btn); });
+      document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.toggle('active', p.id === 'tab-' + t); });
+    });
   });
-});
+})();
 </script>
 </body>
 </html>

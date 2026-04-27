@@ -228,6 +228,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
   .filter-select-wrap { flex: 1; min-width: 130px; }
 }
 </style>
+<script src="data/mir-comapa-sur.js"></script>
 </head>
 <body>
 
@@ -291,11 +292,11 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 
   <!-- GERENCIA TABS -->
   <div class="gerencia-tabs" id="gerenciaTabs">
-    <button class="g-tab active" data-g="Todas">Todas <span class="tab-count">21</span></button>
-    <button class="g-tab" data-g="Planeación Estratégica">Planeación Estratégica <span class="tab-count">4</span></button>
-    <button class="g-tab" data-g="Técnica">Técnica <span class="tab-count">6</span></button>
-    <button class="g-tab" data-g="Comercial">Comercial <span class="tab-count">6</span></button>
-    <button class="g-tab" data-g="Administrativa">Administrativa <span class="tab-count">5</span></button>
+    <button class="g-tab active" data-g="Todas">Todas <span class="tab-count">193</span></button>
+    <button class="g-tab" data-g="Planeación Estratégica">Planeación Estratégica <span class="tab-count">19</span></button>
+    <button class="g-tab" data-g="Técnica">Técnica <span class="tab-count">56</span></button>
+    <button class="g-tab" data-g="Comercial">Comercial <span class="tab-count">60</span></button>
+    <button class="g-tab" data-g="Administrativa">Administrativa <span class="tab-count">58</span></button>
   </div>
 
   <!-- FILTER PANEL -->
@@ -364,7 +365,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
         Vista jerárquica
       </button>
     </div>
-    <p class="result-count" id="resultCount"><strong>21</strong> indicadores encontrados</p>
+    <p class="result-count" id="resultCount"><strong>193</strong> indicadores encontrados</p>
   </div>
 
   <!-- TABLE VIEW -->
@@ -423,7 +424,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
   </div>
   <div class="drawer-body" id="drawerBody"></div>
   <div class="drawer-footer">
-    <button class="btn-full" id="btnVerDetalle" onclick="window.location='detalle-indicador.html'">
+    <button class="btn-full" id="btnVerDetalle" onclick="window.location='detalle-indicador.html?id='+(state.selected||'')">
       Ver detalle completo
       <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
     </button>
@@ -431,159 +432,12 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 </aside>
 
 <script>
-const DATA = [
-  { id:'PE-FIN-01', gerencia:'Planeación Estratégica', nivel:'Fin',
-    indicador:'Índice de desempeño institucional de COMAPA Sur',
-    objetivo:'Evaluar el cumplimiento de los objetivos estratégicos institucionales',
-    metodo:'(Objetivos estratégicos cumplidos / Total de objetivos programados) × 100',
-    frecuencia:'Anual', unidad:'Índice', mv:'Informe de evaluación institucional',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Dirección General' },
-
-  { id:'PE-PROP-01', gerencia:'Planeación Estratégica', nivel:'Propósito',
-    indicador:'Porcentaje de proyectos estratégicos con avance conforme a programa',
-    objetivo:'Medir el cumplimiento del programa de proyectos estratégicos',
-    metodo:'(Proyectos con avance en tiempo / Total de proyectos programados) × 100',
-    frecuencia:'Trimestral', unidad:'Porcentaje', mv:'Reporte trimestral de proyectos',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia de Planeación' },
-
-  { id:'PE-COMP-01', gerencia:'Planeación Estratégica', nivel:'Componente',
-    indicador:'Número de instrumentos de planeación actualizados',
-    objetivo:'Mantener vigentes los instrumentos de planeación institucional',
-    metodo:'Conteo de instrumentos actualizados en el periodo',
-    frecuencia:'Anual', unidad:'Número', mv:'Actas de aprobación',
-    mv_tipo:'Interno', tiene_den:false, fuente:'Gerencia de Planeación' },
-
-  { id:'PE-ACT-01', gerencia:'Planeación Estratégica', nivel:'Actividad',
-    indicador:'Porcentaje de reuniones de seguimiento realizadas',
-    objetivo:'Garantizar el seguimiento periódico a los proyectos estratégicos',
-    metodo:'(Reuniones realizadas / Reuniones programadas) × 100',
-    frecuencia:'Mensual', unidad:'Porcentaje', mv:'Minutas de reunión',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia de Planeación' },
-
-  { id:'TEC-FIN-01', gerencia:'Técnica', nivel:'Fin',
-    indicador:'Cobertura de agua potable en el área de servicio',
-    objetivo:'Medir el porcentaje de la población con acceso a agua potable',
-    metodo:'(Tomas activas / Total de tomas registradas) × 100',
-    frecuencia:'Anual', unidad:'Porcentaje', mv:'Padrón de usuarios / INEGI',
-    mv_tipo:'Mixto', tiene_den:true, fuente:'INEGI / Gerencia Técnica' },
-
-  { id:'TEC-PROP-01', gerencia:'Técnica', nivel:'Propósito',
-    indicador:'Eficiencia física del sistema de agua potable',
-    objetivo:'Medir las pérdidas de agua en la red de distribución',
-    metodo:'((Vol. producido - Vol. facturado) / Vol. producido) × 100',
-    frecuencia:'Trimestral', unidad:'Porcentaje', mv:'Registros de macromedición',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Técnica' },
-
-  { id:'TEC-COMP-01', gerencia:'Técnica', nivel:'Componente',
-    indicador:'Volumen de agua producida',
-    objetivo:'Registrar el volumen total de agua extraída para distribución',
-    metodo:'Suma de lecturas de macromedidores en el periodo',
-    frecuencia:'Mensual', unidad:'m³', mv:'Bitácora de macromedición',
-    mv_tipo:'Interno', tiene_den:false, fuente:'Gerencia Técnica' },
-
-  { id:'TEC-COMP-02', gerencia:'Técnica', nivel:'Componente',
-    indicador:'Número de tomas de agua en servicio',
-    objetivo:'Mantener actualizado el inventario de tomas activas',
-    metodo:'Conteo de tomas activas al cierre del periodo',
-    frecuencia:'Semestral', unidad:'Número', mv:'Padrón de usuarios',
-    mv_tipo:'Interno', tiene_den:false, fuente:'Gerencia Técnica' },
-
-  { id:'TEC-ACT-01', gerencia:'Técnica', nivel:'Actividad',
-    indicador:'Porcentaje de mantenimiento preventivo de redes ejecutado',
-    objetivo:'Ejecutar el programa anual de mantenimiento de la red de distribución',
-    metodo:'(Km de red con mantenimiento / Km programados) × 100',
-    frecuencia:'Mensual', unidad:'Porcentaje', mv:'Bitácora de mantenimiento',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Técnica' },
-
-  { id:'TEC-ACT-02', gerencia:'Técnica', nivel:'Actividad',
-    indicador:'Número de reparaciones de fugas realizadas',
-    objetivo:'Reducir fugas visibles en la red de distribución',
-    metodo:'Conteo de órdenes de reparación cerradas en el periodo',
-    frecuencia:'Mensual', unidad:'Número', mv:'Órdenes de trabajo',
-    mv_tipo:'Interno', tiene_den:false, fuente:'Gerencia Técnica' },
-
-  { id:'COM-FIN-01', gerencia:'Comercial', nivel:'Fin',
-    indicador:'Índice de eficiencia comercial',
-    objetivo:'Evaluar la capacidad de recaudación respecto al potencial facturado',
-    metodo:'(Monto recaudado / Monto facturado) × 100',
-    frecuencia:'Anual', unidad:'Índice', mv:'Sistema de facturación / estados financieros',
-    mv_tipo:'Mixto', tiene_den:true, fuente:'Gerencia Comercial / Finanzas' },
-
-  { id:'COM-PROP-01', gerencia:'Comercial', nivel:'Propósito',
-    indicador:'Porcentaje de cobranza efectiva',
-    objetivo:'Medir la eficiencia en la recuperación de la cartera de facturación',
-    metodo:'(Monto cobrado / Monto facturado) × 100',
-    frecuencia:'Mensual', unidad:'Porcentaje', mv:'Reporte de cobranza del sistema comercial',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Comercial' },
-
-  { id:'COM-COMP-01', gerencia:'Comercial', nivel:'Componente',
-    indicador:'Porcentaje de medidores en operación',
-    objetivo:'Mantener la medición activa del mayor número de tomas',
-    metodo:'(Medidores en operación / Total de tomas activas) × 100',
-    frecuencia:'Bimestral', unidad:'Porcentaje', mv:'Inventario de medidores',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Comercial' },
-
-  { id:'COM-COMP-02', gerencia:'Comercial', nivel:'Componente',
-    indicador:'Porcentaje de facturas emitidas en tiempo',
-    objetivo:'Asegurar la emisión oportuna de la facturación bimestral',
-    metodo:'(Facturas emitidas en tiempo / Total de facturas emitidas) × 100',
-    frecuencia:'Bimestral', unidad:'Porcentaje', mv:'Reporte del sistema de facturación',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Comercial' },
-
-  { id:'COM-ACT-01', gerencia:'Comercial', nivel:'Actividad',
-    indicador:'Número de lecturas de medidor realizadas',
-    objetivo:'Garantizar la lectura completa del padrón en cada ciclo',
-    metodo:'Conteo de lecturas registradas en el sistema en el periodo',
-    frecuencia:'Bimestral', unidad:'Número', mv:'Reporte de lectura del sistema',
-    mv_tipo:'Interno', tiene_den:false, fuente:'Gerencia Comercial' },
-
-  { id:'COM-ACT-02', gerencia:'Comercial', nivel:'Actividad',
-    indicador:'Porcentaje de acuerdos de pago cumplidos',
-    objetivo:'Recuperar cartera vencida mediante acuerdos de pago formalizados',
-    metodo:'(Acuerdos de pago cumplidos / Acuerdos formalizados) × 100',
-    frecuencia:'Trimestral', unidad:'Porcentaje', mv:'Reporte de gestión de cobranza',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Comercial' },
-
-  { id:'ADM-FIN-01', gerencia:'Administrativa', nivel:'Fin',
-    indicador:'Índice de gestión administrativa eficiente',
-    objetivo:'Evaluar el desempeño global de los procesos administrativos de apoyo',
-    metodo:'Promedio ponderado de indicadores de gestión administrativa',
-    frecuencia:'Anual', unidad:'Índice', mv:'Informe de gestión administrativa',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Administrativa' },
-
-  { id:'ADM-PROP-01', gerencia:'Administrativa', nivel:'Propósito',
-    indicador:'Porcentaje de ejercicio presupuestal oportuno',
-    objetivo:'Asegurar el ejercicio del presupuesto conforme al programa anual',
-    metodo:'(Presupuesto ejercido / Presupuesto autorizado) × 100',
-    frecuencia:'Trimestral', unidad:'Porcentaje', mv:'Informe presupuestal',
-    mv_tipo:'Externo', tiene_den:true, fuente:'Contraloría / CONAGUA' },
-
-  { id:'ADM-COMP-01', gerencia:'Administrativa', nivel:'Componente',
-    indicador:'Porcentaje de adquisiciones realizadas conforme al programa',
-    objetivo:'Ejecutar el programa anual de adquisiciones en tiempo y forma',
-    metodo:'(Adquisiciones realizadas / Adquisiciones programadas) × 100',
-    frecuencia:'Trimestral', unidad:'Porcentaje', mv:'Expedientes de licitación y compra',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Administrativa' },
-
-  { id:'ADM-ACT-01', gerencia:'Administrativa', nivel:'Actividad',
-    indicador:'Número de procesos de licitación publicados',
-    objetivo:'Garantizar la transparencia en los procesos de adquisición',
-    metodo:'Conteo de licitaciones publicadas en el periodo',
-    frecuencia:'Trimestral', unidad:'Número', mv:'Compranet / Diario Oficial',
-    mv_tipo:'Externo', tiene_den:false, fuente:'SEDATU / Compranet' },
-
-  { id:'ADM-ACT-02', gerencia:'Administrativa', nivel:'Actividad',
-    indicador:'Porcentaje de nómina pagada en tiempo',
-    objetivo:'Garantizar el pago oportuno de la nómina al personal',
-    metodo:'(Nóminas pagadas en tiempo / Total de nóminas del periodo) × 100',
-    frecuencia:'Mensual', unidad:'Porcentaje', mv:'Comprobantes de pago de nómina',
-    mv_tipo:'Interno', tiene_den:true, fuente:'Gerencia Administrativa' }
-];
+const DATA = window.MIR_DATA;
 
 const GERENCIA_ORDER = ['Planeación Estratégica','Técnica','Comercial','Administrativa'];
 const NIVEL_ORDER    = ['Fin','Propósito','Componente','Actividad'];
 
-function gClass(g)  { return {' Planeación Estratégica':'pe','Técnica':'tec','Comercial':'com','Administrativa':'adm','Planeación Estratégica':'pe'}[g]||'pe'; }
+function gClass(g)  { return {'Planeación Estratégica':'pe','Técnica':'tec','Comercial':'com','Administrativa':'adm'}[g]||'pe'; }
 function gShort(g)  { return {'Planeación Estratégica':'Planeación','Técnica':'Técnica','Comercial':'Comercial','Administrativa':'Administrativa'}[g]||g; }
 function lvClass(n) { return {'Fin':'fin','Propósito':'proposito','Componente':'componente','Actividad':'actividad'}[n]||''; }
 function frClass(f) { return {'Semanal':'semanal','Mensual':'mensual','Bimestral':'bimestral','Trimestral':'trimestral','Semestral':'semestral','Anual':'anual'}[f]||''; }
@@ -596,13 +450,13 @@ function getFiltered() {
   return DATA.filter(r => {
     if (state.gerencia !== 'Todas' && r.gerencia !== state.gerencia) return false;
     if (state.nivel && r.nivel !== state.nivel) return false;
-    if (state.frecuencia && r.frecuencia !== state.frecuencia) return false;
-    if (state.mv && r.mv_tipo !== state.mv) return false;
-    if (state.den === 'si' && !r.tiene_den) return false;
-    if (state.den === 'no' && r.tiene_den) return false;
+    if (state.frecuencia && r.frecuenciaMedicion !== state.frecuencia) return false;
+    if (state.mv && r.medioVerificacionTipo !== state.mv) return false;
+    if (state.den === 'si' && !r.tieneDenominador) return false;
+    if (state.den === 'no' && r.tieneDenominador) return false;
     if (state.search) {
       const q = state.search.toLowerCase();
-      if (!r.indicador.toLowerCase().includes(q) && !r.objetivo.toLowerCase().includes(q) && !r.id.toLowerCase().includes(q)) return false;
+      if (!r.denominacionIndicador.toLowerCase().includes(q) && !(r.objetivoResumen||'').toLowerCase().includes(q) && !r.id.toLowerCase().includes(q)) return false;
     }
     return true;
   });
@@ -623,12 +477,12 @@ function renderTable(rows) {
       <td><span class="row-id">${r.id}</span></td>
       <td><span class="g-chip ${gClass(r.gerencia)}">${gShort(r.gerencia)}</span></td>
       <td><span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span></td>
-      <td class="td-ind"><p>${r.indicador}</p></td>
-      <td class="td-obj"><p>${r.objetivo}</p></td>
-      <td><span class="freq-tag ${frClass(r.frecuencia)}">${r.frecuencia}</span></td>
-      <td style="font-size:11px;color:var(--color-text-secondary)">${r.unidad}</td>
-      <td class="td-mv"><p>${r.mv}</p></td>
-      <td><button class="btn-detail" onclick="event.stopPropagation();openDetail('${r.id}')">Ver detalle</button></td>
+      <td class="td-ind"><p>${r.denominacionIndicador}</p></td>
+      <td class="td-obj"><p>${r.objetivoResumen || r.objetivo}</p></td>
+      <td><span class="freq-tag ${frClass(r.frecuenciaMedicion)}">${r.frecuenciaMedicion}</span></td>
+      <td style="font-size:11px;color:var(--color-text-secondary)">${r.unidadMedida}</td>
+      <td class="td-mv"><p>${r.medioVerificacionNombre}</p></td>
+      <td><button class="btn-detail" onclick="event.stopPropagation();window.location='detalle-indicador.html?id=${r.id}'">Ver detalle</button></td>
     </tr>`).join('');
 }
 
@@ -650,12 +504,12 @@ function renderTree(rows) {
       grouped[g][n].map(r => `
         <div class="tree-item ${lvIndent(r.nivel)}${state.selected===r.id?' selected':''}" onclick="openDetail('${r.id}')">
           <div class="tree-item-content">
-            <p class="tree-item-name">${r.indicador}</p>
+            <p class="tree-item-name">${r.denominacionIndicador}</p>
             <div class="tree-item-meta">
               <span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span>
               <span class="tree-item-id">${r.id}</span>
-              <span class="freq-tag ${frClass(r.frecuencia)}">${r.frecuencia}</span>
-              <span class="mv-tag ${mvClass(r.mv_tipo)}">${r.mv_tipo}</span>
+              <span class="freq-tag ${frClass(r.frecuenciaMedicion)}">${r.frecuenciaMedicion}</span>
+              <span class="mv-tag ${mvClass(r.medioVerificacionTipo)}">${r.medioVerificacionTipo}</span>
             </div>
           </div>
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14" style="color:var(--color-text-secondary);flex-shrink:0;margin-top:3px"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
@@ -713,7 +567,7 @@ function openDetail(id) {
       <span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span>
       <span class="g-chip ${gClass(r.gerencia)}">${gShort(r.gerencia)}</span>
     </div>
-    <p class="drawer-name">${r.indicador}</p>
+    <p class="drawer-name">${r.denominacionIndicador}</p>
     <div class="d-divider"></div>
     <div class="d-field">
       <span class="d-label">Gerencia</span>
@@ -721,7 +575,7 @@ function openDetail(id) {
     </div>
     <div class="d-field">
       <span class="d-label">Objetivo resumido</span>
-      <span class="d-value">${r.objetivo}</span>
+      <span class="d-value">${r.objetivoResumen || r.objetivo}</span>
     </div>
     <div class="d-field">
       <span class="d-label">
@@ -729,7 +583,7 @@ function openDetail(id) {
           <span class="tip-icon" data-tip="Fórmula o procedimiento para obtener el valor del indicador">?</span>
         </span>
       </span>
-      <span class="d-value code">${r.metodo}</span>
+      <span class="d-value code">${r.metodoCalculo}</span>
     </div>
     <div class="d-field">
       <span class="d-label">
@@ -737,11 +591,11 @@ function openDetail(id) {
           <span class="tip-icon" data-tip="Periodicidad con la que se mide y reporta el indicador">?</span>
         </span>
       </span>
-      <span class="d-value"><span class="freq-tag ${frClass(r.frecuencia)}">${r.frecuencia}</span></span>
+      <span class="d-value"><span class="freq-tag ${frClass(r.frecuenciaMedicion)}">${r.frecuenciaMedicion}</span></span>
     </div>
     <div class="d-field">
       <span class="d-label">Unidad de medida</span>
-      <span class="d-value">${r.unidad}</span>
+      <span class="d-value">${r.unidadMedida}</span>
     </div>
     <div class="d-field">
       <span class="d-label">
@@ -749,16 +603,16 @@ function openDetail(id) {
           <span class="tip-icon" data-tip="Fuente o documento que permite comprobar el valor reportado">?</span>
         </span>
       </span>
-      <span class="d-value">${r.mv}</span>
-      <span class="mv-tag ${mvClass(r.mv_tipo)}" style="margin-top:6px;display:inline-block">${r.mv_tipo}</span>
+      <span class="d-value">${r.medioVerificacionNombre}</span>
+      <span class="mv-tag ${mvClass(r.medioVerificacionTipo)}" style="margin-top:6px;display:inline-block">${r.medioVerificacionTipo}</span>
     </div>
     <div class="d-field">
       <span class="d-label">Fuente</span>
-      <span class="d-value">${r.fuente}</span>
+      <span class="d-value">${r.medioVerificacionFuente}</span>
     </div>
     <div class="d-field">
       <span class="d-label">Tiene denominador</span>
-      <span class="d-value">${r.tiene_den?'Sí':'No'}</span>
+      <span class="d-value">${r.tieneDenominador?'Sí':'No'}</span>
     </div>`;
   document.getElementById('detailDrawer').classList.add('open');
   document.getElementById('backdrop').classList.add('active');

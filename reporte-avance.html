@@ -169,12 +169,22 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .level-tag.proposito  { background: #312E81; color: white; }
 .level-tag.fin        { background: #1E1B4B; color: white; }
 .g-chip { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
+.g-chip.pe  { background: #EDE9FE; color: #7C3AED; }
 .g-chip.tec { background: #CCFBF1; color: #0F766E; }
+.g-chip.com { background: #FFF7ED; color: #C2410C; }
+.g-chip.adm { background: #EFF6FF; color: #1D4ED8; }
 .freq-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
+.freq-tag.semanal    { background: #E0F2FE; color: #075985; }
 .freq-tag.mensual    { background: #DCFCE7; color: #166534; }
+.freq-tag.bimestral  { background: #FCE7F3; color: #9D174D; }
 .freq-tag.trimestral { background: #DBEAFE; color: #1E40AF; }
+.freq-tag.semestral  { background: #EDE9FE; color: #5B21B6; }
+.freq-tag.anual      { background: #FEF9C3; color: #854D0E; }
 .mv-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); border: 1px solid; white-space: nowrap; display: inline-block; }
 .mv-tag.interno { background: #F0FDF4; color: #166534; border-color: #BBF7D0; }
+.mv-tag.externo { background: #FFF7ED; color: #9A3412; border-color: #FED7AA; }
+.mv-tag.mixto   { background: #F5F3FF; color: #4C1D95; border-color: #C4B5FD; }
+.por-definir-tag { display: inline-flex; align-items: center; gap: 5px; background: var(--color-surface); color: var(--color-text-secondary); font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-btn); border: 1px dashed var(--color-border); }
 .pending-tag { display: inline-flex; align-items: center; gap: 5px; background: #FEF3C7; color: #92400E; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-btn); }
 
 /* ── TOOLTIPS ── */
@@ -265,6 +275,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
   .breadcrumb { flex-wrap: wrap; }
 }
 </style>
+<script src="data/mir-comapa-sur.js"></script>
 </head>
 <body>
 
@@ -303,229 +314,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 
 <!-- ═══ MAIN ═══ -->
 <div class="app-wrapper">
-<main class="main-content">
-
-  <!-- BREADCRUMB -->
-  <div class="breadcrumb">
-    <a href="dashboard-inicio.html">Inicio</a>
-    <span class="sep">›</span>
-    <a href="consulta-mir.html">Consulta MIR</a>
-    <span class="sep">›</span>
-    <a href="detalle-indicador.html">TEC-ACT-01</a>
-    <span class="sep">›</span>
-    <span class="current">Reporte de avance</span>
-  </div>
-
-  <!-- PERIOD BAR -->
-  <div class="period-bar">
-    <div>
-      <p style="font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">Periodo activo</p>
-      <p class="period-title">Abril 2024</p>
-    </div>
-    <div class="period-meta">
-      <span class="freq-tag mensual">Mensual</span>
-      <span class="status-badge en-captura">En captura</span>
-      <span class="period-limit">Fecha límite: <strong>10 de mayo de 2024</strong></span>
-    </div>
-  </div>
-
-  <!-- TWO-COLUMN LAYOUT -->
-  <div class="report-layout">
-
-    <!-- ── MAIN COLUMN ── -->
-    <div class="report-main">
-
-      <!-- FORM CARD -->
-      <div class="section-card">
-        <p class="section-title">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" /></svg>
-          Captura de valores del indicador
-        </p>
-
-        <div class="form-grid">
-          <!-- Numerador -->
-          <div class="form-group">
-            <label class="form-label" for="inp-num">
-              Numerador (X)
-              <span class="tip-icon" data-tip="Kilómetros de red con mantenimiento preventivo ejecutado en el periodo">?</span>
-            </label>
-            <input type="number" id="inp-num" class="form-input" placeholder="0.00" min="0" oninput="calcular()" autocomplete="off">
-            <p class="form-hint">Km de red con mantenimiento ejecutado</p>
-          </div>
-
-          <!-- Denominador -->
-          <div class="form-group">
-            <label class="form-label" for="inp-den">
-              Denominador (Y)
-              <span class="tip-icon" data-tip="Kilómetros de red programados para mantenimiento en el periodo">?</span>
-            </label>
-            <input type="number" id="inp-den" class="form-input" placeholder="0.00" min="0.01" oninput="calcular()" autocomplete="off">
-            <p class="form-hint">Km programados para mantenimiento</p>
-          </div>
-
-          <!-- Resultado calculado -->
-          <div class="form-group full">
-            <label class="form-label">
-              Resultado calculado
-              <span class="tip-icon" data-tip="(X ÷ Y) × 100 — se calcula automáticamente">?</span>
-            </label>
-            <div class="calc-block" id="calcBlock">
-              <p class="calc-label">( X ÷ Y ) × 100</p>
-              <p class="calc-value calc-empty" id="calcValue">Ingresa X y Y para calcular</p>
-              <p class="calc-sub hidden" id="calcSub"></p>
-            </div>
-            <div class="avance-bar hidden" id="avanceBar">
-              <div class="avance-bar-labels">
-                <span id="avanceLabelIzq">0%</span>
-                <span id="avanceLabelDer">Meta del periodo: 7.5%</span>
-              </div>
-              <div class="bar-track"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
-            </div>
-          </div>
-
-          <!-- Comentarios -->
-          <div class="form-group full">
-            <label class="form-label" for="inp-comentarios">Comentarios del reporte</label>
-            <textarea id="inp-comentarios" class="form-textarea" placeholder="Describe el contexto del avance reportado, factores que afectaron la medición, incidencias u observaciones relevantes..."></textarea>
-          </div>
-        </div>
-
-        <!-- Variante sin denominador -->
-        <div class="divider"></div>
-        <div class="info-block yellow">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" /></svg>
-          <p>Algunos indicadores <strong>no tienen denominador</strong> y se capturan como valor directo (ej. número de acciones, m³, número de documentos). En ese caso, solo se captura el numerador como resultado final.</p>
-        </div>
-      </div>
-
-      <!-- META STATE CARD -->
-      <div class="section-card">
-        <p class="section-title">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>
-          Estado de meta
-        </p>
-        <div class="meta-strip">
-          <div class="meta-item">
-            <p class="meta-num">72%</p>
-            <p class="meta-lbl">Línea base</p>
-            <p style="font-size:10px;color:var(--color-text-secondary);margin-top:3px">Año 2022</p>
-          </div>
-          <div class="meta-item">
-            <p class="meta-num accent">90%</p>
-            <p class="meta-lbl">Meta anual</p>
-            <p style="font-size:10px;color:var(--color-text-secondary);margin-top:3px">Año 2024</p>
-          </div>
-          <div class="meta-item">
-            <p class="meta-num" style="font-size:18px">7.5%</p>
-            <p class="meta-lbl">Meta del periodo</p>
-            <p style="font-size:10px;color:var(--color-text-secondary);margin-top:3px">Abril 2024</p>
-          </div>
-        </div>
-        <p style="font-size:11px;color:var(--color-text-secondary);margin-top:12px;line-height:1.5">La meta del periodo se obtiene distribuyendo la meta anual entre los 12 meses. El avance acumulado se consolida al cierre del año.</p>
-      </div>
-
-      <!-- MV REQUIRED CARD -->
-      <div class="section-card">
-        <p class="section-title">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" /></svg>
-          Medio de verificación requerido
-          <span class="tip-icon" data-tip="El medio de verificación es el documento que comprueba el avance reportado para este periodo">?</span>
-        </p>
-        <div class="mv-required">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px">
-            <p class="mv-required-name">Bitácora de mantenimiento preventivo de redes</p>
-            <span class="mv-tag interno">Interno</span>
-          </div>
-          <p class="mv-required-meta">Fuente: Gerencia Técnica / Departamento de Mantenimiento · 1 documento por reporte</p>
-          <div class="info-block" style="margin-top:10px">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg>
-            <p>Carga el PDF que comprueba el avance reportado para el periodo <strong>Abril 2024</strong>. Sin este documento no se podrá enviar el reporte a revisión.</p>
-          </div>
-          <button class="btn-primary" style="margin-top:14px" onclick="openModal()">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>
-            Subir medio de verificación
-          </button>
-        </div>
-      </div>
-
-      <!-- STATUS REFERENCE -->
-      <div class="section-card">
-        <p class="section-title">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
-          Estados del reporte
-        </p>
-        <div class="status-list">
-          <div class="status-row"><span>Aún no iniciado</span><span class="status-badge pendiente">Pendiente</span></div>
-          <div class="status-row"><span>El usuario comenzó la captura</span><span class="status-badge en-captura">En captura</span></div>
-          <div class="status-row"><span>Guardado pero no enviado</span><span class="status-badge borrador">Borrador</span></div>
-          <div class="status-row"><span>Enviado para validación</span><span class="status-badge en-revision">En revisión</span></div>
-          <div class="status-row"><span>Revisado y aceptado</span><span class="status-badge validado">Validado</span></div>
-          <div class="status-row"><span>Observaciones del revisor</span><span class="status-badge observado">Observado</span></div>
-          <div class="status-row"><span>Con correcciones, enviar de nuevo</span><span class="status-badge observado" style="background:#FFF1F2;color:#BE123C">Requiere corrección</span></div>
-        </div>
-      </div>
-
-    </div><!-- /report-main -->
-
-    <!-- ── ASIDE COLUMN ── -->
-    <div class="report-aside">
-
-      <!-- Indicator Summary -->
-      <div class="ind-summary">
-        <span class="ind-sum-id">TEC-ACT-01</span>
-        <p class="ind-sum-name">Porcentaje de mantenimiento preventivo de redes ejecutado</p>
-        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px">
-          <span class="level-tag actividad">Actividad</span>
-          <span class="g-chip tec">Técnica</span>
-          <span class="freq-tag mensual">Mensual</span>
-        </div>
-        <div class="divider"></div>
-        <div class="ind-sum-field" style="margin-top:12px">
-          <span class="ind-sum-label">Unidad de medida</span>
-          <span class="ind-sum-value">Porcentaje (%)</span>
-        </div>
-        <div class="ind-sum-field">
-          <span class="ind-sum-label">Método de cálculo</span>
-          <p class="ind-sum-formula">(Km mantenidos / Km programados) × 100</p>
-        </div>
-        <div class="ind-sum-field">
-          <span class="ind-sum-label">Medio de verificación</span>
-          <span class="ind-sum-value">Bitácora de mantenimiento</span>
-        </div>
-        <div class="divider"></div>
-        <button class="btn-link" onclick="window.location='detalle-indicador.html'">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
-          Ver detalle del indicador
-        </button>
-      </div>
-
-      <!-- Actions Card -->
-      <div class="actions-card">
-        <p style="font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">Acciones</p>
-        <button class="btn-secondary btn-full-width">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg>
-          Guardar borrador
-        </button>
-        <button class="btn-primary btn-full-width" onclick="openModal()">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>
-          Subir medio de verificación
-        </button>
-        <button class="btn-outline-purple btn-full-width" id="btnEnviar" disabled>
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" /></svg>
-          Enviar a revisión
-        </button>
-        <p style="font-size:10px;color:var(--color-text-secondary);text-align:center;line-height:1.4">Para enviar a revisión debes capturar los valores y subir el medio de verificación.</p>
-        <div class="divider"></div>
-        <button class="btn-ghost btn-full-width" onclick="window.location='consulta-mir.html'">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>
-          Cancelar
-        </button>
-      </div>
-
-    </div><!-- /report-aside -->
-  </div><!-- /report-layout -->
-</main>
+<main class="main-content" id="mainContent"></main>
 </div>
+
 
 
 <!-- ══════════════════════════════════════
@@ -548,7 +339,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
     <div class="modal-body">
 
       <!-- Indicator compact row -->
-      <div class="ind-compact">
+      <div class="ind-compact" id="modalIndCompact">
         <span class="ind-compact-id">TEC-ACT-01</span>
         <div class="ind-compact-info">
           <p class="ind-compact-name">Porcentaje de mantenimiento preventivo de redes ejecutado</p>
@@ -691,23 +482,26 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 <!-- Hidden file input -->
 <input type="file" id="fileInput" accept=".pdf" style="display:none" onchange="handleFileSelect(this)">
 
+
+<!-- Hidden file input -->
+<input type="file" id="fileInput" accept=".pdf" style="display:none" onchange="handleFileSelect(this)">
+
 <script>
-// ── MODAL ──
+// ── MODAL / UPLOAD JS (unchanged) ──────────────────────────────────────────
 function openModal()  { document.getElementById('modalBackdrop').classList.add('open'); }
 function closeModal() { document.getElementById('modalBackdrop').classList.remove('open'); }
-document.getElementById('modalBackdrop').addEventListener('click', e => {
+document.getElementById('modalBackdrop').addEventListener('click', function(e) {
   if (e.target === document.getElementById('modalBackdrop')) closeModal();
 });
-
-// ── UPLOAD STATE SWITCHER (demo) ──
 function setUploadState(state, btn) {
-  document.querySelectorAll('.state-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.state-btn').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
-  const area = document.getElementById('uploadArea');
-  const fileCard = document.getElementById('fileCard');
+  var area = document.getElementById('uploadArea');
+  var fileCard = document.getElementById('fileCard');
   area.className = 'upload-area';
-  ['stateEmpty','stateLoaded','stateError','stateValidated'].forEach(id =>
-    document.getElementById(id).classList.add('hidden'));
+  ['stateEmpty','stateLoaded','stateError','stateValidated'].forEach(function(id) {
+    document.getElementById(id).classList.add('hidden');
+  });
   fileCard.classList.add('hidden');
   if (state === 'empty') {
     document.getElementById('stateEmpty').classList.remove('hidden');
@@ -726,64 +520,283 @@ function setUploadState(state, btn) {
     document.getElementById('btnReemplazar').classList.add('hidden');
   }
 }
-
-// ── FILE INPUT ──
 function triggerFileInput() {
-  const area = document.getElementById('uploadArea');
+  var area = document.getElementById('uploadArea');
   if (area.classList.contains('state-validated')) return;
   document.getElementById('fileInput').click();
 }
 function handleFileSelect(input) {
   if (!input.files.length) return;
-  const file = input.files[0];
+  var file = input.files[0];
   if (!file.name.toLowerCase().endsWith('.pdf')) {
     setUploadState('error', document.querySelectorAll('.state-btn')[2]);
     return;
   }
   setUploadState('loaded', document.querySelectorAll('.state-btn')[1]);
 }
-
-// ── DRAG & DROP ──
-const uploadArea = document.getElementById('uploadArea');
-uploadArea.addEventListener('dragover',  e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
-uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
-uploadArea.addEventListener('drop', e => {
+var uploadArea = document.getElementById('uploadArea');
+uploadArea.addEventListener('dragover',  function(e) { e.preventDefault(); uploadArea.classList.add('drag-over'); });
+uploadArea.addEventListener('dragleave', function()  { uploadArea.classList.remove('drag-over'); });
+uploadArea.addEventListener('drop', function(e) {
   e.preventDefault(); uploadArea.classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
+  var file = e.dataTransfer.files[0];
   if (file && file.name.toLowerCase().endsWith('.pdf')) setUploadState('loaded', document.querySelectorAll('.state-btn')[1]);
   else setUploadState('error', document.querySelectorAll('.state-btn')[2]);
 });
 
-// ── AUTO-CALCULATE ──
-function calcular() {
-  const x = parseFloat(document.getElementById('inp-num').value);
-  const y = parseFloat(document.getElementById('inp-den').value);
-  const calcValue = document.getElementById('calcValue');
-  const calcSub   = document.getElementById('calcSub');
-  const avanceBar = document.getElementById('avanceBar');
-  const barFill   = document.getElementById('barFill');
-  const metaPeriodo = 7.5;
+// ── INIT ───────────────────────────────────────────────────────────────────
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var id = params.get('id') || 'PLA-FIN-001';
+  var r = (window.MIR_DATA || []).find(function (x) { return x.id === id; });
+  var main = document.getElementById('mainContent');
 
-  if (!isNaN(x) && !isNaN(y) && y > 0) {
-    const result = (x / y) * 100;
-    calcValue.textContent = result.toFixed(2) + '%';
-    calcValue.classList.remove('calc-empty');
-    calcSub.textContent = result >= metaPeriodo ? '✓ Supera la meta del periodo (7.5%)' : '⚠ Por debajo de la meta del periodo (7.5%)';
-    calcSub.classList.remove('hidden');
-    avanceBar.classList.remove('hidden');
-    const pct = Math.min((result / metaPeriodo) * 100, 120);
-    barFill.style.width = Math.min(pct, 100) + '%';
-    barFill.className = 'bar-fill ' + (result >= metaPeriodo ? 'over' : 'under');
-    document.getElementById('avanceLabelIzq').textContent = result.toFixed(2) + '%';
-    document.getElementById('btnEnviar').disabled = false;
-  } else {
-    calcValue.textContent = 'Ingresa X y Y para calcular';
-    calcValue.classList.add('calc-empty');
-    calcSub.classList.add('hidden');
-    avanceBar.classList.add('hidden');
-    document.getElementById('btnEnviar').disabled = true;
+  if (!r) {
+    main.innerHTML = '<p style="padding:48px 24px;color:#6B7280;text-align:center">Indicador no encontrado: ' + id + '</p>';
+    return;
   }
-}
+
+  document.title = 'Reporte de avance — ' + r.id + ' · MIR COMAPA Sur';
+
+  function gCls(g)  { return {'Planeación Estratégica':'pe','Técnica':'tec','Comercial':'com','Administrativa':'adm'}[g]||'pe'; }
+  function lvCls(n) { return {'Fin':'fin','Propósito':'proposito','Componente':'componente','Actividad':'actividad'}[n]||''; }
+  function frCls(f) { return {'Mensual':'mensual','Trimestral':'trimestral','Semestral':'semestral','Anual':'anual','Bimestral':'bimestral','Semanal':'semanal'}[f]||''; }
+  function mvCls(t) { return {'Interno':'interno','Externo':'externo','Mixto':'mixto'}[t]||''; }
+
+  var PENDING = '<span class="pending-tag"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>Pendiente de captura</span>';
+  var POR_DEF = '<span class="por-definir-tag">Por definir</span>';
+
+  var mvTypeHTML = r.medioVerificacionTipo
+    ? '<span class="mv-tag ' + mvCls(r.medioVerificacionTipo) + '">' + r.medioVerificacionTipo + '</span>'
+    : '';
+
+  // Form section: conditional on tieneDenominador
+  var formHTML;
+  if (r.tieneDenominador) {
+    formHTML =
+      '<div class="form-grid">' +
+        '<div class="form-group">' +
+          '<label class="form-label" for="inp-num">Numerador (X)<span class="tip-icon" data-tip="' + (r.numerador||'') + '">?</span></label>' +
+          '<input type="number" id="inp-num" class="form-input" placeholder="0.00" min="0" oninput="calcular()" autocomplete="off">' +
+          '<p class="form-hint">' + (r.numerador || 'Valor del numerador') + '</p>' +
+        '</div>' +
+        '<div class="form-group">' +
+          '<label class="form-label" for="inp-den">Denominador (Y)<span class="tip-icon" data-tip="' + (r.denominador||'') + '">?</span></label>' +
+          '<input type="number" id="inp-den" class="form-input" placeholder="0.00" min="0.01" oninput="calcular()" autocomplete="off">' +
+          '<p class="form-hint">' + (r.denominador || 'Valor del denominador') + '</p>' +
+        '</div>' +
+        '<div class="form-group full">' +
+          '<label class="form-label">Resultado calculado <span class="tip-icon" data-tip="(X ÷ Y) × 100 — se calcula automáticamente">?</span></label>' +
+          '<div class="calc-block" id="calcBlock">' +
+            '<p class="calc-label">( X ÷ Y ) × 100</p>' +
+            '<p class="calc-value calc-empty" id="calcValue">Ingresa X y Y para calcular</p>' +
+            '<p class="calc-sub hidden" id="calcSub"></p>' +
+          '</div>' +
+          '<div class="avance-bar hidden" id="avanceBar">' +
+            '<div class="avance-bar-labels"><span id="avanceLabelIzq">0</span><span id="avanceLabelDer">Meta del periodo: Por definir</span></div>' +
+            '<div class="bar-track"><div class="bar-fill" id="barFill" style="width:0%"></div></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="form-group full">' +
+          '<label class="form-label" for="inp-comentarios">Comentarios del reporte</label>' +
+          '<textarea id="inp-comentarios" class="form-textarea" placeholder="Describe el contexto del avance reportado, factores que afectaron la medición, incidencias u observaciones relevantes..."></textarea>' +
+        '</div>' +
+      '</div>';
+  } else {
+    formHTML =
+      '<div class="info-block yellow" style="margin-bottom:16px">' +
+        '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" /></svg>' +
+        '<p>Este indicador se captura como <strong>valor directo</strong> (sin denominador). Ingresa el valor absoluto observado en el periodo.</p>' +
+      '</div>' +
+      '<div class="form-grid">' +
+        '<div class="form-group full">' +
+          '<label class="form-label" for="inp-num">Valor reportado (X)</label>' +
+          '<input type="number" id="inp-num" class="form-input" placeholder="0" min="0" oninput="calcular()" autocomplete="off">' +
+          '<p class="form-hint">' + (r.numerador || r.unidadMedida || 'Valor absoluto del periodo') + '</p>' +
+        '</div>' +
+        '<div class="form-group full">' +
+          '<div class="calc-block" id="calcBlock">' +
+            '<p class="calc-label">Valor directo</p>' +
+            '<p class="calc-value calc-empty" id="calcValue">Ingresa el valor para continuar</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="form-group full">' +
+          '<label class="form-label" for="inp-comentarios">Comentarios del reporte</label>' +
+          '<textarea id="inp-comentarios" class="form-textarea" placeholder="Describe el contexto del avance reportado..."></textarea>' +
+        '</div>' +
+      '</div>';
+  }
+
+  var html =
+'<div class="breadcrumb">' +
+  '<a href="dashboard-inicio.html">Inicio</a>' +
+  '<span class="sep">›</span>' +
+  '<a href="consulta-mir.html">Consulta MIR</a>' +
+  '<span class="sep">›</span>' +
+  '<a href="detalle-indicador.html?id=' + r.id + '">' + r.id + '</a>' +
+  '<span class="sep">›</span>' +
+  '<span class="current">Reporte de avance</span>' +
+'</div>' +
+
+'<div class="period-bar">' +
+  '<div>' +
+    '<p style="font-size:11px;font-weight:600;color:#6B7280;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">Periodo activo</p>' +
+    '<p class="period-title">Abril 2025 &nbsp;<span style="font-size:12px;font-weight:500;color:#6B7280">— ' + r.id + '</span></p>' +
+  '</div>' +
+  '<div class="period-meta">' +
+    '<span class="freq-tag ' + frCls(r.frecuenciaMedicion) + '">' + r.frecuenciaMedicion + '</span>' +
+    '<span class="status-badge en-captura">En captura</span>' +
+    '<span class="period-limit">Fecha límite: <strong>15 de mayo de 2025</strong></span>' +
+  '</div>' +
+'</div>' +
+
+'<div class="report-layout">' +
+
+  '<!-- MAIN COLUMN -->' +
+  '<div class="report-main">' +
+
+    '<div class="section-card">' +
+      '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" /></svg>Captura de valores del indicador</p>' +
+      formHTML +
+    '</div>' +
+
+    '<div class="section-card">' +
+      '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>Estado de meta</p>' +
+      '<div class="meta-strip">' +
+        '<div class="meta-item">' + PENDING + '<p class="meta-lbl" style="margin-top:6px">Línea base</p></div>' +
+        '<div class="meta-item">' + PENDING + '<p class="meta-lbl" style="margin-top:6px">Meta anual</p></div>' +
+        '<div class="meta-item">' + POR_DEF + '<p class="meta-lbl" style="margin-top:6px">Meta del periodo</p></div>' +
+      '</div>' +
+      '<p style="font-size:11px;color:#6B7280;margin-top:12px;line-height:1.5">La línea base y meta anual se capturan por el responsable antes del inicio del ejercicio. La meta de periodo se distribuye una vez definida la meta anual.</p>' +
+    '</div>' +
+
+    '<div class="section-card">' +
+      '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" /></svg>Medio de verificación requerido <span class="tip-icon" data-tip="El medio de verificación es el documento que comprueba el avance reportado para este periodo">?</span></p>' +
+      '<div class="mv-required">' +
+        '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px">' +
+          '<p class="mv-required-name">' + (r.medioVerificacionNombre || 'Sin especificar') + '</p>' +
+          mvTypeHTML +
+        '</div>' +
+        '<p class="mv-required-meta">Fuente: ' + (r.medioVerificacionFuente || '—') + (r.medioVerificacionCount ? ' · ' + r.medioVerificacionCount + ' documento(s) por reporte' : '') + '</p>' +
+        '<div class="info-block" style="margin-top:10px"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg><p>Carga el PDF que comprueba el avance reportado para el periodo <strong>Abril 2025</strong>. Sin este documento no se podrá enviar el reporte a revisión.</p></div>' +
+        '<button class="btn-primary" style="margin-top:14px" onclick="openModal()"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>Subir medio de verificación</button>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="section-card">' +
+      '<p class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>Estados del reporte</p>' +
+      '<div class="status-list">' +
+        '<div class="status-row"><span>Aún no iniciado</span><span class="status-badge pendiente">Pendiente</span></div>' +
+        '<div class="status-row"><span>El usuario comenzó la captura</span><span class="status-badge en-captura">En captura</span></div>' +
+        '<div class="status-row"><span>Guardado pero no enviado</span><span class="status-badge borrador">Borrador</span></div>' +
+        '<div class="status-row"><span>Enviado para validación</span><span class="status-badge en-revision">En revisión</span></div>' +
+        '<div class="status-row"><span>Revisado y aceptado</span><span class="status-badge validado">Validado</span></div>' +
+        '<div class="status-row"><span>Con observaciones del revisor</span><span class="status-badge observado">Observado</span></div>' +
+      '</div>' +
+    '</div>' +
+
+  '</div>' +
+
+  '<!-- ASIDE COLUMN -->' +
+  '<div class="report-aside">' +
+
+    '<div class="ind-summary">' +
+      '<span class="ind-sum-id">' + r.id + '</span>' +
+      '<p class="ind-sum-name">' + r.denominacionIndicador + '</p>' +
+      '<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px">' +
+        '<span class="level-tag ' + lvCls(r.nivel) + '">' + r.nivel + '</span>' +
+        '<span class="g-chip ' + gCls(r.gerencia) + '">' + r.gerencia + '</span>' +
+        '<span class="freq-tag ' + frCls(r.frecuenciaMedicion) + '">' + r.frecuenciaMedicion + '</span>' +
+      '</div>' +
+      '<div class="divider"></div>' +
+      '<div class="ind-sum-field" style="margin-top:12px"><span class="ind-sum-label">Unidad de medida</span><span class="ind-sum-value">' + (r.unidadMedida||'—') + '</span></div>' +
+      '<div class="ind-sum-field"><span class="ind-sum-label">Método de cálculo</span><p class="ind-sum-formula">' + (r.metodoCalculo||'—') + '</p></div>' +
+      '<div class="ind-sum-field"><span class="ind-sum-label">Medio de verificación</span><span class="ind-sum-value">' + (r.medioVerificacionNombre||'—') + '</span></div>' +
+      '<div class="divider"></div>' +
+      '<button class="btn-link" onclick="window.location='detalle-indicador.html?id=' + r.id + ''">' +
+        '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>' +
+        'Ver detalle del indicador' +
+      '</button>' +
+    '</div>' +
+
+    '<div class="actions-card">' +
+      '<p style="font-size:11px;font-weight:600;color:#6B7280;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">Acciones</p>' +
+      '<button class="btn-secondary btn-full-width"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg>Guardar borrador</button>' +
+      '<button class="btn-primary btn-full-width" onclick="openModal()"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>Subir medio de verificación</button>' +
+      '<button class="btn-outline-purple btn-full-width" id="btnEnviar" disabled><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" /></svg>Enviar a revisión</button>' +
+      '<p style="font-size:10px;color:#6B7280;text-align:center;line-height:1.4">Para enviar a revisión debes capturar los valores y subir el medio de verificación.</p>' +
+      '<div class="divider"></div>' +
+      '<button class="btn-ghost btn-full-width" onclick="window.location='consulta-mir.html'"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>Cancelar</button>' +
+    '</div>' +
+
+  '</div>' +
+'</div>';
+
+  main.innerHTML = html;
+
+  // Update modal compact indicator row
+  var modalRow = document.getElementById('modalIndCompact');
+  if (modalRow) {
+    modalRow.innerHTML =
+      '<span class="ind-compact-id">' + r.id + '</span>' +
+      '<div class="ind-compact-info">' +
+        '<p class="ind-compact-name">' + r.denominacionIndicador + '</p>' +
+        '<div class="ind-compact-meta">' +
+          '<span class="level-tag ' + lvCls(r.nivel) + '">' + r.nivel + '</span>' +
+          '<span class="g-chip ' + gCls(r.gerencia) + '">' + r.gerencia + '</span>' +
+          '<span class="freq-tag ' + frCls(r.frecuenciaMedicion) + '">' + r.frecuenciaMedicion + '</span>' +
+          '<span class="status-badge en-captura" style="font-size:9px">Abril 2025</span>' +
+        '</div>' +
+      '</div>';
+  }
+
+  // calcular: only relevant when tieneDenominador is true
+  window.calcular = function () {
+    var xEl = document.getElementById('inp-num');
+    var calcValue = document.getElementById('calcValue');
+    var calcSub   = document.getElementById('calcSub');
+    var avanceBar = document.getElementById('avanceBar');
+    var btnEnviar = document.getElementById('btnEnviar');
+
+    if (!xEl) return;
+
+    if (!r.tieneDenominador) {
+      // Direct value
+      var x = parseFloat(xEl.value);
+      if (!isNaN(x)) {
+        calcValue.textContent = x + ' ' + (r.unidadMedida || '');
+        calcValue.classList.remove('calc-empty');
+        if (btnEnviar) btnEnviar.disabled = false;
+      } else {
+        calcValue.textContent = 'Ingresa el valor para continuar';
+        calcValue.classList.add('calc-empty');
+        if (btnEnviar) btnEnviar.disabled = true;
+      }
+      return;
+    }
+
+    var yEl = document.getElementById('inp-den');
+    if (!yEl) return;
+    var x2 = parseFloat(xEl.value);
+    var y2 = parseFloat(yEl.value);
+
+    if (!isNaN(x2) && !isNaN(y2) && y2 > 0) {
+      var result = (x2 / y2) * 100;
+      calcValue.textContent = result.toFixed(2) + '%';
+      calcValue.classList.remove('calc-empty');
+      if (calcSub) { calcSub.textContent = 'Resultado calculado automáticamente'; calcSub.classList.remove('hidden'); }
+      // metaPeriodo is null → no progress bar
+      if (avanceBar) avanceBar.classList.add('hidden');
+      if (btnEnviar) btnEnviar.disabled = false;
+    } else {
+      calcValue.textContent = 'Ingresa X y Y para calcular';
+      calcValue.classList.add('calc-empty');
+      if (calcSub) calcSub.classList.add('hidden');
+      if (avanceBar) avanceBar.classList.add('hidden');
+      if (btnEnviar) btnEnviar.disabled = true;
+    }
+  };
+})();
 </script>
 </body>
 </html>
