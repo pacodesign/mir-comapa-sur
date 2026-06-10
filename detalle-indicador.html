@@ -192,6 +192,22 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .bottom-bar-label strong { color: var(--color-text-primary); }
 .bottom-bar-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
+/* ── AVANCE INLINE ── */
+.avance-card{background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:12px;padding:16px;margin-top:0;}
+.avance-card-title{font-size:12px;font-weight:700;color:var(--color-text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.avance-card-title svg{width:14px;height:14px;color:var(--color-primary);flex-shrink:0;}
+.avance-ctx{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.avance-ctx-item{background:var(--color-bg);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--color-text-secondary);border:1px solid var(--color-border);display:flex;align-items:center;gap:4px;}
+.avance-ctx-item strong{color:var(--color-text-primary);font-weight:700;}
+.avance-inp-lbl{font-size:12px;font-weight:600;color:var(--color-text-primary);display:block;margin-bottom:8px;}
+.avance-inp-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.avance-inp{background:var(--color-bg);border:1.5px solid var(--color-border);border-radius:10px;padding:9px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--color-text-primary);outline:none;transition:border-color .15s,box-shadow .15s;width:170px;}
+.avance-inp:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
+.avance-unit{font-size:16px;font-weight:700;color:var(--color-text-secondary);}
+.avance-inp-hint{font-size:11px;color:var(--color-text-secondary);margin-bottom:12px;line-height:1.5;}
+.avance-saved-msg{display:none;align-items:center;gap:7px;padding:9px 13px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;font-size:12px;color:#15803D;font-weight:600;margin-top:10px;}
+.avance-saved-msg svg{width:14px;height:14px;flex-shrink:0;}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   .summary-strip { grid-template-columns: repeat(2, 1fr); }
@@ -258,6 +274,24 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 
 <script>
 (function () {
+  var avanceVal  = '';
+  var avanceSaved = false;
+  window.onIndAvanceInput = function (val) {
+    avanceVal = val;
+    var btn = document.getElementById('avanceSaveBtn');
+    if (btn) btn.disabled = !val.trim();
+  };
+  window.saveIndAvance = function () {
+    if (!avanceVal.trim()) return;
+    avanceSaved = true;
+    var btn = document.getElementById('avanceSaveBtn');
+    var msg = document.getElementById('avanceSavedMsg');
+    var valEl = document.getElementById('avanceSavedVal');
+    if (btn) { btn.disabled = true; btn.textContent = 'Guardado'; }
+    if (valEl) valEl.textContent = avanceVal;
+    if (msg) msg.style.display = 'flex';
+  };
+
   var params = new URLSearchParams(window.location.search);
   var id = params.get('id') || 'PLA-FIN-001';
   var r = (window.MIR_DATA || []).find(function (x) { return x.id === id; });
@@ -282,6 +316,10 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
   function pend(v) { return (v !== null && v !== undefined && v !== '') ? String(v) : PENDING; }
 
   var frecMap = {Mensual:'12',Trimestral:'4',Semestral:'2',Anual:'1',Bimestral:'6',Semanal:'52'};
+  var periodoLabel = {Mensual:'Junio 2026',Bimestral:'May–Jun 2026',Trimestral:'Q2 2026',Semestral:'Primer semestre 2026',Anual:'2026',Semanal:'Sem. 23 / 2026'}[r.frecuenciaMedicion] || '2026';
+  var isIndPercent = [(r.lineaBase !== null ? String(r.lineaBase) : ''), (r.metaAnual !== null ? String(r.metaAnual) : ''), (r.unidadMedida||'')].some(function(v){ return v.includes('%') || v.toLowerCase().includes('porcentaje'); });
+  var indUnit = isIndPercent ? '%' : (r.unidadMedida && r.unidadMedida !== 'Porcentaje' ? '' : '');
+  var indExample = isIndPercent ? '78.5' : '142';
   var frecN   = frecMap[r.frecuenciaMedicion] || '—';
   var uShort  = r.unidadMedida === 'Porcentaje' ? '%' : (r.unidadMedida || '—');
   var denTag  = r.tieneDenominador
@@ -339,7 +377,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
     '</div>' +
     '<h1 class="ind-title">' + r.denominacionIndicador + '</h1>' +
     '<div class="ind-actions">' +
-      '<button class="btn-primary" onclick="window.location=\'reporte-avance.html?id=' + r.id + '\'">' +
+      '<button class="btn-primary" onclick="document.querySelector(\'[data-tab=mv]\').click();setTimeout(function(){var i=document.getElementById(\'avanceInput\');if(i)i.focus();},80)">' +
         '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" /></svg>' +
         'Reportar avance' +
       '</button>' +
@@ -466,6 +504,33 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
       '</div>' +
     '</div>' +
   '</div>' +
+'<div class="avance-card">' +
+  '<p class="avance-card-title">' +
+    '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>' +
+    'Reportar avance · ' + r.frecuenciaMedicion + ' · ' + periodoLabel +
+  '</p>' +
+  '<div class="avance-ctx">' +
+    '<div class="avance-ctx-item"><span>Período:</span><strong>' + periodoLabel + '</strong></div>' +
+    '<div class="avance-ctx-item"><span>Frecuencia:</span><strong>' + r.frecuenciaMedicion + '</strong></div>' +
+    (r.lineaBase !== null ? '<div class="avance-ctx-item"><span>Línea base:</span><strong>' + r.lineaBase + '</strong></div>' : '') +
+    (r.metaAnual !== null ? '<div class="avance-ctx-item"><span>Meta anual:</span><strong>' + r.metaAnual + '</strong></div>' : '') +
+    '<div class="avance-ctx-item"><span>Unidad:</span><strong>' + (r.unidadMedida || '—') + '</strong></div>' +
+  '</div>' +
+  '<label class="avance-inp-lbl">Valor de avance — ' + periodoLabel + '</label>' +
+  '<div class="avance-inp-row">' +
+    '<input type="text" class="avance-inp" id="avanceInput" oninput="onIndAvanceInput(this.value)" placeholder="Ej: ' + indExample + '">' +
+    (indUnit ? '<span class="avance-unit">' + indUnit + '</span>' : '') +
+  '</div>' +
+  '<p class="avance-inp-hint">Registra el valor obtenido para este período según el método de cálculo del indicador.</p>' +
+  '<button class="btn-primary btn-sm" id="avanceSaveBtn" onclick="saveIndAvance()" disabled>' +
+    '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>' +
+    'Guardar avance' +
+  '</button>' +
+  '<div class="avance-saved-msg" id="avanceSavedMsg">' +
+    '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>' +
+    'Avance guardado: <strong style="margin-left:3px"><span id="avanceSavedVal"></span>' + indUnit + '</strong>' +
+  '</div>' +
+'</div>' +
 '</div>' +
 
 '<div class="tab-panel" id="tab-planeacion">' +
@@ -490,7 +555,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 '<div class="bottom-bar">' +
   '<div><p class="bottom-bar-label">Indicador <strong>' + r.id + '</strong> · ' + r.gerencia + ' · ' + r.frecuenciaMedicion + '</p></div>' +
   '<div class="bottom-bar-actions">' +
-    '<button class="btn-primary" onclick="window.location=\'reporte-avance.html?id=' + r.id + '\'">' +
+    '<button class="btn-primary" onclick="document.querySelector(\'[data-tab=mv]\').click();setTimeout(function(){var i=document.getElementById(\'avanceInput\');if(i){i.focus();i.scrollIntoView({behavior:\'smooth\',block:\'center\'});}},80)">' +
       '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" /></svg>Reportar avance' +
     '</button>' +
     '<button class="btn-secondary">Capturar meta</button>' +
