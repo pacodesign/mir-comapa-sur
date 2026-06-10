@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis actividades — MIR COMAPA Sur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mock-notifications.js"></script>
+  <script src="layout.js"></script>
+  <style>
+    :root {
+      --color-primary:        #8B1D3A;
+      --color-accent:         #8B1D3A;
+      --color-accent-dark:    #6B1630;
+      --color-danger:         #EF4444;
+      --color-warning:        #F59E0B;
+      --color-success:        #22C55E;
+      --color-info:           #3B82F6;
+      --color-link:           #6B7280;
+      --color-bg:             #FFFFFF;
+      --color-surface:        #F7F7F7;
+      --color-border:         #E5E7EB;
+      --color-text-primary:   #111827;
+      --color-text-secondary: #6B7280;
+      --color-avatar-bg:      #9CA3AF;
+      --radius-card:          16px;
+      --radius-btn:           999px;
+      --pad-card:             20px;
+      --gap:                  16px;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ─────────────────────────────────────────────────────────── */
+    .sidebar {
+      width: 64px;
+      background: var(--color-bg);
+      border-right: 1px solid var(--color-border);
+      display: flex; flex-direction: column; align-items: center;
+      padding: 16px 0; gap: 4px;
+      position: fixed; top: 0; left: 0;
+      height: 100vh; z-index: 100;
+    }
+    .sidebar-logo {
+      width: 36px; height: 36px;
+      background: var(--color-primary); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .sidebar-logo svg { width: 18px; height: 18px; stroke: white; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .nav-item {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--color-text-secondary);
+      transition: background .15s, color .15s;
+      position: relative;
+    }
+    .nav-item:hover { background: var(--color-surface); }
+    .nav-item.active { background: #F5E8EC; color: var(--color-primary); }
+    .nav-item svg { width: 20px; height: 20px; }
+    .nav-badge {
+      position: absolute; top: 6px; right: 6px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--color-danger); border: 1.5px solid #fff;
+    }
+    .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .avatar-xs {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--color-avatar-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: white;
+    }
+
+    /* ── LAYOUT ──────────────────────────────────────────────────────────── */
+    .app-wrapper { display: flex; flex: 1; margin-left: 64px; }
+    .main-content { flex: 1; padding: 24px; min-width: 0; margin-right: 240px; }
+
+    /* ── RIGHT PANEL ─────────────────────────────────────────────────────── */
+    .right-panel {
+      width: 240px; background: var(--color-bg);
+      border-left: 1px solid var(--color-border);
+      padding: 20px 16px;
+      position: fixed; right: 0; top: 0;
+      height: 100vh; overflow-y: auto;
+      transition: transform .25s ease, opacity .25s ease;
+    }
+    .right-panel.collapsed { transform: translateX(240px); opacity: 0; pointer-events: none; }
+    .main-content.expanded { margin-right: 0; }
+    .rp-toggle {
+      position: fixed; top: 16px; right: 248px;
+      width: 28px; height: 28px;
+      background: var(--color-bg); border: 1px solid var(--color-border);
+      border-radius: 999px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--color-text-secondary);
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      transition: right .25s ease, color .15s, background .15s; z-index: 200;
+    }
+    .rp-toggle:hover { background: var(--color-surface); color: var(--color-text-primary); }
+    .rp-toggle.collapsed { right: 8px; }
+    .rp-toggle svg { width: 14px; height: 14px; transition: transform .25s ease; }
+    .rp-toggle.collapsed svg { transform: scaleX(-1); }
+    .rp-user { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .rp-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--color-avatar-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: white; flex-shrink: 0;
+    }
+    .rp-name { font-size: 13px; font-weight: 700; color: var(--color-text-primary); }
+    .rp-role { font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; }
+    .rp-divider { height: 1px; background: var(--color-border); margin: 14px 0; }
+    .rp-section-title {
+      font-size: 10px; font-weight: 600; color: var(--color-text-secondary);
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px;
+    }
+    .rp-stat { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .rp-bar { width: 3px; height: 28px; border-radius: 2px; flex-shrink: 0; }
+    .rp-bar.b-success { background: var(--color-success); }
+    .rp-bar.b-info    { background: var(--color-info); }
+    .rp-bar.b-warning { background: var(--color-warning); }
+    .rp-bar.b-gray    { background: #D1D5DB; }
+    .rp-stat-val { font-size: 22px; font-weight: 700; color: var(--color-text-primary); line-height: 1; }
+    .rp-stat-lbl { font-size: 11px; color: var(--color-text-secondary); }
+    .rp-total-big { text-align: center; padding: 10px 0; }
+    .rp-total-big .num { font-size: 44px; font-weight: 700; color: var(--color-text-primary); line-height: 1; }
+    .rp-total-big .sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 4px; }
+    .rp-next-deadline {
+      background: var(--color-surface); border-radius: 10px; padding: 10px 12px;
+    }
+    .rp-dl-label { font-size: 10px; color: var(--color-text-secondary); margin-bottom: 4px; }
+    .rp-dl-id { font-size: 10px; font-weight: 700; color: var(--color-primary); font-family: monospace; }
+    .rp-dl-title { font-size: 11px; font-weight: 600; color: var(--color-text-primary); margin-top: 2px; }
+    .rp-dl-date { font-size: 11px; font-weight: 700; color: var(--color-warning); margin-top: 3px; }
+
+    /* ── PAGE HEADER ─────────────────────────────────────────────────────── */
+    .page-header {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 16px;
+      margin-bottom: 16px;
+    }
+    .page-title   { font-size: 22px; font-weight: 700; color: var(--color-text-primary); line-height: 1.3; }
+    .page-subtitle { font-size: 13px; color: var(--color-text-secondary); margin-top: 3px; }
+
+    /* ── BUTTONS ─────────────────────────────────────────────────────────── */
+    .btn-primary {
+      background: var(--color-accent); color: white; border: none;
+      border-radius: var(--radius-btn);
+      padding: 9px 18px; font-size: 13px; font-weight: 600;
+      font-family: inherit; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: background .15s;
+    }
+    .btn-primary:hover { background: var(--color-accent-dark); }
+    .btn-primary.sm { padding: 7px 14px; font-size: 12px; }
+    .btn-secondary {
+      background: var(--color-surface); color: var(--color-text-primary); border: none;
+      border-radius: var(--radius-btn);
+      padding: 8px 16px; font-size: 12px; font-weight: 600;
+      font-family: inherit; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: background .15s;
+    }
+    .btn-secondary:hover { background: var(--color-border); }
+    .btn-white {
+      background: var(--color-primary); color: white; border: none;
+      border-radius: var(--radius-btn);
+      padding: 9px 18px; font-size: 12px; font-weight: 700;
+      font-family: inherit; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+      width: fit-content; transition: opacity .15s;
+    }
+    .btn-white:hover { opacity: .88; }
+    .btn-xs {
+      font-size: 11px; font-weight: 600; color: var(--color-primary);
+      background: #F5E8EC; border: none; border-radius: 6px;
+      padding: 4px 10px; cursor: pointer; font-family: inherit;
+      transition: background .15s; white-space: nowrap;
+    }
+    .btn-xs:hover { background: #EED5DA; }
+    .btn-xs.warning {
+      color: #92400E; background: #FEF3C7;
+    }
+    .btn-xs.warning:hover { background: #FDE68A; }
+
+    /* ── SECTION LABEL ───────────────────────────────────────────────────── */
+    .section-label {
+      font-size: 11px; font-weight: 600; color: var(--color-text-secondary);
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px;
+    }
+
+    /* ── INTRO CARD ──────────────────────────────────────────────────────── */
+    .intro-card {
+      background: #FBF5EF; border: 1px solid #EDE0D4;
+      border-radius: var(--radius-card);
+      padding: 24px var(--pad-card); margin-bottom: 24px;
+      position: relative; overflow: hidden;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 20px;
+    }
+    .intro-card::before {
+      content: ''; position: absolute; right: -20px; top: -20px;
+      width: 180px; height: 180px;
+      background: rgba(139,29,58,.05); border-radius: 50%;
+    }
+    .intro-card::after {
+      content: ''; position: absolute; right: 80px; bottom: -50px;
+      width: 130px; height: 130px;
+      background: rgba(139,29,58,.04); border-radius: 50%;
+    }
+    .intro-main { position: relative; z-index: 1; }
+    .intro-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(139,29,58,.10); color: var(--color-primary);
+      font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: var(--radius-btn);
+      margin-bottom: 12px; letter-spacing: .02em;
+    }
+    .intro-title { font-size: 15px; font-weight: 700; color: #6B1630; line-height: 1.6; margin-bottom: 8px; max-width: 520px; }
+    .intro-body  { font-size: 12px; color: #7C6A5E; line-height: 1.65; max-width: 480px; }
+    .intro-cta { position: relative; z-index: 1; flex-shrink: 0; }
+
+    /* ── KPI GRID ────────────────────────────────────────────────────────── */
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap); margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--color-bg); border-radius: var(--radius-card);
+      padding: var(--pad-card); box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      cursor: pointer; position: relative;
+      transition: box-shadow .2s, transform .18s;
+    }
+    .kpi-card:hover {
+      box-shadow: 0 8px 28px rgba(0,0,0,.11);
+      transform: translateY(-2px);
+    }
+    .kpi-cta-hover {
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-top: 10px; font-size: 11px; font-weight: 700;
+      color: var(--color-primary);
+      opacity: 0; transform: translateY(5px);
+      transition: opacity .18s, transform .18s;
+    }
+    .kpi-cta-hover svg { width: 12px; height: 12px; }
+    .kpi-card:hover .kpi-cta-hover { opacity: 1; transform: translateY(0); }
+    .kpi-card.cta-card {
+      background: #F5E8EC;
+      display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+      transition: background .15s, box-shadow .2s, transform .18s;
+    }
+    .kpi-card.cta-card:hover { background: #EED5DA; }
+    .kpi-label {
+      font-size: 10px; font-weight: 600; color: var(--color-text-secondary);
+      text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px;
+    }
+    .kpi-value { font-size: 30px; font-weight: 700; color: var(--color-text-primary); line-height: 1; margin-bottom: 4px; }
+    .kpi-value.c-warning { color: var(--color-warning); }
+    .kpi-value.c-danger  { color: var(--color-danger); }
+    .kpi-value.c-success { color: var(--color-success); }
+    .kpi-value.c-info    { color: var(--color-info); }
+    .kpi-value.c-muted   { color: #9CA3AF; }
+    .kpi-sub { font-size: 11px; color: var(--color-text-secondary); line-height: 1.4; }
+    .kpi-cta-title { font-size: 14px; font-weight: 700; color: var(--color-primary); margin-bottom: 4px; }
+    .kpi-cta-sub   { font-size: 11px; color: #9B4E63; line-height: 1.4; margin-bottom: 12px; }
+    .kpi-arrow { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: var(--color-primary); }
+    .kpi-arrow svg { width: 14px; height: 14px; }
+
+    /* ── GRID DE CONTENIDO ───────────────────────────────────────────────── */
+    .content-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: var(--gap); margin-bottom: 24px; align-items: start;
+    }
+    .col-left  { display: flex; flex-direction: column; gap: var(--gap); }
+    .col-right { display: flex; flex-direction: column; gap: var(--gap); }
+
+    /* ── CARD BASE ───────────────────────────────────────────────────────── */
+    .card {
+      background: var(--color-bg); border-radius: var(--radius-card);
+      padding: var(--pad-card); box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .card-title { font-size: 13px; font-weight: 700; color: var(--color-text-primary); }
+    .card-subtitle { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+    .card-link {
+      font-size: 11px; font-weight: 600; color: var(--color-primary);
+      text-decoration: none; cursor: pointer;
+    }
+    .card-link:hover { text-decoration: underline; }
+
+    /* ── AVANCE CARD ─────────────────────────────────────────────────────── */
+    .avance-big {
+      text-align: center; padding: 8px 0 16px;
+    }
+    .avance-pct { font-size: 48px; font-weight: 700; color: var(--color-text-primary); line-height: 1; }
+    .avance-label { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; }
+    .progress-track {
+      height: 10px; background: #F3F4F6; border-radius: 5px;
+      overflow: hidden; display: flex; margin: 12px 0 10px;
+    }
+    .progress-seg { height: 100%; }
+    .seg-aprobada  { background: var(--color-success); }
+    .seg-enviada   { background: var(--color-info); }
+    .seg-observada { background: var(--color-warning); }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .legend-dot.aprobada  { background: var(--color-success); }
+    .legend-dot.enviada   { background: var(--color-info); }
+    .legend-dot.observada { background: var(--color-warning); }
+    .legend-dot.pendiente { background: #D1D5DB; }
+
+    /* ── DEADLINE LIST ───────────────────────────────────────────────────── */
+    .deadline-list { display: flex; flex-direction: column; gap: 6px; }
+    .deadline-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 10px; border-radius: 10px;
+      background: var(--color-surface);
+    }
+    .dl-urgency { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .dl-urgency.urgente { background: var(--color-danger); }
+    .dl-urgency.proximo { background: var(--color-warning); }
+    .dl-urgency.normal  { background: var(--color-success); }
+    .dl-urgency.info    { background: var(--color-info); }
+    .dl-info { flex: 1; min-width: 0; }
+    .dl-id    { font-size: 9px; font-weight: 700; color: var(--color-primary); font-family: monospace; }
+    .dl-name  { font-size: 12px; font-weight: 600; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dl-estado { font-size: 10px; color: var(--color-text-secondary); margin-top: 1px; }
+    .dl-days  { font-size: 11px; font-weight: 700; white-space: nowrap; text-align: right; }
+    .dl-days.urgente { color: var(--color-danger); }
+    .dl-days.proximo { color: var(--color-warning); }
+    .dl-days.normal  { color: var(--color-success); }
+    .dl-days.info    { color: var(--color-info); }
+
+    /* ── ACTIVITY LIST (pendientes por cargar) ───────────────────────────── */
+    .act-list { display: flex; flex-direction: column; gap: 7px; }
+    .act-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px; background: var(--color-surface);
+      border-radius: 10px; border: 1px solid transparent;
+      transition: border-color .12s;
+    }
+    .act-item:hover { border-color: var(--color-border); }
+    .act-info { flex: 1; min-width: 0; }
+    .act-id    { font-size: 9px; font-weight: 700; color: var(--color-primary); font-family: monospace; }
+    .act-title { font-size: 12px; font-weight: 600; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+    .act-vence { font-size: 10px; color: var(--color-text-secondary); margin-top: 2px; }
+    .act-vence span { font-weight: 700; }
+    .act-vence span.urgente { color: var(--color-warning); }
+
+    /* ── ESTADO BADGE ────────────────────────────────────────────────────── */
+    .estado-badge {
+      font-size: 9px; font-weight: 700; padding: 2px 7px;
+      border-radius: var(--radius-btn); text-transform: uppercase;
+      letter-spacing: .04em; white-space: nowrap; flex-shrink: 0;
+    }
+    .estado-badge.pendiente_carga  { background: #FEF3C7; color: #D97706; }
+    .estado-badge.borrador         { background: #F3F4F6; color: #6B7280; }
+    .estado-badge.enviado_revision { background: #EFF6FF; color: #3B82F6; }
+    .estado-badge.observado        { background: #FFF7ED; color: #EA580C; }
+    .estado-badge.aprobado_revisor { background: #F0FDF4; color: #16A34A; }
+    .estado-badge.vencido          { background: #FEF2F2; color: #DC2626; }
+
+    /* ── OBSERVACIÓN CARD ────────────────────────────────────────────────── */
+    .obs-wrap {
+      background: #FFFBEB; border: 1px solid #FDE68A;
+      border-radius: 12px; padding: 14px;
+    }
+    .obs-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+    .obs-icon {
+      width: 32px; height: 32px; background: #FEF3C7; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .obs-icon svg { width: 16px; height: 16px; color: #D97706; }
+    .obs-act-id    { font-size: 9px; font-weight: 700; color: #D97706; font-family: monospace; }
+    .obs-act-title { font-size: 13px; font-weight: 700; color: var(--color-text-primary); margin-top: 1px; }
+    .obs-author    { font-size: 11px; color: var(--color-text-secondary); margin-top: 4px; }
+    .obs-text {
+      font-size: 12px; color: #78350F; line-height: 1.6;
+      background: rgba(255,255,255,.75); border-radius: 8px;
+      padding: 10px 12px; margin-bottom: 12px;
+      border: 1px solid #FDE68A;
+    }
+    .obs-mv {
+      display: flex; align-items: flex-start; gap: 8px;
+      background: rgba(255,255,255,.5); border-radius: 8px;
+      padding: 8px 10px; margin-bottom: 12px;
+      font-size: 11px; color: #92400E; line-height: 1.5;
+    }
+    .obs-mv svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; color: #D97706; }
+    .obs-actions { display: flex; gap: 8px; }
+
+    /* ── NOTIFICACIONES FEED ─────────────────────────────────────────────── */
+    .notif-feed { display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px; }
+    .notif-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 14px; background: var(--color-bg);
+      border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.05);
+      border-left: 3px solid transparent; cursor: pointer;
+      transition: background .1s;
+    }
+    .notif-item:hover { background: #FAFAFA; }
+    .notif-item.unread { border-left-color: var(--color-primary); background: #FDF5F7; }
+    .nf-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+    .nf-dot.clock  { background: var(--color-warning); }
+    .nf-dot.alert  { background: var(--color-danger); }
+    .nf-dot.check  { background: var(--color-success); }
+    .nf-dot.read   { background: #D1D5DB; }
+    .nf-body { flex: 1; min-width: 0; }
+    .nf-title { font-size: 12px; font-weight: 600; color: var(--color-text-primary); }
+    .nf-msg   { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
+    .nf-meta  { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+    .nf-time  { font-size: 10px; color: #9CA3AF; }
+    .nf-act   { font-size: 10px; font-weight: 700; color: var(--color-primary); font-family: monospace; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────────────────── */
+    @media (max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1024px) {
+      .main-content { margin-right: 0 !important; }
+      .right-panel { transform: translateX(240px); opacity: 0; pointer-events: none; }
+      .rp-toggle { display: none; }
+    }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) {
+      .main-content { padding: 16px; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .page-header { flex-direction: column; gap: 12px; }
+      .intro-card { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/>
+    </svg>
+  </div>
+  <div class="sidebar-nav">
+    <!-- Inicio -->
+    <div class="nav-item active" title="Inicio">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/>
+      </svg>
+    </div>
+    <!-- Mis actividades -->
+    <div class="nav-item" title="Mis actividades">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/>
+      </svg>
+    </div>
+    <!-- Observaciones -->
+    <a class="nav-item" href="mis-observaciones.html" title="Observaciones" style="position:relative">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
+      </svg>
+      <span class="nav-badge"></span>
+    </a>
+    <!-- Notificaciones -->
+    <div class="nav-item" title="Notificaciones">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
+      </svg>
+    </div>
+    <!-- Historial -->
+    <div class="nav-item" title="Historial">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+      </svg>
+    </div>
+    <!-- Ayuda -->
+    <div class="nav-item" title="Ayuda y guía MIR">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/>
+      </svg>
+    </div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="nav-item" title="Configuración">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+      </svg>
+    </div>
+    <div class="avatar-xs">AT</div>
+  </div>
+</nav>
+
+<!-- ═══ MAIN WRAPPER ═══ -->
+<div class="app-wrapper">
+  <main class="main-content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Mis indicadores</h1>
+        <p class="page-subtitle">Gerencia Comercial · Período Q2 2026 · COMAPA Sur</p>
+      </div>
+      <button class="btn-primary" onclick="window.location.href='mis-actividades.html'">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/>
+        </svg>
+        Ver mis actividades
+      </button>
+    </div>
+
+    <!-- INTRO CARD -->
+    <div class="intro-card">
+      <div class="intro-main">
+        <div class="intro-badge">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
+          </svg>
+          Tienes acciones pendientes hoy
+        </div>
+        <p class="intro-title">Bienvenida, Ana. Tienes 3 actividades sin evidencia y 1 observación por atender.</p>
+        <p class="intro-body">Revisa tus pendientes, carga la evidencia correspondiente y asegúrate de enviarla antes de las fechas límite. El Revisor está esperando tus correcciones en COM-ACT-08.</p>
+      </div>
+      <div class="intro-cta">
+        <button class="btn-white" onclick="window.location.href='mis-actividades.html'">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+          </svg>
+          Ver mis actividades
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI SECTION -->
+    <p class="section-label">Resumen de mis actividades</p>
+    <div class="kpi-grid">
+
+      <div class="kpi-card hl-default" onclick="window.location.href='mis-actividades.html'">
+        <p class="kpi-label">Total asignadas</p>
+        <p class="kpi-value">12</p>
+        <p class="kpi-sub">Gerencia Comercial · Q2 2026</p>
+        <span class="kpi-cta-hover">Ver todas <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
+      </div>
+
+      <div class="kpi-card hl-warning" onclick="window.location.href='mis-actividades.html?chip=pendiente'">
+        <p class="kpi-label">Pendientes de carga</p>
+        <p class="kpi-value c-warning">3</p>
+        <p class="kpi-sub">Sin evidencia cargada</p>
+        <span class="kpi-cta-hover">Ver pendientes <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
+      </div>
+
+      <div class="kpi-card hl-danger" onclick="window.location.href='mis-observaciones.html'">
+        <p class="kpi-label">Observadas</p>
+        <p class="kpi-value c-danger">1</p>
+        <p class="kpi-sub">Requieren corrección</p>
+        <span class="kpi-cta-hover">Ver observaciones <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
+      </div>
+
+      <div class="kpi-card hl-success" onclick="window.location.href='mis-actividades.html?chip=aprobadas'">
+        <p class="kpi-label">Aprobadas</p>
+        <p class="kpi-value c-success">5</p>
+        <p class="kpi-sub">Validadas por el Revisor</p>
+        <span class="kpi-cta-hover">Ver aprobadas <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
+      </div>
+
+      <div class="kpi-card hl-default" onclick="window.location.href='mis-actividades.html?chip=pendiente'">
+        <p class="kpi-label">En borrador</p>
+        <p class="kpi-value c-muted">1</p>
+        <p class="kpi-sub">Guardadas, sin enviar</p>
+        <span class="kpi-cta-hover">Ver borradores <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
+      </div>
+
+      <div class="kpi-card hl-info" onclick="window.location.href='mis-actividades.html?chip=en_revision'">
+        <p class="kpi-label">Enviadas a revisión</p>
+        <p class="kpi-value c-info">2</p>
+        <p class="kpi-sub">En espera del Revisor</p>
+        <span class="kpi-cta-hover">Ver en revisión <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
+      </div>
+
+      <div class="kpi-card hl-success" onclick="window.location.href='mis-actividades.html?chip=vencidas'">
+        <p class="kpi-label">Vencidas</p>
+        <p class="kpi-value c-success">0</p>
+        <p class="kpi-sub">Sin actividades vencidas</p>
+        <span class="kpi-cta-hover">Ver vencidas <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
+      </div>
+
+      <div class="kpi-card cta-card" onclick="window.location.href='mis-actividades.html'">
+        <p class="kpi-cta-title">Ver todas mis actividades</p>
+        <p class="kpi-cta-sub">Consulta, filtra y gestiona tu lista completa con estados y fechas.</p>
+        <span class="kpi-arrow">
+          Ir ahora
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+          </svg>
+        </span>
+      </div>
+
+    </div>
+
+    <!-- CONTENT GRID -->
+    <p class="section-label">Acciones prioritarias</p>
+    <div class="content-grid">
+
+      <!-- COL IZQUIERDA -->
+      <div class="col-left">
+
+        <!-- Mi avance general -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <p class="card-title">Mi avance general</p>
+              <p class="card-subtitle">Período Q2 2026 · 12 actividades asignadas</p>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:#22C55E;">42%</span>
+          </div>
+
+          <div class="avance-big">
+            <p class="avance-pct">42<span style="font-size:20px;color:#9CA3AF;font-weight:500;">%</span></p>
+            <p class="avance-label">actividades aprobadas del total asignado</p>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-seg seg-aprobada"  style="width:41.7%"></div>
+            <div class="progress-seg seg-enviada"    style="width:16.6%"></div>
+            <div class="progress-seg seg-observada"  style="width:8.4%"></div>
+            <div class="progress-seg" style="background:#E5E7EB;flex:1;"></div>
+          </div>
+
+          <div class="progress-legend">
+            <div class="legend-item"><span class="legend-dot aprobada"></span> Aprobadas (5)</div>
+            <div class="legend-item"><span class="legend-dot enviada"></span> Enviadas (2)</div>
+            <div class="legend-item"><span class="legend-dot observada"></span> Observadas (1)</div>
+            <div class="legend-item"><span class="legend-dot pendiente"></span> Pendientes (4)</div>
+          </div>
+        </div>
+
+        <!-- Próximas fechas límite -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <p class="card-title">Próximas fechas límite</p>
+              <p class="card-subtitle">Ordenadas por vencimiento</p>
+            </div>
+            <a class="card-link" href="mis-actividades.html">Ver todas</a>
+          </div>
+
+          <div class="deadline-list">
+            <div class="deadline-item" style="cursor:pointer" onclick="window.location.href='detalle-actividad.html?id=COM-ACT-08'">
+              <div class="dl-urgency urgente"></div>
+              <div class="dl-info">
+                <p class="dl-id">COM-ACT-08</p>
+                <p class="dl-name">Gestión de deuda morosa</p>
+                <p class="dl-estado">Observada · requiere corrección</p>
+              </div>
+              <p class="dl-days urgente">8 días</p>
+            </div>
+            <div class="deadline-item">
+              <div class="dl-urgency proximo"></div>
+              <div class="dl-info">
+                <p class="dl-id">COM-ACT-03</p>
+                <p class="dl-name">Seguimiento de facturación mensual</p>
+                <p class="dl-estado">Pendiente de carga</p>
+              </div>
+              <p class="dl-days proximo">11 días</p>
+            </div>
+            <div class="deadline-item">
+              <div class="dl-urgency proximo"></div>
+              <div class="dl-info">
+                <p class="dl-id">COM-ACT-07</p>
+                <p class="dl-name">Medición de tomas activas por sector</p>
+                <p class="dl-estado">Pendiente de carga</p>
+              </div>
+              <p class="dl-days proximo">13 días</p>
+            </div>
+            <div class="deadline-item">
+              <div class="dl-urgency normal"></div>
+              <div class="dl-info">
+                <p class="dl-id">COM-ACT-11</p>
+                <p class="dl-name">Gestión de cobranza activa</p>
+                <p class="dl-estado">Pendiente de carga</p>
+              </div>
+              <p class="dl-days normal">16 días</p>
+            </div>
+            <div class="deadline-item">
+              <div class="dl-urgency info"></div>
+              <div class="dl-info">
+                <p class="dl-id">COM-ACT-01</p>
+                <p class="dl-name">Actualización padrón de usuarios</p>
+                <p class="dl-estado">Enviada a revisión</p>
+              </div>
+              <p class="dl-days info">Ya enviada</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COL DERECHA -->
+      <div class="col-right">
+
+        <!-- Pendientes por cargar -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <p class="card-title">Pendientes por cargar</p>
+              <p class="card-subtitle">Actividades sin evidencia asignada</p>
+            </div>
+            <a class="card-link" href="mis-actividades.html?chip=pendiente">Ver todas (3)</a>
+          </div>
+
+          <div class="act-list">
+
+            <div class="act-item">
+              <div class="act-info">
+                <p class="act-id">COM-ACT-03</p>
+                <p class="act-title">Seguimiento de facturación mensual</p>
+                <p class="act-vence">Vence: <span class="urgente">20 jun · en 11 días</span></p>
+              </div>
+              <span class="estado-badge pendiente_carga">Pendiente</span>
+              <button class="btn-xs" onclick="window.location.href='detalle-actividad.html?id=COM-ACT-03'">Cargar</button>
+            </div>
+
+            <div class="act-item">
+              <div class="act-info">
+                <p class="act-id">COM-ACT-07</p>
+                <p class="act-title">Medición de tomas activas por sector</p>
+                <p class="act-vence">Vence: <span>22 jun · en 13 días</span></p>
+              </div>
+              <span class="estado-badge pendiente_carga">Pendiente</span>
+              <button class="btn-xs" onclick="window.location.href='detalle-actividad.html?id=COM-ACT-07'">Cargar</button>
+            </div>
+
+            <div class="act-item">
+              <div class="act-info">
+                <p class="act-id">COM-ACT-11</p>
+                <p class="act-title">Gestión de cobranza activa</p>
+                <p class="act-vence">Vence: <span>25 jun · en 16 días</span></p>
+              </div>
+              <span class="estado-badge pendiente_carga">Pendiente</span>
+              <button class="btn-xs" onclick="window.location.href='detalle-actividad.html?id=COM-ACT-11'">Cargar</button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Observaciones por atender -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <p class="card-title">Observaciones por atender</p>
+              <p class="card-subtitle">Evidencia rechazada u observada por el Revisor</p>
+            </div>
+            <span style="font-size:10px;font-weight:700;padding:3px 8px;background:#FEF3C7;color:#D97706;border-radius:999px;">1 pendiente</span>
+          </div>
+
+          <div class="obs-wrap">
+            <div class="obs-header">
+              <div class="obs-icon">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="obs-act-id">COM-ACT-08</p>
+                <p class="obs-act-title">Gestión de deuda morosa</p>
+                <p class="obs-author">Observación de Carlos Mendoza (Revisor) · hace 22 horas</p>
+              </div>
+            </div>
+            <p class="obs-text">
+              "El archivo cargado no corresponde al medio de verificación requerido. Favor de adjuntar el reporte mensual de facturación en formato PDF, con sello y firma del responsable."
+            </p>
+            <div class="obs-mv">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"/>
+              </svg>
+              Medio de verificación requerido: <strong>Reporte mensual de facturación (PDF, firmado)</strong>
+            </div>
+            <div class="obs-actions">
+              <button class="btn-xs warning" onclick="window.location.href='detalle-actividad.html?id=COM-ACT-08'">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="11" height="11" style="display:inline;vertical-align:middle;margin-right:3px">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+                </svg>
+                Ir a corrección
+              </button>
+              <button class="btn-secondary sm" style="font-size:11px;padding:4px 12px;" onclick="window.location.href='detalle-actividad.html?id=COM-ACT-08'">Ver historial</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NOTIFICACIONES -->
+    <p class="section-label">Últimas notificaciones</p>
+    <div class="notif-feed">
+
+      <div class="notif-item unread">
+        <div class="nf-dot clock"></div>
+        <div class="nf-body">
+          <p class="nf-title">Fecha límite próxima</p>
+          <p class="nf-msg">COM-ACT-15 vence en 2 días sin evidencia cargada.</p>
+          <div class="nf-meta">
+            <span class="nf-time">Hoy · 09:00</span>
+            <span class="nf-act">COM-ACT-15</span>
+          </div>
+        </div>
+        <button class="btn-xs" style="margin-top:2px;flex-shrink:0;">Atender</button>
+      </div>
+
+      <div class="notif-item unread">
+        <div class="nf-dot alert"></div>
+        <div class="nf-body">
+          <p class="nf-title">Evidencia observada</p>
+          <p class="nf-msg">Carlos Mendoza emitió una observación sobre COM-ACT-08. Requiere corrección.</p>
+          <div class="nf-meta">
+            <span class="nf-time">Ayer · 17:15</span>
+            <span class="nf-act">COM-ACT-08</span>
+          </div>
+        </div>
+        <button class="btn-xs warning" style="margin-top:2px;flex-shrink:0;">Ver obs.</button>
+      </div>
+
+      <div class="notif-item">
+        <div class="nf-dot read"></div>
+        <div class="nf-body">
+          <p class="nf-title">Evidencia aprobada</p>
+          <p class="nf-msg">COM-ACT-05 fue aprobada por el Revisor. ¡Bien hecho!</p>
+          <div class="nf-meta">
+            <span class="nf-time">08 jun · 14:30</span>
+            <span class="nf-act">COM-ACT-05</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- TOGGLE BUTTON -->
+  <button class="rp-toggle" id="rpToggle" title="Mostrar / ocultar panel">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+    </svg>
+  </button>
+
+  <!-- ═══ RIGHT PANEL ═══ -->
+  <aside class="right-panel" id="rightPanel">
+    <div class="rp-user">
+      <div class="rp-avatar">AT</div>
+      <div>
+        <p class="rp-name">Ana Torres</p>
+        <p class="rp-role">Enlace · Comercial</p>
+      </div>
+    </div>
+
+    <div class="rp-divider"></div>
+
+    <p class="rp-section-title">Mi avance Q2 2026</p>
+    <div class="rp-stat">
+      <div class="rp-bar b-success"></div>
+      <div><p class="rp-stat-val">5</p><p class="rp-stat-lbl">Aprobadas</p></div>
+    </div>
+    <div class="rp-stat">
+      <div class="rp-bar b-info"></div>
+      <div><p class="rp-stat-val">2</p><p class="rp-stat-lbl">Enviadas</p></div>
+    </div>
+    <div class="rp-stat">
+      <div class="rp-bar b-warning"></div>
+      <div><p class="rp-stat-val">1</p><p class="rp-stat-lbl">Observada</p></div>
+    </div>
+    <div class="rp-stat">
+      <div class="rp-bar b-gray"></div>
+      <div><p class="rp-stat-val">4</p><p class="rp-stat-lbl">Pendientes</p></div>
+    </div>
+
+    <div class="rp-divider"></div>
+
+    <p class="rp-section-title">Total asignadas</p>
+    <div class="rp-total-big">
+      <p class="num">12</p>
+      <p class="sub">actividades · Gerencia Comercial</p>
+    </div>
+
+    <div class="rp-divider"></div>
+
+    <p class="rp-section-title">Próximo vencimiento</p>
+    <div class="rp-next-deadline">
+      <p class="rp-dl-label">Más urgente con acción requerida</p>
+      <p class="rp-dl-id">COM-ACT-08</p>
+      <p class="rp-dl-title">Gestión de deuda morosa</p>
+      <p class="rp-dl-date">17 jun · en 8 días</p>
+    </div>
+
+  </aside>
+</div>
+
+<script>
+  const panel  = document.getElementById('rightPanel');
+  const toggle = document.getElementById('rpToggle');
+  const main   = document.querySelector('.main-content');
+
+  toggle.addEventListener('click', () => {
+    const isCollapsed = panel.classList.toggle('collapsed');
+    toggle.classList.toggle('collapsed', isCollapsed);
+    main.classList.toggle('expanded', isCollapsed);
+  });
+</script>
+</body>
+</html>

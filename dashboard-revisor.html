@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Revisor — MIR COMAPA Sur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mock-notifications.js"></script>
+  <script src="mir-actividades-data.js"></script>
+  <script src="layout.js"></script>
+  <style>
+    :root {
+      --color-primary:#8B1D3A; --color-accent-dark:#6B1630;
+      --color-danger:#EF4444; --color-warning:#F59E0B;
+      --color-success:#22C55E; --color-info:#3B82F6;
+      --color-bg:#FFFFFF; --color-surface:#F7F7F7;
+      --color-border:#E5E7EB; --color-text-primary:#111827;
+      --color-text-secondary:#6B7280; --color-avatar-bg:#3B82F6;
+      --radius-card:16px;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
+
+    /* SIDEBAR */
+    .sidebar{width:64px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
+    .sidebar-logo{width:36px;height:36px;background:var(--color-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+    .sidebar-logo svg{width:18px;height:18px;stroke:white;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
+    .nav-item{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s;position:relative;text-decoration:none;}
+    .nav-item:hover{background:var(--color-surface);}
+    .nav-item.active{background:#EFF6FF;color:var(--color-info);}
+    .nav-item svg{width:20px;height:20px;}
+    .nav-badge{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--color-danger);border:1.5px solid #fff;}
+    .sidebar-bottom{display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .avatar-xs{width:32px;height:32px;border-radius:50%;background:var(--color-avatar-bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;}
+
+    /* LAYOUT */
+    .app-wrapper{display:flex;flex:1;margin-left:64px;}
+    .main-content{flex:1;padding:28px 32px;max-width:1100px;}
+
+    /* WELCOME */
+    .welcome-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+    .welcome-left h1{font-size:22px;font-weight:700;margin-bottom:2px;}
+    .welcome-left p{font-size:13px;color:var(--color-text-secondary);}
+    .welcome-date{font-size:12px;color:var(--color-text-secondary);background:var(--color-bg);border:1px solid var(--color-border);border-radius:10px;padding:7px 14px;font-weight:600;}
+    .role-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#EFF6FF;color:var(--color-info);margin-left:8px;vertical-align:middle;}
+
+    /* KPI GRID */
+    .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+    .kpi-card{background:var(--color-bg);border-radius:var(--radius-card);padding:18px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer;transition:box-shadow .15s,transform .1s;text-decoration:none;color:inherit;display:block;}
+    .kpi-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1);transform:translateY(-1px);}
+    .kpi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+    .kpi-icon svg{width:18px;height:18px;}
+    .kpi-icon.blue{background:#EFF6FF;} .kpi-icon.blue svg{color:var(--color-info);}
+    .kpi-icon.purple{background:#F5F3FF;} .kpi-icon.purple svg{color:#7C3AED;}
+    .kpi-icon.orange{background:#FFF7ED;} .kpi-icon.orange svg{color:#EA580C;}
+    .kpi-icon.green{background:#F0FDF4;} .kpi-icon.green svg{color:var(--color-success);}
+    .kpi-icon.red{background:#FEF2F2;} .kpi-icon.red svg{color:var(--color-danger);}
+    .kpi-value{font-size:28px;font-weight:800;line-height:1;margin-bottom:4px;}
+    .kpi-value.blue{color:var(--color-info);}
+    .kpi-value.purple{color:#7C3AED;}
+    .kpi-value.orange{color:#EA580C;}
+    .kpi-value.green{color:var(--color-success);}
+    .kpi-value.red{color:var(--color-danger);}
+    .kpi-label{font-size:12px;font-weight:600;color:var(--color-text-primary);margin-bottom:2px;}
+    .kpi-sub{font-size:11px;color:var(--color-text-secondary);}
+
+    /* GRID 2 COL */
+    .two-col{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-bottom:16px;}
+
+    /* SECTION CARD */
+    .section-card{background:var(--color-bg);border-radius:var(--radius-card);box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;}
+    .sc-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--color-border);}
+    .sc-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;}
+    .sc-title svg{width:16px;height:16px;color:var(--color-info);}
+    .sc-link{font-size:12px;font-weight:600;color:var(--color-info);text-decoration:none;}
+    .sc-link:hover{text-decoration:underline;}
+    .sc-body{padding:16px 20px;}
+
+    /* PENDIENTES TABLE */
+    .pend-table{width:100%;border-collapse:collapse;}
+    .pend-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);padding:0 8px 8px;text-align:left;white-space:nowrap;}
+    .pend-table td{padding:10px 8px;border-top:1px solid var(--color-border);vertical-align:middle;}
+    .pend-table tr:first-child td{border-top:none;}
+    .pend-table tr:hover td{background:#FAFAFA;}
+    .act-id{font-size:10px;font-weight:700;font-family:monospace;color:var(--color-primary);}
+    .act-name{font-size:13px;font-weight:600;color:var(--color-text-primary);max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .act-name-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+    .prio-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;white-space:nowrap;}
+    .prio-alta{background:#FEE2E2;color:#DC2626;}
+    .prio-media{background:#FEF3C7;color:#D97706;}
+    .prio-normal{background:#F3F4F6;color:#6B7280;}
+    .prio-vencida{background:#111827;color:white;}
+    .prio-badge::before{content:'';width:5px;height:5px;border-radius:50%;}
+    .prio-alta::before{background:#DC2626;}
+    .prio-media::before{background:#D97706;}
+    .prio-normal::before{background:#9CA3AF;}
+    .prio-vencida::before{background:white;}
+    .dias-chip{font-size:11px;font-weight:700;}
+    .dias-chip.urgente{color:var(--color-danger);}
+    .dias-chip.proximo{color:var(--color-warning);}
+    .dias-chip.normal{color:var(--color-success);}
+    .btn-revisar{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;font-size:11px;font-weight:700;border:none;cursor:pointer;text-decoration:none;font-family:inherit;transition:opacity .12s;}
+    .btn-revisar.blue{background:#EFF6FF;color:var(--color-info);}
+    .btn-revisar.purple{background:#F5F3FF;color:#7C3AED;}
+    .btn-revisar:hover{opacity:.80;}
+    .btn-revisar svg{width:12px;height:12px;}
+
+    /* ESTADO BADGE */
+    .estado-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:700;white-space:nowrap;}
+    .estado-badge::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+    .corregido{background:#F5F3FF;color:#7C3AED;}.corregido::before{background:#8B5CF6;}
+    .enviado_revision{background:#EFF6FF;color:#2563EB;}.enviado_revision::before{background:#3B82F6;}
+    .observado{background:#FFF7ED;color:#EA580C;}.observado::before{background:#F97316;}
+    .aprobado_revisor{background:#F0FDF4;color:#16A34A;}.aprobado_revisor::before{background:#22C55E;}
+    .vencido{background:#FEF2F2;color:#DC2626;}.vencido::before{background:#EF4444;}
+
+    /* TIMELINE */
+    .tl{position:relative;padding-left:20px;display:flex;flex-direction:column;gap:0;}
+    .tl::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--color-border);}
+    .tl-item{position:relative;padding-bottom:14px;}
+    .tl-item:last-child{padding-bottom:0;}
+    .tl-dot{position:absolute;left:-17px;top:4px;width:10px;height:10px;border-radius:50%;border:2px solid var(--color-bg);}
+    .tl-dot.revisor{background:var(--color-info);}
+    .tl-dot.enlace{background:var(--color-primary);}
+    .tl-dot.sistema{background:#9CA3AF;}
+    .tl-time{font-size:10px;color:#9CA3AF;margin-bottom:1px;}
+    .tl-act{font-size:12px;font-weight:600;color:var(--color-text-primary);}
+    .tl-sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+
+    /* URGENTES */
+    .urgente-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--color-border);}
+    .urgente-item:last-child{border-bottom:none;padding-bottom:0;}
+    .ui-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .ui-icon.orange{background:#FFF7ED;}
+    .ui-icon.orange svg{color:#EA580C;}
+    .ui-icon.red{background:#FEF2F2;}
+    .ui-icon.red svg{color:var(--color-danger);}
+    .ui-body{flex:1;min-width:0;}
+    .ui-id{font-size:10px;font-family:monospace;font-weight:700;color:var(--color-primary);}
+    .ui-name{font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .ui-meta{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+    .ui-action{flex-shrink:0;}
+
+    /* CTA ROW */
+    .cta-row{display:flex;gap:10px;margin-bottom:16px;}
+    .btn-cta{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;border-radius:12px;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:inherit;text-decoration:none;transition:opacity .12s;}
+    .btn-cta:hover{opacity:.88;}
+    .btn-cta.primary{background:var(--color-info);color:white;}
+    .btn-cta.secondary{background:var(--color-bg);color:var(--color-text-primary);border:1px solid var(--color-border);}
+    .btn-cta svg{width:16px;height:16px;}
+
+    /* NIVEL */
+    .nivel-badge{display:inline-flex;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;}
+    .nivel-fin{background:#EDE9FE;color:#7C3AED;}
+    .nivel-proposito{background:#DBEAFE;color:#1D4ED8;}
+    .nivel-componente{background:#CCFBF1;color:#0F766E;}
+    .nivel-actividad{background:#F3F4F6;color:#374151;}
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item active" href="dashboard-revisor.html" title="Inicio"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg></a>
+    <a class="nav-item" href="bandeja-revision.html" title="Bandeja de revisión" style="position:relative"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg><span class="nav-badge"></span></a>
+    <a class="nav-item" href="historial-revisor.html" title="Historial"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></a>
+    <div class="nav-item" title="Notificaciones"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg></div>
+    <div class="nav-item" title="Ayuda"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg></div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="nav-item" title="Configuración"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg></div>
+    <div class="avatar-xs">CM</div>
+  </div>
+</nav>
+
+<div class="app-wrapper">
+  <main class="main-content" id="main"></main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const actsRevisor = getActividadesRevisor();
+  const pendientes  = actsRevisor.filter(a => ['enviado_revision','pendiente_revision'].includes(a.estado));
+  const corregidas  = actsRevisor.filter(a => a.estado === 'corregido');
+  const observadas  = actsRevisor.filter(a => a.estado === 'observado');
+  const aprobadas   = actsRevisor.filter(a => ['aprobado_revisor','validado_admin','publicado'].includes(a.estado));
+  const urgentes    = actsRevisor.filter(a => {
+    const d = diasRestantes(a.fechaLimite);
+    return ['enviado_revision','pendiente_revision','corregido'].includes(a.estado) && (d <= 14);
+  }).sort((a, b) => diasRestantes(a.fechaLimite) - diasRestantes(b.fechaLimite));
+
+  // Recent timeline: all historial entries with actor, most recent first
+  const allMovements = [];
+  actsRevisor.forEach(a => {
+    a.historial.forEach(h => {
+      allMovements.push({ ...h, actId: a.id, actNombre: a.nombre });
+    });
+  });
+  allMovements.sort((a, b) => {
+    const da = a.fecha + ' ' + a.hora;
+    const db = b.fecha + ' ' + b.hora;
+    return da < db ? 1 : da > db ? -1 : 0;
+  });
+  const recentMovs = allMovements.slice(0, 6);
+
+  // Pending to review: pendientes + corregidas, sorted by prioridad then fecha
+  const enBandeja = [...pendientes, ...corregidas].sort((a, b) => {
+    const pOrder = { alta: 0, media: 1, normal: 2 };
+    const pa = pOrder[prioridad(a)] ?? 3;
+    const pb = pOrder[prioridad(b)] ?? 3;
+    if (pa !== pb) return pa - pb;
+    return diasRestantes(a.fechaLimite) - diasRestantes(b.fechaLimite);
+  });
+
+  const PRIORIDAD_CFG = {
+    alta:    { cls: 'prio-alta',    label: 'Alta' },
+    media:   { cls: 'prio-media',   label: 'Media' },
+    normal:  { cls: 'prio-normal',  label: 'Normal' },
+    vencida: { cls: 'prio-vencida', label: 'Vencida' }
+  };
+
+  function diaChip(act) {
+    const d = diasRestantes(act.fechaLimite);
+    const cls = d < 0 ? '' : d <= 7 ? 'urgente' : d <= 14 ? 'proximo' : 'normal';
+    const txt = d < 0 ? 'Vencida' : d === 0 ? 'Hoy' : `${d}d`;
+    return `<span class="dias-chip ${cls}">${txt}</span>`;
+  }
+  function estadoBadge(e) {
+    const cfg = ESTADO_CFG[e] || { label: e, cls: e };
+    return `<span class="estado-badge ${cfg.cls}">${cfg.label}</span>`;
+  }
+  function prioBadge(a) {
+    const p = prioridad(a);
+    const c = PRIORIDAD_CFG[p] || PRIORIDAD_CFG.normal;
+    return `<span class="prio-badge ${c.cls}">${c.label}</span>`;
+  }
+  function nivelBadge(a) {
+    const n = NIVEL_CFG[a.nivelCodigo] || { label: a.nivelCodigo, cls: 'nivel-actividad' };
+    return `<span class="nivel-badge ${n.cls}">${n.label}</span>`;
+  }
+  function rolDotCls(rol) {
+    const r = (rol||'').toLowerCase();
+    if (r.includes('revisor')) return 'revisor';
+    if (r.includes('enlace'))  return 'enlace';
+    return 'sistema';
+  }
+
+  const pendientesRows = enBandeja.length === 0
+    ? '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:13px;">Sin actividades pendientes de revisión</td></tr>'
+    : enBandeja.map(a => `
+        <tr>
+          <td>
+            <div class="act-id">${a.id}</div>
+            <div class="act-name">${a.nombre}</div>
+            <div class="act-name-sub">${nivelBadge(a)} · ${a.periodo}</div>
+          </td>
+          <td>${estadoBadge(a.estado)}</td>
+          <td>${prioBadge(a)}</td>
+          <td>${diaChip(a)} <span style="font-size:11px;color:var(--color-text-secondary);">${formatFecha(a.fechaLimite)}</span></td>
+          <td style="font-size:11px;color:var(--color-text-secondary);">${formatFecha(fechaEnvio(a))}</td>
+          <td>
+            <a class="btn-revisar ${a.estado==='corregido'?'purple':'blue'}" href="revision-actividad.html?id=${a.id}">
+              ${a.estado==='corregido'?'Revisar corrección':'Revisar'}
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+            </a>
+          </td>
+        </tr>`).join('');
+
+  const timelineHtml = recentMovs.map(m => `
+    <div class="tl-item">
+      <div class="tl-dot ${rolDotCls(m.rol)}"></div>
+      <p class="tl-time">${m.fecha} · ${m.hora}</p>
+      <p class="tl-act">${m.accion}</p>
+      <p class="tl-sub">${m.actId} · ${m.actNombre.slice(0, 42)}${m.actNombre.length > 42 ? '…' : ''}</p>
+    </div>`).join('');
+
+  const urgentesHtml = urgentes.length === 0
+    ? '<p style="font-size:13px;color:var(--color-text-secondary);padding:8px 0;">Sin actividades próximas a vencer.</p>'
+    : urgentes.slice(0, 4).map(a => {
+        const d = diasRestantes(a.fechaLimite);
+        const icCls = d <= 7 ? 'red' : 'orange';
+        return `
+          <div class="urgente-item">
+            <div class="ui-icon ${icCls}">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            </div>
+            <div class="ui-body">
+              <div class="ui-id">${a.id}</div>
+              <div class="ui-name">${a.nombre}</div>
+              <div class="ui-meta">${d <= 0 ? '¡Vencida!' : `${d} día${d!==1?'s':''} restantes`} · ${formatFecha(a.fechaLimite)}</div>
+            </div>
+            <div class="ui-action">
+              <a class="btn-revisar blue" href="revision-actividad.html?id=${a.id}">Revisar<svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></a>
+            </div>
+          </div>`;
+      }).join('');
+
+  document.getElementById('main').innerHTML = `
+    <div class="welcome-row">
+      <div class="welcome-left">
+        <h1>Bienvenido, Carlos Mendoza <span class="role-chip">Revisor</span></h1>
+        <p>Gerencia Técnica · COMAPA Sur · ${formatFecha('2026-06-09')}</p>
+      </div>
+      <span class="welcome-date">Ciclo Q2-2026</span>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn-cta primary" href="bandeja-revision.html">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg>
+        Ir a bandeja de revisión ${enBandeja.length > 0 ? `(${enBandeja.length})` : ''}
+      </a>
+      <a class="btn-cta secondary" href="historial-revisor.html">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        Ver historial completo
+      </a>
+    </div>
+
+    <div class="kpi-grid">
+      <a class="kpi-card" href="bandeja-revision.html?chip=pendiente">
+        <div class="kpi-icon blue"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg></div>
+        <div class="kpi-value blue">${pendientes.length}</div>
+        <div class="kpi-label">Pendientes de revisión</div>
+        <div class="kpi-sub">Nuevas evidencias recibidas</div>
+      </a>
+      <a class="kpi-card" href="bandeja-revision.html?chip=corregidas">
+        <div class="kpi-icon purple"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"/></svg></div>
+        <div class="kpi-value purple">${corregidas.length}</div>
+        <div class="kpi-label">Correcciones recibidas</div>
+        <div class="kpi-sub">Revisión pendiente de corrección</div>
+      </a>
+      <a class="kpi-card" href="bandeja-revision.html?chip=urgentes">
+        <div class="kpi-icon orange"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
+        <div class="kpi-value orange">${urgentes.length}</div>
+        <div class="kpi-label">Próximas a vencer</div>
+        <div class="kpi-sub">Menos de 14 días para límite</div>
+      </a>
+      <a class="kpi-card" href="bandeja-revision.html?chip=observadas">
+        <div class="kpi-icon red"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></div>
+        <div class="kpi-value red">${observadas.length}</div>
+        <div class="kpi-label">Observadas</div>
+        <div class="kpi-sub">Esperando corrección del Enlace</div>
+      </a>
+      <a class="kpi-card" href="bandeja-revision.html?chip=aprobadas">
+        <div class="kpi-icon green"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
+        <div class="kpi-value green">${aprobadas.length}</div>
+        <div class="kpi-label">Aprobadas</div>
+        <div class="kpi-sub">Evidencias aprobadas técnicamente</div>
+      </a>
+    </div>
+
+    <div class="two-col">
+      <div class="section-card">
+        <div class="sc-header">
+          <div class="sc-title">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg>
+            Bandeja de revisión pendiente
+          </div>
+          <a class="sc-link" href="bandeja-revision.html">Ver todas →</a>
+        </div>
+        <div class="sc-body" style="padding:0;">
+          <table class="pend-table">
+            <thead><tr>
+              <th style="padding-left:20px;">Actividad</th>
+              <th>Estado</th>
+              <th>Prioridad</th>
+              <th>Fecha límite</th>
+              <th>Recibida</th>
+              <th>Acción</th>
+            </tr></thead>
+            <tbody id="tbody">${pendientesRows}</tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="section-card">
+          <div class="sc-header">
+            <div class="sc-title">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+              Urgentes
+            </div>
+          </div>
+          <div class="sc-body">${urgentesHtml}</div>
+        </div>
+        <div class="section-card">
+          <div class="sc-header">
+            <div class="sc-title">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z"/></svg>
+              Últimos movimientos
+            </div>
+            <a class="sc-link" href="historial-revisor.html">Ver todo →</a>
+          </div>
+          <div class="sc-body"><div class="tl">${timelineHtml}</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+});
+</script>
+</body>
+</html>

@@ -5,20 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Consulta dinámica de MIR — COMAPA Sur</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="session.js"></script>
+<script src="mock-notifications.js"></script>
+<script src="layout.js"></script>
 <style>
 :root {
-  --color-primary: #7C3AED;
-  --color-accent: #14B8A6;
-  --color-accent-dark: #0DBFAD;
+  --color-primary: #8B1D3A;
+  --color-accent: #8B1D3A;
+  --color-accent-dark: #6B1630;
   --color-danger: #EF4444;
   --color-warning: #F59E0B;
-  --color-link: #F97316;
+  --color-link: #6B7280;
   --color-bg: #FFFFFF;
-  --color-surface: #F3F4F6;
+  --color-surface: #F7F7F7;
   --color-border: #E5E7EB;
   --color-text-primary: #111827;
   --color-text-secondary: #6B7280;
-  --color-avatar-bg: #F87171;
+  --color-avatar-bg: #9CA3AF;
   --radius-card: 16px;
   --radius-btn: 999px;
   --pad-card: 20px;
@@ -34,7 +37,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
 .nav-item { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text-secondary); transition: background 0.15s, color 0.15s; }
 .nav-item:hover { background: var(--color-surface); }
-.nav-item.active { background: #EDE9FE; color: var(--color-primary); }
+.nav-item.active { background: #F5E8EC; color: var(--color-primary); }
 .nav-item svg { width: 20px; height: 20px; }
 .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .avatar-xs { width: 32px; height: 32px; border-radius: 50%; background: var(--color-avatar-bg); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; }
@@ -52,8 +55,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 /* ── BUTTONS ── */
 .btn-primary { background: var(--color-accent); color: white; border: none; border-radius: var(--radius-btn); padding: 9px 18px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s; white-space: nowrap; }
 .btn-primary:hover { background: var(--color-accent-dark); }
-.btn-detail { background: var(--color-surface); color: var(--color-accent); border: none; border-radius: var(--radius-btn); padding: 5px 12px; font-size: 11px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
-.btn-detail:hover { background: #CCFBF1; }
+.btn-detail { background: var(--color-surface); color: var(--color-primary); border: none; border-radius: var(--radius-btn); padding: 5px 12px; font-size: 11px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+.btn-detail:hover { background: #F5E8EC; }
 .btn-clear { background: transparent; color: var(--color-danger); border: none; border-radius: var(--radius-btn); padding: 7px 12px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: background 0.15s; white-space: nowrap; }
 .btn-clear:hover { background: #FEF2F2; }
 .btn-full { width: 100%; background: var(--color-accent); color: white; border: none; border-radius: var(--radius-btn); padding: 11px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.15s; }
@@ -84,8 +87,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .filters-bar.hidden { display: none; }
 .result-count { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); }
 .result-count strong { color: var(--color-text-primary); font-weight: 700; }
-.filter-chip { display: inline-flex; align-items: center; gap: 5px; background: #EDE9FE; color: var(--color-primary); font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-btn); cursor: pointer; transition: background 0.15s; }
-.filter-chip:hover { background: #DDD6FE; }
+.filter-chip { display: inline-flex; align-items: center; gap: 5px; background: #F5E8EC; color: var(--color-primary); font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-btn); cursor: pointer; transition: background 0.15s; }
+.filter-chip:hover { background: #EDD5DB; }
 .filter-chip svg { width: 11px; height: 11px; }
 
 /* ── VIEW TOGGLE ── */
@@ -105,42 +108,43 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .data-table tbody tr:last-child td { border-bottom: none; }
 .data-table tbody tr { cursor: pointer; transition: background 0.1s; }
 .data-table tbody tr:hover { background: #FAFAFA; }
-.data-table tbody tr.selected { background: #F5F3FF; }
+.data-table tbody tr.selected { background: #FDF5F7; }
 .row-id { font-size: 10px; font-weight: 700; font-family: monospace; color: var(--color-text-secondary); background: var(--color-surface); padding: 3px 7px; border-radius: 6px; white-space: nowrap; }
 .td-ind { max-width: 240px; }
 .td-ind p { font-weight: 600; line-height: 1.4; }
 .td-obj { max-width: 180px; }
 .td-obj p { font-size: 11px; color: var(--color-text-secondary); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .td-mv p { font-size: 11px; color: var(--color-text-secondary); max-width: 150px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.td-fuente p { font-size: 11px; color: var(--color-text-secondary); max-width: 130px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* ── LEVEL BADGES ── */
 .level-tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
-.level-tag.fin       { background: #1E1B4B; color: white; }
-.level-tag.proposito { background: #312E81; color: white; }
-.level-tag.componente{ background: #4338CA; color: white; }
-.level-tag.actividad { background: #6D28D9; color: white; }
+.level-tag.fin       { background: #1F2937; color: white; }
+.level-tag.proposito { background: #374151; color: white; }
+.level-tag.componente{ background: #6B7280; color: white; }
+.level-tag.actividad { background: #9CA3AF; color: white; }
 
 /* ── GERENCIA CHIPS ── */
 .g-chip { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
-.g-chip.pe  { background: #EDE9FE; color: #7C3AED; }
-.g-chip.tec { background: #CCFBF1; color: #0F766E; }
-.g-chip.com { background: #FFF7ED; color: #C2410C; }
-.g-chip.adm { background: #EFF6FF; color: #1D4ED8; }
+.g-chip.pe  { background: #F3F4F6; color: #4B5563; }
+.g-chip.tec { background: #F3F4F6; color: #4B5563; }
+.g-chip.com { background: #F3F4F6; color: #4B5563; }
+.g-chip.adm { background: #F3F4F6; color: #4B5563; }
 
 /* ── FREQ BADGES ── */
 .freq-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
-.freq-tag.semanal    { background: #E0F2FE; color: #075985; }
-.freq-tag.mensual    { background: #DCFCE7; color: #166534; }
-.freq-tag.bimestral  { background: #FCE7F3; color: #9D174D; }
-.freq-tag.trimestral { background: #DBEAFE; color: #1E40AF; }
-.freq-tag.semestral  { background: #EDE9FE; color: #5B21B6; }
-.freq-tag.anual      { background: #FEF9C3; color: #854D0E; }
+.freq-tag.semanal    { background: #F3F4F6; color: #6B7280; }
+.freq-tag.mensual    { background: #F3F4F6; color: #6B7280; }
+.freq-tag.bimestral  { background: #F3F4F6; color: #6B7280; }
+.freq-tag.trimestral { background: #F3F4F6; color: #6B7280; }
+.freq-tag.semestral  { background: #F3F4F6; color: #6B7280; }
+.freq-tag.anual      { background: #F3F4F6; color: #6B7280; }
 
 /* ── MV BADGES ── */
 .mv-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
-.mv-tag.interno { background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; }
-.mv-tag.externo { background: #FFF7ED; color: #9A3412; border: 1px solid #FED7AA; }
-.mv-tag.mixto   { background: #F5F3FF; color: #4C1D95; border: 1px solid #C4B5FD; }
+.mv-tag.interno { background: #F7F7F7; color: #4B5563; border: 1px solid #D1D5DB; }
+.mv-tag.externo { background: #F7F7F7; color: #4B5563; border: 1px solid #D1D5DB; }
+.mv-tag.mixto   { background: #F7F7F7; color: #4B5563; border: 1px solid #D1D5DB; }
 
 /* ── TREE VIEW ── */
 .tree-view { display: flex; flex-direction: column; gap: 12px; }
@@ -155,7 +159,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .tree-body { padding: 6px 0; }
 .tree-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 20px; cursor: pointer; transition: background 0.1s; }
 .tree-item:hover { background: #FAFAFA; }
-.tree-item.selected { background: #F5F3FF; }
+.tree-item.selected { background: #FDF5F7; }
 .tree-item.lv-proposito  { padding-left: 40px; }
 .tree-item.lv-componente { padding-left: 60px; }
 .tree-item.lv-actividad  { padding-left: 80px; }
@@ -219,6 +223,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
   .table-scroll { overflow-x: auto; }
   .td-ind { max-width: 160px; }
   .td-obj { display: none; }
+  .td-fuente { display: none; }
 }
 @media (max-width: 640px) {
   .main-content { padding: 16px; }
@@ -398,6 +403,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
                 <span class="tip-icon" data-tip="Fuente o documento que permite comprobar el valor reportado del indicador">?</span>
               </span>
             </th>
+            <th>Fuente</th>
             <th></th>
           </tr>
         </thead>
@@ -469,7 +475,7 @@ function hasFilters() {
 function renderTable(rows) {
   const tbody = document.getElementById('tableBody');
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg></div><p>No se encontraron indicadores con los filtros seleccionados.</p><button class="btn-primary" onclick="clearFilters()" style="margin:0 auto">Limpiar filtros</button></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state"><div class="empty-state-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg></div><p>No se encontraron indicadores con los filtros seleccionados.</p><button class="btn-primary" onclick="clearFilters()" style="margin:0 auto">Limpiar filtros</button></div></td></tr>`;
     return;
   }
   tbody.innerHTML = rows.map(r => `
@@ -482,6 +488,7 @@ function renderTable(rows) {
       <td><span class="freq-tag ${frClass(r.frecuenciaMedicion)}">${r.frecuenciaMedicion}</span></td>
       <td style="font-size:11px;color:var(--color-text-secondary)">${r.unidadMedida}</td>
       <td class="td-mv"><p>${r.medioVerificacionNombre}</p></td>
+      <td class="td-fuente"><p>${r.medioVerificacionFuente || '—'}</p></td>
       <td><button class="btn-detail" onclick="event.stopPropagation();window.location='detalle-indicador.html?id=${r.id}'">Ver detalle</button></td>
     </tr>`).join('');
 }

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisión de actividad — MIR COMAPA Sur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mock-notifications.js"></script>
+  <script src="mir-actividades-data.js"></script>
+  <script src="layout.js"></script>
+  <style>
+    :root {
+      --color-primary:#8B1D3A; --color-danger:#EF4444;
+      --color-warning:#F59E0B; --color-success:#22C55E; --color-info:#3B82F6;
+      --color-bg:#FFFFFF; --color-surface:#F7F7F7; --color-border:#E5E7EB;
+      --color-text-primary:#111827; --color-text-secondary:#6B7280;
+      --radius-card:16px;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
+
+    .sidebar{width:64px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
+    .sidebar-logo{width:36px;height:36px;background:var(--color-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+    .sidebar-logo svg{width:18px;height:18px;stroke:white;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
+    .nav-item{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s;position:relative;text-decoration:none;}
+    .nav-item:hover{background:var(--color-surface);}
+    .nav-item.active{background:#EFF6FF;color:var(--color-info);}
+    .nav-item svg{width:20px;height:20px;}
+    .nav-badge{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--color-danger);border:1.5px solid #fff;}
+    .sidebar-bottom{display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .avatar-xs{width:32px;height:32px;border-radius:50%;background:var(--color-info);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;}
+
+    .app-wrapper{display:flex;flex:1;margin-left:64px;}
+    .main-content{flex:1;padding:24px;min-width:0;margin-right:300px;max-width:860px;}
+    .review-panel{width:300px;background:var(--color-bg);border-left:1px solid var(--color-border);padding:20px 18px;position:fixed;right:0;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+
+    /* BREADCRUMB */
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;}
+    .breadcrumb a{color:var(--color-info);text-decoration:none;font-weight:600;}
+    .breadcrumb a:hover{text-decoration:underline;}
+    .breadcrumb svg{width:14px;height:14px;}
+
+    /* HEADER CARD */
+    .header-card{background:var(--color-bg);border-radius:var(--radius-card);padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+    .hc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;}
+    .hc-id{font-size:10px;font-weight:700;color:var(--color-primary);font-family:monospace;margin-bottom:4px;}
+    .hc-title{font-size:18px;font-weight:700;line-height:1.3;}
+    .hc-meta{display:flex;flex-wrap:wrap;gap:8px 20px;}
+    .hc-meta-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--color-text-secondary);}
+    .hc-meta-item svg{width:13px;height:13px;}
+    .hc-meta-item strong{color:var(--color-text-primary);font-weight:600;}
+
+    /* ESTADO */
+    .estado-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap;}
+    .estado-badge::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+    .corregido{background:#F5F3FF;color:#7C3AED;}.corregido::before{background:#8B5CF6;}
+    .enviado_revision{background:#EFF6FF;color:#2563EB;}.enviado_revision::before{background:#3B82F6;}
+    .pendiente_revision{background:#EFF6FF;color:#2563EB;}.pendiente_revision::before{background:#3B82F6;}
+    .observado{background:#FFF7ED;color:#EA580C;}.observado::before{background:#F97316;}
+    .aprobado_revisor{background:#F0FDF4;color:#16A34A;}.aprobado_revisor::before{background:#22C55E;}
+    .vencido{background:#FEF2F2;color:#DC2626;}.vencido::before{background:#EF4444;}
+
+    /* NIVEL */
+    .nivel-badge{display:inline-flex;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;}
+    .nivel-fin{background:#EDE9FE;color:#7C3AED;}
+    .nivel-proposito{background:#DBEAFE;color:#1D4ED8;}
+    .nivel-componente{background:#CCFBF1;color:#0F766E;}
+    .nivel-actividad{background:#F3F4F6;color:#374151;}
+
+    /* SECTION CARD */
+    .section-card{background:var(--color-bg);border-radius:var(--radius-card);margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;}
+    .section-header{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:background .12s;}
+    .section-header:hover{background:#FAFAFA;}
+    .section-header.open{border-bottom-color:var(--color-border);}
+    .section-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;}
+    .section-title svg{width:16px;height:16px;color:var(--color-info);}
+    .section-chevron{width:16px;height:16px;color:var(--color-text-secondary);transition:transform .2s;}
+    .section-header.open .section-chevron{transform:rotate(180deg);}
+    .section-body{padding:20px 22px;display:none;}
+    .section-body.open{display:block;}
+
+    /* INFO GRID */
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px;}
+    .info-grid.single{grid-template-columns:1fr;}
+    .info-item label{display:block;font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+    .info-item p{font-size:13px;line-height:1.5;}
+    .info-item p.mono{font-family:monospace;font-size:12px;background:var(--color-surface);padding:4px 8px;border-radius:6px;}
+    .info-divider{height:1px;background:var(--color-border);margin:12px 0;grid-column:1/-1;}
+
+    /* MV BOX */
+    .mv-box{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:16px;margin-bottom:12px;}
+    .mv-box-title{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:#1E40AF;margin-bottom:6px;}
+    .mv-box-title svg{width:14px;height:14px;}
+    .mv-box p{font-size:13px;color:#1E3A8A;line-height:1.6;}
+    .format-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#DBEAFE;color:#1D4ED8;margin-top:8px;}
+
+    /* EVIDENCE FILES */
+    .evidence-list{display:flex;flex-direction:column;gap:12px;}
+    .ev-file{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:14px;}
+    .ev-file-row{display:flex;align-items:flex-start;gap:12px;}
+    .ev-icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}
+    .ev-icon.pdf{background:#FEE2E2;color:#DC2626;}
+    .ev-icon.excel{background:#DCFCE7;color:#16A34A;}
+    .ev-icon.word{background:#DBEAFE;color:#2563EB;}
+    .ev-icon.img{background:#FEF3C7;color:#D97706;}
+    .ev-thumb{width:44px;height:44px;border-radius:8px;overflow:hidden;flex-shrink:0;border:1px solid var(--color-border);}
+    .ev-thumb img{width:100%;height:100%;object-fit:cover;}
+    .ev-info{flex:1;min-width:0;}
+    .ev-name{font-size:13px;font-weight:700;color:var(--color-text-primary);}
+    .ev-meta{font-size:11px;color:var(--color-text-secondary);margin-top:3px;}
+    .ev-estado{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;}
+    .es-enviado{background:#EFF6FF;color:#2563EB;}
+    .es-aprobado{background:#F0FDF4;color:#16A34A;}
+    .es-observado{background:#FFF7ED;color:#EA580C;}
+    .ev-notes{margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.7);border-radius:8px;border:1px dashed var(--color-border);}
+    .ev-notes-lbl{font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+    .ev-notes p{font-size:12px;color:var(--color-text-primary);font-style:italic;}
+    .ev-download{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--color-info);background:#EFF6FF;border:none;border-radius:7px;padding:4px 10px;cursor:pointer;margin-top:8px;}
+    .ev-download:hover{opacity:.80;}
+    .ev-download svg{width:12px;height:12px;}
+
+    /* JUSTIFY BOX */
+    .justify-box{background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:14px;}
+    .justify-box-title{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:#92400E;margin-bottom:8px;}
+    .justify-box-title svg{width:14px;height:14px;}
+    .justify-box p{font-size:13px;color:#78350F;line-height:1.65;}
+
+    /* OBS PREV */
+    .obs-prev{background:#FFF7ED;border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+    .obs-prev-who{font-size:11px;font-weight:700;color:#92400E;margin-bottom:6px;}
+    .obs-prev-text{font-size:12px;color:#78350F;line-height:1.6;}
+
+    /* TIMELINE */
+    .timeline{position:relative;padding-left:20px;}
+    .timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--color-border);}
+    .tl-item{position:relative;margin-bottom:16px;}
+    .tl-item:last-child{margin-bottom:0;}
+    .tl-dot{position:absolute;left:-17px;top:3px;width:10px;height:10px;border-radius:50%;border:2px solid var(--color-bg);}
+    .tl-dot.sistema{background:#9CA3AF;}
+    .tl-dot.enlace{background:var(--color-primary);}
+    .tl-dot.revisor{background:var(--color-info);}
+    .tl-time{font-size:10px;color:#9CA3AF;margin-bottom:2px;}
+    .tl-accion{font-size:13px;font-weight:600;}
+    .tl-estado{display:flex;align-items:center;gap:5px;margin-top:3px;font-size:11px;color:var(--color-text-secondary);}
+    .tl-actor{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+
+    /* REVIEW PANEL */
+    .ap-title{font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+    .ap-divider{height:1px;background:var(--color-border);margin:14px 0;}
+    .ap-back{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--color-text-secondary);text-decoration:none;padding:8px 0;}
+    .ap-back:hover{color:var(--color-info);}
+    .ap-back svg{width:14px;height:14px;}
+    .ap-estado-wrap{padding:12px;background:var(--color-surface);border-radius:12px;margin-bottom:14px;}
+    .ap-estado-lbl{font-size:10px;color:var(--color-text-secondary);margin-bottom:5px;}
+    .ap-fecha-row{display:flex;gap:8px;margin-bottom:14px;}
+    .ap-fecha-item{flex:1;background:var(--color-surface);border-radius:10px;padding:10px 12px;}
+    .ap-fecha-lbl{font-size:10px;color:var(--color-text-secondary);margin-bottom:3px;}
+    .ap-fecha-val{font-size:13px;font-weight:700;}
+    .ap-fecha-val.urgente{color:var(--color-danger);}
+    .ap-fecha-val.proximo{color:var(--color-warning);}
+    .ap-fecha-val.normal{color:var(--color-success);}
+
+    /* REVIEW ACTIONS */
+    .review-action-box{background:var(--color-surface);border-radius:14px;padding:16px;margin-bottom:10px;}
+    .rab-title{font-size:12px;font-weight:700;margin-bottom:12px;}
+    .btn-full{width:100%;border:none;border-radius:10px;padding:12px 16px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .12s,transform .08s;margin-bottom:8px;}
+    .btn-full:hover{opacity:.88;}
+    .btn-full:active{transform:scale(.98);}
+    .btn-full:disabled{opacity:.4;cursor:not-allowed;}
+    .btn-full svg{width:16px;height:16px;}
+    .btn-full.success{background:var(--color-success);color:white;}
+    .btn-full.warning{background:#F59E0B;color:white;}
+    .btn-full.secondary{background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text-primary);}
+    .info-box{border-radius:12px;padding:14px;text-align:center;margin-bottom:8px;}
+    .info-box.info-green{background:#F0FDF4;}
+    .info-box.info-orange{background:#FFF7ED;}
+    .info-box svg{margin:0 auto 8px;display:block;}
+    .info-box .ib-title{font-size:12px;font-weight:700;margin-bottom:4px;}
+    .info-box.info-green .ib-title{color:#15803D;}
+    .info-box.info-green .ib-sub{font-size:11px;color:#16A34A;line-height:1.5;}
+    .info-box.info-orange .ib-title{color:#C2410C;}
+    .info-box.info-orange .ib-sub{font-size:11px;color:#EA580C;line-height:1.5;}
+
+    /* ASSIGNEES */
+    .assignee-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--color-surface);border-radius:10px;margin-bottom:6px;}
+    .asgn-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;}
+    .asgn-av.revisor{background:var(--color-info);}
+    .asgn-av.enlace{background:var(--color-primary);}
+    .asgn-name{font-size:12px;font-weight:600;}
+    .asgn-rol{font-size:10px;color:var(--color-text-secondary);}
+
+    /* CORRECTION BADGE */
+    .correction-alert{display:flex;align-items:flex-start;gap:8px;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:10px;padding:11px 12px;margin-bottom:10px;font-size:12px;color:#5B21B6;line-height:1.5;}
+    .correction-alert svg{width:14px;height:14px;flex-shrink:0;margin-top:2px;color:#7C3AED;}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000;}
+    .modal-overlay.open{display:flex;}
+    .modal-card{background:white;border-radius:20px;padding:28px;width:500px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:modalIn .2s ease;}
+    @keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(8px);}to{opacity:1;transform:none;}}
+    .modal-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+    .modal-icon.green{background:#F0FDF4;} .modal-icon.green svg{color:var(--color-success);}
+    .modal-icon.orange{background:#FFF7ED;} .modal-icon.orange svg{color:#F59E0B;}
+    .modal-icon svg{width:22px;height:22px;}
+    .modal-title{font-size:17px;font-weight:700;margin-bottom:6px;}
+    .modal-sub{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:16px;}
+    .modal-summary{background:var(--color-surface);border-radius:10px;padding:12px 14px;margin-bottom:18px;}
+    .ms-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:12px;}
+    .ms-row:not(:last-child){border-bottom:1px solid var(--color-border);}
+    .ms-label{color:var(--color-text-secondary);}
+    .ms-value{font-weight:700;text-align:right;}
+    .modal-warning{display:flex;align-items:flex-start;gap:8px;background:#FFF7ED;border:1px solid #FDE68A;border-radius:8px;padding:10px 12px;font-size:11px;color:#92400E;line-height:1.5;margin-bottom:18px;}
+    .modal-warning svg{width:14px;height:14px;flex-shrink:0;margin-top:1px;color:#D97706;}
+    .modal-actions{display:flex;gap:10px;justify-content:flex-end;}
+    .btn-modal{border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .12s;}
+    .btn-modal:hover{opacity:.88;}
+    .btn-modal.cancel{background:var(--color-surface);color:var(--color-text-primary);}
+    .btn-modal.confirm-green{background:var(--color-success);color:white;}
+    .btn-modal.confirm-orange{background:#F59E0B;color:white;}
+
+    /* OBS MODAL FORM */
+    .obs-form{display:flex;flex-direction:column;gap:12px;margin-bottom:18px;}
+    .obs-form label{font-size:12px;font-weight:700;color:var(--color-text-secondary);display:block;margin-bottom:5px;}
+    .obs-form select,.obs-form textarea{width:100%;border:1px solid var(--color-border);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:13px;outline:none;transition:border-color .15s;}
+    .obs-form select:focus,.obs-form textarea:focus{border-color:var(--color-warning);}
+    .obs-form textarea{resize:vertical;min-height:100px;line-height:1.5;}
+    .obs-form textarea.error{border-color:var(--color-danger);}
+    .obs-char-count{font-size:11px;color:#9CA3AF;text-align:right;margin-top:2px;}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:24px;right:24px;background:#1A1A1A;color:white;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.2);transform:translateY(80px);opacity:0;transition:all .3s ease;z-index:2000;pointer-events:none;}
+    .toast.show{transform:none;opacity:1;}
+    .toast svg{width:18px;height:18px;}
+    .toast.green svg{color:var(--color-success);}
+    .toast.orange svg{color:#F59E0B;}
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="dashboard-revisor.html" title="Inicio"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg></a>
+    <a class="nav-item active" href="bandeja-revision.html" title="Bandeja"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg></a>
+    <a class="nav-item" href="historial-revisor.html" title="Historial"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></a>
+    <div class="nav-item" title="Notificaciones"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg></div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="nav-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg></div>
+    <div class="avatar-xs">CM</div>
+  </div>
+</nav>
+
+<div class="app-wrapper">
+  <main class="main-content" id="mainContent"></main>
+  <aside class="review-panel" id="reviewPanel"></aside>
+</div>
+
+<!-- APPROVE MODAL (5.6) -->
+<div class="modal-overlay" id="approveModal">
+  <div class="modal-card">
+    <div class="modal-icon green"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
+    <h3 class="modal-title">Aprobar evidencia</h3>
+    <p class="modal-sub">Estás por aprobar técnicamente esta actividad. Esta acción certifica que la evidencia cumple con los requisitos del medio de verificación.</p>
+    <div class="modal-summary" id="approveSummary"></div>
+    <div class="modal-warning">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+      Al confirmar, asumes responsabilidad técnica sobre la validación. El estado cambiará a <strong>Aprobada</strong> y el Enlace será notificado.
+    </div>
+    <div class="modal-actions">
+      <button class="btn-modal cancel" onclick="closeAllModals()">Cancelar</button>
+      <button class="btn-modal confirm-green" onclick="confirmarAprobacion()">Confirmar aprobación</button>
+    </div>
+  </div>
+</div>
+
+<!-- OBSERVE MODAL (5.7) -->
+<div class="modal-overlay" id="observeModal">
+  <div class="modal-card">
+    <div class="modal-icon orange"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></div>
+    <h3 class="modal-title">Emitir observación</h3>
+    <p class="modal-sub">La evidencia no cumple con los requisitos. Describe el motivo para que el Enlace pueda realizar la corrección.</p>
+    <div class="obs-form">
+      <div>
+        <label>Categoría de observación (opcional)</label>
+        <select id="obsCategoria">
+          <option value="">Sin categoría específica</option>
+          <option value="Archivo incorrecto">Archivo incorrecto</option>
+          <option value="Evidencia incompleta">Evidencia incompleta</option>
+          <option value="Medio de verificación no corresponde">Medio de verificación no corresponde</option>
+          <option value="Formato inválido">Formato inválido</option>
+          <option value="Información ilegible">Información ilegible</option>
+          <option value="Justificación insuficiente">Justificación insuficiente</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+      <div>
+        <label>Descripción de la observación <span style="color:var(--color-danger);">*</span></label>
+        <textarea id="obsTexto" placeholder="Describe detalladamente por qué la evidencia no cumple y qué debe corregir el Enlace…" oninput="onObsInput()" maxlength="600"></textarea>
+        <p class="obs-char-count"><span id="obsCharCount">0</span> / 600 caracteres</p>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-modal cancel" onclick="closeAllModals()">Cancelar</button>
+      <button class="btn-modal confirm-orange" id="btnConfirmObs" onclick="confirmarObservacion()" disabled>Enviar observación</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+  let actividad = null;
+
+  function getParam(k) { return new URLSearchParams(window.location.search).get(k); }
+  function nowStr()  { return '2026-06-09'; }
+  function nowTime() { const m = ['00','05','10','15','20','25','30']; return '11:' + m[Math.floor(Math.random()*m.length)]; }
+
+  let _toastTimer = null;
+  function showToast(msg, type='green') {
+    const t = document.getElementById('toast');
+    t.className = `toast ${type}`;
+    const ico = t.querySelector('svg');
+    if (type === 'green') ico.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>';
+    else ico.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>';
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(() => t.classList.remove('show'), 3600);
+  }
+
+  function closeAllModals() {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+  }
+
+  function toggleSection(id) {
+    const hdr  = document.querySelector(`[data-sec="${id}"]`);
+    const body = document.getElementById('sec-' + id);
+    if (!hdr || !body) return;
+    const open = body.classList.toggle('open');
+    hdr.classList.toggle('open', open);
+  }
+
+  function fileIconCls(tipo) {
+    const t = (tipo||'').toLowerCase();
+    if (t.includes('pdf'))   return 'pdf';
+    if (t.includes('excel') || t.includes('xls')) return 'excel';
+    if (t.includes('word')  || t.includes('doc'))  return 'word';
+    return 'img';
+  }
+  function fileIconLbl(tipo) {
+    const t = (tipo||'').toLowerCase();
+    if (t.includes('pdf'))   return 'PDF';
+    if (t.includes('excel')) return 'XLS';
+    if (t.includes('word'))  return 'DOC';
+    return 'IMG';
+  }
+  function rolDotCls(rol) {
+    const r = (rol||'').toLowerCase();
+    if (r.includes('revisor')) return 'revisor';
+    if (r.includes('enlace'))  return 'enlace';
+    return 'sistema';
+  }
+  function canReview() {
+    return actividad && ['enviado_revision','pendiente_revision','corregido'].includes(actividad.estado);
+  }
+
+  // ── Approve (5.6) ──────────────────────────────────────────────────────────
+  function openApproveModal() {
+    const dias = diasRestantes(actividad.fechaLimite);
+    document.getElementById('approveSummary').innerHTML = [
+      { l: 'Actividad',          v: actividad.nombre },
+      { l: 'Enlace',             v: actividad.responsableEnlace },
+      { l: 'Período',            v: actividad.periodo },
+      { l: 'Archivos adjuntos',  v: actividad.archivosEvidencia.length },
+      { l: 'Fecha límite',       v: formatFecha(actividad.fechaLimite) + (dias >= 0 ? ` (${dias}d)` : ' — VENCIDA') },
+      { l: 'Estado actual',      v: ESTADO_CFG[actividad.estado]?.label || actividad.estado },
+    ].map(r => `<div class="ms-row"><span class="ms-label">${r.l}</span><span class="ms-value">${r.v}</span></div>`).join('');
+    document.getElementById('approveModal').classList.add('open');
+  }
+
+  function confirmarAprobacion() {
+    closeAllModals();
+    const prev = actividad.estado;
+    actividad.estado = 'aprobado_revisor';
+    actividad.archivosEvidencia.forEach(f => { if (f.estado !== 'aprobado') f.estado = 'aprobado'; });
+    actividad.historial.push({
+      fecha: nowStr(), hora: nowTime(),
+      usuario: 'Carlos Mendoza', rol: 'Revisor',
+      accion: 'Evidencia aprobada técnicamente',
+      estadoAnterior: prev, estadoNuevo: 'aprobado_revisor'
+    });
+    renderPage();
+    showToast('Evidencia aprobada. El Enlace ha sido notificado.', 'green');
+  }
+
+  // ── Observe (5.7) ──────────────────────────────────────────────────────────
+  function openObserveModal() {
+    document.getElementById('obsTexto').value    = '';
+    document.getElementById('obsCategoria').value = '';
+    document.getElementById('obsCharCount').textContent = '0';
+    document.getElementById('btnConfirmObs').disabled = true;
+    document.getElementById('obsTexto').classList.remove('error');
+    document.getElementById('observeModal').classList.add('open');
+    setTimeout(() => document.getElementById('obsTexto').focus(), 100);
+  }
+
+  function onObsInput() {
+    const val = document.getElementById('obsTexto').value;
+    document.getElementById('obsCharCount').textContent = val.length;
+    document.getElementById('btnConfirmObs').disabled = val.trim().length < 20;
+    if (val.trim().length >= 20) document.getElementById('obsTexto').classList.remove('error');
+  }
+
+  function confirmarObservacion() {
+    const texto    = document.getElementById('obsTexto').value.trim();
+    const categoria = document.getElementById('obsCategoria').value;
+    if (texto.length < 20) {
+      document.getElementById('obsTexto').classList.add('error');
+      return;
+    }
+    closeAllModals();
+    const prev = actividad.estado;
+    actividad.estado = 'observado';
+    const obsId = 'obs-' + Date.now();
+    actividad.observaciones.push({
+      id: obsId, texto, categoria: categoria || null,
+      autor: 'Carlos Mendoza', rolAutor: 'Revisor',
+      fecha: nowStr(), hora: nowTime(), atendida: false
+    });
+    actividad.historial.push({
+      fecha: nowStr(), hora: nowTime(),
+      usuario: 'Carlos Mendoza', rol: 'Revisor',
+      accion: `Observación emitida${categoria ? ' — ' + categoria : ''}`,
+      estadoAnterior: prev, estadoNuevo: 'observado'
+    });
+    renderPage();
+    showToast('Observación enviada. El Enlace ha sido notificado.', 'orange');
+  }
+
+  // ── Render ──────────────────────────────────────────────────────────────────
+  function renderMain(act) {
+    const cfg  = ESTADO_CFG[act.estado] || { label: act.estado, cls: act.estado };
+    const nivel = NIVEL_CFG[act.nivelCodigo] || { label: act.nivelCodigo, cls: '' };
+    const isCorr = act.estado === 'corregido';
+
+    const filesHtml = act.archivosEvidencia.length === 0
+      ? '<p style="font-size:13px;color:var(--color-text-secondary);">Sin archivos de evidencia adjuntos.</p>'
+      : `<div class="evidence-list">${act.archivosEvidencia.map(f => {
+          const icCls = fileIconCls(f.tipo);
+          const icLbl = fileIconLbl(f.tipo);
+          const isImg = f.preview && typeof f.preview === 'string' && f.preview.startsWith('data:image');
+          const esCls = { enviado: 'es-enviado', aprobado: 'es-aprobado', observado: 'es-observado' }[f.estado] || 'es-enviado';
+          const esLbl = { enviado: 'Enviado', aprobado: 'Aprobado', observado: 'Observado' }[f.estado] || f.estado;
+          return `
+            <div class="ev-file">
+              <div class="ev-file-row">
+                ${isImg
+                  ? `<div class="ev-thumb"><img src="${f.preview}" alt="${f.nombre}"></div>`
+                  : `<div class="ev-icon ${icCls}">${icLbl}</div>`}
+                <div class="ev-info">
+                  <div class="ev-name">${f.nombre}</div>
+                  <div class="ev-meta">${f.tipo} · ${f.tamanio} · Cargado ${f.fechaCarga}</div>
+                  <div class="ev-meta">Por: ${f.cargadoPor}</div>
+                </div>
+                <span class="ev-estado ${esCls}">${esLbl}</span>
+              </div>
+              ${f.notes ? `<div class="ev-notes"><div class="ev-notes-lbl">Nota del Enlace</div><p>"${f.notes}"</p></div>` : ''}
+              <button class="ev-download" onclick="showToast('Descarga simulada: ${f.nombre}')">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                Descargar
+              </button>
+            </div>`;
+        }).join('')}</div>`;
+
+    const prevObsHtml = act.observaciones.filter(o => !o.atendida === false || true).map(o => `
+      <div class="obs-prev">
+        <div class="obs-prev-who">${o.autor} · ${o.rolAutor} · ${formatFecha(o.fecha)} ${o.hora}${o.categoria ? ' · ' + o.categoria : ''}</div>
+        <p class="obs-prev-text">"${o.texto}"</p>
+      </div>`).join('');
+
+    const histHtml = [...act.historial].reverse().map(h => `
+      <div class="tl-item">
+        <div class="tl-dot ${rolDotCls(h.rol)}"></div>
+        <p class="tl-time">${h.fecha} · ${h.hora}</p>
+        <p class="tl-accion">${h.accion}</p>
+        ${(h.estadoAnterior||h.estadoNuevo) ? `
+          <p class="tl-estado">
+            ${h.estadoAnterior?`<span>${ESTADO_CFG[h.estadoAnterior]?.label||h.estadoAnterior}</span><span style="color:#D1D5DB;">→</span>`:''}
+            ${h.estadoNuevo?`<span>${ESTADO_CFG[h.estadoNuevo]?.label||h.estadoNuevo}</span>`:''}
+          </p>` : ''}
+        <p class="tl-actor">${h.usuario} · ${h.rol}</p>
+      </div>`).join('');
+
+    document.getElementById('mainContent').innerHTML = `
+      <div class="breadcrumb">
+        <a href="bandeja-revision.html">Bandeja de revisión</a>
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+        <span>${act.id}</span>
+      </div>
+
+      <div class="header-card">
+        <div class="hc-top">
+          <div><p class="hc-id">${act.id}</p><h1 class="hc-title">${act.nombre}</h1></div>
+          <span class="estado-badge ${cfg.cls}" style="flex-shrink:0;margin-top:4px;">${cfg.label}</span>
+        </div>
+        <div class="hc-meta">
+          <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>Enlace: <strong>${act.responsableEnlace}</strong></div>
+          <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>Período: <strong>${act.periodo}</strong></div>
+          <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Frecuencia: <strong>${act.frecuenciaMedicion}</strong></div>
+          <div class="hc-meta-item">Recibida: <strong>${formatFecha(fechaEnvio(act))}</strong></div>
+          <div class="hc-meta-item"><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></div>
+        </div>
+      </div>
+
+      ${isCorr ? `<div class="correction-alert"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"/></svg>El Enlace envió una corrección en respuesta a tu observación anterior. Revisa los archivos actualizados y emite tu resolución.</div>` : ''}
+
+      <div class="section-card">
+        <div class="section-header open" data-sec="mir" onclick="toggleSection('mir')">
+          <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>Información MIR</div>
+          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+        </div>
+        <div class="section-body open" id="sec-mir">
+          <div class="info-grid single"><div class="info-item"><label>Objetivo</label><p>${act.objetivo}</p></div><div class="info-divider"></div><div class="info-item"><label>Denominación del indicador</label><p>${act.denominacionIndicador}</p></div></div>
+          <div class="info-grid" style="margin-top:14px;">
+            <div class="info-item"><label>Método de cálculo</label><p class="mono">${act.metodoCalculo}</p></div>
+            <div class="info-item"><label>Numerador</label><p>${act.numerador}</p></div>
+            <div class="info-item"><label>Denominador</label><p>${act.denominador}</p></div>
+            <div class="info-item"><label>Línea base</label><p>${act.lineaBase}</p></div>
+            <div class="info-item"><label>Meta anual</label><p>${act.metaAnual}</p></div>
+            <div class="info-divider"></div>
+          </div>
+          <div class="mv-box">
+            <div class="mv-box-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>Medio de verificación requerido</div>
+            <p>${act.medioVerificacion}</p>
+            <span class="format-badge">Formato: ${act.formatoEsperado}</span>
+          </div>
+          <div style="background:var(--color-surface);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--color-text-secondary);">${act.reglasExtra}</div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header open" data-sec="ev" onclick="toggleSection('ev')">
+          <div class="section-title">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"/></svg>
+            Evidencia recibida
+            <span style="min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:var(--color-info);color:white;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;">${act.archivosEvidencia.length}</span>
+          </div>
+          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+        </div>
+        <div class="section-body open" id="sec-ev">${filesHtml}</div>
+      </div>
+
+      ${act.observaciones.length > 0 ? `
+        <div class="section-card">
+          <div class="section-header open" data-sec="obs" onclick="toggleSection('obs')">
+            <div class="section-title">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+              Observaciones previas
+              <span style="min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:#F97316;color:white;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;">${act.observaciones.length}</span>
+            </div>
+            <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+          </div>
+          <div class="section-body open" id="sec-obs">${prevObsHtml}</div>
+        </div>` : ''}
+
+      <div class="section-card">
+        <div class="section-header" data-sec="hist" onclick="toggleSection('hist')">
+          <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Historial completo</div>
+          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+        </div>
+        <div class="section-body" id="sec-hist"><div class="timeline">${histHtml}</div></div>
+      </div>
+    `;
+  }
+
+  function renderPanel(act) {
+    const cfg  = ESTADO_CFG[act.estado] || { label: act.estado, cls: act.estado };
+    const dias = diasRestantes(act.fechaLimite);
+    const dCls = dias < 0 ? '' : dias <= 7 ? 'urgente' : dias <= 14 ? 'proximo' : 'normal';
+    const dTxt = dias < 0 ? 'Vencida' : dias === 0 ? 'Hoy' : `${dias} días`;
+    const canRev = canReview();
+    const isApproved = ['aprobado_revisor','validado_admin','publicado'].includes(act.estado);
+    const isObs = act.estado === 'observado';
+
+    document.getElementById('reviewPanel').innerHTML = `
+      <a class="ap-back" href="bandeja-revision.html"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>Bandeja de revisión</a>
+      <div class="ap-divider"></div>
+
+      <p class="ap-title">Estado de la actividad</p>
+      <div class="ap-estado-wrap">
+        <p class="ap-estado-lbl">Estado actual</p>
+        <span class="estado-badge ${cfg.cls}">${cfg.label}</span>
+      </div>
+
+      <p class="ap-title">Fechas</p>
+      <div class="ap-fecha-row">
+        <div class="ap-fecha-item"><p class="ap-fecha-lbl">Fecha límite</p><p class="ap-fecha-val ${dCls}">${formatFecha(act.fechaLimite)}</p></div>
+        <div class="ap-fecha-item"><p class="ap-fecha-lbl">Tiempo</p><p class="ap-fecha-val ${dCls}">${dTxt}</p></div>
+      </div>
+
+      ${canRev ? `
+        <p class="ap-title">Resultado de revisión</p>
+        <div class="review-action-box">
+          <p class="rab-title">Emite tu resolución técnica</p>
+          <button class="btn-full success" onclick="openApproveModal()">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            Aprobar evidencia
+          </button>
+          <button class="btn-full warning" onclick="openObserveModal()">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+            Emitir observación
+          </button>
+          <button class="btn-full secondary" onclick="toggleSection('hist')">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            Ver historial
+          </button>
+        </div>` : ''}
+
+      ${isApproved ? `<div class="info-box info-green"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="28" height="28" style="color:#22C55E;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg><p class="ib-title">Actividad aprobada</p><p class="ib-sub">Esta evidencia fue aprobada técnicamente. Pendiente de validación del Administrador.</p></div>` : ''}
+      ${isObs ? `<div class="info-box info-orange"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="28" height="28" style="color:#F59E0B;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg><p class="ib-title">Observación emitida</p><p class="ib-sub">Esperando que el Enlace cargue la corrección correspondiente.</p></div>` : ''}
+
+      <div class="ap-divider"></div>
+      <p class="ap-title">Resumen de evidencia</p>
+      <div style="background:var(--color-surface);border-radius:10px;padding:10px 12px;margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--color-border);">
+          <span style="color:var(--color-text-secondary);">Archivos adjuntos</span><strong>${act.archivosEvidencia.length}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--color-border);">
+          <span style="color:var(--color-text-secondary);">Observaciones</span><strong>${act.observaciones.length}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;">
+          <span style="color:var(--color-text-secondary);">Formato requerido</span><strong>${act.formatoEsperado}</strong>
+        </div>
+      </div>
+
+      <div class="ap-divider"></div>
+      <p class="ap-title">Responsables</p>
+      <div class="assignee-row"><div class="asgn-av revisor">CM</div><div><p class="asgn-name">${act.responsableRevisor}</p><p class="asgn-rol">Revisor</p></div></div>
+      <div class="assignee-row"><div class="asgn-av enlace">AT</div><div><p class="asgn-name">${act.responsableEnlace}</p><p class="asgn-rol">Enlace · ${act.gerencia}</p></div></div>
+    `;
+  }
+
+  function renderPage() {
+    if (!actividad) return;
+    renderMain(actividad);
+    renderPanel(actividad);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const id = getParam('id') || 'COM-ACT-01';
+    actividad = getActividad(id);
+    if (!actividad) {
+      document.getElementById('mainContent').innerHTML = '<div style="text-align:center;padding:80px;"><h2>Actividad no encontrada</h2><p><a href="bandeja-revision.html">← Regresar a bandeja</a></p></div>';
+      return;
+    }
+    renderPage();
+  });
+
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) closeAllModals(); });
+  });
+</script>
+</body>
+</html>

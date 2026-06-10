@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión — MIR COMAPA Sur</title>
+  <script src="session.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background: #fff;
+      color: #111827;
+    }
+
+    /* ── PANEL IZQUIERDO ───────────────────────────────────────────────────── */
+    .left-panel {
+      flex: 0 0 50vw;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    /* Marco con bordes redondeados que contiene todo lo gráfico */
+    .left-frame {
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: none;
+    }
+
+    /* Fondos fotográficos */
+    .bg-wrap { position: absolute; inset: 0; z-index: 0; }
+
+    .bg-scene {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 2.2s ease-in-out;
+      will-change: transform, opacity;
+    }
+    .bg-scene.active { opacity: 1; }
+
+    .bg-scene[data-s="1"] {
+      background-color: #1A4A2A;
+      background-image: url('https://i0.wp.com/dumac.org/wp-content/uploads/2024/06/lagunamadrepastos.jpg?fit=1920%2C1080&ssl=1');
+      animation: kb1 26s ease-in-out infinite alternate;
+    }
+    .bg-scene[data-s="2"] {
+      background-color: #023E8A;
+      background-image: url('https://images.unsplash.com/photo-1668403778624-d782f7eb2e7d?q=80&w=2575&auto=format&fit=crop');
+      animation: kb2 30s ease-in-out infinite alternate;
+    }
+    .bg-scene[data-s="3"] {
+      background-color: #1B4332;
+      background-image: url('https://images.unsplash.com/photo-1510262031125-928d1eeea510?q=80&w=2670&auto=format&fit=crop');
+      animation: kb3 24s ease-in-out infinite alternate;
+    }
+    .bg-scene[data-s="4"] {
+      background-color: #264653;
+      background-image: url('https://images.unsplash.com/photo-1693761935581-1f6a0ab16590?q=80&w=2574&auto=format&fit=crop');
+      animation: kb4 28s ease-in-out infinite alternate;
+    }
+    .bg-scene[data-s="5"] {
+      background-color: #1A3A2A;
+      background-image: url('https://images.unsplash.com/photo-1552074283-b2de7daab9ae?q=80&w=2670&auto=format&fit=crop');
+      animation: kb5 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes kb1 { from { transform: scale(1.00) translate( 0%,  0%); } to { transform: scale(1.08) translate(-2%, -1%); } }
+    @keyframes kb2 { from { transform: scale(1.06) translate(-1%,  0%); } to { transform: scale(1.00) translate( 1%,  1%); } }
+    @keyframes kb3 { from { transform: scale(1.00) translate( 1%, -1%); } to { transform: scale(1.07) translate(-1%,  0%); } }
+    @keyframes kb4 { from { transform: scale(1.05) translate( 0%,  1%); } to { transform: scale(1.00) translate( 1%, -1%); } }
+    @keyframes kb5 { from { transform: scale(1.03) translate(-1%,  0%); } to { transform: scale(1.00) translate( 1%,  1%); } }
+
+    /* Overlay oscuro */
+    .bg-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(0,0,0,0.65) 0%,
+        rgba(0,0,0,0.16) 60%,
+        rgba(0,0,0,0.10) 100%);
+    }
+
+    /* Olas */
+    .waves-wrap {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      z-index: 2; pointer-events: none;
+    }
+    .wave { position: absolute; bottom: 0; left: 0; right: 0; overflow: hidden; }
+    .wave-inner { width: 200%; display: flex; }
+    .wave-inner svg { flex: 0 0 50%; height: 100%; }
+
+    .wave-1 { height: 64px; }
+    .wave-1 .wave-inner { animation: waveScroll 14s linear infinite; }
+    .wave-1 svg path { fill: rgba(0,0,0,0.14); }
+    .wave-2 { height: 42px; }
+    .wave-2 .wave-inner { animation: waveScroll 9s linear infinite reverse; }
+    .wave-2 svg path { fill: rgba(255,255,255,0.07); }
+
+    @keyframes waveScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* Contenido sobre la fotografía */
+    .left-content {
+      position: absolute; inset: 0;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 32px;
+    }
+
+.cl-bottom { display: flex; flex-direction: column; gap: 10px; }
+
+    .cl-brand-logo {
+      width: 450px;
+      opacity: 0.90;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,.30));
+    }
+    .cl-heading {
+      font-size: 22px; font-weight: 700; line-height: 1.35;
+      color: #fff;
+    }
+    .cl-caption {
+      display: flex; align-items: flex-start; gap: 6px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.14);
+    }
+    .cl-caption svg { width: 12px; height: 12px; stroke: rgba(255,255,255,0.38); flex-shrink: 0; margin-top: 2px; }
+    .caption-place { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: .04em; }
+    .caption-name  { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.52); margin-top: 2px; transition: opacity .5s; }
+
+    /* ── PANEL DERECHO ─────────────────────────────────────────────────────── */
+    .right-panel {
+      flex: 1;
+      height: 100vh;
+      overflow-y: auto;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 48px;
+    }
+
+    .form-wrap {
+      width: 100%;
+      max-width: 380px;
+    }
+
+.login-system {
+      font-size: 11px; font-weight: 600;
+      color: #9CA3AF; text-transform: uppercase;
+      letter-spacing: .06em; margin-bottom: 6px;
+    }
+    .login-title {
+      font-size: 24px; font-weight: 700;
+      color: #111827; margin-bottom: 4px;
+    }
+    .login-sub {
+      font-size: 13px; color: #6B7280;
+      margin-bottom: 26px; line-height: 1.5;
+    }
+
+    /* ── ERROR BOX ── */
+    .error-box {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      border-radius: 10px;
+      padding: 11px 14px;
+      display: flex; align-items: flex-start; gap: 8px;
+      margin-bottom: 16px;
+      font-size: 12px; color: #991B1B; line-height: 1.5;
+    }
+    .error-box.hidden { display: none; }
+    .error-box svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── FORM ── */
+    .form-group { margin-bottom: 14px; }
+    .form-label {
+      display: block; font-size: 12px; font-weight: 600;
+      color: #374151; margin-bottom: 6px;
+    }
+    .form-input {
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid #E5E7EB; border-radius: 10px;
+      font-family: inherit; font-size: 13px; color: #111827;
+      outline: none; transition: border-color .15s, box-shadow .15s;
+      background: #fff;
+    }
+    .form-input::placeholder { color: #9CA3AF; }
+    .form-input:focus {
+      border-color: #8B1D3A;
+      box-shadow: 0 0 0 3px rgba(139,29,58,.08);
+    }
+    .form-input.error {
+      border-color: #EF4444;
+      box-shadow: 0 0 0 3px rgba(239,68,68,.08);
+    }
+    .field-error { font-size: 11px; color: #EF4444; margin-top: 4px; }
+    .field-error.hidden { display: none; }
+
+    .form-footer {
+      display: flex; justify-content: flex-end;
+      margin-top: -2px; margin-bottom: 18px;
+    }
+    .forgot-link {
+      font-size: 12px; font-weight: 600; color: #8B1D3A; text-decoration: none;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    /* ── BOTÓN ── */
+    .btn-login {
+      width: 100%; padding: 12px;
+      background: #8B1D3A; color: #fff;
+      border: none; border-radius: 10px;
+      font-family: inherit; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: background .15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-login:hover:not(:disabled) { background: #6B1630; }
+    .btn-login:disabled { opacity: .55; cursor: not-allowed; }
+
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .65s linear infinite;
+    }
+    .spinner.hidden { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── ACCESOS DE PRUEBA ── */
+    .hint-section {
+      margin-top: 24px; padding-top: 20px;
+      border-top: 1px solid #F3F4F6;
+    }
+    .hint-label {
+      font-size: 10px; font-weight: 600;
+      color: #9CA3AF; text-transform: uppercase;
+      letter-spacing: .06em; margin-bottom: 8px;
+    }
+    .hint-list { display: flex; flex-direction: column; gap: 5px; }
+    .hint-item {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #F9FAFB; border-radius: 10px; padding: 9px 12px;
+      cursor: pointer; transition: background .12s; border: 1px solid transparent;
+    }
+    .hint-item:hover  { background: #F3F4F6; border-color: #E5E7EB; }
+    .hint-item:active { background: #F5E8EC; border-color: #E8C5CD; }
+    .hint-user { display: flex; align-items: center; gap: 9px; }
+    .hint-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: #9CA3AF; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .hint-avatar.adm { background: #8B1D3A; }
+    .hint-name  { font-size: 12px; font-weight: 600; color: #111827; }
+    .hint-email { font-size: 10px; color: #9CA3AF; font-family: monospace; margin-top: 1px; }
+    .hint-role-badge {
+      font-size: 10px; font-weight: 700; padding: 2px 8px;
+      border-radius: 999px; text-transform: uppercase; letter-spacing: .03em; white-space: nowrap;
+    }
+    .hint-role-badge.adm { background: #F5E8EC; color: #8B1D3A; }
+    .hint-role-badge.rev { background: #F3F4F6; color: #374151; }
+    .hint-role-badge.enl { background: #F3F4F6; color: #374151; }
+
+    /* Footer */
+    .page-footer {
+      margin-top: 20px; padding-top: 20px;
+      font-size: 11px; color: #D1D5DB; text-align: center;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      body { flex-direction: column; height: auto; overflow: auto; }
+      .left-panel { flex: 0 0 220px; width: 100vw; height: 220px; padding: 14px; }
+      .left-frame  { border-radius: 16px; }
+      .cl-heading  { font-size: 15px; }
+      .right-panel { flex: 1; height: auto; min-height: calc(100vh - 220px); padding: 32px 24px; justify-content: flex-start; padding-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── PANEL IZQUIERDO ─────────────────────────────────────────────────── -->
+  <div class="left-panel">
+    <div class="left-frame">
+
+      <!-- Fondos fotográficos -->
+      <div class="bg-wrap">
+        <div class="bg-scene active" data-s="1"></div>
+        <div class="bg-scene"        data-s="2"></div>
+        <div class="bg-scene"        data-s="3"></div>
+        <div class="bg-scene"        data-s="4"></div>
+        <div class="bg-scene"        data-s="5"></div>
+        <div class="bg-overlay"></div>
+      </div>
+
+      <!-- Olas -->
+      <div class="waves-wrap">
+        <div class="wave wave-1">
+          <div class="wave-inner">
+            <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
+              <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z"/>
+            </svg>
+            <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
+              <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="wave wave-2">
+          <div class="wave-inner">
+            <svg viewBox="0 0 1440 42" preserveAspectRatio="none">
+              <path d="M0,21 C360,42 720,0 1080,21 C1260,31 1380,10 1440,21 L1440,42 L0,42 Z"/>
+            </svg>
+            <svg viewBox="0 0 1440 42" preserveAspectRatio="none">
+              <path d="M0,21 C360,42 720,0 1080,21 C1260,31 1380,10 1440,21 L1440,42 L0,42 Z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenido sobre la foto -->
+      <div class="left-content">
+<div class="cl-bottom">
+          <img src="logo-comapa-tamaulipas.svg" alt="COMAPA Sur · Tamaulipas" class="cl-brand-logo">
+          <h2 class="cl-heading">Monitorea los indicadores de desempeño con trazabilidad completa</h2>
+          <div class="cl-caption">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
+            </svg>
+            <div>
+              <p class="caption-place">Tamaulipas, México</p>
+              <p class="caption-name" id="captionName">Laguna Madre · pastos acuáticos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── PANEL DERECHO ──────────────────────────────────────────────────── -->
+  <div class="right-panel">
+    <div class="form-wrap">
+
+<p class="login-system">MIR COMAPA Sur</p>
+      <h1 class="login-title">Iniciar sesión</h1>
+      <p class="login-sub">Ingresa tus credenciales para acceder al sistema.</p>
+
+      <!-- Error -->
+      <div class="error-box hidden" id="errorBox">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+        </svg>
+        <span id="errorMsg">Usuario o contraseña incorrectos. Verifica tus datos.</span>
+      </div>
+
+      <!-- Form -->
+      <form id="loginForm" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Correo electrónico</label>
+          <input class="form-input" type="email" id="email"
+            placeholder="correo@comapa.mx" autocomplete="email">
+          <p class="field-error hidden" id="emailErr">Ingresa tu correo electrónico.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Contraseña</label>
+          <input class="form-input" type="password" id="password"
+            placeholder="••••••••" autocomplete="current-password">
+          <p class="field-error hidden" id="passErr">Ingresa tu contraseña.</p>
+        </div>
+
+        <div class="form-footer">
+          <a href="#" class="forgot-link" id="forgotLink">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button type="submit" id="btnLogin" class="btn-login">
+          <span class="spinner hidden" id="spinner"></span>
+          <span id="btnText">Iniciar sesión</span>
+        </button>
+
+      </form>
+
+      <!-- Accesos de prueba -->
+      <div class="hint-section">
+        <p class="hint-label">Accesos de prueba</p>
+        <div class="hint-list">
+
+          <div class="hint-item" data-email="admin@comapa.mx" data-pass="admin123">
+            <div class="hint-user">
+              <div class="hint-avatar adm">LS</div>
+              <div>
+                <p class="hint-name">Leticia Solís</p>
+                <p class="hint-email">admin@comapa.mx</p>
+              </div>
+            </div>
+            <span class="hint-role-badge adm">Admin</span>
+          </div>
+
+          <div class="hint-item" data-email="revisor@comapa.mx" data-pass="revisor123">
+            <div class="hint-user">
+              <div class="hint-avatar">CM</div>
+              <div>
+                <p class="hint-name">Carlos Mendoza</p>
+                <p class="hint-email">revisor@comapa.mx</p>
+              </div>
+            </div>
+            <span class="hint-role-badge rev">Revisor</span>
+          </div>
+
+          <div class="hint-item" data-email="enlace@comapa.mx" data-pass="enlace123">
+            <div class="hint-user">
+              <div class="hint-avatar">AT</div>
+              <div>
+                <p class="hint-name">Ana Torres</p>
+                <p class="hint-email">enlace@comapa.mx</p>
+              </div>
+            </div>
+            <span class="hint-role-badge enl">Enlace</span>
+          </div>
+
+        </div>
+      </div>
+
+      <p class="page-footer">COMAPA Sur · Sistema MIR · 2026</p>
+
+    </div>
+  </div>
+
+  <script>
+    // Si ya hay sesión activa, redirigir
+    (function () {
+      const u = Session.getUser();
+      if (u) window.location.href = u.redirect || 'dashboard-inicio.html';
+    })();
+
+    // ── Rotación de fondos ──────────────────────────────────────────────────
+    const scenes   = document.querySelectorAll('.bg-scene');
+    const captions = [
+      'Laguna Madre · pastos acuáticos',
+      'Laguna Madre · aguas abiertas',
+      'Laguna San Andrés · vista aérea',
+      'Laguna del Carpintero',
+      'Laguna de Champayán · manglar'
+    ];
+    const captionNameEl = document.getElementById('captionName');
+    let current = 0;
+
+    setInterval(function () {
+      scenes[current].classList.remove('active');
+      current = (current + 1) % scenes.length;
+      scenes[current].classList.add('active');
+      captionNameEl.style.opacity = '0';
+      setTimeout(function () {
+        captionNameEl.textContent = captions[current];
+        captionNameEl.style.opacity = '1';
+      }, 350);
+    }, 7000);
+
+    // ── Formulario ──────────────────────────────────────────────────────────
+    const form     = document.getElementById('loginForm');
+    const emailEl  = document.getElementById('email');
+    const passEl   = document.getElementById('password');
+    const btnLogin = document.getElementById('btnLogin');
+    const spinner  = document.getElementById('spinner');
+    const btnText  = document.getElementById('btnText');
+    const errorBox = document.getElementById('errorBox');
+    const emailErr = document.getElementById('emailErr');
+    const passErr  = document.getElementById('passErr');
+
+    function setLoading(on) {
+      btnLogin.disabled = on;
+      spinner.classList.toggle('hidden', !on);
+      btnText.textContent = on ? 'Verificando...' : 'Iniciar sesión';
+    }
+
+    function clearErrors() {
+      errorBox.classList.add('hidden');
+      emailEl.classList.remove('error');
+      passEl.classList.remove('error');
+      emailErr.classList.add('hidden');
+      passErr.classList.add('hidden');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearErrors();
+
+      const email    = emailEl.value.trim();
+      const password = passEl.value;
+      let hasError   = false;
+
+      if (!email)    { emailEl.classList.add('error'); emailErr.classList.remove('hidden'); hasError = true; }
+      if (!password) { passEl.classList.add('error');  passErr.classList.remove('hidden');  hasError = true; }
+      if (hasError) return;
+
+      setLoading(true);
+
+      setTimeout(function () {
+        const user = Session.login(email, password);
+        setLoading(false);
+        if (!user) {
+          errorBox.classList.remove('hidden');
+          emailEl.classList.add('error');
+          passEl.classList.add('error');
+          passEl.value = '';
+          passEl.focus();
+          return;
+        }
+        window.location.href = user.redirect || 'dashboard-inicio.html';
+      }, 800);
+    });
+
+    document.querySelectorAll('.hint-item').forEach(function (item) {
+      item.addEventListener('click', function () {
+        clearErrors();
+        emailEl.value = this.dataset.email;
+        passEl.value  = this.dataset.pass;
+        emailEl.focus();
+      });
+    });
+
+    document.getElementById('forgotLink').addEventListener('click', function (e) {
+      e.preventDefault();
+      alert('Para recuperar tu contraseña contacta al administrador del sistema.');
+    });
+  </script>
+</body>
+</html>

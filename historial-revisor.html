@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historial Revisor — MIR COMAPA Sur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mock-notifications.js"></script>
+  <script src="mir-actividades-data.js"></script>
+  <script src="layout.js"></script>
+  <style>
+    :root {
+      --color-primary:#8B1D3A; --color-danger:#EF4444;
+      --color-success:#22C55E; --color-info:#3B82F6; --color-warning:#F59E0B;
+      --color-bg:#FFFFFF; --color-surface:#F7F7F7; --color-border:#E5E7EB;
+      --color-text-primary:#111827; --color-text-secondary:#6B7280;
+      --radius-card:16px;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
+
+    .sidebar{width:64px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
+    .sidebar-logo{width:36px;height:36px;background:var(--color-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+    .sidebar-logo svg{width:18px;height:18px;stroke:white;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
+    .nav-item{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s;position:relative;text-decoration:none;}
+    .nav-item:hover{background:var(--color-surface);}
+    .nav-item.active{background:#EFF6FF;color:var(--color-info);}
+    .nav-item svg{width:20px;height:20px;}
+    .nav-badge{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--color-danger);border:1.5px solid #fff;}
+    .sidebar-bottom{display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .avatar-xs{width:32px;height:32px;border-radius:50%;background:var(--color-info);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;}
+
+    .app-wrapper{display:flex;flex:1;margin-left:64px;}
+    .main-content{flex:1;padding:28px 32px;max-width:900px;}
+
+    /* HEADER */
+    .page-header{margin-bottom:20px;}
+    .page-header h1{font-size:22px;font-weight:700;margin-bottom:2px;}
+    .page-header p{font-size:13px;color:var(--color-text-secondary);}
+
+    /* FILTERS */
+    .filter-bar{background:var(--color-bg);border-radius:var(--radius-card);padding:14px 18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .search-wrap{position:relative;flex:1;min-width:200px;}
+    .search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#9CA3AF;}
+    .search-input{width:100%;padding:8px 10px 8px 32px;border:1px solid var(--color-border);border-radius:10px;font-size:13px;font-family:inherit;outline:none;background:var(--color-surface);transition:border-color .15s;}
+    .search-input:focus{border-color:var(--color-info);background:white;}
+    .filter-select{padding:8px 12px;border:1px solid var(--color-border);border-radius:10px;font-size:12px;font-family:inherit;outline:none;background:var(--color-surface);color:var(--color-text-primary);}
+    .filter-select:focus{border-color:var(--color-info);}
+    .results-info{font-size:12px;color:var(--color-text-secondary);margin-left:auto;}
+
+    /* STATS ROW */
+    .stats-row{display:flex;gap:12px;margin-bottom:20px;}
+    .stat-card{background:var(--color-bg);border-radius:14px;padding:14px 18px;flex:1;box-shadow:0 1px 3px rgba(0,0,0,.06);text-align:center;}
+    .stat-val{font-size:24px;font-weight:800;line-height:1;}
+    .stat-val.green{color:var(--color-success);}
+    .stat-val.orange{color:#EA580C;}
+    .stat-val.blue{color:var(--color-info);}
+    .stat-lbl{font-size:11px;color:var(--color-text-secondary);margin-top:4px;}
+
+    /* TIMELINE */
+    .hist-group{margin-bottom:24px;}
+    .hist-group-label{font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;padding:6px 0;border-bottom:1px solid var(--color-border);margin-bottom:12px;}
+    .tl{position:relative;padding-left:22px;}
+    .tl::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--color-border);}
+    .tl-item{position:relative;margin-bottom:14px;cursor:default;}
+    .tl-item:last-child{margin-bottom:0;}
+    .tl-dot{position:absolute;left:-18px;top:5px;width:12px;height:12px;border-radius:50%;border:2px solid var(--color-bg);}
+    .tl-dot.aprobacion{background:var(--color-success);}
+    .tl-dot.observacion{background:var(--color-warning);}
+    .tl-dot.revision{background:var(--color-info);}
+    .tl-dot.otro{background:#9CA3AF;}
+    .tl-card{background:var(--color-bg);border-radius:12px;padding:13px 15px;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:3px solid transparent;transition:box-shadow .12s;}
+    .tl-card.aprobacion{border-left-color:var(--color-success);}
+    .tl-card.observacion{border-left-color:var(--color-warning);}
+    .tl-card.revision{border-left-color:var(--color-info);}
+    .tl-card:hover{box-shadow:0 3px 10px rgba(0,0,0,.1);}
+    .tl-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;}
+    .tl-accion{font-size:13px;font-weight:700;}
+    .tl-time{font-size:10px;color:#9CA3AF;white-space:nowrap;}
+    .tl-act-ref{font-size:11px;color:var(--color-text-secondary);margin-bottom:6px;}
+    .tl-act-ref a{color:var(--color-info);text-decoration:none;font-weight:600;}
+    .tl-act-ref a:hover{text-decoration:underline;}
+    .tl-estado-row{display:flex;align-items:center;gap:6px;}
+    .est-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:700;}
+    .est-chip::before{content:'';width:4px;height:4px;border-radius:50%;}
+    .est-chip.aprobado_revisor{background:#F0FDF4;color:#16A34A;}.est-chip.aprobado_revisor::before{background:#22C55E;}
+    .est-chip.observado{background:#FFF7ED;color:#EA580C;}.est-chip.observado::before{background:#F97316;}
+    .est-chip.pendiente_revision{background:#EFF6FF;color:#2563EB;}.est-chip.pendiente_revision::before{background:#3B82F6;}
+    .est-chip.corregido{background:#F5F3FF;color:#7C3AED;}.est-chip.corregido::before{background:#8B5CF6;}
+    .est-chip.enviado_revision{background:#EFF6FF;color:#2563EB;}.est-chip.enviado_revision::before{background:#3B82F6;}
+    .est-arrow{color:#D1D5DB;font-size:12px;}
+    .tl-open-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--color-info);background:#EFF6FF;border:none;border-radius:7px;padding:3px 9px;cursor:pointer;margin-top:6px;text-decoration:none;}
+    .tl-open-btn:hover{opacity:.80;}
+    .tl-open-btn svg{width:11px;height:11px;}
+
+    .empty-state{text-align:center;padding:60px 24px;}
+    .empty-state svg{width:44px;height:44px;color:#D1D5DB;margin:0 auto 12px;}
+    .empty-state h2{font-size:16px;font-weight:700;margin-bottom:6px;}
+    .empty-state p{font-size:13px;color:var(--color-text-secondary);}
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="dashboard-revisor.html" title="Inicio"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg></a>
+    <a class="nav-item" href="bandeja-revision.html" title="Bandeja" style="position:relative"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg><span class="nav-badge"></span></a>
+    <a class="nav-item active" href="historial-revisor.html" title="Historial"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></a>
+    <div class="nav-item" title="Notificaciones"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg></div>
+    <div class="nav-item" title="Ayuda"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg></div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="nav-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg></div>
+    <div class="avatar-xs">CM</div>
+  </div>
+</nav>
+
+<div class="app-wrapper">
+  <main class="main-content">
+    <div class="page-header">
+      <h1>Historial de revisiones</h1>
+      <p>Carlos Mendoza · Revisor · Gerencia Técnica · Ciclo Q2-2026</p>
+    </div>
+
+    <div id="statsRow" class="stats-row"></div>
+
+    <div class="filter-bar">
+      <div class="search-wrap">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
+        <input class="search-input" id="searchInput" placeholder="Buscar por actividad o acción…" oninput="renderHistorial()">
+      </div>
+      <select class="filter-select" id="fActId" onchange="renderHistorial()">
+        <option value="">Todas las actividades</option>
+      </select>
+      <select class="filter-select" id="fTipo" onchange="renderHistorial()">
+        <option value="">Todos los tipos</option>
+        <option value="aprobacion">Aprobaciones</option>
+        <option value="observacion">Observaciones</option>
+        <option value="revision">Revisiones tomadas</option>
+      </select>
+      <span class="results-info" id="resultsInfo"></span>
+    </div>
+
+    <div id="historialContent"></div>
+  </main>
+</div>
+
+<script>
+  // Collect all Revisor actions across all activities
+  const allActions = [];
+  getActividadesRevisor().forEach(act => {
+    act.historial.forEach(h => {
+      if (h.rol === 'Revisor') {
+        allActions.push({ ...h, actId: act.id, actNombre: act.nombre });
+      }
+    });
+  });
+  allActions.sort((a, b) => {
+    const da = a.fecha + ' ' + a.hora;
+    const db = b.fecha + ' ' + b.hora;
+    return da < db ? 1 : da > db ? -1 : 0;
+  });
+
+  const countAprobaciones = allActions.filter(a => a.estadoNuevo === 'aprobado_revisor').length;
+  const countObservaciones = allActions.filter(a => a.estadoNuevo === 'observado').length;
+  const countRevisiones    = allActions.filter(a => a.estadoNuevo === 'pendiente_revision').length;
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat-card"><div class="stat-val green">${countAprobaciones}</div><div class="stat-lbl">Aprobaciones emitidas</div></div>
+    <div class="stat-card"><div class="stat-val orange">${countObservaciones}</div><div class="stat-lbl">Observaciones emitidas</div></div>
+    <div class="stat-card"><div class="stat-val blue">${countRevisiones}</div><div class="stat-lbl">Revisiones tomadas</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--color-text-primary);">${allActions.length}</div><div class="stat-lbl">Acciones totales</div></div>
+  `;
+
+  // Populate activity filter
+  const actIds = [...new Set(allActions.map(a => a.actId))].sort();
+  const actSel = document.getElementById('fActId');
+  actIds.forEach(id => {
+    const act = allActions.find(a => a.actId === id);
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = id + ' — ' + (act?.actNombre?.slice(0, 40) || '');
+    actSel.appendChild(opt);
+  });
+
+  function accionTipo(h) {
+    if (h.estadoNuevo === 'aprobado_revisor') return 'aprobacion';
+    if (h.estadoNuevo === 'observado')        return 'observacion';
+    if (h.estadoNuevo === 'pendiente_revision') return 'revision';
+    return 'otro';
+  }
+  function dotCls(h)  { return accionTipo(h); }
+  function cardCls(h) { const t = accionTipo(h); return t === 'otro' ? '' : t; }
+
+  function estChip(estado) {
+    if (!estado) return '';
+    const cfg = ESTADO_CFG[estado] || { label: estado };
+    return `<span class="est-chip ${estado}">${cfg.label}</span>`;
+  }
+
+  function renderHistorial() {
+    const q     = document.getElementById('searchInput').value.toLowerCase();
+    const fAct  = document.getElementById('fActId').value;
+    const fTipo = document.getElementById('fTipo').value;
+
+    let filtered = allActions.filter(h => {
+      if (q     && !h.accion.toLowerCase().includes(q) && !h.actId.toLowerCase().includes(q) && !h.actNombre.toLowerCase().includes(q)) return false;
+      if (fAct  && h.actId !== fAct) return false;
+      if (fTipo && accionTipo(h) !== fTipo) return false;
+      return true;
+    });
+
+    document.getElementById('resultsInfo').textContent = `${filtered.length} registro${filtered.length !== 1 ? 's' : ''}`;
+
+    if (filtered.length === 0) {
+      document.getElementById('historialContent').innerHTML = `
+        <div class="empty-state">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          <h2>Sin registros</h2>
+          <p>No hay acciones que coincidan con los filtros seleccionados.</p>
+        </div>`;
+      return;
+    }
+
+    // Group by date
+    const groups = {};
+    filtered.forEach(h => {
+      const lbl = formatFecha(h.fecha);
+      if (!groups[lbl]) groups[lbl] = [];
+      groups[lbl].push(h);
+    });
+
+    document.getElementById('historialContent').innerHTML = Object.entries(groups).map(([date, items]) => `
+      <div class="hist-group">
+        <div class="hist-group-label">${date}</div>
+        <div class="tl">
+          ${items.map(h => {
+            const tipo = accionTipo(h);
+            return `
+              <div class="tl-item">
+                <div class="tl-dot ${dotCls(h)}"></div>
+                <div class="tl-card ${cardCls(h)}">
+                  <div class="tl-card-head">
+                    <span class="tl-accion">${h.accion}</span>
+                    <span class="tl-time">${h.hora}</span>
+                  </div>
+                  <div class="tl-act-ref">
+                    <a href="revision-actividad.html?id=${h.actId}">${h.actId}</a> —
+                    ${h.actNombre.slice(0, 55)}${h.actNombre.length > 55 ? '…' : ''}
+                  </div>
+                  ${(h.estadoAnterior || h.estadoNuevo) ? `
+                    <div class="tl-estado-row">
+                      ${h.estadoAnterior ? estChip(h.estadoAnterior) : ''}
+                      ${h.estadoAnterior && h.estadoNuevo ? '<span class="est-arrow">→</span>' : ''}
+                      ${h.estadoNuevo ? estChip(h.estadoNuevo) : ''}
+                    </div>` : ''}
+                  <a class="tl-open-btn" href="revision-actividad.html?id=${h.actId}">
+                    Ver actividad
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+                  </a>
+                </div>
+              </div>`;
+          }).join('')}
+        </div>
+      </div>`).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', renderHistorial);
+</script>
+</body>
+</html>

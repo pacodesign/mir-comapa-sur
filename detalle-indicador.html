@@ -5,20 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TEC-ACT-01 — Detalle de indicador · MIR COMAPA Sur</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="session.js"></script>
+<script src="mock-notifications.js"></script>
+<script src="layout.js"></script>
 <style>
 :root {
-  --color-primary: #7C3AED;
-  --color-accent: #14B8A6;
-  --color-accent-dark: #0DBFAD;
+  --color-primary: #8B1D3A;
+  --color-accent: #8B1D3A;
+  --color-accent-dark: #6B1630;
   --color-danger: #EF4444;
   --color-warning: #F59E0B;
-  --color-link: #F97316;
+  --color-link: #6B7280;
   --color-bg: #FFFFFF;
-  --color-surface: #F3F4F6;
+  --color-surface: #F7F7F7;
   --color-border: #E5E7EB;
   --color-text-primary: #111827;
   --color-text-secondary: #6B7280;
-  --color-avatar-bg: #F87171;
+  --color-avatar-bg: #9CA3AF;
   --radius-card: 16px;
   --radius-btn: 999px;
   --pad-card: 20px;
@@ -34,7 +37,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
 .nav-item { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text-secondary); transition: background 0.15s, color 0.15s; }
 .nav-item:hover { background: var(--color-surface); }
-.nav-item.active { background: #EDE9FE; color: var(--color-primary); }
+.nav-item.active { background: #F5E8EC; color: var(--color-primary); }
 .nav-item svg { width: 20px; height: 20px; }
 .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .avatar-xs { width: 32px; height: 32px; border-radius: 50%; background: var(--color-avatar-bg); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; }
@@ -72,34 +75,34 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .btn-secondary:hover { background: var(--color-border); }
 .btn-ghost { background: transparent; color: var(--color-text-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-btn); padding: 8px 16px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
 .btn-ghost:hover { background: var(--color-surface); color: var(--color-text-primary); }
-.btn-outline-accent { background: transparent; color: var(--color-accent); border: 1.5px solid var(--color-accent); border-radius: var(--radius-btn); padding: 8px 16px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
-.btn-outline-accent:hover { background: #CCFBF1; }
+.btn-outline-accent { background: transparent; color: var(--color-primary); border: 1.5px solid var(--color-primary); border-radius: var(--radius-btn); padding: 8px 16px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
+.btn-outline-accent:hover { background: #F5E8EC; }
 .btn-sm { padding: 6px 14px; font-size: 11px; }
 
 /* ── BADGES ── */
 .level-tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
-.level-tag.fin       { background: #1E1B4B; color: white; }
-.level-tag.proposito { background: #312E81; color: white; }
-.level-tag.componente{ background: #4338CA; color: white; }
-.level-tag.actividad { background: #6D28D9; color: white; }
+.level-tag.fin       { background: #1F2937; color: white; }
+.level-tag.proposito { background: #374151; color: white; }
+.level-tag.componente{ background: #6B7280; color: white; }
+.level-tag.actividad { background: #9CA3AF; color: white; }
 .g-chip { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
-.g-chip.tec { background: #CCFBF1; color: #0F766E; }
-.g-chip.pe  { background: #EDE9FE; color: #7C3AED; }
-.g-chip.com { background: #FFF7ED; color: #C2410C; }
-.g-chip.adm { background: #EFF6FF; color: #1D4ED8; }
+.g-chip.tec { background: #F3F4F6; color: #4B5563; }
+.g-chip.pe  { background: #F3F4F6; color: #4B5563; }
+.g-chip.com { background: #F3F4F6; color: #4B5563; }
+.g-chip.adm { background: #F3F4F6; color: #4B5563; }
 .freq-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
-.freq-tag.mensual    { background: #DCFCE7; color: #166534; }
-.freq-tag.trimestral { background: #DBEAFE; color: #1E40AF; }
-.freq-tag.semestral  { background: #EDE9FE; color: #5B21B6; }
-.freq-tag.anual      { background: #FEF9C3; color: #854D0E; }
-.freq-tag.bimestral  { background: #FCE7F3; color: #9D174D; }
+.freq-tag.mensual    { background: #F3F4F6; color: #6B7280; }
+.freq-tag.trimestral { background: #F3F4F6; color: #6B7280; }
+.freq-tag.semestral  { background: #F3F4F6; color: #6B7280; }
+.freq-tag.anual      { background: #F3F4F6; color: #6B7280; }
+.freq-tag.bimestral  { background: #F3F4F6; color: #6B7280; }
 .mv-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
-.mv-tag.interno { background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; }
-.mv-tag.externo { background: #FFF7ED; color: #9A3412; border: 1px solid #FED7AA; }
-.mv-tag.mixto   { background: #F5F3FF; color: #4C1D95; border: 1px solid #C4B5FD; }
+.mv-tag.interno { background: #F7F7F7; color: #4B5563; border: 1px solid #D1D5DB; }
+.mv-tag.externo { background: #F7F7F7; color: #4B5563; border: 1px solid #D1D5DB; }
+.mv-tag.mixto   { background: #F7F7F7; color: #4B5563; border: 1px solid #D1D5DB; }
 .den-tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-btn); white-space: nowrap; display: inline-block; }
-.den-tag.con { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
-.den-tag.sin { background: #FEF9C3; color: #713F12; border: 1px solid #FDE68A; }
+.den-tag.con { background: #F3F4F6; color: #374151; border: 1px solid #D1D5DB; }
+.den-tag.sin { background: #F3F4F6; color: #6B7280; border: 1px solid #E5E7EB; }
 
 /* ── SUMMARY STRIP ── */
 .summary-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); margin-bottom: var(--gap); }
@@ -128,7 +131,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .divider { height: 1px; background: var(--color-border); }
 
 /* ── OBJECTIVE BLOCK ── */
-.obj-highlight { background: #F5F3FF; border-radius: 12px; padding: 16px; border-left: 3px solid var(--color-primary); }
+.obj-highlight { background: #FDF5F7; border-radius: 12px; padding: 16px; border-left: 3px solid var(--color-primary); }
 .obj-highlight p { font-size: 13px; font-weight: 600; color: var(--color-primary); line-height: 1.6; }
 .obj-full { font-size: 13px; color: var(--color-text-primary); line-height: 1.7; }
 
@@ -141,20 +144,20 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .num-den-grid { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0; align-items: center; margin-top: 4px; }
 .nd-item { background: var(--color-surface); border-radius: 12px; padding: 14px 16px; }
 .nd-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; display: block; }
-.nd-label.num { color: #1D4ED8; }
-.nd-label.den { color: #7C3AED; }
+.nd-label.num { color: #374151; }
+.nd-label.den { color: #6B7280; }
 .nd-value { font-size: 12px; color: var(--color-text-primary); line-height: 1.5; }
 .nd-operator { text-align: center; font-size: 22px; font-weight: 700; color: var(--color-text-secondary); }
 
 /* ── DIRECT VALUE BLOCK ── */
-.direct-block { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 12px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px; }
-.direct-block svg { width: 16px; height: 16px; color: #D97706; flex-shrink: 0; margin-top: 1px; }
-.direct-block p { font-size: 12px; color: #92400E; line-height: 1.5; }
+.direct-block { background: #F8F8F8; border: 1px solid var(--color-border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px; }
+.direct-block svg { width: 16px; height: 16px; color: #9CA3AF; flex-shrink: 0; margin-top: 1px; }
+.direct-block p { font-size: 12px; color: #4B5563; line-height: 1.5; }
 
 /* ── INFO / DIDACTIC BLOCK ── */
-.info-block { background: #F0F9FF; border: 1px solid #BAE6FD; border-radius: 12px; padding: 11px 14px; display: flex; align-items: flex-start; gap: 9px; }
-.info-block svg { width: 14px; height: 14px; color: #0284C7; flex-shrink: 0; margin-top: 1px; }
-.info-block p { font-size: 11px; color: #0369A1; line-height: 1.5; }
+.info-block { background: #F8F8F8; border: 1px solid var(--color-border); border-radius: 12px; padding: 11px 14px; display: flex; align-items: flex-start; gap: 9px; }
+.info-block svg { width: 14px; height: 14px; color: #9CA3AF; flex-shrink: 0; margin-top: 1px; }
+.info-block p { font-size: 11px; color: #4B5563; line-height: 1.5; }
 
 /* ── MV SECTION ── */
 .mv-card { background: var(--color-surface); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
@@ -173,7 +176,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .progress-fill { background: var(--color-accent); height: 100%; border-radius: 999px; transition: width 0.6s ease; }
 
 /* ── PENDING TAG ── */
-.pending-tag { display: inline-flex; align-items: center; gap: 5px; background: #FEF3C7; color: #92400E; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-btn); }
+.pending-tag { display: inline-flex; align-items: center; gap: 5px; background: #F3F4F6; color: #6B7280; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-btn); }
 .pending-tag svg { width: 11px; height: 11px; }
 .por-definir-tag { display: inline-flex; align-items: center; gap: 5px; background: var(--color-surface); color: var(--color-text-secondary); font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-btn); border: 1px dashed var(--color-border); }
 
