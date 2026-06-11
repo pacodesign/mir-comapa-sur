@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const pendientesRows = enBandeja.length === 0
-    ? '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:13px;">Sin actividades pendientes de revisión</td></tr>'
+    ? '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--color-text-secondary);font-size:13px;">Sin indicadores pendientes de revisión</td></tr>'
     : enBandeja.map(a => `
         <tr>
           <td>
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>`).join('');
 
   const urgentesHtml = urgentes.length === 0
-    ? '<p style="font-size:13px;color:var(--color-text-secondary);padding:8px 0;">Sin actividades próximas a vencer.</p>'
+    ? '<p style="font-size:13px;color:var(--color-text-secondary);padding:8px 0;">Sin indicadores próximos a vencer.</p>'
     : urgentes.slice(0, 4).map(a => {
         const d = diasRestantes(a.fechaLimite);
         const icCls = d <= 7 ? 'red' : 'orange';
@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="sc-body" style="padding:0;">
           <table class="pend-table">
             <thead><tr>
-              <th style="padding-left:20px;">Actividad</th>
+              <th style="padding-left:20px;">Indicador</th>
               <th>Estado</th>
               <th>Prioridad</th>
               <th>Fecha límite</th>
