@@ -569,6 +569,31 @@ uploadArea.addEventListener('drop', function(e) {
   var PENDING = '<span class="pending-tag"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>Pendiente de captura</span>';
   var POR_DEF = '<span class="por-definir-tag">Por definir</span>';
 
+  function calcMetaPeriodo(metaAnual, frecuencia, acumulable) {
+    var p = {Mensual:{t:12,i:6},Bimestral:{t:6,i:3},Trimestral:{t:4,i:2},Semestral:{t:2,i:1},Anual:{t:1,i:1},Semanal:{t:52,i:23}}[frecuencia]||{t:1,i:1};
+    var raw = metaAnual != null ? String(metaAnual) : '';
+    if (!raw) return null;
+    var m = raw.match(/([\d,]+(?:\.\d+)?)/);
+    if (!m) return {label: raw, acum: null};
+    var num = parseFloat(m[1].replace(/,/g,''));
+    if (isNaN(num)) return {label: raw, acum: null};
+    var sfx = raw.slice(m.index + m[1].length).trim();
+    function fmt(n){return n===Math.round(n)?String(Math.round(n)):n.toFixed(1);}
+    function fv(n){return sfx?fmt(n)+' '+sfx:fmt(n);}
+    if (!acumulable || p.t===1) return {label: raw, acum: null};
+    return {label: fv(num/p.t), acum: fv(num/p.t*p.i)};
+  }
+
+  var mp = calcMetaPeriodo(r.metaAnual, r.frecuenciaMedicion, r.acumulable || false);
+  var metaPeriodoHTML = mp
+    ? '<span class="meta-num accent" style="font-size:18px">' + mp.label + '</span>' +
+      (mp.acum ? '<span style="font-size:10px;color:#A3213F;margin-top:3px;display:block">Acum. esp.: ' + mp.acum + '</span>' : '') +
+      (r.acumulable
+        ? '<span style="font-size:9px;font-weight:600;background:#DCFCE7;color:#166534;padding:1px 7px;border-radius:999px;margin-top:4px;display:inline-block">Acumulable</span>'
+        : '<span style="font-size:9px;font-weight:600;background:#F3F4F6;color:#6B7280;padding:1px 7px;border-radius:999px;margin-top:4px;display:inline-block">No acumulable</span>')
+    : POR_DEF;
+  var barMetaLabel = mp ? 'Meta del período: ' + mp.label : 'Meta del período: Por definir';
+
   var mvTypeHTML = r.medioVerificacionTipo
     ? '<span class="mv-tag ' + mvCls(r.medioVerificacionTipo) + '">' + r.medioVerificacionTipo + '</span>'
     : '';
@@ -596,7 +621,7 @@ uploadArea.addEventListener('drop', function(e) {
             '<p class="calc-sub hidden" id="calcSub"></p>' +
           '</div>' +
           '<div class="avance-bar hidden" id="avanceBar">' +
-            '<div class="avance-bar-labels"><span id="avanceLabelIzq">0</span><span id="avanceLabelDer">Meta del periodo: Por definir</span></div>' +
+            '<div class="avance-bar-labels"><span id="avanceLabelIzq">0</span><span id="avanceLabelDer">' + barMetaLabel + '</span></div>' +
             '<div class="bar-track"><div class="bar-fill" id="barFill" style="width:0%"></div></div>' +
           '</div>' +
         '</div>' +
@@ -668,7 +693,7 @@ uploadArea.addEventListener('drop', function(e) {
       '<div class="meta-strip">' +
         '<div class="meta-item">' + PENDING + '<p class="meta-lbl" style="margin-top:6px">Línea base</p></div>' +
         '<div class="meta-item">' + PENDING + '<p class="meta-lbl" style="margin-top:6px">Meta anual</p></div>' +
-        '<div class="meta-item">' + POR_DEF + '<p class="meta-lbl" style="margin-top:6px">Meta del periodo</p></div>' +
+        '<div class="meta-item">' + metaPeriodoHTML + '<p class="meta-lbl" style="margin-top:6px">Meta del período</p></div>' +
       '</div>' +
       '<p style="font-size:11px;color:#6B7280;margin-top:12px;line-height:1.5">La línea base y meta anual se capturan por el responsable antes del inicio del ejercicio. La meta de periodo se distribuye una vez definida la meta anual.</p>' +
     '</div>' +
