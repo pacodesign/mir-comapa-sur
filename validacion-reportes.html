@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validación de reportes — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mir-gerencias-data.js"></script>
+  <script src="mir-actividades-data.js"></script>
+  <script src="validacion-data.js"></script>
+  <style>
+    :root{--color-primary:#8B1D3A;--color-accent-dark:#6B1630;--color-bg:#FFFFFF;--color-surface:#F7F7F7;--color-border:#E5E7EB;--color-text-primary:#111827;--color-text-secondary:#6B7280;--radius-card:16px;--radius-btn:999px;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
+
+    /* ── Sidebar ── */
+    .sidebar{width:64px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
+    .sidebar-logo{width:36px;height:36px;background:var(--color-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+    .sidebar-logo svg{width:18px;height:18px;stroke:white;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
+    .nav-item{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s;text-decoration:none;}
+    .nav-item:hover{background:var(--color-surface);}
+    .nav-item.active{background:#F5E8EC;color:var(--color-primary);}
+    .nav-item svg{width:20px;height:20px;}
+    .sidebar-bottom{display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .avatar-xs{width:32px;height:32px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;cursor:pointer;}
+
+    /* ── Layout ── */
+    .app-wrapper{display:flex;flex:1;margin-left:64px;}
+    .main-content{flex:1;padding:24px;min-width:0;margin-right:240px;}
+    .right-panel{width:240px;background:var(--color-bg);border-left:1px solid var(--color-border);padding:20px 16px;position:fixed;right:0;top:0;height:100vh;overflow-y:auto;}
+
+    /* ── Right panel ── */
+    .rp-user{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+    .rp-avatar{width:40px;height:40px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;}
+    .rp-name{font-size:13px;font-weight:700;}
+    .rp-role{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+    .rp-divider{height:1px;background:var(--color-border);margin:14px 0;}
+    .rp-section-title{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+    .rp-stat-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+    .rp-stat-label{font-size:12px;color:var(--color-text-primary);}
+    .rp-stat-val{font-size:12px;font-weight:700;}
+    .rp-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:var(--radius-btn);}
+    .rp-badge.green{background:#F0FDF4;color:#16A34A;}
+    .rp-badge.blue{background:#EFF6FF;color:#1D4ED8;}
+    .rp-badge.orange{background:#FFF7ED;color:#EA580C;}
+    .rp-badge.gray{background:#F3F4F6;color:#6B7280;}
+
+    /* ── Page header ── */
+    .page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;}
+    .page-title{font-size:22px;font-weight:700;line-height:1.3;}
+    .page-subtitle{font-size:13px;color:var(--color-text-secondary);margin-top:3px;}
+    .header-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+    .btn-secondary{background:var(--color-surface);color:var(--color-text-primary);border:none;border-radius:var(--radius-btn);padding:8px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+    .btn-secondary:hover{background:var(--color-border);}
+    .btn-danger{background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;border-radius:var(--radius-btn);padding:8px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;}
+    .btn-danger:hover{background:#FEE2E2;}
+
+    /* ── Period tabs ── */
+    .period-tabs{display:flex;gap:4px;margin-bottom:20px;background:white;padding:4px;border-radius:var(--radius-btn);border:1px solid var(--color-border);width:fit-content;}
+    .period-tab{padding:6px 18px;font-size:12px;font-weight:600;font-family:inherit;border:none;border-radius:var(--radius-btn);cursor:pointer;background:transparent;color:var(--color-text-secondary);transition:all .15s;}
+    .period-tab:hover{background:var(--color-surface);}
+    .period-tab.active{background:var(--color-primary);color:white;}
+    .period-tag{font-size:9px;font-weight:600;padding:1px 5px;border-radius:4px;margin-left:4px;vertical-align:middle;}
+    .period-tag.activo{background:#D1FAE5;color:#065F46;}
+    .period-tag.historico{background:#F3F4F6;color:#6B7280;}
+    .period-tag.futuro{background:#EFF6FF;color:#1D4ED8;}
+
+    /* ── KPI strip ── */
+    .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+    .kpi-card{background:white;border-radius:var(--radius-card);padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+    .kpi-label{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+    .kpi-value{font-size:26px;font-weight:700;line-height:1;margin-bottom:2px;}
+    .kpi-sub{font-size:10px;color:var(--color-text-secondary);}
+
+    /* ── Gerencia cards grid ── */
+    .gerencias-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+
+    .gerencia-card{background:white;border-radius:var(--radius-card);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;}
+    .card-accent{height:4px;}
+    .card-body{padding:18px;display:flex;flex-direction:column;gap:12px;flex:1;}
+
+    .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+    .card-gerencia-name{font-size:14px;font-weight:700;}
+    .card-period-label{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+    .estado-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:var(--radius-btn);white-space:nowrap;flex-shrink:0;}
+
+    .card-people{display:flex;gap:16px;}
+    .person-item{display:flex;align-items:center;gap:6px;}
+    .person-avatar{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;flex-shrink:0;}
+    .person-info{font-size:11px;color:var(--color-text-secondary);}
+    .person-info strong{display:block;font-size:11px;font-weight:600;color:var(--color-text-primary);}
+
+    .card-stats{display:flex;flex-direction:column;gap:6px;}
+    .stats-bar-wrap{display:flex;align-items:center;gap:8px;}
+    .stats-bar{flex:1;height:6px;background:#E5E7EB;border-radius:3px;overflow:hidden;}
+    .stats-bar-fill{height:100%;border-radius:3px;transition:width .3s;}
+    .stats-count{font-size:11px;font-weight:600;white-space:nowrap;}
+    .stats-pills{display:flex;gap:6px;flex-wrap:wrap;}
+    .stat-pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:var(--radius-btn);}
+    .stat-pill.green{background:#D1FAE5;color:#065F46;}
+    .stat-pill.blue{background:#EFF6FF;color:#1D4ED8;}
+    .stat-pill.orange{background:#FFF7ED;color:#EA580C;}
+    .stat-pill.gray{background:#F3F4F6;color:#6B7280;}
+    .stat-pill.yellow{background:#FEF3C7;color:#92400E;}
+
+    .card-footer{padding-top:12px;border-top:1px solid var(--color-border);display:flex;justify-content:flex-end;}
+    .btn-card{border:none;border-radius:var(--radius-btn);padding:7px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .15s;}
+    .btn-card.pendiente{background:#F3F4F6;color:#374151;}
+    .btn-card.pendiente:hover{background:#E5E7EB;}
+    .btn-card.lista{background:#D1FAE5;color:#065F46;}
+    .btn-card.lista:hover{background:#A7F3D0;}
+    .btn-card.validado{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;}
+    .btn-card.validado:hover{background:#DBEAFE;}
+
+    /* ── Modal ── */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:500;padding:24px;}
+    .modal-overlay.open{display:flex;}
+    .modal-card{background:white;border-radius:var(--radius-card);width:100%;max-width:640px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+
+    .modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--color-border);}
+    .modal-hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px;}
+    .modal-title{font-size:17px;font-weight:700;}
+    .modal-subtitle{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
+    .modal-close{background:none;border:none;cursor:pointer;padding:2px;color:var(--color-text-secondary);flex-shrink:0;}
+    .modal-close:hover{color:var(--color-text-primary);}
+    .modal-estado-row{display:flex;align-items:center;gap:10px;margin-top:8px;}
+
+    .modal-body{padding:24px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:20px;}
+    .modal-footer{padding:16px 24px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:flex-end;gap:8px;}
+
+    /* Modal sections */
+    .modal-section-title{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
+
+    /* Timeline */
+    .timeline{display:flex;align-items:center;gap:0;}
+    .tl-step{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;}
+    .tl-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+    .tl-dot.done{background:#D1FAE5;color:#065F46;}
+    .tl-dot.active{background:var(--color-primary);color:white;}
+    .tl-dot.pending{background:#F3F4F6;color:#9CA3AF;}
+    .tl-label{font-size:10px;font-weight:600;color:var(--color-text-primary);text-align:center;}
+    .tl-sublabel{font-size:9px;color:var(--color-text-secondary);text-align:center;}
+    .tl-connector{flex:1;height:2px;background:var(--color-border);margin-top:-18px;}
+    .tl-connector.done{background:#6EE7B7;}
+
+    /* Consolidated stats */
+    .kpi-mini-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+    .kpi-mini{background:var(--color-surface);border-radius:12px;padding:12px;text-align:center;}
+    .kpi-mini-val{font-size:22px;font-weight:700;line-height:1;}
+    .kpi-mini-lbl{font-size:10px;color:var(--color-text-secondary);margin-top:3px;font-weight:500;}
+
+    /* Progress bar in modal */
+    .modal-progress-wrap{display:flex;flex-direction:column;gap:6px;}
+    .modal-progress-bar{height:8px;background:#E5E7EB;border-radius:4px;overflow:hidden;}
+    .modal-progress-fill{height:100%;border-radius:4px;}
+    .modal-progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);}
+
+    /* Nivel breakdown */
+    .nivel-rows{display:flex;flex-direction:column;gap:8px;}
+    .nivel-row{display:flex;align-items:center;gap:10px;}
+    .nivel-pill{font-size:10px;font-weight:700;width:26px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .nivel-pill.F{background:#FEF3C7;color:#92400E;}
+    .nivel-pill.P{background:#EDE9FE;color:#5B21B6;}
+    .nivel-pill.C{background:#E0F2FE;color:#0369A1;}
+    .nivel-pill.A{background:#F0FDF4;color:#166534;}
+    .nivel-name{font-size:12px;font-weight:500;width:80px;flex-shrink:0;}
+    .nivel-bar-wrap{flex:1;height:6px;background:#E5E7EB;border-radius:3px;overflow:hidden;}
+    .nivel-bar-fill{height:100%;border-radius:3px;}
+    .nivel-count{font-size:11px;font-weight:600;width:52px;text-align:right;flex-shrink:0;}
+
+    /* Callouts */
+    .callout{border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;}
+    .callout.warning{background:#FFF7ED;border-left:3px solid #F97316;color:#9A3412;}
+    .callout.info{background:#EFF6FF;border-left:3px solid #3B82F6;color:#1E40AF;}
+    .callout.success{background:#F0FDF4;border-left:3px solid #22C55E;color:#15803D;}
+    .callout strong{font-weight:700;display:block;margin-bottom:3px;}
+
+    /* Locked notice */
+    .locked-notice{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px;}
+    .locked-icon{width:32px;height:32px;background:#D1FAE5;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .locked-text{font-size:12px;color:#065F46;line-height:1.5;}
+    .locked-text strong{display:block;font-size:13px;font-weight:700;margin-bottom:2px;}
+
+    /* Comment textarea */
+    .comment-label{font-size:12px;font-weight:600;margin-bottom:6px;display:block;}
+    .comment-textarea{width:100%;min-height:80px;padding:10px 12px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:12px;resize:vertical;outline:none;line-height:1.5;}
+    .comment-textarea:focus{border-color:var(--color-primary);}
+    .comment-textarea:disabled{background:#F9FAFB;color:var(--color-text-secondary);}
+
+    /* Action buttons */
+    .btn-primary{background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:9px 20px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s;}
+    .btn-primary:hover{background:var(--color-accent-dark);}
+    .btn-primary:disabled{background:#D1D5DB;cursor:not-allowed;}
+    .btn-unlock{background:white;color:#D97706;border:1px solid #FDE68A;border-radius:var(--radius-btn);padding:7px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;}
+    .btn-unlock:hover{background:#FFFBEB;}
+
+    /* Empty state */
+    .empty-state{text-align:center;padding:48px 24px;color:var(--color-text-secondary);}
+    .empty-state svg{width:40px;height:40px;margin:0 auto 12px;opacity:.4;}
+    .empty-state p{font-size:13px;}
+
+    /* Toast */
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#111827;color:white;padding:10px 18px;border-radius:var(--radius-btn);font-size:13px;font-weight:500;pointer-events:none;opacity:0;transition:opacity .2s;z-index:1000;white-space:nowrap;}
+    .toast.show{opacity:1;}
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="dashboard-inicio.html" title="Inicio">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
+    </a>
+    <a class="nav-item" href="consulta-mir.html" title="MIR por gerencia">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0c-.621 0-1.125.504-1.125 1.125V9M12 6.75h.008v.008H12V6.75Z"/></svg>
+    </a>
+    <a class="nav-item" href="estructura-indicadores.html" title="Estructura de indicadores">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></svg>
+    </a>
+    <a class="nav-item" href="planeacion-metas-admin.html" title="Planeación de metas">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+    </a>
+    <a class="nav-item active" href="validacion-reportes.html" title="Validación de reportes">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.746 3.746 0 0 1-3.296 1.043 3.745 3.745 0 0 1-3.068 1.593 3.745 3.745 0 0 1-3.068-1.593 3.746 3.746 0 0 1-3.296-1.043 3.746 3.746 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.746 3.746 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.745 3.745 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"/></svg>
+    </a>
+    <div class="nav-item" title="Guía MIR">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
+    </div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="nav-item" title="Configuración">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+    </div>
+    <div class="avatar-xs" id="avatarEl" onclick="window.location.href='dashboard-inicio.html'">LS</div>
+  </div>
+</nav>
+
+<div class="app-wrapper">
+  <main class="main-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Validación de reportes — 2026</h1>
+        <p class="page-subtitle">Validación institucional del avance por gerencia y período</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-danger" onclick="if(confirm('¿Restablecer validaciones al estado inicial de demostración?')){resetValidaciones();location.reload();}">Resetear datos demo</button>
+      </div>
+    </div>
+
+    <!-- Period tabs -->
+    <div class="period-tabs">
+      <button class="period-tab" data-period="Q1-2026" onclick="selectPeriod('Q1-2026')">
+        Q1-2026 <span class="period-tag historico">Histórico</span>
+      </button>
+      <button class="period-tab active" data-period="Q2-2026" onclick="selectPeriod('Q2-2026')">
+        Q2-2026 <span class="period-tag activo">Activo</span>
+      </button>
+      <button class="period-tab" data-period="Q3-2026" onclick="selectPeriod('Q3-2026')">
+        Q3-2026 <span class="period-tag futuro">Siguiente</span>
+      </button>
+    </div>
+
+    <!-- KPI strip -->
+    <div class="kpi-strip">
+      <div class="kpi-card">
+        <p class="kpi-label">Gerencias</p>
+        <p class="kpi-value" id="kpiTotal">4</p>
+        <p class="kpi-sub">en el sistema</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Validadas</p>
+        <p class="kpi-value" style="color:#1D4ED8" id="kpiValidado">—</p>
+        <p class="kpi-sub">reporte oficial</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Listas para validar</p>
+        <p class="kpi-value" style="color:#059669" id="kpiLista">—</p>
+        <p class="kpi-sub">revisor completó revisión</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Pendientes</p>
+        <p class="kpi-value" style="color:#6B7280" id="kpiPendiente">—</p>
+        <p class="kpi-sub">en proceso o sin iniciar</p>
+      </div>
+    </div>
+
+    <!-- Gerencia cards -->
+    <div class="gerencias-grid" id="gerenciasGrid"></div>
+
+  </main>
+
+  <aside class="right-panel">
+    <div class="rp-user">
+      <div class="rp-avatar" id="rpAvatar">LS</div>
+      <div>
+        <p class="rp-name" id="rpName">Leticia Solís</p>
+        <p class="rp-role">Administrador</p>
+      </div>
+    </div>
+    <div class="rp-divider"></div>
+    <p class="rp-section-title">Período activo</p>
+    <div class="rp-stat-row"><span class="rp-stat-label">Período</span><span class="rp-stat-val" id="rpPeriodo">Q2-2026</span></div>
+    <div class="rp-stat-row"><span class="rp-stat-label">Fecha límite</span><span class="rp-stat-val">30 Jun 2026</span></div>
+    <div class="rp-divider"></div>
+    <p class="rp-section-title">Avance de validación</p>
+    <div id="rpGerencias"></div>
+    <div class="rp-divider"></div>
+    <p class="rp-section-title">Flujo de validación</p>
+    <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.9;">
+      <div>① Enlace carga reporte de avance</div>
+      <div>② Revisor valida indicador a indicador</div>
+      <div>③ <strong style="color:var(--color-primary)">Admin valida por gerencia</strong></div>
+      <div>④ Reporte pasa a dashboards oficiales</div>
+    </div>
+  </aside>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="overlayClick(event)">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-hdr-top">
+        <div>
+          <p class="modal-title" id="mTitle"></p>
+          <p class="modal-subtitle" id="mSubtitle"></p>
+        </div>
+        <button class="modal-close" onclick="closeModal()">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-estado-row" id="mEstadoRow"></div>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+    <div class="modal-footer" id="mFooter"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var CURRENT_PERIOD = 'Q2-2026';
+var ACTIVE_GID = null;
+
+var GERENCIA_COLORS = { planeacion:'#7C3AED', tecnica:'#0891B2', comercial:'#8B1D3A', administrativa:'#065F46' };
+var NIVEL_NAMES = { F:'Fin', P:'Propósito', C:'Componente', A:'Actividad' };
+var NIVEL_COLORS = { F:'#92400E', P:'#5B21B6', C:'#0369A1', A:'#166534' };
+var NIVEL_BG = { F:'#FEF3C7', P:'#EDE9FE', C:'#E0F2FE', A:'#F0FDF4' };
+
+// ── Auth ────────────────────────────────────────────────────────────────────
+(function(){
+  try{
+    var s=Session.get();
+    if(!s||s.rol!=='Administrador'){window.location.href='login.html';return;}
+    var initials=(s.nombre||'LS').split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+    document.getElementById('avatarEl').textContent=initials;
+    document.getElementById('rpAvatar').textContent=initials;
+    document.getElementById('rpName').textContent=s.nombre||'Leticia Solís';
+  }catch(e){}
+})();
+
+// ── Period selector ─────────────────────────────────────────────────────────
+function selectPeriod(p){
+  CURRENT_PERIOD=p;
+  document.querySelectorAll('.period-tab').forEach(function(t){
+    t.classList.toggle('active', t.dataset.period===p);
+  });
+  document.getElementById('rpPeriodo').textContent=p;
+  render();
+}
+
+// ── Data helpers ─────────────────────────────────────────────────────────────
+function getVal(gid){ return getValidacion(gid+'-'+CURRENT_PERIOD); }
+
+function getStats(gid){
+  var v=getVal(gid);
+  if(v&&v.stats) return v.stats;
+  var g=getGerencia(gid);
+  if(g&&g.stats) return g.stats;
+  return {total:0,aprobados:0,enRevision:0,observados:0,pendientes:0,sinIniciar:0};
+}
+
+function pct(aprobados,total){
+  if(!total) return 0;
+  return Math.round((aprobados/total)*100);
+}
+
+function getIndicadoresGerencia(gid){
+  var g=getGerencia(gid);
+  if(!g) return [];
+  if(gid==='comercial') return (typeof ACTIVIDADES_ENLACE!=='undefined')?ACTIVIDADES_ENLACE:[];
+  return g.indicadores||[];
+}
+
+function getNivelBreakdown(gid){
+  var inds=getIndicadoresGerencia(gid);
+  if(!inds.length) return null;
+  var keys=['F','P','C','A'];
+  return keys.map(function(k){
+    var nivelInds=inds.filter(function(i){return i.nivel===k;});
+    if(!nivelInds.length) return null;
+    var isComercial=(gid==='comercial');
+    var aprobados;
+    if(isComercial){
+      aprobados=nivelInds.filter(function(i){
+        var plan=(typeof getPlan==='function')?getPlan(i.id):null;
+        return plan&&(plan.estado==='aprobado'||plan.estado==='bloqueado');
+      }).length;
+    } else {
+      aprobados=nivelInds.filter(function(i){return i.estado==='aprobado_revisor';}).length;
+    }
+    return {key:k,label:NIVEL_NAMES[k],total:nivelInds.length,aprobados:aprobados};
+  }).filter(Boolean);
+}
+
+function estadoBadgeHtml(estado){
+  var cfg=VAL_ESTADOS[estado]||VAL_ESTADOS.pendiente;
+  return '<span class="estado-badge" style="background:'+cfg.bg+';color:'+cfg.color+'">'+cfg.label+'</span>';
+}
+
+// ── Render cards ─────────────────────────────────────────────────────────────
+function render(){
+  var vals=(CURRENT_PERIOD!=='Q3-2026')?getValsPeriodo(CURRENT_PERIOD):[];
+  var kpiV=0,kpiL=0,kpiP=0;
+  vals.forEach(function(v){
+    if(v.estado==='validado') kpiV++;
+    else if(v.estado==='lista') kpiL++;
+    else kpiP++;
+  });
+  if(CURRENT_PERIOD==='Q3-2026') kpiP=4;
+
+  document.getElementById('kpiValidado').textContent=kpiV;
+  document.getElementById('kpiLista').textContent=kpiL;
+  document.getElementById('kpiPendiente').textContent=CURRENT_PERIOD==='Q3-2026'?4:kpiP;
+
+  // Right panel gerencia list
+  var rpHtml='';
+  GERENCIAS_MIR.forEach(function(g){
+    var v=getVal(g.id)||{estado:'pendiente'};
+    var cfg=VAL_ESTADOS[v.estado]||VAL_ESTADOS.pendiente;
+    rpHtml+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">';
+    rpHtml+='<div style="display:flex;align-items:center;gap:6px;">';
+    rpHtml+='<span style="width:8px;height:8px;border-radius:50%;background:'+g.color+';display:inline-block;"></span>';
+    rpHtml+='<span style="font-size:12px;">'+g.nombre.replace('Gerencia ','')+'</span>';
+    rpHtml+='</div>';
+    rpHtml+='<span class="rp-badge" style="background:'+cfg.bg+';color:'+cfg.color+'">'+cfg.label+'</span>';
+    rpHtml+='</div>';
+  });
+  document.getElementById('rpGerencias').innerHTML=rpHtml;
+
+  // Cards
+  var grid=document.getElementById('gerenciasGrid');
+  if(CURRENT_PERIOD==='Q3-2026'){
+    grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg><p>Q3-2026 aún no ha iniciado.</p><p style="font-size:11px;margin-top:4px;">Los reportes estarán disponibles a partir del 1 de julio de 2026.</p></div>';
+    return;
+  }
+
+  var html='';
+  GERENCIAS_MIR.forEach(function(g){
+    var v=getVal(g.id)||{estado:'pendiente',stats:g.stats||{}};
+    var estado=v.estado||'pendiente';
+    var cfg=VAL_ESTADOS[estado]||VAL_ESTADOS.pendiente;
+    var stats=getStats(g.id);
+    var p=pct(stats.aprobados,stats.total);
+    var btnClass=estado;
+    var btnLabel=estado==='validado'?'Ver validación':estado==='lista'?'Revisar y validar':'Ver estado';
+
+    html+='<div class="gerencia-card">';
+    html+='<div class="card-accent" style="background:'+g.color+'"></div>';
+    html+='<div class="card-body">';
+
+    // Top: name + badge
+    html+='<div class="card-top">';
+    html+='<div><p class="card-gerencia-name">'+g.nombre+'</p><p class="card-period-label">'+CURRENT_PERIOD+'</p></div>';
+    html+=estadoBadgeHtml(estado);
+    html+='</div>';
+
+    // People
+    html+='<div class="card-people">';
+    html+='<div class="person-item">';
+    html+='<div class="person-avatar" style="background:'+g.color+'">'+g.enlace.iniciales+'</div>';
+    html+='<div class="person-info"><strong>'+g.enlace.nombre.split(' ')[0]+' '+g.enlace.nombre.split(' ').slice(-1)[0]+'</strong>Enlace</div>';
+    html+='</div>';
+    html+='<div class="person-item">';
+    html+='<div class="person-avatar" style="background:#64748B">'+g.revisor.iniciales+'</div>';
+    html+='<div class="person-info"><strong>'+g.revisor.nombre.split(' ')[0]+' '+g.revisor.nombre.split(' ').slice(-1)[0]+'</strong>Revisor</div>';
+    html+='</div>';
+    html+='</div>';
+
+    // Stats
+    html+='<div class="card-stats">';
+    html+='<div class="stats-bar-wrap">';
+    html+='<div class="stats-bar"><div class="stats-bar-fill" style="width:'+p+'%;background:'+g.color+'"></div></div>';
+    html+='<span class="stats-count">'+stats.aprobados+' / '+stats.total+' aprobados</span>';
+    html+='</div>';
+    html+='<div class="stats-pills">';
+    if(stats.enRevision>0) html+='<span class="stat-pill blue">'+stats.enRevision+' en revisión</span>';
+    if(stats.observados>0) html+='<span class="stat-pill orange">'+stats.observados+' observado'+(stats.observados>1?'s':'')+'</span>';
+    if(stats.pendientes>0) html+='<span class="stat-pill gray">'+stats.pendientes+' pendiente'+(stats.pendientes>1?'s':'')+'</span>';
+    if(stats.sinIniciar>0) html+='<span class="stat-pill yellow">'+stats.sinIniciar+' sin iniciar</span>';
+    html+='</div>';
+    html+='</div>';
+
+    // Footer button
+    html+='<div class="card-footer">';
+    html+='<button class="btn-card '+btnClass+'" onclick="openModal(\''+g.id+'\')">'+btnLabel+' →</button>';
+    html+='</div>';
+
+    html+='</div></div>';
+  });
+  grid.innerHTML=html;
+}
+
+// ── Modal ────────────────────────────────────────────────────────────────────
+function openModal(gid){
+  ACTIVE_GID=gid;
+  var g=getGerencia(gid);
+  var v=getVal(gid)||{estado:'pendiente',stats:g.stats||{}};
+  var estado=v.estado||'pendiente';
+  var stats=getStats(gid);
+  var p=pct(stats.aprobados,stats.total);
+  var cfg=VAL_ESTADOS[estado];
+
+  document.getElementById('mTitle').textContent=g.nombre;
+  document.getElementById('mSubtitle').textContent='Período: '+CURRENT_PERIOD+' · Fecha límite: '+formatDate(g.fechaLimite);
+  document.getElementById('mEstadoRow').innerHTML=estadoBadgeHtml(estado);
+
+  // ── Body ──────────────────────────────────────────────────────────────────
+  var body='';
+
+  // Timeline
+  body+='<div>';
+  body+='<p class="modal-section-title">Flujo de validación</p>';
+  body+='<div class="timeline">';
+  var tlDone1=stats.aprobados>0||estado==='lista'||estado==='validado';
+  var tlDone2=estado==='lista'||estado==='validado';
+  var tlActive3=estado==='lista';
+  var tlDone3=estado==='validado';
+  body+=tlStep('1',tlDone1?'done':'pending','Enlace',stats.aprobados>0?'Reporte enviado':'Pendiente',tlDone1);
+  body+='<div class="tl-connector '+(tlDone1?'done':'')+'"></div>';
+  body+=tlStep('2',tlDone2?'done':(tlDone1?'active':'pending'),'Revisor',tlDone2?'Revisión completa':tlDone1?'Revisando...':'En espera',tlDone2);
+  body+='<div class="tl-connector '+(tlDone2?'done':'')+'"></div>';
+  body+=tlStep('3',tlDone3?'done':(tlActive3?'active':'pending'),'Admin',tlDone3?'Validado el '+formatDate(v.fechaValidacion):tlActive3?'Pendiente de admin':'En espera',tlDone3||tlActive3);
+  body+='</div>';
+  body+='</div>';
+
+  // Consolidated KPIs
+  body+='<div>';
+  body+='<p class="modal-section-title">Resumen consolidado — '+CURRENT_PERIOD+'</p>';
+  body+='<div class="kpi-mini-strip">';
+  body+=kpiMini(stats.total,'Total','#111827');
+  body+=kpiMini(stats.aprobados,'Aprobados','#059669');
+  body+=kpiMini(stats.enRevision,'En revisión','#1D4ED8');
+  body+=kpiMini((stats.observados||0)+(stats.pendientes||0)+(stats.sinIniciar||0),'Sin cerrar','#EA580C');
+  body+='</div>';
+  body+='<div class="modal-progress-wrap" style="margin-top:12px;">';
+  body+='<div class="modal-progress-label"><span>'+p+'% aprobados por el revisor</span><span>'+stats.aprobados+' / '+stats.total+'</span></div>';
+  body+='<div class="modal-progress-bar"><div class="modal-progress-fill" style="width:'+p+'%;background:'+g.color+'"></div></div>';
+  body+='</div>';
+  body+='</div>';
+
+  // Nivel breakdown
+  var breakdown=getNivelBreakdown(gid);
+  if(breakdown&&breakdown.length){
+    body+='<div>';
+    body+='<p class="modal-section-title">Desglose por nivel MIR</p>';
+    body+='<div class="nivel-rows">';
+    breakdown.forEach(function(n){
+      var np=pct(n.aprobados,n.total);
+      body+='<div class="nivel-row">';
+      body+='<span class="nivel-pill '+n.key+'" style="background:'+NIVEL_BG[n.key]+';color:'+NIVEL_COLORS[n.key]+'">'+n.key+'</span>';
+      body+='<span class="nivel-name">'+n.label+'</span>';
+      body+='<div class="nivel-bar-wrap"><div class="nivel-bar-fill" style="width:'+np+'%;background:'+NIVEL_COLORS[n.key]+'"></div></div>';
+      body+='<span class="nivel-count" style="color:'+NIVEL_COLORS[n.key]+'">'+n.aprobados+' / '+n.total+'</span>';
+      body+='</div>';
+    });
+    body+='</div>';
+    body+='</div>';
+  }
+
+  // Status callout
+  if(estado==='pendiente'){
+    body+='<div class="callout warning"><strong>Reporte incompleto</strong>Menos del 70% de indicadores han sido aprobados por el revisor ('+p+'%). Puedes validar de todas formas, pero asegúrate de que el avance sea representativo.</div>';
+  } else if(estado==='lista'){
+    body+='<div class="callout info"><strong>Listo para validación</strong>El revisor ha completado la revisión de los indicadores más relevantes. El reporte está disponible para validación institucional.</div>';
+  } else if(estado==='validado'){
+    body+='<div class="locked-notice">';
+    body+='<div class="locked-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#065F46" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.746 3.746 0 0 1-3.296 1.043 3.745 3.745 0 0 1-3.068 1.593 3.745 3.745 0 0 1-3.068-1.593 3.746 3.746 0 0 1-3.296-1.043 3.746 3.746 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.746 3.746 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.745 3.745 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"/></svg></div>';
+    body+='<div class="locked-text"><strong>Reporte validado oficialmente</strong>Validado el '+formatDate(v.fechaValidacion)+' por Leticia Solís. Los datos ya están disponibles en dashboards y reportes oficiales.</div>';
+    body+='</div>';
+  }
+
+  // Admin comments
+  body+='<div>';
+  body+='<label class="comment-label">Comentarios del administrador</label>';
+  body+='<textarea class="comment-textarea" id="adminComment" placeholder="Agrega observaciones o notas generales sobre el reporte de esta gerencia…"'+(estado==='validado'?' disabled':'')+'>'+((v.comentariosAdmin)||'')+'</textarea>';
+  body+='</div>';
+
+  document.getElementById('mBody').innerHTML=body;
+
+  // ── Footer ─────────────────────────────────────────────────────────────────
+  var footer='<button class="btn-secondary" onclick="closeModal()">Cerrar</button>';
+  if(estado==='validado'){
+    footer+='<button class="btn-unlock" onclick="unlockGerencia(\''+gid+'\')">Desbloquear (caso excepcional)</button>';
+  } else {
+    footer+='<button class="btn-primary" onclick="validateGerencia(\''+gid+'\')">Validar reporte de gerencia</button>';
+  }
+  document.getElementById('mFooter').innerHTML=footer;
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function tlStep(num,state,label,sub,active){
+  return '<div class="tl-step"><div class="tl-dot '+state+'">'+(state==='done'?'<svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>':num)+'</div><p class="tl-label">'+label+'</p><p class="tl-sublabel">'+sub+'</p></div>';
+}
+
+function kpiMini(val,lbl,color){
+  return '<div class="kpi-mini"><p class="kpi-mini-val" style="color:'+color+'">'+val+'</p><p class="kpi-mini-lbl">'+lbl+'</p></div>';
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  ACTIVE_GID=null;
+}
+
+function overlayClick(e){
+  if(e.target===document.getElementById('modalOverlay')) closeModal();
+}
+
+// ── Actions ──────────────────────────────────────────────────────────────────
+function validateGerencia(gid){
+  var g=getGerencia(gid);
+  var v=getVal(gid)||{key:gid+'-'+CURRENT_PERIOD,gerencia:gid,periodo:CURRENT_PERIOD,estado:'pendiente',stats:g.stats||{},comentariosAdmin:'',fechaValidacion:null};
+  var comentario=document.getElementById('adminComment').value.trim();
+
+  v.estado='validado';
+  v.comentariosAdmin=comentario;
+  v.fechaValidacion='2026-06-16';
+  upsertValidacion(v);
+
+  showToast('Reporte de '+g.nombre+' validado oficialmente');
+  closeModal();
+  render();
+}
+
+function unlockGerencia(gid){
+  if(!confirm('¿Desbloquear el reporte de esta gerencia? Esta acción debe estar justificada y quedará registrada.')) return;
+  var g=getGerencia(gid);
+  var v=getVal(gid);
+  if(!v) return;
+  v.estado='lista';
+  v.comentariosAdmin=(v.comentariosAdmin?v.comentariosAdmin+'\n':'')+'[Desbloqueado por Administrador el 2026-06-16]';
+  v.fechaValidacion=null;
+  upsertValidacion(v);
+
+  showToast('Reporte desbloqueado — requiere nueva validación');
+  closeModal();
+  render();
+}
+
+// ── Utilities ─────────────────────────────────────────────────────────────────
+function formatDate(d){
+  if(!d) return '—';
+  try{
+    var parts=d.split('-');
+    var months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    return parseInt(parts[2])+' '+months[parseInt(parts[1])-1]+'. '+parts[0];
+  }catch(e){return d;}
+}
+
+var toastTimer=null;
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){t.classList.remove('show');},2800);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>

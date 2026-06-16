@@ -37,7 +37,10 @@
 
     /* LAYOUT */
     .app-wrapper{display:flex;flex:1;margin-left:64px;}
-    .main-content{flex:1;padding:24px;min-width:0;margin-right:280px;max-width:860px;}
+    .main-content{flex:1;padding:24px;min-width:0;margin-right:280px;}
+    .detail-cols{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:16px;align-items:start;}
+    .detail-col{display:flex;flex-direction:column;}
+    .detail-col .section-card:last-child{margin-bottom:0;}
 
     /* ACTION PANEL */
     .action-panel{width:280px;background:var(--color-bg);border-left:1px solid var(--color-border);padding:20px 18px;position:fixed;right:0;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
@@ -342,6 +345,53 @@
     .ro-section-label{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
     .ro-section-value{font-size:13px;color:var(--color-text-primary);line-height:1.55;}
     .avance-ro-val strong{color:var(--color-primary);font-size:18px;font-weight:700;}
+
+    /* STEP ACCORDION */
+    .step-card{background:var(--color-bg);border-radius:var(--radius-card);margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;}
+    .step-card:last-child{margin-bottom:0;}
+    .step-hdr{display:flex;align-items:center;gap:12px;padding:15px 20px;}
+    .step-badge{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;line-height:1;}
+    .step-badge.active{background:var(--color-primary);color:white;}
+    .step-badge.done{background:#DCFCE7;color:#16A34A;}
+    .step-badge.done svg{width:13px;height:13px;}
+    .step-badge.locked{background:var(--color-surface);border:1.5px solid var(--color-border);color:#9CA3AF;}
+    .step-title-col{flex:1;min-width:0;}
+    .step-card-name{font-size:13px;font-weight:700;color:var(--color-text-primary);}
+    .step-card-name.locked{color:var(--color-text-secondary);}
+    .step-done-chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:#16A34A;background:#DCFCE7;padding:3px 9px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
+    .step-done-chip svg{width:10px;height:10px;}
+    .step-lock-icon{color:#D1D5DB;flex-shrink:0;}
+    .step-lock-icon svg{width:15px;height:15px;display:block;}
+    .step-sep{height:1px;background:var(--color-border);}
+    .step-body{padding:18px 20px;}
+    .step-locked-body{padding:10px 20px 14px;display:flex;align-items:center;gap:7px;font-size:12px;color:#9CA3AF;}
+    .step-locked-body svg{width:13px;height:13px;flex-shrink:0;}
+
+    /* SIN AVANCE */
+    .sin-avance-banner{display:flex;align-items:flex-start;gap:10px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;margin-top:14px;}
+    .sin-avance-banner svg{width:15px;height:15px;color:#D97706;flex-shrink:0;margin-top:1px;}
+    .sin-avance-banner p{font-size:12px;color:#78350F;line-height:1.55;}
+    .sin-avance-ro{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;}
+    .sin-avance-ro svg{width:15px;height:15px;color:#EA580C;flex-shrink:0;}
+    .sin-avance-ro p{font-size:13px;color:#C2410C;font-weight:600;}
+    .btn-sin-avance{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--color-text-secondary);border:1.5px dashed var(--color-border);border-radius:var(--radius-btn);padding:7px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:border-color .15s,color .15s;margin-top:14px;}
+    .btn-sin-avance:hover{border-color:#D97706;color:#D97706;}
+    .btn-sin-avance svg{width:14px;height:14px;}
+    .btn-cancel-link{background:none;border:none;color:var(--color-text-secondary);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:underline;padding:0;}
+    .btn-cancel-link:hover{color:var(--color-text-primary);}
+
+    /* HISTORIAL DE PERÍODOS */
+    .periodos-hist{background:var(--color-surface);border-radius:10px;padding:12px 14px;margin-bottom:16px;}
+    .periodos-hist-hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+    .periodos-hist-lbl{font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;}
+    .periodos-hist-acum{font-size:11px;font-weight:700;color:#166534;background:#DCFCE7;padding:3px 10px;border-radius:999px;}
+    .periodos-table{width:100%;border-collapse:collapse;}
+    .periodos-table th{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;padding:0 10px 6px 0;text-align:left;white-space:nowrap;}
+    .periodos-table td{font-size:12px;padding:5px 10px 5px 0;border-bottom:1px solid var(--color-border);vertical-align:middle;}
+    .periodos-table tr:last-child td{border-bottom:none;}
+    .ph-ap{color:#16A34A;font-size:11px;font-weight:600;white-space:nowrap;}
+    .ph-obs{color:#D97706;font-size:11px;font-weight:600;}
+    .ph-acum-val{color:var(--color-text-primary);font-weight:700;}
   </style>
 </head>
 <body>
@@ -404,13 +454,11 @@
   let justErr       = false;
   const MIN_JUSTIFY  = 50;
   let avanceValue   = '';
+  let sinAvance     = false;
   let avanceNum     = '';
   let avanceDen     = '';
   let avanceSaved   = false;
   let comentario        = '';
-  let analisisCausas    = '';
-  let analisisRiesgos   = '';
-  let analisisMedidas   = '';
   let comentarioGuardado = false;
 
   const ALLOWED_EXT = ['pdf','xlsx','xls','docx','doc','jpg','jpeg','png'];
@@ -664,9 +712,25 @@
   }
 
   // ── Avance ───────────────────────────────────────────────────────────────
-  function onAvanceInput(val) { avanceValue = val; }
-  function onAvanceNum(val) { avanceNum = val; refreshAvanceCalc(); }
-  function onAvanceDen(val) { avanceDen = val; refreshAvanceCalc(); }
+  function onAvanceInput(val) {
+    avanceValue = val;
+    if (val.trim() && sinAvance) { sinAvance = false; renderPage(); }
+  }
+  function onAvanceNum(val) {
+    avanceNum = val;
+    if (val.trim() && sinAvance) { sinAvance = false; renderPage(); return; }
+    refreshAvanceCalc();
+  }
+  function onAvanceDen(val) {
+    avanceDen = val;
+    if (val.trim() && sinAvance) { sinAvance = false; renderPage(); return; }
+    refreshAvanceCalc();
+  }
+  function toggleSinAvance() {
+    sinAvance = !sinAvance;
+    if (sinAvance) { avanceNum = ''; avanceDen = ''; avanceValue = ''; avanceSaved = false; }
+    renderPage();
+  }
 
   function refreshAvanceCalc() {
     const x = parseFloat(avanceNum), y = parseFloat(avanceDen);
@@ -699,6 +763,19 @@
   }
 
   function saveAvance() {
+    if (sinAvance) {
+      avanceSaved = true;
+      avanceValue = 'Sin avance';
+      actividad.historial.push({
+        fecha: nowStr(), hora: nowTime(),
+        usuario: 'Ana Torres', rol: 'Enlace',
+        accion: 'Sin avance reportado para el período',
+        estadoAnterior: null, estadoNuevo: null
+      });
+      renderPage();
+      showToast('Sin avance registrado. Recuerda agregar un comentario justificando el resultado.');
+      return;
+    }
     if (actividad.tieneDenominador) {
       const x = parseFloat(avanceNum), y = parseFloat(avanceDen);
       if (isNaN(x) || isNaN(y) || y <= 0) return;
@@ -725,85 +802,58 @@
     showToast('Avance guardado correctamente.');
   }
   // ── Comentarios y análisis ────────────────────────────────────────────────
-  function onComentInput(val)  { comentario       = val; }
-  function onCausasInput(val)  { analisisCausas   = val; }
-  function onRiesgosInput(val) { analisisRiesgos  = val; }
-  function onMedidasInput(val) { analisisMedidas  = val; }
+  function onComentInput(val)  { comentario = val; }
 
   function guardarComentarios() {
-    const hay = comentario.trim() || analisisCausas.trim() || analisisRiesgos.trim() || analisisMedidas.trim();
-    if (!hay) return;
+    if (!comentario.trim()) return;
     comentarioGuardado = true;
-    const partes = [];
-    if (comentario.trim()) partes.push('Comentario del período guardado');
-    if (analisisCausas.trim() || analisisRiesgos.trim() || analisisMedidas.trim()) partes.push('Análisis de resultados guardado');
     actividad.historial.push({
       fecha: nowStr(), hora: nowTime(),
       usuario: 'Ana Torres', rol: 'Enlace',
-      accion: partes.join(' · '),
+      accion: 'Comentario del reporte de avance guardado',
       estadoAnterior: null, estadoNuevo: null
     });
     renderPage();
-    showToast('Comentarios y análisis guardados.');
+    showToast('Comentario guardado.');
   }
 
-  function renderComentariosSection(act) {
-    const editable = isEditable();
-    const hay = comentario.trim() || analisisCausas.trim() || analisisRiesgos.trim() || analisisMedidas.trim();
-    const CHECK = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`;
-    const SAVE_ICO = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`;
-
-    const roBlock = (label, val) => val ? `
-      <p class="ro-section-label">${label}</p>
-      <p class="ro-section-value" style="margin-bottom:10px">${val}</p>` : '';
-
-    if (!editable) {
-      if (!comentarioGuardado || !hay) return `<p style="font-size:13px;color:var(--color-text-secondary)">Sin comentarios adicionales para este período.</p>`;
-      return `
-        ${roBlock('Comentario del período', comentario)}
-        ${(analisisCausas || analisisRiesgos || analisisMedidas) ? `
-        <div class="analisis-sep">
-          <p style="font-size:12px;font-weight:700;color:var(--color-text-primary);margin-bottom:10px">Análisis de resultados</p>
-          ${roBlock('Causas del resultado', analisisCausas)}
-          ${roBlock('Riesgos identificados', analisisRiesgos)}
-          ${roBlock('Medidas o acciones', analisisMedidas)}
-        </div>` : ''}`;
-    }
-
+  function renderHistorialPeriodos(act) {
+    const ps = act.periodosAnteriores;
+    if (!ps || ps.length === 0) return '';
+    const isFrac = !!act.tieneDenominador;
+    const isAcum = !!act.acumulable;
+    const CHK = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="11" height="11"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>`;
+    let running = 0;
+    const rows = ps.map(p => {
+      const val = isFrac
+        ? `<strong>${p.resultado.toFixed(1)}%</strong>`
+        : `<strong>${p.valor != null ? Number(p.valor).toLocaleString('es-MX') : '—'}</strong>`;
+      if (isAcum && p.valor != null) running += p.valor;
+      const acumCell = isAcum ? `<td class="ph-acum-val">${running.toLocaleString('es-MX')}</td>` : '';
+      const est = p.estado === 'aprobado'
+        ? `<span class="ph-ap">${CHK} Aprobado</span>`
+        : `<span class="ph-obs">⚠ ${p.estado}</span>`;
+      return `<tr><td style="color:var(--color-text-secondary)">${p.periodo}</td><td>${val}</td>${acumCell}<td>${est}</td></tr>`;
+    });
+    const metaStr = String(act.metaAnual || '');
+    const acumHdr = isAcum
+      ? `<span class="periodos-hist-acum">Acumulado: ${running.toLocaleString('es-MX')} / ${metaStr}</span>`
+      : '';
+    const acumTh = isAcum ? `<th>Acumulado</th>` : '';
     return `
-      <div class="ctx-info">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>
-        <p>Opcional, pero valioso: justifica cumplimiento, incumplimiento o sobrecumplimiento. El Revisor tendrá más contexto para decidir sin depender únicamente del archivo adjunto.</p>
-      </div>
-      ${comentarioGuardado ? `
-        <div class="avance-saved-banner">
-          ${CHECK} Comentarios y análisis guardados. Puedes actualizarlos si es necesario.
-        </div>` : ''}
-      <span class="field-label">Comentario del período</span>
-      <textarea class="txt-area" rows="3" oninput="onComentInput(this.value)"
-        placeholder="Describe el contexto del resultado: qué ocurrió, qué factores influyeron, si hubo limitaciones operativas o externas...">${comentario}</textarea>
-
-      <div class="analisis-sep">
-        <p style="font-size:13px;font-weight:700;color:var(--color-text-primary);margin-bottom:3px">Análisis de resultados</p>
-        <p class="avance-hint" style="margin-bottom:12px">Documenta el "por qué" del resultado — no solo el "qué" — para que el Revisor y la gerencia tengan el contexto completo.</p>
-
-        <span class="field-label">Causas del resultado</span>
-        <textarea class="txt-area" rows="2" oninput="onCausasInput(this.value)"
-          placeholder="¿Qué factores (internos o externos) explican el resultado obtenido en este período?">${analisisCausas}</textarea>
-
-        <span class="field-label" style="margin-top:10px;display:block">Riesgos identificados</span>
-        <textarea class="txt-area" rows="2" oninput="onRiesgosInput(this.value)"
-          placeholder="¿Qué riesgos pueden afectar el cumplimiento de la meta en próximos períodos?">${analisisRiesgos}</textarea>
-
-        <span class="field-label" style="margin-top:10px;display:block">Medidas o acciones</span>
-        <textarea class="txt-area" rows="2" oninput="onMedidasInput(this.value)"
-          placeholder="¿Qué acciones se están implementando o se implementarán para mantener o mejorar el resultado?">${analisisMedidas}</textarea>
-      </div>
-
-      <button class="btn-save-avance" onclick="guardarComentarios()" style="margin-top:14px" ${hay ? '' : 'disabled'}>
-        ${SAVE_ICO} Guardar comentarios y análisis
-      </button>`;
+      <div class="periodos-hist">
+        <div class="periodos-hist-hdr">
+          <span class="periodos-hist-lbl">Períodos anteriores</span>
+          ${acumHdr}
+        </div>
+        <table class="periodos-table">
+          <thead><tr><th>Período</th><th>${isFrac ? 'Resultado' : 'Valor'}</th>${acumTh}<th>Estado</th></tr></thead>
+          <tbody>${rows.join('')}</tbody>
+        </table>
+      </div>`;
   }
+
+  function renderComentariosSection(act) { return ''; }
 
   function calcMetaPeriodo(metaAnual, frecuencia, acumulable) {
     const p = {Mensual:{t:12,i:6},Bimestral:{t:6,i:3},Trimestral:{t:4,i:2},Semestral:{t:2,i:1},Anual:{t:1,i:1},Semanal:{t:52,i:23}}[frecuencia]||{t:1,i:1};
@@ -841,20 +891,41 @@
     (mp ? `<div class="avance-ctx-item"><span>Meta del período:</span><strong>${mpVal}</strong></div>` : '') +
     `<div class="avance-ctx-item">${acumTag}</div>`;
 
-    const SAVE_ICO = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`;
+    const SAVE_ICO  = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`;
     const CHECK_ICO = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`;
+    const WARN_ICO  = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>`;
+    const BAN_ICO   = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636"/></svg>`;
+
+    const sinAvanceSect = sinAvance
+      ? `<div class="sin-avance-banner">
+           ${WARN_ICO}
+           <p>Indicaste que no hubo avance en este período. Agrega una justificación en el paso de comentarios antes de confirmar.</p>
+         </div>
+         <div style="display:flex;align-items:center;gap:12px;margin-top:12px">
+           <button class="btn-save-avance" onclick="saveAvance()">${SAVE_ICO} Confirmar sin avance</button>
+           <button class="btn-cancel-link" onclick="toggleSinAvance()">Cancelar</button>
+         </div>`
+      : `<button class="btn-sin-avance" onclick="toggleSinAvance()">
+           ${BAN_ICO} Sin avance en este período
+         </button>`;
+
+    const histHtml = renderHistorialPeriodos(act);
 
     // ── READ-ONLY ──
     if (!editable) {
       let roContent;
       if (avanceSaved && avanceValue.trim()) {
-        roContent = isFrac
-          ? `<p class="avance-ro-val">Avance registrado: <strong>${avanceValue}</strong> &nbsp;<span style="font-size:12px;color:#6B7280">Numerador: ${avanceNum} / Denominador: ${avanceDen}</span></p>`
-          : `<p class="avance-ro-val">Avance registrado: <strong>${avanceValue}${unitSuffix}</strong></p>`;
+        if (avanceValue === 'Sin avance') {
+          roContent = `<div class="sin-avance-ro">${WARN_ICO}<p>Sin avance reportado para este período.</p></div>`;
+        } else {
+          roContent = isFrac
+            ? `<p class="avance-ro-val">Avance registrado: <strong>${avanceValue}</strong> &nbsp;<span style="font-size:12px;color:#6B7280">Numerador: ${avanceNum} / Denominador: ${avanceDen}</span></p>`
+            : `<p class="avance-ro-val">Avance registrado: <strong>${avanceValue}${unitSuffix}</strong></p>`;
+        }
       } else {
         roContent = `<p style="font-size:13px;color:var(--color-text-secondary)">Sin avance reportado para este período.</p>`;
       }
-      return `<div class="avance-ctx">${ctx}</div>${roContent}`;
+      return `<div class="avance-ctx">${ctx}</div>${histHtml}${roContent}`;
     }
 
     // ── FRACCIÓN ──
@@ -866,6 +937,7 @@
       const progPct = (hasResult && mpNum && mpNum > 0) ? Math.min(x/y*100/mpNum*100, 100) : 0;
       return `
         <div class="avance-ctx">${ctx}</div>
+        ${histHtml}
         ${avanceSaved ? `
           <div class="avance-saved-banner">
             ${CHECK_ICO}
@@ -902,12 +974,14 @@
         </div>
         <button class="btn-save-avance" id="btnSaveAvanceFrac" onclick="saveAvance()" ${hasResult ? '' : 'disabled'}>
           ${SAVE_ICO} Guardar avance
-        </button>`;
+        </button>
+        ${sinAvanceSect}`;
     }
 
     // ── SIMPLE ──
     return `
       <div class="avance-ctx">${ctx}</div>
+      ${histHtml}
       ${avanceSaved ? `
         <div class="avance-saved-banner">
           ${CHECK_ICO}
@@ -923,7 +997,108 @@
       <p class="avance-hint">Registra el valor obtenido para este período según el método de cálculo del indicador.</p>
       <button class="btn-save-avance" onclick="saveAvance()" ${avanceValue.trim() ? '' : 'disabled'}>
         ${SAVE_ICO} Guardar avance
-      </button>`;
+      </button>
+      ${sinAvanceSect}`;
+  }
+
+  // ── Reporte accordion (3 pasos) ───────────────────────────────────────────
+  function renderReporteAccordion(act) {
+    const editable       = isEditable();
+    const step1Done      = avanceSaved;
+    const step2Done      = act.archivosEvidencia.length > 0;
+    const step3Done      = comentarioGuardado;
+    const step2Accessible = !editable || step1Done;
+    const step3Accessible = !editable || (step1Done && step2Done);
+
+    const CHECK_S = `<svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>`;
+    const LOCK_S  = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>`;
+    const SAVE_S  = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`;
+    const DOC_S   = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>`;
+    const CHECK_ICO = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`;
+
+    const badge = (num, done, accessible) => done
+      ? `<div class="step-badge done">${CHECK_S}</div>`
+      : accessible
+        ? `<div class="step-badge active">${num}</div>`
+        : `<div class="step-badge locked">${num}</div>`;
+
+    const doneChip = (label) =>
+      `<span class="step-done-chip">${CHECK_S} ${label}</span>`;
+
+    const lockBody = (msg) =>
+      `<div class="step-sep"></div><div class="step-locked-body">${LOCK_S} ${msg}</div>`;
+
+    // ── Paso 1: Valor del avance ──────────────────────────────────────────
+    const paso1 = `
+      <div class="step-card">
+        <div class="step-hdr">
+          ${badge(1, step1Done, true)}
+          <div class="step-title-col">
+            <p class="step-card-name">Valor del avance</p>
+          </div>
+          ${step1Done ? doneChip('Completado') : ''}
+        </div>
+        <div class="step-sep"></div>
+        <div class="step-body">${renderAvanceSection(act)}</div>
+      </div>`;
+
+    // ── Paso 2: Medio de verificación + carga de evidencia ────────────────
+    const paso2Body = `
+      <div class="mv-box" style="margin-bottom:12px">
+        <div class="mv-box-title">${DOC_S}Documento requerido</div>
+        <p>${act.medioVerificacion}</p>
+        <span class="format-badge">Formato: ${act.formatoEsperado}</span>
+      </div>
+      <div class="mv-rule" style="margin-bottom:16px">
+        <p class="mv-rule-title">Reglas de carga</p>
+        <p>${act.reglasExtra}</p>
+      </div>
+      ${renderEvidenceSection(act)}`;
+
+    const paso2 = `
+      <div class="step-card" id="secEvidencia">
+        <div class="step-hdr">
+          ${badge(2, step2Done, step2Accessible)}
+          <div class="step-title-col">
+            <p class="step-card-name ${step2Accessible ? '' : 'locked'}">Medio de verificación</p>
+          </div>
+          ${step2Done ? doneChip(`${act.archivosEvidencia.length} archivo${act.archivosEvidencia.length !== 1 ? 's' : ''}`) : ''}
+          ${!step2Accessible ? `<span class="step-lock-icon">${LOCK_S}</span>` : ''}
+        </div>
+        ${step2Accessible
+          ? `<div class="step-sep"></div><div class="step-body">${paso2Body}</div>`
+          : lockBody('Registra el valor del avance primero.')}
+      </div>`;
+
+    // ── Paso 3: Comentarios del enlace ────────────────────────────────────
+    const comentContent = editable
+      ? `<p class="avance-hint" style="margin-bottom:10px">Opcional: describe el contexto del resultado — qué ocurrió, qué factores influyeron, si hay riesgos o acciones en marcha.</p>
+         ${comentarioGuardado ? `<div class="avance-saved-banner">${CHECK_ICO} Comentario guardado. Puedes actualizarlo.</div>` : ''}
+         <textarea class="txt-area" rows="4" oninput="onComentInput(this.value)"
+           placeholder="Ej: La cobertura bajó por la suspensión del servicio en colonia Norte durante 10 días. Se retomó el 15 de junio...">${comentario}</textarea>
+         <button class="btn-save-avance" onclick="guardarComentarios()" style="margin-top:12px" ${comentario.trim() ? '' : 'disabled'}>
+           ${SAVE_S} Guardar comentario
+         </button>`
+      : (comentario.trim()
+          ? `<p class="ro-section-label">Comentario del período</p><p class="ro-section-value">${comentario}</p>`
+          : `<p style="font-size:13px;color:var(--color-text-secondary)">Sin comentarios para este período.</p>`);
+
+    const paso3 = `
+      <div class="step-card">
+        <div class="step-hdr">
+          ${badge(3, step3Done, step3Accessible)}
+          <div class="step-title-col">
+            <p class="step-card-name ${step3Accessible ? '' : 'locked'}">Comentarios del enlace</p>
+          </div>
+          ${step3Done ? doneChip('Con comentario') : ''}
+          ${!step3Accessible ? `<span class="step-lock-icon">${LOCK_S}</span>` : ''}
+        </div>
+        ${step3Accessible
+          ? `<div class="step-sep"></div><div class="step-body">${comentContent}</div>`
+          : lockBody('Carga al menos un archivo de evidencia primero.')}
+      </div>`;
+
+    return paso1 + paso2 + paso3;
   }
 
   // ── Toggle sections ───────────────────────────────────────────────────────
@@ -1097,112 +1272,77 @@
         <span>${act.id}</span>
       </div>
 
-      <div class="header-card">
-        <div class="hc-top">
-          <div><p class="hc-id">${act.id}</p><h1 class="hc-title">${act.nombre}</h1></div>
-          <span class="estado-badge ${cfg.cls}" style="flex-shrink:0;margin-top:4px;">${cfg.label}</span>
-        </div>
-        <div class="hc-meta">
-          <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg><strong>${act.gerencia}</strong></div>
-          <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>Período: <strong>${act.periodo}</strong></div>
-          <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Frecuencia: <strong>${act.frecuenciaMedicion}</strong></div>
-          <div class="hc-meta-item"><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></div>
-        </div>
-      </div>
+      <div class="detail-cols">
 
-      <!-- MIR INFO -->
-      <div class="section-card">
-        <div class="section-header open" data-sec="mir" onclick="toggleSection('mir')">
-          <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>Información MIR</div>
-          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-        </div>
-        <div class="section-body open" id="sec-mir">
-          <div class="info-grid single"><div class="info-item"><label>Objetivo</label><p>${act.objetivo}</p></div><div class="info-divider"></div><div class="info-item"><label>Denominación del indicador</label><p>${act.denominacionIndicador}</p></div></div>
-          <div class="info-grid" style="margin-top:14px;">
-            <div class="info-item"><label>Nivel MIR</label><p><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></p></div>
-            <div class="info-item"><label>Frecuencia de medición</label><p>${act.frecuenciaMedicion}</p></div>
-            <div class="info-item"><label>Línea base</label><p>${act.lineaBase}</p></div>
-            <div class="info-item"><label>Meta anual</label><p>${act.metaAnual}</p></div>
-            <div class="info-divider"></div>
-            <div class="info-item"><label>Método de cálculo</label><p class="mono">${act.metodoCalculo}</p></div>
-            <div class="info-item"><label>Numerador</label><p>${act.numerador}</p></div>
-            <div class="info-item"><label>Denominador</label><p>${act.denominador}</p></div>
+        <!-- COLUMNA IZQUIERDA: HEADER + MIR INFO -->
+        <div class="detail-col">
+          <div class="header-card">
+            <div class="hc-top">
+              <div><p class="hc-id">${act.id}</p><h1 class="hc-title">${act.nombre}</h1></div>
+              <span class="estado-badge ${cfg.cls}" style="flex-shrink:0;margin-top:4px;">${cfg.label}</span>
+            </div>
+            <div class="hc-meta">
+              <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg><strong>${act.gerencia}</strong></div>
+              <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>Período: <strong>${act.periodo}</strong></div>
+              <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Frecuencia: <strong>${act.frecuenciaMedicion}</strong></div>
+              <div class="hc-meta-item"><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></div>
+            </div>
+          </div>
+          <div class="section-card">
+            <div class="section-header open" data-sec="mir" onclick="toggleSection('mir')">
+              <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>Información MIR</div>
+              <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+            </div>
+            <div class="section-body open" id="sec-mir">
+              <div class="info-grid single">
+                <div class="info-item"><label>Objetivo</label><p>${act.objetivo}</p></div>
+                <div class="info-divider"></div>
+                <div class="info-item"><label>Denominación del indicador</label><p>${act.denominacionIndicador}</p></div>
+                <div class="info-divider"></div>
+                <div class="info-item"><label>Nivel MIR</label><p><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></p></div>
+                <div class="info-item"><label>Frecuencia de medición</label><p>${act.frecuenciaMedicion}</p></div>
+                <div class="info-item"><label>Línea base</label><p>${act.lineaBase}</p></div>
+                <div class="info-item"><label>Meta anual</label><p>${act.metaAnual}</p></div>
+                <div class="info-divider"></div>
+                <div class="info-item"><label>Método de cálculo</label><p class="mono">${act.metodoCalculo}</p></div>
+                <div class="info-divider"></div>
+                <div class="info-item"><label>Numerador</label><p>${act.numerador}</p></div>
+                <div class="info-item"><label>Denominador</label><p>${act.denominador}</p></div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- MEDIO VERIFICACION -->
-      <div class="section-card">
-        <div class="section-header open" data-sec="mv" onclick="toggleSection('mv')">
-          <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"/></svg>Medio de verificación</div>
-          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-        </div>
-        <div class="section-body open" id="sec-mv">
-          <div class="mv-box"><div class="mv-box-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>Documento requerido</div><p>${act.medioVerificacion}</p><span class="format-badge">Formato: ${act.formatoEsperado}</span></div>
-          <div class="mv-rule"><p class="mv-rule-title">Reglas de carga</p><p>${act.reglasExtra}</p></div>
-        </div>
-      </div>
+        <!-- COLUMNA DERECHA: REPORTE + EVIDENCIA + OBS + HISTORIAL -->
+        <div class="detail-col">
 
-      <!-- REPORTE AVANCE -->
-      <div class="section-card">
-        <div class="section-header open" data-sec="avance" onclick="toggleSection('avance')">
-          <div class="section-title">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
-            Reporte de avance
-            ${avanceSaved ? `<span class="avance-saved-chip"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Guardado</span>` : ''}
+          <!-- REPORTE DE AVANCE — ACORDEÓN 3 PASOS -->
+          ${renderReporteAccordion(act)}
+
+          <!-- OBSERVACIONES -->
+          <div class="section-card">
+            <div class="section-header${isObs?' open':''}" data-sec="obs" onclick="toggleSection('obs')">
+              <div class="section-title">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+                Observaciones
+                ${act.observaciones.length > 0 ? `<span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:#F97316;color:white;font-size:10px;font-weight:700;">${act.observaciones.length}</span>` : ''}
+              </div>
+              <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+            </div>
+            <div class="section-body${isObs?' open':''}" id="sec-obs">${obsHtml}</div>
           </div>
-          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-        </div>
-        <div class="section-body open" id="sec-avance">${renderAvanceSection(act)}</div>
-      </div>
 
-      <!-- COMENTARIOS Y ANÁLISIS -->
-      <div class="section-card">
-        <div class="section-header open" data-sec="coment" onclick="toggleSection('coment')">
-          <div class="section-title">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
-            Comentarios y análisis
-            ${comentarioGuardado ? `<span class="content-badge"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="10" height="10"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Con contenido</span>` : ''}
+          <!-- HISTORIAL -->
+          <div class="section-card">
+            <div class="section-header" data-sec="hist" onclick="toggleSection('hist')">
+              <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Historial de actividad</div>
+              <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+            </div>
+            <div class="section-body" id="sec-hist"><div class="timeline">${histHtml}</div></div>
           </div>
-          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-        </div>
-        <div class="section-body open" id="sec-coment">${renderComentariosSection(act)}</div>
-      </div>
 
-      <!-- EVIDENCIA -->
-      <div class="section-card" id="secEvidencia">
-        <div class="section-header open" data-sec="ev" onclick="toggleSection('ev')">
-          <div class="section-title">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/></svg>
-            Carga de evidencia
-            <span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:var(--color-primary);color:white;font-size:10px;font-weight:700;">${act.archivosEvidencia.length}</span>
-          </div>
-          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-        </div>
-        <div class="section-body open" id="sec-ev">${renderEvidenceSection(act)}</div>
-      </div>
-
-      <!-- OBSERVACIONES -->
-      <div class="section-card">
-        <div class="section-header${isObs?' open':''}" data-sec="obs" onclick="toggleSection('obs')">
-          <div class="section-title">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
-            Observaciones
-            ${act.observaciones.length > 0 ? `<span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:#F97316;color:white;font-size:10px;font-weight:700;">${act.observaciones.length}</span>` : ''}
-          </div>
-          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-        </div>
-        <div class="section-body${isObs?' open':''}" id="sec-obs">${obsHtml}</div>
-      </div>
-
-      <!-- HISTORIAL -->
-      <div class="section-card">
-        <div class="section-header" data-sec="hist" onclick="toggleSection('hist')">
-          <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Historial de actividad</div>
-          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-        </div>
-        <div class="section-body" id="sec-hist"><div class="timeline">${histHtml}</div></div>
-      </div>
+        </div><!-- /detail-col right -->
+      </div><!-- /detail-cols -->
     `;
   }
 

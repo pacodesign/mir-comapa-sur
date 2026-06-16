@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle Gerencia — MIR COMAPA Sur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mock-notifications.js"></script>
+  <script src="layout.js"></script>
+  <script src="mir-gerencias-data.js"></script>
+  <script src="mir-actividades-data.js"></script>
+  <style>
+    :root {
+      --color-primary: #8B1D3A;
+      --color-accent: #8B1D3A;
+      --color-accent-dark: #6B1630;
+      --color-danger: #EF4444;
+      --color-warning: #F59E0B;
+      --color-link: #6B7280;
+      --color-bg: #FFFFFF;
+      --color-surface: #F7F7F7;
+      --color-border: #E5E7EB;
+      --color-text-primary: #111827;
+      --color-text-secondary: #6B7280;
+      --color-avatar-bg: #9CA3AF;
+      --radius-card: 16px;
+      --radius-btn: 999px;
+      --pad-card: 20px;
+      --gap: 16px;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 64px;
+      background: var(--color-bg);
+      border-right: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 0;
+      gap: 4px;
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      z-index: 100;
+    }
+    .sidebar-logo {
+      width: 36px; height: 36px;
+      background: var(--color-primary);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .sidebar-logo svg { width: 18px; height: 18px; stroke: white; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .nav-item {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      transition: background 0.15s, color 0.15s;
+      text-decoration: none;
+    }
+    .nav-item:hover { background: var(--color-surface); }
+    .nav-item.active { background: #F5E8EC; color: var(--color-primary); }
+    .nav-item svg { width: 20px; height: 20px; }
+    .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .avatar-xs {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--color-avatar-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: white;
+    }
+
+    /* ── MAIN ── */
+    .main-content {
+      margin-left: 64px;
+      flex: 1;
+      padding: 24px;
+      min-width: 0;
+    }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; color: var(--color-text-secondary);
+      text-decoration: none; margin-bottom: 14px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--color-text-primary); }
+    .back-link svg { width: 14px; height: 14px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--color-text-secondary);
+      margin-bottom: 20px;
+    }
+    .breadcrumb a { color: var(--color-text-secondary); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--color-text-primary); text-decoration: underline; }
+    .breadcrumb-sep { color: var(--color-border); }
+    .breadcrumb-current { color: var(--color-text-primary); font-weight: 600; }
+
+    /* ── GERENCIA HEADER CARD ── */
+    .gerencia-header-card {
+      background: var(--color-bg);
+      border-radius: var(--radius-card);
+      padding: var(--pad-card);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border-left: 4px solid transparent;
+      margin-bottom: 20px;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
+    }
+    .gh-left { flex: 1; }
+    .gh-name { font-size: 22px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 6px; }
+    .gh-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 12px; }
+    .gh-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .gh-tag {
+      font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: var(--radius-btn);
+      background: var(--color-surface); color: var(--color-text-secondary);
+    }
+    .gh-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .gh-team-label { font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+    .gh-team-chips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    .person-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--color-surface); border-radius: var(--radius-btn);
+      padding: 4px 10px 4px 4px; font-size: 12px; font-weight: 500; color: var(--color-text-primary);
+    }
+    .person-avatar {
+      width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 700; color: white;
+    }
+    .person-role { font-size: 10px; color: var(--color-text-secondary); }
+
+    /* ── KPI ROW ── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap);
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--color-bg);
+      border-radius: var(--radius-card);
+      padding: var(--pad-card);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .kpi-label {
+      font-size: 10px; font-weight: 600;
+      color: var(--color-text-secondary);
+      text-transform: uppercase; letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .kpi-value { font-size: 30px; font-weight: 700; color: var(--color-text-primary); line-height: 1; margin-bottom: 4px; }
+    .kpi-sub { font-size: 11px; color: var(--color-text-secondary); line-height: 1.4; }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 11px; font-weight: 600;
+      color: var(--color-text-secondary);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    /* ── TABLE ── */
+    .table-card {
+      background: var(--color-bg);
+      border-radius: var(--radius-card);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .ind-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .ind-table th {
+      background: var(--color-surface);
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 10px; font-weight: 600;
+      color: var(--color-text-secondary);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--color-border);
+      white-space: nowrap;
+    }
+    .ind-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: middle;
+    }
+    .ind-table tbody tr:last-child td { border-bottom: none; }
+    .ind-table tbody tr:hover { background: #FAFAFA; }
+    .td-id { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; }
+    .td-nombre { font-weight: 500; color: var(--color-text-primary); max-width: 280px; line-height: 1.4; }
+    .td-resultado { font-weight: 600; color: var(--color-text-primary); }
+    .td-resultado.empty { color: var(--color-text-secondary); font-weight: 400; }
+    .td-fecha { white-space: nowrap; color: var(--color-text-secondary); }
+
+    /* ── ESTADO BADGES ── */
+    .badge {
+      display: inline-flex; align-items: center;
+      font-size: 10px; font-weight: 700;
+      padding: 3px 9px; border-radius: var(--radius-btn);
+      white-space: nowrap;
+    }
+    .badge-green  { background: #F0FDF4; color: #16A34A; }
+    .badge-blue   { background: #EFF6FF; color: #2563EB; }
+    .badge-orange { background: #FFF7ED; color: #EA580C; }
+    .badge-yellow { background: #FEF3C7; color: #D97706; }
+    .badge-gray   { background: #F3F4F6; color: #6B7280; }
+
+    /* ── NIVEL BADGES ── */
+    .nivel-badge {
+      display: inline-flex; align-items: center;
+      font-size: 10px; font-weight: 700;
+      padding: 2px 8px; border-radius: var(--radius-btn);
+      white-space: nowrap;
+    }
+    .nivel-F { background: #EDE9FE; color: #7C3AED; }
+    .nivel-P { background: #DBEAFE; color: #1D4ED8; }
+    .nivel-C { background: #CCFBF1; color: #0F766E; }
+    .nivel-A { background: #F3F4F6; color: #374151; }
+
+    /* ── FREQ TAG ── */
+    .freq-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); background: #F3F4F6; color: #6B7280; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      background: var(--color-accent); color: white; border: none;
+      border-radius: var(--radius-btn);
+      padding: 9px 18px; font-size: 13px; font-weight: 600;
+      font-family: inherit; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--color-accent-dark); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .gerencia-header-card { flex-direction: column; }
+      .gh-right { align-items: flex-start; }
+    }
+    @media (max-width: 640px) {
+      .main-content { padding: 16px; }
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+    </svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="dashboard-inicio.html" title="Inicio">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" />
+      </svg>
+    </a>
+    <a class="nav-item active" href="dashboard-inicio.html" title="MIR por gerencia">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+      </svg>
+    </a>
+    <div class="nav-item" title="Indicadores">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+      </svg>
+    </div>
+    <div class="nav-item" title="Reportar avance">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" />
+      </svg>
+    </div>
+    <div class="nav-item" title="Medios de verificación">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+      </svg>
+    </div>
+    <div class="nav-item" title="Guía MIR">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+      </svg>
+    </div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="nav-item" title="Configuración">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+      </svg>
+    </div>
+    <div class="avatar-xs">LS</div>
+  </div>
+</nav>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<main class="main-content" id="mainContent">
+
+  <!-- BACK LINK -->
+  <a href="dashboard-inicio.html" class="back-link">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+    </svg>
+    Volver al panel de seguimiento
+  </a>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb">
+    <a href="dashboard-inicio.html">Inicio</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="dashboard-inicio.html">Seguimiento por gerencia</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current" id="breadcrumbName">—</span>
+  </nav>
+
+  <!-- GERENCIA HEADER CARD -->
+  <div class="gerencia-header-card" id="gerenciaHeader">
+    <!-- Rendered by JS -->
+  </div>
+
+  <!-- KPI ROW -->
+  <div class="kpi-row" id="kpiRow">
+    <!-- Rendered by JS -->
+  </div>
+
+  <!-- INDICADORES TABLE -->
+  <p class="section-label">Indicadores del período</p>
+  <div class="table-card">
+    <table class="ind-table" id="indicadoresTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Nivel</th>
+          <th>Frecuencia</th>
+          <th>Estado</th>
+          <th>Resultado</th>
+          <th>Fecha límite</th>
+        </tr>
+      </thead>
+      <tbody id="indicadoresTbody">
+        <!-- Rendered by JS -->
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<script>
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function qs(param) {
+    return new URLSearchParams(window.location.search).get(param);
+  }
+
+  function formatFechaShort(iso) {
+    if (!iso) return '—';
+    var parts = iso.split('T')[0].split('-');
+    var meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    return parseInt(parts[2]) + ' ' + meses[parseInt(parts[1]) - 1] + ' ' + parts[0];
+  }
+
+  function estadoBadge(estado) {
+    var map = {
+      'aprobado_revisor': ['badge-green', 'Aprobado'],
+      'enviado_revision': ['badge-blue', 'En revisión'],
+      'corregido':        ['badge-blue', 'En revisión'],
+      'observado':        ['badge-orange', 'Observada'],
+      'pendiente_carga':  ['badge-yellow', 'Pendiente'],
+      'borrador':         ['badge-gray', 'Borrador']
+    };
+    var cfg = map[estado] || ['badge-gray', estado];
+    return '<span class="badge ' + cfg[0] + '">' + cfg[1] + '</span>';
+  }
+
+  function nivelBadge(nivel) {
+    var labels = { F: 'Fin', P: 'Propósito', C: 'Componente', A: 'Actividad' };
+    var lbl = labels[nivel] || nivel;
+    return '<span class="nivel-badge nivel-' + nivel + '">' + lbl + '</span>';
+  }
+
+  function formatResultado(r) {
+    if (r === null || r === undefined) return '<span class="td-resultado empty">—</span>';
+    var val = (typeof r === 'number' && !Number.isInteger(r))
+      ? r.toFixed(2) + '%'
+      : String(r);
+    return '<span class="td-resultado">' + val + '</span>';
+  }
+
+  // ── Build table rows ──────────────────────────────────────────────────────
+  function buildRows(indicadores) {
+    return indicadores.map(function(ind) {
+      return '<tr>' +
+        '<td class="td-id">' + ind.id + '</td>' +
+        '<td><span class="td-nombre">' + ind.nombre + '</span></td>' +
+        '<td>' + nivelBadge(ind.nivel) + '</td>' +
+        '<td><span class="freq-tag">' + ind.frecuencia + '</span></td>' +
+        '<td>' + estadoBadge(ind.estado) + '</td>' +
+        '<td>' + formatResultado(ind.resultado) + '</td>' +
+        '<td class="td-fecha">' + formatFechaShort(ind.fechaLimite) + '</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  // ── Map ACTIVIDADES_ENLACE to common shape ────────────────────────────────
+  function mapActividadesReales() {
+    return ACTIVIDADES_ENLACE.map(function(act) {
+      var res = null;
+      if (act.avanceReportado) {
+        var ar = act.avanceReportado;
+        if (ar.resultado !== null && ar.resultado !== undefined) {
+          res = ar.resultado;
+        } else if (ar.valor !== null && ar.valor !== undefined) {
+          res = ar.valor;
+        }
+      }
+      return {
+        id: act.id,
+        nombre: act.nombre,
+        nivel: act.nivelCodigo,
+        frecuencia: act.frecuenciaMedicion,
+        estado: act.estado,
+        resultado: res,
+        fechaLimite: act.fechaLimite
+      };
+    });
+  }
+
+  // ── Render KPI row ────────────────────────────────────────────────────────
+  function renderKPIs(g) {
+    var s = g.stats;
+    var reported = s.aprobados + s.enRevision + s.observados;
+    var pct = s.total > 0 ? Math.round((reported / s.total) * 100) : 0;
+    return '<div class="kpi-card">' +
+        '<p class="kpi-label">Completitud del período</p>' +
+        '<p class="kpi-value">' + pct + '%</p>' +
+        '<p class="kpi-sub">' + reported + ' de ' + s.total + ' indicadores reportados</p>' +
+      '</div>' +
+      '<div class="kpi-card">' +
+        '<p class="kpi-label">Aprobados</p>' +
+        '<p class="kpi-value" style="color:#16A34A;">' + s.aprobados + '</p>' +
+        '<p class="kpi-sub">Aprobados por revisor</p>' +
+      '</div>' +
+      '<div class="kpi-card">' +
+        '<p class="kpi-label">En revisión</p>' +
+        '<p class="kpi-value" style="color:#2563EB;">' + s.enRevision + '</p>' +
+        '<p class="kpi-sub">Enviados al revisor</p>' +
+      '</div>' +
+      '<div class="kpi-card">' +
+        '<p class="kpi-label">Con observaciones</p>' +
+        '<p class="kpi-value" style="color:#EA580C;">' + s.observados + '</p>' +
+        '<p class="kpi-sub">Requieren corrección</p>' +
+      '</div>';
+  }
+
+  // ── Render gerencia header ────────────────────────────────────────────────
+  function renderHeader(g) {
+    var freqTags = g.frecuencias.map(function(f) {
+      return '<span class="gh-tag">' + f + '</span>';
+    }).join('');
+
+    return '<div class="gh-left">' +
+        '<p class="gh-name">' + g.nombre + '</p>' +
+        '<p class="gh-desc">' + g.descripcion + '</p>' +
+        '<div class="gh-tags">' +
+          '<span class="gh-tag" style="background:#F5E8EC;color:#8B1D3A;font-weight:700;">' + g.periodo + '</span>' +
+          '<span class="gh-tag">' + g.totalIndicadores + ' indicadores totales</span>' +
+          freqTags +
+        '</div>' +
+      '</div>' +
+      '<div class="gh-right">' +
+        '<p class="gh-team-label">Equipo</p>' +
+        '<div class="gh-team-chips">' +
+          '<div>' +
+            '<span class="person-chip">' +
+              '<span class="person-avatar" style="background:' + g.color + ';">' + g.enlace.iniciales + '</span>' +
+              '<span>' +
+                g.enlace.nombre +
+                '<br><span class="person-role">Enlace</span>' +
+              '</span>' +
+            '</span>' +
+          '</div>' +
+          '<div>' +
+            '<span class="person-chip">' +
+              '<span class="person-avatar" style="background:#6B7280;">' + g.revisor.iniciales + '</span>' +
+              '<span>' +
+                g.revisor.nombre +
+                '<br><span class="person-role">Revisor</span>' +
+              '</span>' +
+            '</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  // ── Main init ─────────────────────────────────────────────────────────────
+  function init() {
+    var gid = qs('g') || 'comercial';
+    var g = (typeof getGerencia === 'function') ? getGerencia(gid) : null;
+
+    if (!g) {
+      document.getElementById('mainContent').innerHTML =
+        '<p style="padding:40px;color:#6B7280;">Gerencia no encontrada. <a href="dashboard-inicio.html">Volver al panel</a></p>';
+      return;
+    }
+
+    // Title
+    document.title = g.nombre + ' — MIR COMAPA Sur';
+    document.getElementById('breadcrumbName').textContent = g.nombre;
+
+    // Header card
+    var hdr = document.getElementById('gerenciaHeader');
+    hdr.style.borderLeftColor = g.color;
+    hdr.innerHTML = renderHeader(g);
+
+    // KPIs
+    document.getElementById('kpiRow').innerHTML = renderKPIs(g);
+
+    // Indicadores
+    var indicadores;
+    if (g.usaDataReal && typeof ACTIVIDADES_ENLACE !== 'undefined') {
+      indicadores = mapActividadesReales();
+    } else {
+      indicadores = g.indicadores || [];
+    }
+    document.getElementById('indicadoresTbody').innerHTML = buildRows(indicadores);
+  }
+
+  init();
+</script>
+</body>
+</html>

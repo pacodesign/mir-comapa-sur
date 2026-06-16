@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisión de metas — Revisor COMAPA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mir-gerencias-data.js"></script>
+  <script src="mir-actividades-data.js"></script>
+  <script src="planeacion-data.js"></script>
+  <style>
+    :root{--color-primary:#1D4ED8;--color-accent-dark:#1E40AF;--color-bg:#FFFFFF;--color-surface:#F7F7F7;--color-border:#E5E7EB;--color-text-primary:#111827;--color-text-secondary:#6B7280;--radius-card:16px;--radius-btn:999px;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
+
+    .sidebar{width:64px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
+    .sidebar-logo{width:36px;height:36px;background:var(--color-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+    .sidebar-logo svg{width:18px;height:18px;stroke:white;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
+    .nav-item{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s;text-decoration:none;}
+    .nav-item:hover{background:var(--color-surface);}
+    .nav-item.active{background:#EFF6FF;color:var(--color-primary);}
+    .nav-item svg{width:20px;height:20px;}
+    .sidebar-bottom{display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .avatar-xs{width:32px;height:32px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;cursor:pointer;}
+
+    .app-wrapper{display:flex;flex:1;margin-left:64px;}
+    .main-content{flex:1;padding:24px;min-width:0;margin-right:240px;}
+
+    .right-panel{width:240px;background:var(--color-bg);border-left:1px solid var(--color-border);padding:20px 16px;position:fixed;right:0;top:0;height:100vh;overflow-y:auto;}
+    .rp-user{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+    .rp-avatar{width:40px;height:40px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;}
+    .rp-name{font-size:13px;font-weight:700;}
+    .rp-role{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+    .rp-divider{height:1px;background:var(--color-border);margin:14px 0;}
+    .rp-section-title{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+    .rp-stat-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+    .rp-stat-label{font-size:12px;color:var(--color-text-primary);}
+    .rp-stat-val{font-size:12px;font-weight:700;}
+    .rp-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:var(--radius-btn);}
+    .rp-badge.blue{background:#EFF6FF;color:#1D4ED8;}
+    .rp-badge.green{background:#F0FDF4;color:#16A34A;}
+    .rp-badge.orange{background:#FFF7ED;color:#EA580C;}
+    .rp-badge.gray{background:#F3F4F6;color:#6B7280;}
+
+    .page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;}
+    .page-title{font-size:22px;font-weight:700;line-height:1.3;}
+    .page-subtitle{font-size:13px;color:var(--color-text-secondary);margin-top:3px;}
+
+    .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+    .kpi-card{background:white;border-radius:var(--radius-card);padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+    .kpi-label{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+    .kpi-value{font-size:28px;font-weight:700;line-height:1;margin-bottom:2px;}
+    .kpi-sub{font-size:11px;color:var(--color-text-secondary);}
+
+    .filter-tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:1px solid var(--color-border);}
+    .f-tab{font-size:13px;font-weight:600;padding:9px 18px;border:none;background:none;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;display:flex;align-items:center;gap:6px;}
+    .f-tab.active{color:var(--color-primary);border-bottom-color:var(--color-primary);}
+    .f-tab:hover:not(.active){color:#374151;}
+    .f-count{font-size:10px;font-weight:700;padding:1px 6px;border-radius:var(--radius-btn);background:#F3F4F6;color:#6B7280;}
+    .f-tab.active .f-count{background:#EFF6FF;color:var(--color-primary);}
+
+    .plans-list{display:flex;flex-direction:column;gap:10px;}
+    .plan-row{background:white;border-radius:12px;border:1px solid var(--color-border);padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+    .plan-row:hover{border-color:#D1D5DB;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+    .plan-row.urgent{border-color:#FED7AA;}
+    .plan-indicator-id{font-family:monospace;font-size:11px;font-weight:700;color:var(--color-text-secondary);white-space:nowrap;}
+    .plan-nombre{font-size:13px;font-weight:600;color:var(--color-text-primary);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .plan-meta-info{display:flex;gap:6px;align-items:center;flex-shrink:0;flex-wrap:wrap;}
+    .pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:var(--radius-btn);}
+    .pill.gerencia{background:#F3F4F6;color:#374151;}
+    .pill.freq{background:#EFF6FF;color:#1D4ED8;}
+    .pill.estado{font-size:10px;font-weight:600;padding:2px 10px;border-radius:var(--radius-btn);}
+    .plan-fecha{font-size:11px;color:var(--color-text-secondary);white-space:nowrap;flex-shrink:0;}
+    .btn-revisar{font-size:12px;font-weight:600;font-family:inherit;padding:6px 14px;border-radius:var(--radius-btn);border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;flex-shrink:0;}
+    .btn-revisar.blue{background:#EFF6FF;color:#1D4ED8;}
+    .btn-revisar.blue:hover{background:#DBEAFE;}
+    .btn-revisar.orange{background:#FFF7ED;color:#EA580C;}
+
+    .empty-state{text-align:center;padding:48px 24px;color:var(--color-text-secondary);}
+    .empty-state svg{width:40px;height:40px;margin:0 auto 12px;display:block;color:#D1D5DB;}
+    .empty-state h3{font-size:14px;font-weight:600;margin-bottom:4px;}
+    .empty-state p{font-size:12px;}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:16px;}
+    .modal-overlay.open{display:flex;}
+    .modal-card{background:white;border-radius:20px;width:100%;max-width:620px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+    .modal-header{padding:20px 24px 14px;border-bottom:1px solid var(--color-border);}
+    .modal-hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;}
+    .modal-title{font-size:15px;font-weight:700;}
+    .modal-subtitle{font-size:11px;color:var(--color-text-secondary);}
+    .modal-close{width:30px;height:30px;border-radius:8px;border:1px solid var(--color-border);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-secondary);}
+    .modal-meta-row{display:flex;gap:6px;flex-wrap:wrap;}
+    .modal-body{flex:1;overflow-y:auto;padding:20px 24px;}
+    .modal-footer{padding:14px 24px;border-top:1px solid var(--color-border);}
+
+    .section-title{font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--color-border);}
+
+    .enlace-comment{background:#F8FAFC;border:1px solid var(--color-border);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--color-text-primary);line-height:1.6;margin-bottom:20px;}
+    .enlace-comment-hdr{font-size:11px;font-weight:700;color:var(--color-text-secondary);margin-bottom:6px;}
+
+    .metas-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:12px;}
+    .metas-table th{background:#F9FAFB;border-bottom:1px solid var(--color-border);padding:7px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;}
+    .metas-table td{padding:8px 12px;border-bottom:1px solid #F3F4F6;}
+    .metas-table tr:last-child td{border-bottom:none;}
+    .meta-val{font-weight:700;color:var(--color-text-primary);}
+
+    .decision-area{background:#F8FAFC;border:1px solid var(--color-border);border-radius:12px;padding:16px;}
+    .decision-title{font-size:12px;font-weight:700;color:var(--color-text-primary);margin-bottom:12px;}
+    .obs-textarea{width:100%;padding:10px 12px;font-size:12px;font-family:inherit;border:1px solid var(--color-border);border-radius:10px;resize:vertical;min-height:80px;outline:none;line-height:1.5;transition:border-color .15s;margin-bottom:12px;}
+    .obs-textarea:focus{border-color:var(--color-primary);}
+    .decision-btns{display:flex;gap:8px;}
+    .btn-approve{background:#D1FAE5;color:#065F46;border:none;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;flex:1;justify-content:center;}
+    .btn-approve:hover{background:#A7F3D0;}
+    .btn-observe{background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;flex:1;justify-content:center;}
+    .btn-observe:hover{background:#FEF3C7;}
+    .btn-secondary{background:var(--color-surface);color:var(--color-text-primary);border:none;border-radius:var(--radius-btn);padding:8px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;}
+
+    .approved-notice{background:#D1FAE5;border:1px solid #6EE7B7;border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px;font-size:12px;color:#065F46;margin-bottom:16px;}
+    .approved-notice svg{width:16px;height:16px;flex-shrink:0;margin-top:1px;}
+
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:#1F2937;color:white;font-size:13px;font-weight:500;padding:10px 20px;border-radius:var(--radius-btn);opacity:0;transition:all .25s;z-index:2000;pointer-events:none;}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .toast.success{background:#065F46;}
+    .toast.warn{background:#92400E;}
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="dashboard-revisor.html" title="Inicio">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
+    </a>
+    <a class="nav-item" href="bandeja-revision.html" title="Bandeja de revisión">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg>
+    </a>
+    <a class="nav-item active" href="planeacion-metas-revisor.html" title="Revisión de metas">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+    </a>
+    <div class="nav-item" title="Historial">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+    </div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="avatar-xs" id="avatarEl" onclick="window.location.href='dashboard-revisor.html'">CM</div>
+  </div>
+</nav>
+
+<div class="app-wrapper">
+  <main class="main-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Revisión de metas — 2026</h1>
+        <p class="page-subtitle">Valida las proyecciones enviadas por los enlaces de tu gerencia</p>
+      </div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi-card">
+        <p class="kpi-label">Pendientes</p>
+        <p class="kpi-value" style="color:#1D4ED8" id="kpiEnviado">—</p>
+        <p class="kpi-sub">esperan tu revisión</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Con observaciones</p>
+        <p class="kpi-value" style="color:#EA580C" id="kpiObservado">—</p>
+        <p class="kpi-sub">devueltos al enlace</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Aprobados</p>
+        <p class="kpi-value" style="color:#16A34A" id="kpiAprobado">—</p>
+        <p class="kpi-sub">enviados a admin</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Fijados</p>
+        <p class="kpi-value" style="color:#065F46" id="kpiBloqueado">—</p>
+        <p class="kpi-sub">aprobados definitivos</p>
+      </div>
+    </div>
+
+    <div class="filter-tabs" id="filterTabs"></div>
+    <div class="plans-list" id="plansList"></div>
+
+  </main>
+
+  <aside class="right-panel">
+    <div class="rp-user">
+      <div class="rp-avatar" id="rpAvatar">CM</div>
+      <div>
+        <p class="rp-name" id="rpName">Carlos Mendoza</p>
+        <p class="rp-role" id="rpRole">Revisor</p>
+      </div>
+    </div>
+    <div class="rp-divider"></div>
+    <p class="rp-section-title">Bandeja de metas</p>
+    <div class="rp-stat-row"><span class="rp-stat-label">Total recibidos</span><span class="rp-stat-val" id="rpTotal">—</span></div>
+    <div class="rp-stat-row"><span class="rp-stat-label">Por revisar</span><span class="rp-badge blue" id="rpPendientes">—</span></div>
+    <div class="rp-stat-row"><span class="rp-stat-label">Aprobados</span><span class="rp-badge green" id="rpAprobados">—</span></div>
+    <div class="rp-divider"></div>
+    <p class="rp-section-title">Por gerencia</p>
+    <div id="rpGerencias"></div>
+  </aside>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="overlayClick(event)">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-hdr-top">
+        <div>
+          <p class="modal-title" id="mTitle"></p>
+          <p class="modal-subtitle" id="mSubtitle"></p>
+        </div>
+        <button class="modal-close" onclick="closeModal()">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-meta-row" id="mMeta"></div>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var CURRENT_TAB = 'enviado';
+var PLANS = [];
+var IND_MAP = {};
+
+var ESTADO_CFG = {
+  enviado:  { label:'Pendiente revisión',   color:'#1D4ED8', bg:'#EFF6FF' },
+  observado:{ label:'Devuelto al enlace',   color:'#EA580C', bg:'#FFF7ED' },
+  aprobado: { label:'Aprobado',             color:'#059669', bg:'#D1FAE5' },
+  bloqueado:{ label:'Fijado',               color:'#16A34A', bg:'#F0FDF4' },
+};
+
+var GERENCIA_NAMES = { planeacion:'Planeación', tecnica:'Técnica', comercial:'Comercial', administrativa:'Administrativa' };
+var GERENCIA_COLORS= { planeacion:'#7C3AED', tecnica:'#0891B2', comercial:'#8B1D3A', administrativa:'#065F46' };
+
+// ── Auth ──────────────────────────────────────────────────────────────────────
+(function checkAuth(){
+  var u = Session.requireAuth();
+  if(!u) return;
+  document.getElementById('avatarEl').textContent = u.iniciales||'CM';
+  document.getElementById('rpAvatar').textContent  = u.iniciales||'CM';
+  document.getElementById('rpName').textContent    = u.nombre||'Carlos Mendoza';
+  document.getElementById('rpRole').textContent    = u.rol||'Revisor';
+})();
+
+// ── Build indicator map ───────────────────────────────────────────────────────
+function buildIndMap() {
+  var map = {};
+  if (typeof GERENCIAS_MIR !== 'undefined') {
+    GERENCIAS_MIR.forEach(function(g){
+      var inds = (g.usaDataReal && typeof ACTIVIDADES_ENLACE !== 'undefined') ? ACTIVIDADES_ENLACE : (g.indicadores||[]);
+      inds.forEach(function(a){ map[a.id] = { id:a.id, nombre:a.nombre, nivel:a.nivel||'A', frecuencia:a.frecuencia||'Mensual', unidad:a.unidad||'%', acumulable:!!a.acumulable, gerencia:g.id, gerenciaNombre:g.nombre }; });
+    });
+  }
+  return map;
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────
+function buildTabs() {
+  var counts = { enviado:0, observado:0, aprobado:0, bloqueado:0 };
+  PLANS.forEach(function(p){ if(counts[p.estado]!==undefined) counts[p.estado]++; });
+  var defs = [
+    {key:'enviado',  label:'Pendientes'},
+    {key:'observado',label:'Devueltos'},
+    {key:'aprobado', label:'Aprobados'},
+    {key:'bloqueado',label:'Fijados'},
+  ];
+  document.getElementById('filterTabs').innerHTML = defs.map(function(d){
+    return '<button class="f-tab'+(CURRENT_TAB===d.key?' active':'')+'" onclick="setTab(\''+d.key+'\')">'+
+      d.label+' <span class="f-count">'+counts[d.key]+'</span></button>';
+  }).join('');
+
+  document.getElementById('kpiEnviado').textContent   = counts.enviado;
+  document.getElementById('kpiObservado').textContent  = counts.observado;
+  document.getElementById('kpiAprobado').textContent   = counts.aprobado;
+  document.getElementById('kpiBloqueado').textContent  = counts.bloqueado;
+
+  // Right panel
+  var total = PLANS.length;
+  var pending = counts.enviado;
+  document.getElementById('rpTotal').textContent     = total;
+  document.getElementById('rpPendientes').textContent= pending;
+  document.getElementById('rpAprobados').textContent = counts.aprobado+counts.bloqueado;
+
+  // Per gerencia counts
+  var gCounts = {};
+  PLANS.forEach(function(p){ gCounts[p.gerencia] = (gCounts[p.gerencia]||0)+1; });
+  document.getElementById('rpGerencias').innerHTML = Object.keys(gCounts).map(function(g){
+    var c = GERENCIA_COLORS[g]||'#6B7280';
+    return '<div class="rp-stat-row"><span class="rp-stat-label" style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:'+c+';display:inline-block;"></span>'+(GERENCIA_NAMES[g]||g)+'</span><span class="rp-stat-val">'+gCounts[g]+'</span></div>';
+  }).join('');
+}
+
+function setTab(key) { CURRENT_TAB = key; buildTabs(); renderList(); }
+
+// ── List ──────────────────────────────────────────────────────────────────────
+function renderList() {
+  var filtered = PLANS.filter(function(p){ return p.estado === CURRENT_TAB; });
+  var container = document.getElementById('plansList');
+  if (!filtered.length) {
+    container.innerHTML = '<div class="empty-state"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg><h3>'+(CURRENT_TAB==='enviado'?'Sin pendientes de revisión':(CURRENT_TAB==='aprobado'?'Aún no hay aprobaciones':'Sin planes en este estado'))+'</h3><p>'+(CURRENT_TAB==='enviado'?'Cuando los enlaces envíen sus metas, aparecerán aquí':'')+'</p></div>';
+    return;
+  }
+  container.innerHTML = filtered.map(function(plan){
+    var ind = IND_MAP[plan.id]||{};
+    var ec  = ESTADO_CFG[plan.estado]||{label:plan.estado,color:'#6B7280',bg:'#F3F4F6'};
+    var gc  = GERENCIA_COLORS[plan.gerencia]||'#6B7280';
+    var gn  = GERENCIA_NAMES[plan.gerencia]||plan.gerencia;
+    var btnLabel = (plan.estado==='enviado'||plan.estado==='observado') ? 'Revisar' : 'Ver';
+    var btnCls   = (plan.estado==='enviado') ? 'blue' : 'orange';
+    return '<div class="plan-row" onclick="openModal(\''+plan.id+'\')">'+
+      '<span class="plan-indicator-id">'+plan.id+'</span>'+
+      '<span class="plan-nombre">'+(ind.nombre||plan.id)+'</span>'+
+      '<div class="plan-meta-info">'+
+        '<span class="pill gerencia" style="background:'+gc+'18;color:'+gc+'">'+gn+'</span>'+
+        '<span class="pill freq">'+( plan.frecuencia||'—')+'</span>'+
+        '<span class="pill estado" style="background:'+ec.bg+';color:'+ec.color+'">'+ec.label+'</span>'+
+      '</div>'+
+      (plan.fechaEnvio?'<span class="plan-fecha">'+plan.fechaEnvio+'</span>':'')+
+      '<button class="btn-revisar '+btnCls+'" onclick="event.stopPropagation();openModal(\''+plan.id+'\')">'+btnLabel+' →</button>'+
+    '</div>';
+  }).join('');
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+function openModal(id) {
+  var plan = PLANS.find(function(p){ return p.id===id; });
+  if (!plan) return;
+  var ind  = IND_MAP[id]||{};
+  var ec   = ESTADO_CFG[plan.estado]||{label:plan.estado,color:'#6B7280',bg:'#F3F4F6'};
+  var isActionable = (plan.estado==='enviado'||plan.estado==='observado');
+
+  document.getElementById('mTitle').textContent    = ind.nombre||id;
+  document.getElementById('mSubtitle').textContent = id+' · '+(plan.frecuencia||'—')+(ind.acumulable?' · Acumulable':'');
+  document.getElementById('mMeta').innerHTML =
+    '<span class="pill freq" style="font-size:10px;padding:2px 8px;border-radius:999px;background:#F3F4F6;color:#374151;">'+(ind.nivel||'A')+'</span>'+
+    '<span class="pill freq">'+( plan.frecuencia||'—')+'</span>'+
+    '<span style="font-size:10px;font-weight:600;padding:2px 10px;border-radius:999px;background:'+ec.bg+';color:'+ec.color+'">'+ec.label+'</span>'+
+    (ind.unidad?'<span class="pill freq">'+ind.unidad+'</span>':'');
+
+  var periods = PERIODOS_LABELS[plan.frecuencia]||[];
+  var metas   = plan.metas||[];
+
+  var html = '';
+
+  if (!isActionable) {
+    html += '<div class="approved-notice"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>'+(plan.estado==='bloqueado'?'Metas aprobadas definitivamente y fijadas por el administrador.':'Tu revisión fue aprobada. Pendiente de aprobación final del administrador.')+'</div>';
+  }
+
+  // Metas table
+  html += '<p class="section-title">Metas proyectadas por período</p>';
+  html += '<table class="metas-table"><thead><tr><th>Período</th><th>Meta</th><th>Unidad</th></tr></thead><tbody>';
+  periods.forEach(function(p,i){
+    var v = metas[i]!=null ? metas[i] : '—';
+    html += '<tr><td>'+p+'</td><td class="meta-val">'+(v!=='—'?v.toLocaleString('es-MX'):'—')+'</td><td style="color:#6B7280">'+(ind.unidad||'')+'</td></tr>';
+  });
+  if (ind.acumulable && metas.length) {
+    var total = metas.reduce(function(s,v){ return s+(parseFloat(v)||0); }, 0);
+    html += '<tr style="background:#F0FDF4;"><td style="font-weight:700;color:#065F46;">Total acumulado</td><td class="meta-val" style="color:#065F46;">'+total.toLocaleString('es-MX')+'</td><td style="color:#065F46;">'+(ind.unidad||'')+'</td></tr>';
+  }
+  html += '</tbody></table>';
+
+  // Enlace comments
+  if (plan.comentariosEnlace) {
+    html += '<p class="section-title">Comentarios del enlace</p>';
+    html += '<div class="enlace-comment">'+plan.comentariosEnlace+'</div>';
+  }
+
+  // Previous observations (if any)
+  if (plan.obsRevisor && plan.estado==='observado') {
+    html += '<p class="section-title">Observaciones enviadas anteriormente</p>';
+    html += '<div class="enlace-comment" style="background:#FFF7ED;border-color:#FED7AA;color:#92400E;">'+plan.obsRevisor+'</div>';
+  }
+
+  // Decision area
+  if (isActionable) {
+    html += '<div class="decision-area">'+
+      '<p class="decision-title">Tu decisión</p>'+
+      '<textarea class="obs-textarea" id="obsTA" placeholder="Observaciones (requeridas si solicitas correcciones, opcionales si apruebas)…">'+(plan.obsRevisor||'')+'</textarea>'+
+      '<div class="decision-btns">'+
+        '<button class="btn-approve" onclick="approvePlan(\''+id+'\')">'+
+          '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>'+
+          'Aprobar metas'+
+        '</button>'+
+        '<button class="btn-observe" onclick="observePlan(\''+id+'\')">'+
+          '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>'+
+          'Solicitar correcciones'+
+        '</button>'+
+      '</div>'+
+    '</div>';
+  } else if (plan.obsRevisor && plan.estado!=='observado') {
+    html += '<p class="section-title">Tu comentario</p>';
+    html += '<div class="enlace-comment" style="background:#F0FDF4;border-color:#6EE7B7;color:#065F46;">'+plan.obsRevisor+'</div>';
+  }
+
+  document.getElementById('mBody').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal()    { document.getElementById('modalOverlay').classList.remove('open'); }
+function overlayClick(e) { if(e.target===document.getElementById('modalOverlay')) closeModal(); }
+
+function approvePlan(id) {
+  var plan = PLANS.find(function(p){ return p.id===id; });
+  if (!plan) return;
+  var obs = (document.getElementById('obsTA')||{}).value||'';
+  plan.estado = 'aprobado';
+  plan.obsRevisor = obs;
+  plan.fechaRevision = '2026-06-16';
+  upsertPlan(plan);
+  showToast('Plan aprobado ✓', true);
+  closeModal();
+  refresh();
+}
+
+function observePlan(id) {
+  var plan = PLANS.find(function(p){ return p.id===id; });
+  if (!plan) return;
+  var obs = ((document.getElementById('obsTA')||{}).value||'').trim();
+  if (!obs) { showToast('Escribe tus observaciones antes de devolver'); return; }
+  plan.estado = 'observado';
+  plan.obsRevisor = obs;
+  plan.fechaRevision = '2026-06-16';
+  upsertPlan(plan);
+  showToast('Observaciones enviadas al enlace', false);
+  closeModal();
+  refresh();
+}
+
+function refresh() {
+  PLANS = getAllPlanes().filter(function(p){ return p.estado !== 'pendiente' && p.estado !== 'borrador'; });
+  buildTabs();
+  renderList();
+}
+
+function showToast(msg, ok) {
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast'+(ok?' success':ok===false?' warn':'');
+  t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },2800);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+(function init(){
+  IND_MAP = buildIndMap();
+  refresh();
+})();
+</script>
+</body>
+</html>

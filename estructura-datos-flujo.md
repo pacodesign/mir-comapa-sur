@@ -1,6 +1,6 @@
 # Estructura de datos y flujo del sistema — COMAPA Sur MIR
 
-## 1. Estructura base de datos (prototipo)
+## 1. Estructura base de datos (prototipo)–
 
 El sistema parte de una estructura tipo `.js` / mock data con información MIR. Esta información alimenta vistas, filtros, detalles y dashboards.
 

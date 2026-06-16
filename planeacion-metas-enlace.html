@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis metas — Enlace COMAPA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mir-gerencias-data.js"></script>
+  <script src="mir-actividades-data.js"></script>
+  <script src="planeacion-data.js"></script>
+  <style>
+    :root{--color-primary:#8B1D3A;--color-accent-dark:#6B1630;--color-bg:#FFFFFF;--color-surface:#F7F7F7;--color-border:#E5E7EB;--color-text-primary:#111827;--color-text-secondary:#6B7280;--radius-card:16px;--radius-btn:999px;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
+
+    .sidebar{width:64px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
+    .sidebar-logo{width:36px;height:36px;background:var(--color-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+    .sidebar-logo svg{width:18px;height:18px;stroke:white;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
+    .nav-item{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s;text-decoration:none;}
+    .nav-item:hover{background:var(--color-surface);}
+    .nav-item.active{background:#F5E8EC;color:var(--color-primary);}
+    .nav-item svg{width:20px;height:20px;}
+    .sidebar-bottom{display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .avatar-xs{width:32px;height:32px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;cursor:pointer;}
+
+    .app-wrapper{display:flex;flex:1;margin-left:64px;}
+    .main-content{flex:1;padding:24px;min-width:0;margin-right:240px;}
+
+    .right-panel{width:240px;background:var(--color-bg);border-left:1px solid var(--color-border);padding:20px 16px;position:fixed;right:0;top:0;height:100vh;overflow-y:auto;}
+    .rp-user{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+    .rp-avatar{width:40px;height:40px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;}
+    .rp-name{font-size:13px;font-weight:700;}
+    .rp-role{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+    .rp-divider{height:1px;background:var(--color-border);margin:14px 0;}
+    .rp-section-title{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+    .rp-stat-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+    .rp-stat-label{font-size:12px;color:var(--color-text-primary);}
+    .rp-stat-val{font-size:12px;font-weight:700;}
+    .rp-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:var(--radius-btn);}
+    .rp-badge.green{background:#F0FDF4;color:#16A34A;}
+    .rp-badge.orange{background:#FFF7ED;color:#EA580C;}
+    .rp-badge.blue{background:#EFF6FF;color:#1D4ED8;}
+    .rp-badge.gray{background:#F3F4F6;color:#6B7280;}
+
+    .page-header{margin-bottom:20px;}
+    .page-title{font-size:22px;font-weight:700;line-height:1.3;}
+    .page-subtitle{font-size:13px;color:var(--color-text-secondary);margin-top:3px;}
+
+    .alert-box{background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:12px 16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px;font-size:12px;color:#92400E;}
+    .alert-box svg{width:16px;height:16px;flex-shrink:0;margin-top:1px;color:#EA580C;}
+
+    .filter-chips{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;}
+    .chip{font-size:12px;font-weight:600;padding:6px 14px;border-radius:var(--radius-btn);border:1px solid var(--color-border);background:white;color:var(--color-text-secondary);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px;}
+    .chip:hover{border-color:#D1D5DB;background:#F9FAFB;}
+    .chip.active{background:var(--color-primary);border-color:var(--color-primary);color:white;}
+    .chip-count{font-size:10px;font-weight:700;background:rgba(0,0,0,.1);padding:1px 6px;border-radius:var(--radius-btn);}
+    .chip.active .chip-count{background:rgba(255,255,255,.25);}
+
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+    .ind-card{background:white;border-radius:var(--radius-card);padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--color-border);transition:border-color .15s,box-shadow .15s;cursor:pointer;}
+    .ind-card:hover{border-color:#D1D5DB;box-shadow:0 2px 8px rgba(0,0,0,.1);}
+    .ind-card.observado{border-color:#FED7AA;}
+    .ind-card.bloqueado{opacity:.8;}
+    .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px;}
+    .card-clave{font-family:monospace;font-size:11px;font-weight:700;color:var(--color-text-secondary);}
+    .card-nombre{font-size:13px;font-weight:600;color:var(--color-text-primary);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .card-meta-row{display:flex;align-items:center;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+    .freq-pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:var(--radius-btn);background:#F3F4F6;color:#374151;}
+    .nivel-pill{font-size:10px;font-weight:800;width:20px;height:20px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;}
+    .nivel-pill.F{background:#1F2937;color:white;}
+    .nivel-pill.P{background:#374151;color:white;}
+    .nivel-pill.C{background:#6B7280;color:white;}
+    .nivel-pill.A{background:#E5E7EB;color:#374151;}
+    .estado-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:var(--radius-btn);}
+    .card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px solid var(--color-border);}
+    .btn-card{font-size:12px;font-weight:600;font-family:inherit;padding:6px 14px;border-radius:var(--radius-btn);border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;}
+    .btn-card.primary{background:var(--color-primary);color:white;}
+    .btn-card.primary:hover{background:var(--color-accent-dark);}
+    .btn-card.secondary{background:var(--color-surface);color:var(--color-text-primary);}
+    .btn-card.secondary:hover{background:var(--color-border);}
+    .btn-card.info{background:#EFF6FF;color:#1D4ED8;}
+    .btn-card.warn{background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;}
+    .btn-card:disabled{opacity:.5;cursor:not-allowed;}
+    .lock-icon{font-size:12px;}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:16px;}
+    .modal-overlay.open{display:flex;}
+    .modal-card{background:white;border-radius:20px;width:100%;max-width:580px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+    .modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--color-border);}
+    .modal-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px;}
+    .modal-title{font-size:15px;font-weight:700;}
+    .modal-subtitle{font-size:11px;color:var(--color-text-secondary);}
+    .modal-close{width:30px;height:30px;border-radius:8px;border:1px solid var(--color-border);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-secondary);}
+    .modal-close:hover{background:var(--color-surface);}
+    .modal-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+    .modal-body{flex:1;overflow-y:auto;padding:20px 24px;}
+    .modal-footer{padding:14px 24px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    .footer-right{display:flex;gap:8px;}
+
+    .obs-callout{background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:14px 16px;margin-bottom:20px;}
+    .obs-callout-title{font-size:12px;font-weight:700;color:#B45309;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+    .obs-callout-body{font-size:12px;color:#92400E;line-height:1.6;}
+
+    .readonly-notice{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#166534;display:flex;align-items:center;gap:8px;}
+
+    .period-section-title{font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--color-border);}
+    .period-grid{display:grid;gap:8px;margin-bottom:20px;}
+    .period-grid.cols-2{grid-template-columns:1fr 1fr;}
+    .period-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+    .period-grid.cols-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+    .period-item{display:flex;flex-direction:column;gap:4px;}
+    .period-label{font-size:11px;font-weight:600;color:var(--color-text-secondary);}
+    .period-input{padding:7px 10px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:8px;background:white;outline:none;transition:border-color .15s;width:100%;}
+    .period-input:focus{border-color:var(--color-primary);box-shadow:0 0 0 2px rgba(139,29,58,.08);}
+    .period-input:read-only{background:#F9FAFB;color:#6B7280;cursor:not-allowed;}
+    .period-input.filled{background:#F0FDF4;border-color:#BBF7D0;}
+    .acum-total{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+    .acum-total-label{font-size:12px;font-weight:600;color:#065F46;}
+    .acum-total-val{font-size:16px;font-weight:700;color:#065F46;}
+
+    .comment-label{font-size:12px;font-weight:600;color:var(--color-text-primary);margin-bottom:5px;display:block;}
+    .comment-textarea{width:100%;padding:10px 12px;font-size:12px;font-family:inherit;border:1px solid var(--color-border);border-radius:10px;resize:vertical;min-height:80px;outline:none;line-height:1.5;transition:border-color .15s;}
+    .comment-textarea:focus{border-color:var(--color-primary);}
+    .comment-textarea:read-only{background:#F9FAFB;color:#6B7280;}
+
+    .btn-primary{background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
+    .btn-primary:hover{background:var(--color-accent-dark);}
+    .btn-secondary{background:var(--color-surface);color:var(--color-text-primary);border:none;border-radius:var(--radius-btn);padding:8px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+    .btn-secondary:hover{background:var(--color-border);}
+    .btn-draft{background:#FEF3C7;color:#92400E;border:none;border-radius:var(--radius-btn);padding:8px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;}
+    .btn-draft:hover{background:#FDE68A;}
+
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:#1F2937;color:white;font-size:13px;font-weight:500;padding:10px 20px;border-radius:var(--radius-btn);opacity:0;transition:all .25s;z-index:2000;pointer-events:none;white-space:nowrap;}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .toast.success{background:#065F46;}
+    .toast.info{background:#1D4ED8;}
+
+    .empty-state{text-align:center;padding:48px 24px;color:var(--color-text-secondary);}
+    .empty-state svg{width:40px;height:40px;margin:0 auto 12px;display:block;color:#D1D5DB;}
+    .empty-state p{font-size:13px;}
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="dashboard-enlace.html" title="Inicio">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
+    </a>
+    <a class="nav-item" href="mis-actividades.html" title="Mis indicadores">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></svg>
+    </a>
+    <a class="nav-item active" href="planeacion-metas-enlace.html" title="Mis metas">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+    </a>
+    <div class="nav-item" title="Ayuda">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
+    </div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="avatar-xs" id="avatarEl" onclick="window.location.href='dashboard-enlace.html'">AT</div>
+  </div>
+</nav>
+
+<div class="app-wrapper">
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1 class="page-title">Mis metas — Ejercicio 2026</h1>
+      <p class="page-subtitle" id="pageSubtitle">Carga y envía tus proyecciones para que el revisor las valide</p>
+    </div>
+
+    <div class="alert-box" id="alertBox" style="display:none">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>
+      <span id="alertText"></span>
+    </div>
+
+    <div class="filter-chips" id="filterChips"></div>
+    <div class="cards-grid" id="cardsGrid"></div>
+
+  </main>
+
+  <aside class="right-panel">
+    <div class="rp-user">
+      <div class="rp-avatar" id="rpAvatar">AT</div>
+      <div>
+        <p class="rp-name" id="rpName">Ana Torres</p>
+        <p class="rp-role" id="rpRole">Enlace · Comercial</p>
+      </div>
+    </div>
+    <div class="rp-divider"></div>
+    <p class="rp-section-title">Mis indicadores</p>
+    <div class="rp-stat-row"><span class="rp-stat-label">Total asignados</span><span class="rp-stat-val" id="rpTotal">—</span></div>
+    <div class="rp-divider"></div>
+    <p class="rp-section-title">Estado de metas</p>
+    <div class="rp-stat-row"><span class="rp-stat-label">Sin capturar</span><span class="rp-badge gray" id="rpPendiente">—</span></div>
+    <div class="rp-stat-row"><span class="rp-stat-label">Borrador</span><span class="rp-badge orange" id="rpBorrador">—</span></div>
+    <div class="rp-stat-row"><span class="rp-stat-label">Enviados</span><span class="rp-badge blue" id="rpEnviado">—</span></div>
+    <div class="rp-stat-row"><span class="rp-stat-label">Con obs.</span><span class="rp-badge orange" id="rpObservado">—</span></div>
+    <div class="rp-stat-row"><span class="rp-stat-label">Aprobados</span><span class="rp-badge green" id="rpAprobado">—</span></div>
+    <div class="rp-divider"></div>
+    <p class="rp-section-title">Progreso</p>
+    <div id="rpProgressBar" style="height:6px;background:#E5E7EB;border-radius:3px;overflow:hidden;margin-bottom:4px;"><div id="rpProgressFill" style="height:100%;background:#16A34A;width:0%;transition:width .4s;"></div></div>
+    <p style="font-size:11px;color:var(--color-text-secondary);" id="rpProgressLabel">0% enviados o aprobados</p>
+  </aside>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="overlayClick(event)">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-header-top">
+        <div>
+          <p class="modal-title" id="modalTitle">Indicador</p>
+          <p class="modal-subtitle" id="modalSubtitle"></p>
+        </div>
+        <button class="modal-close" onclick="closeModal()">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-meta" id="modalMeta"></div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal()">Cerrar</button>
+      <div class="footer-right" id="modalFooterBtns"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var CURRENT_FILTER = 'todos';
+var INDICATORS = [];
+var EDITING_ID = null;
+var IS_READONLY = false;
+
+var ESTADO_CFG = {
+  pendiente: { label:'Sin capturar',       color:'#6B7280', bg:'#F3F4F6' },
+  borrador:  { label:'Borrador',            color:'#92400E', bg:'#FEF3C7' },
+  enviado:   { label:'Enviado a revisor',   color:'#1D4ED8', bg:'#EFF6FF' },
+  observado: { label:'Con observaciones',   color:'#EA580C', bg:'#FFF7ED' },
+  aprobado:  { label:'Aprobado por revisor',color:'#059669', bg:'#D1FAE5' },
+  bloqueado: { label:'Aprobado · Fijado',   color:'#16A34A', bg:'#F0FDF4' },
+};
+
+// ── Auth ─────────────────────────────────────────────────────────────────────
+var CURRENT_USER = null;
+(function checkAuth() {
+  CURRENT_USER = Session.requireAuth();
+  if (!CURRENT_USER) return;
+  document.getElementById('avatarEl').textContent  = CURRENT_USER.iniciales||'AT';
+  document.getElementById('rpAvatar').textContent  = CURRENT_USER.iniciales||'AT';
+  document.getElementById('rpName').textContent    = CURRENT_USER.nombre||'Ana Torres';
+  document.getElementById('rpRole').textContent    = 'Enlace · '+(CURRENT_USER.gerencia||'Comercial').replace('Gerencia ','');
+})();
+
+// ── Load indicators ───────────────────────────────────────────────────────────
+function buildIndicatorList() {
+  var list = [];
+  if (typeof ACTIVIDADES_ENLACE !== 'undefined') {
+    ACTIVIDADES_ENLACE.forEach(function(act) {
+      var plan = getPlan(act.id);
+      list.push({
+        id: act.id, nombre: act.nombre, nivel: act.nivel||'A',
+        frecuencia: act.frecuencia||'Mensual', unidad: act.unidad||'%',
+        acumulable: !!act.acumulable, tieneDenominador: !!act.tieneDenominador,
+        metaAnual: act.metaAnual,
+        plan: plan || { id:act.id, gerencia:'comercial', frecuencia:act.frecuencia||'Mensual', metas:[], comentariosEnlace:'', estado:'pendiente', obsRevisor:'', obsAdmin:'', fechaEnvio:null, fechaRevision:null, fechaAprobacion:null },
+      });
+    });
+  }
+  return list;
+}
+
+// ── Chips ─────────────────────────────────────────────────────────────────────
+function buildChips() {
+  var counts = { todos:0, pendiente:0, borrador:0, enviado:0, observado:0, aprobado:0, bloqueado:0 };
+  INDICATORS.forEach(function(i){ counts.todos++; counts[i.plan.estado]++; });
+  var defs = [
+    {key:'todos',     label:'Todos'},
+    {key:'pendiente', label:'Sin capturar'},
+    {key:'borrador',  label:'Borrador'},
+    {key:'enviado',   label:'Enviado'},
+    {key:'observado', label:'Con observaciones'},
+    {key:'aprobado',  label:'Aprobados'},
+    {key:'bloqueado', label:'Fijados'},
+  ];
+  document.getElementById('filterChips').innerHTML = defs.map(function(d){
+    var n = counts[d.key];
+    if (n===0 && d.key!=='todos') return '';
+    return '<button class="chip'+(CURRENT_FILTER===d.key?' active':'')+'\" onclick="setFilter(\''+d.key+'\')">'+d.label+' <span class="chip-count">'+n+'</span></button>';
+  }).join('');
+}
+
+function setFilter(key) {
+  CURRENT_FILTER = key;
+  buildChips();
+  renderCards();
+}
+
+// ── Cards ─────────────────────────────────────────────────────────────────────
+function renderCards() {
+  var filtered = CURRENT_FILTER==='todos' ? INDICATORS : INDICATORS.filter(function(i){ return i.plan.estado===CURRENT_FILTER; });
+  if (!filtered.length) {
+    document.getElementById('cardsGrid').innerHTML = '<div class="empty-state"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg><p>No hay indicadores en este estado</p></div>';
+    return;
+  }
+  document.getElementById('cardsGrid').innerHTML = filtered.map(function(i){
+    var est = i.plan.estado;
+    var ec  = ESTADO_CFG[est]||ESTADO_CFG.pendiente;
+    var btn = getBtnForEstado(est);
+    return '<div class="ind-card '+est+'" onclick="openModal(\''+i.id+'\')">'+
+      '<div class="card-top">'+
+        '<span class="card-clave">'+i.id+'</span>'+
+        '<span class="estado-badge" style="background:'+ec.bg+';color:'+ec.color+'">'+ec.label+'</span>'+
+      '</div>'+
+      '<p class="card-nombre">'+i.nombre+'</p>'+
+      '<div class="card-meta-row">'+
+        '<span class="nivel-pill '+i.nivel+'">'+i.nivel+'</span>'+
+        '<span class="freq-pill">'+i.frecuencia+'</span>'+
+        (i.acumulable?'<span class="freq-pill" style="background:#F0FDF4;color:#065F46">Acumulable</span>':'')+
+      '</div>'+
+      '<div class="card-footer">'+
+        (i.plan.fechaEnvio?'<span style="font-size:10px;color:#9CA3AF">Enviado '+i.plan.fechaEnvio+'</span>':'<span style="font-size:10px;color:#9CA3AF">'+(est==='pendiente'?'Sin iniciar':'')+'</span>')+
+        '<button class="btn-card '+btn.cls+'" onclick="event.stopPropagation();openModal(\''+i.id+'\')">'+btn.label+'</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function getBtnForEstado(est) {
+  var map = {
+    pendiente: {cls:'primary',  label:'Capturar metas'},
+    borrador:  {cls:'secondary',label:'Continuar'},
+    enviado:   {cls:'info',     label:'Ver enviado'},
+    observado: {cls:'warn',     label:'Ver observaciones'},
+    aprobado:  {cls:'secondary',label:'Ver aprobado'},
+    bloqueado: {cls:'secondary',label:'🔒 Ver fijado'},
+  };
+  return map[est]||{cls:'secondary',label:'Ver'};
+}
+
+// ── Right panel ───────────────────────────────────────────────────────────────
+function updatePanel() {
+  var counts={pendiente:0,borrador:0,enviado:0,observado:0,aprobado:0,bloqueado:0};
+  INDICATORS.forEach(function(i){ counts[i.plan.estado]++; });
+  document.getElementById('rpTotal').textContent    = INDICATORS.length;
+  document.getElementById('rpPendiente').textContent= counts.pendiente;
+  document.getElementById('rpBorrador').textContent = counts.borrador;
+  document.getElementById('rpEnviado').textContent  = counts.enviado;
+  document.getElementById('rpObservado').textContent= counts.observado;
+  document.getElementById('rpAprobado').textContent = counts.aprobado+counts.bloqueado;
+  var done = counts.enviado+counts.observado+counts.aprobado+counts.bloqueado;
+  var pct  = INDICATORS.length>0 ? Math.round(done/INDICATORS.length*100) : 0;
+  document.getElementById('rpProgressFill').style.width = pct+'%';
+  document.getElementById('rpProgressLabel').textContent = pct+'% enviados o aprobados';
+
+  // Alert for observaciones
+  if (counts.observado>0) {
+    document.getElementById('alertBox').style.display='flex';
+    document.getElementById('alertText').textContent = counts.observado+' indicador'+(counts.observado>1?'es tienen':'tiene')+' observaciones del revisor. Revisa y vuelve a enviar.';
+  }
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+function openModal(id) {
+  var item = INDICATORS.find(function(i){ return i.id===id; });
+  if (!item) return;
+  EDITING_ID = id;
+  var est = item.plan.estado;
+  IS_READONLY = (est==='enviado'||est==='aprobado'||est==='bloqueado');
+
+  document.getElementById('modalTitle').textContent    = item.nombre;
+  document.getElementById('modalSubtitle').textContent = item.id+' · '+item.frecuencia+(item.acumulable?' · Acumulable':'');
+
+  var ec = ESTADO_CFG[est]||ESTADO_CFG.pendiente;
+  document.getElementById('modalMeta').innerHTML =
+    '<span class="nivel-pill '+item.nivel+'" style="font-size:10px;font-weight:800;width:20px;height:20px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;">'+item.nivel+'</span>'+
+    '<span class="freq-pill">'+item.frecuencia+'</span>'+
+    '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:999px;background:'+ec.bg+';color:'+ec.color+'">'+ec.label+'</span>'+
+    (item.unidad?'<span class="freq-pill">Unidad: '+item.unidad+'</span>':'')+
+    (item.metaAnual!=null?'<span class="freq-pill">Meta anual: '+item.metaAnual+'</span>':'');
+
+  // Build body
+  var html = '';
+  if (IS_READONLY) {
+    html += '<div class="readonly-notice"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>'+
+      (est==='bloqueado'?'Metas aprobadas y fijadas. Solo el administrador puede modificarlas.':
+       est==='aprobado'?'Metas aprobadas por el revisor, pendientes de aprobación final del administrador.':
+       'Metas enviadas al revisor. No se pueden editar mientras están en revisión.')+'</div>';
+  }
+  if (est==='observado' && item.plan.obsRevisor) {
+    html += '<div class="obs-callout"><p class="obs-callout-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg> Observaciones del revisor</p><p class="obs-callout-body">'+item.plan.obsRevisor+'</p></div>';
+  }
+  if (est==='aprobado' && item.plan.obsRevisor) {
+    html += '<div class="readonly-notice" style="background:#D1FAE5;border-color:#6EE7B7;color:#065F46;"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg> Revisor: '+item.plan.obsRevisor+'</div>';
+  }
+
+  // Period inputs
+  var periods = PERIODOS_LABELS[item.frecuencia]||[];
+  var n = periods.length;
+  var colsClass = n>=10?'cols-4':n>=6?'cols-3':n>=3?'cols-2':'';
+  html += '<p class="period-section-title">Metas por período · '+item.frecuencia+'</p>';
+  html += '<div class="period-grid '+colsClass+'">';
+  periods.forEach(function(p,i){
+    var val = item.plan.metas[i]!=null ? item.plan.metas[i] : '';
+    var filledClass = val!=='' ? ' filled' : '';
+    html += '<div class="period-item"><span class="period-label">'+p+'</span>'+
+      '<input class="period-input'+filledClass+'" type="number" min="0" step="any" id="pg_'+i+'" value="'+val+'" placeholder="0"'+(IS_READONLY?' readonly':'')+' oninput="onMetaInput('+i+')"></div>';
+  });
+  html += '</div>';
+
+  if (item.acumulable) {
+    var total = (item.plan.metas||[]).reduce(function(s,v){ return s+(parseFloat(v)||0); }, 0);
+    html += '<div class="acum-total"><span class="acum-total-label">Total acumulado</span><span class="acum-total-val" id="acumTotal">'+total.toLocaleString('es-MX')+(item.unidad?' '+item.unidad:'')+'</span></div>';
+  }
+
+  html += '<label class="comment-label" style="margin-top:4px;">Comentarios de justificación</label>'+
+    '<textarea class="comment-textarea" id="commentTA" placeholder="Justifica tus metas proyectadas: base histórica, factores externos, supuestos…"'+(IS_READONLY?' readonly':'')+'>'+( item.plan.comentariosEnlace||'')+'</textarea>';
+
+  document.getElementById('modalBody').innerHTML = html;
+
+  // Footer buttons
+  var footer = '';
+  if (!IS_READONLY) {
+    footer = '<button class="btn-draft" onclick="saveDraft()">Guardar borrador</button>'+
+      '<button class="btn-primary" onclick="submitPlan()">'+
+        '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>'+
+        'Enviar para revisión'+
+      '</button>';
+  }
+  document.getElementById('modalFooterBtns').innerHTML = footer;
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal()    { document.getElementById('modalOverlay').classList.remove('open'); }
+function overlayClick(e) { if (e.target===document.getElementById('modalOverlay')) closeModal(); }
+
+function onMetaInput(idx) {
+  var item = INDICATORS.find(function(i){ return i.id===EDITING_ID; });
+  if (!item||!item.acumulable) return;
+  var periods = PERIODOS_LABELS[item.frecuencia]||[];
+  var total = 0;
+  periods.forEach(function(_,i){
+    var el = document.getElementById('pg_'+i);
+    if (el) total += parseFloat(el.value)||0;
+  });
+  var te = document.getElementById('acumTotal');
+  if (te) te.textContent = total.toLocaleString('es-MX')+(item.unidad?' '+item.unidad:'');
+}
+
+function collectMetas() {
+  var item = INDICATORS.find(function(i){ return i.id===EDITING_ID; });
+  if (!item) return [];
+  var periods = PERIODOS_LABELS[item.frecuencia]||[];
+  return periods.map(function(_,i){ var el=document.getElementById('pg_'+i); return el ? (el.value!==''?parseFloat(el.value):null) : null; });
+}
+
+function saveDraft() {
+  var item = INDICATORS.find(function(i){ return i.id===EDITING_ID; });
+  if (!item) return;
+  var metas   = collectMetas();
+  var comment = document.getElementById('commentTA').value.trim();
+  var plan    = Object.assign({}, item.plan, {
+    metas: metas, comentariosEnlace: comment,
+    estado: 'borrador', id: item.id, gerencia: 'comercial', frecuencia: item.frecuencia,
+  });
+  upsertPlan(plan);
+  item.plan = plan;
+  showToast('Borrador guardado', true);
+  closeModal();
+  refresh();
+}
+
+function submitPlan() {
+  var item = INDICATORS.find(function(i){ return i.id===EDITING_ID; });
+  if (!item) return;
+  var metas = collectMetas();
+  if (metas.every(function(v){ return v===null||v===undefined; })) { showToast('Ingresa al menos una meta antes de enviar'); return; }
+  var comment = document.getElementById('commentTA').value.trim();
+  var plan = Object.assign({}, item.plan, {
+    metas: metas, comentariosEnlace: comment,
+    estado: 'enviado', id: item.id, gerencia: 'comercial', frecuencia: item.frecuencia,
+    fechaEnvio: '2026-06-16',
+  });
+  upsertPlan(plan);
+  item.plan = plan;
+  showToast('Plan enviado al revisor ✓', true);
+  closeModal();
+  refresh();
+}
+
+function refresh() { buildChips(); renderCards(); updatePanel(); }
+
+function showToast(msg, ok) {
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast'+(ok?' success':'');
+  t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },2800);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+(function init() {
+  INDICATORS = buildIndicatorList();
+  buildChips(); renderCards(); updatePanel();
+})();
+</script>
+</body>
+</html>

@@ -283,6 +283,33 @@
       font-size: 11px; color: #D1D5DB; text-align: center;
     }
 
+    /* ── ROLE PICKER ── */
+    .role-picker { display: none; }
+    .role-picker.visible { display: block; }
+    .rp-user { display: flex; align-items: center; gap: 10px; background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; }
+    .rp-avatar { width: 40px; height: 40px; border-radius: 50%; background: #6B7280; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .rp-info { flex: 1; }
+    .rp-info-name { font-size: 13px; font-weight: 700; color: #111827; }
+    .rp-info-email { font-size: 10px; color: #9CA3AF; font-family: monospace; margin-top: 1px; }
+    .rp-ok-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #F0FDF4; color: #16A34A; white-space: nowrap; }
+    .rp-ok-badge svg { width: 10px; height: 10px; }
+    .rp-title { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+    .rp-sub { font-size: 12px; color: #6B7280; margin-bottom: 20px; line-height: 1.5; }
+    .rp-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .rp-card { border: 1.5px solid #E5E7EB; border-radius: 14px; padding: 18px 16px; cursor: pointer; text-align: left; background: white; transition: border-color .15s, box-shadow .15s, background .12s; }
+    .rp-card:hover { border-color: #8B1D3A; background: #FDF5F7; box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
+    .rp-card-ico { width: 40px; height: 40px; border-radius: 11px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+    .rp-card.revisor .rp-card-ico { background: #EFF6FF; }
+    .rp-card.revisor .rp-card-ico svg { color: #2563EB; }
+    .rp-card.enlace .rp-card-ico { background: #F0FDF4; }
+    .rp-card.enlace .rp-card-ico svg { color: #16A34A; }
+    .rp-card-role { font-size: 13px; font-weight: 700; color: #111827; }
+    .rp-card-person { font-size: 11px; color: #6B7280; margin-top: 2px; }
+    .rp-card-desc { font-size: 11px; color: #9CA3AF; margin-top: 8px; line-height: 1.4; }
+    .btn-back-login { background: none; border: none; font-family: inherit; font-size: 12px; color: #9CA3AF; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 5px; }
+    .btn-back-login:hover { color: #6B7280; }
+    .hint-role-badge.dual { background: #EFF6FF; color: #1D4ED8; }
+
     /* ── RESPONSIVE ──────────────────────────────────────────────────────── */
     @media (max-width: 768px) {
       body { flex-direction: column; height: auto; overflow: auto; }
@@ -414,7 +441,7 @@
             <span class="hint-role-badge adm">Admin</span>
           </div>
 
-          <div class="hint-item" data-email="revisor@comapa.mx" data-pass="revisor123">
+          <div class="hint-item" data-email="revisor@comapa.mx" data-pass="revisor123" data-direct="1">
             <div class="hint-user">
               <div class="hint-avatar">CM</div>
               <div>
@@ -422,7 +449,10 @@
                 <p class="hint-email">revisor@comapa.mx</p>
               </div>
             </div>
-            <span class="hint-role-badge rev">Revisor</span>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+              <span class="hint-role-badge rev">Revisor</span>
+              <span style="font-size:9px;color:#9CA3AF;white-space:nowrap">Elige tu vista →</span>
+            </div>
           </div>
 
           <div class="hint-item" data-email="enlace@comapa.mx" data-pass="enlace123">
@@ -437,6 +467,45 @@
           </div>
 
         </div>
+      </div>
+
+      <!-- ROLE PICKER (paso 2 para Revisor) -->
+      <div class="role-picker" id="rolePicker">
+        <div class="rp-user">
+          <div class="rp-avatar">CM</div>
+          <div class="rp-info">
+            <p class="rp-info-name">Carlos Mendoza</p>
+            <p class="rp-info-email">revisor@comapa.mx</p>
+          </div>
+          <span class="rp-ok-badge">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+            Sesión iniciada
+          </span>
+        </div>
+        <h2 class="rp-title">¿Cómo quieres entrar?</h2>
+        <p class="rp-sub">Puedes explorar el sistema como Revisor para validar reportes, o simular la vista del Enlace para ejercer el flujo completo de reporte.</p>
+        <div class="rp-cards">
+          <div class="rp-card revisor" onclick="loginAs('Revisor')">
+            <div class="rp-card-ico">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+            </div>
+            <p class="rp-card-role">Revisor</p>
+            <p class="rp-card-person">Carlos Mendoza</p>
+            <p class="rp-card-desc">Valida y aprueba los reportes de avance de los indicadores.</p>
+          </div>
+          <div class="rp-card enlace" onclick="loginAs('Enlace')">
+            <div class="rp-card-ico">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
+            </div>
+            <p class="rp-card-role">Enlace</p>
+            <p class="rp-card-person">Ana Torres</p>
+            <p class="rp-card-desc">Reporta el avance de los indicadores de la Gerencia Comercial.</p>
+          </div>
+        </div>
+        <button class="btn-back-login" onclick="backToLogin()">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
+          Volver al inicio de sesión
+        </button>
       </div>
 
       <p class="page-footer">COMAPA Sur · Sistema MIR · 2026</p>
@@ -524,13 +593,42 @@
           passEl.focus();
           return;
         }
+        if (user.rol === 'Revisor') { showRolePicker(); return; }
         window.location.href = user.redirect || 'dashboard-inicio.html';
       }, 800);
     });
 
+    function showRolePicker() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.querySelector('.hint-section').style.display = 'none';
+      document.getElementById('rolePicker').classList.add('visible');
+    }
+
+    function backToLogin() {
+      Session.clear();
+      document.getElementById('loginForm').style.display = 'block';
+      document.querySelector('.hint-section').style.display = 'block';
+      document.getElementById('rolePicker').classList.remove('visible');
+      passEl.value = '';
+    }
+
+    function loginAs(rol) {
+      if (rol === 'Revisor') {
+        window.location.href = 'dashboard-revisor.html';
+      } else {
+        Session.login('enlace@comapa.mx', 'enlace123');
+        window.location.href = 'dashboard-enlace.html';
+      }
+    }
+
     document.querySelectorAll('.hint-item').forEach(function (item) {
       item.addEventListener('click', function () {
         clearErrors();
+        if (this.dataset.direct) {
+          const user = Session.login(this.dataset.email, this.dataset.pass);
+          if (user) showRolePicker();
+          return;
+        }
         emailEl.value = this.dataset.email;
         passEl.value  = this.dataset.pass;
         emailEl.focus();

@@ -8,6 +8,8 @@
   <script src="session.js"></script>
   <script src="mock-notifications.js"></script>
   <script src="layout.js"></script>
+  <script src="mir-gerencias-data.js"></script>
+  <script src="mir-actividades-data.js"></script>
   <style>
     :root {
       --color-primary: #8B1D3A;
@@ -302,11 +304,7 @@
       width: 40px; height: 40px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .g-icon.pe  { background: #F3F4F6; color: #6B7280; }
-    .g-icon.tec { background: #F3F4F6; color: #6B7280; }
-    .g-icon.com { background: #F3F4F6; color: #6B7280; }
-    .g-icon.adm { background: #F3F4F6; color: #6B7280; }
-    .g-icon svg { width: 20px; height: 20px; }
+    .g-icon svg { width: 20px; height: 20px; stroke: white; }
     .g-name { font-size: 15px; font-weight: 600; color: var(--color-text-primary); }
     .g-desc { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; margin-top: 3px; }
     .g-badge {
@@ -316,6 +314,95 @@
       padding: 4px 10px; border-radius: var(--radius-btn);
       white-space: nowrap; flex-shrink: 0;
     }
+    /* Progress bar */
+    .g-progress-wrap { display: flex; flex-direction: column; gap: 5px; }
+    .g-progress-label { display: flex; justify-content: space-between; align-items: center; }
+    .g-progress-title { font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .g-progress-pct   { font-size: 12px; font-weight: 700; color: var(--color-text-primary); }
+    .g-progress-bar   { height: 6px; background: var(--color-border); border-radius: 99px; overflow: hidden; }
+    .g-progress-fill  { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+    /* Estado chips */
+    .g-estado-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .g-chip {
+      font-size: 10px; font-weight: 600;
+      padding: 3px 9px; border-radius: var(--radius-btn);
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .g-chip.green  { background: #F0FDF4; color: #16A34A; }
+    .g-chip.blue   { background: #EFF6FF; color: #2563EB; }
+    .g-chip.orange { background: #FFF7ED; color: #EA580C; }
+    .g-chip.gray   { background: #F3F4F6; color: #6B7280; }
+    /* Team row */
+    .g-team-row { display: flex; gap: 8px; align-items: center; padding-top: 4px; border-top: 1px solid var(--color-border); }
+    .g-team-label { font-size: 10px; color: var(--color-text-secondary); font-weight: 500; margin-right: 2px; }
+    .g-person-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--color-surface); border-radius: var(--radius-btn);
+      padding: 3px 8px 3px 4px; font-size: 11px; font-weight: 500; color: var(--color-text-primary);
+    }
+    .g-person-avatar {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 700; color: white;
+    }
+    .g-actions { display: flex; gap: 8px; }
+    /* Period banner */
+    .period-banner {
+      background: #6B1630;
+      border-radius: var(--radius-card);
+      padding: 20px var(--pad-card);
+      margin-bottom: 20px;
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .period-banner::before {
+      content: ''; position: absolute;
+      right: -20px; top: -20px;
+      width: 180px; height: 180px;
+      background: rgba(255,255,255,0.05); border-radius: 50%;
+    }
+    .period-banner-title {
+      font-size: 15px; font-weight: 700; color: white; line-height: 1.3;
+    }
+    .period-banner-sub {
+      font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 4px;
+    }
+    .period-banner-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.15); color: white;
+      font-size: 11px; font-weight: 600;
+      padding: 4px 12px; border-radius: var(--radius-btn);
+      white-space: nowrap;
+    }
+    /* KPI strip */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap);
+      margin-bottom: 20px;
+    }
+    /* Right panel additions */
+    .rp-alert-item {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .rp-alert-name { font-size: 12px; color: var(--color-text-primary); }
+    .rp-alert-badge {
+      font-size: 10px; font-weight: 700;
+      background: #FFF7ED; color: #EA580C;
+      padding: 2px 7px; border-radius: var(--radius-btn);
+    }
+    .rp-date-item {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .rp-date-name { font-size: 12px; color: var(--color-text-primary); }
+    .rp-date-val  { font-size: 11px; color: var(--color-text-secondary); }
+    .rp-big-stat { text-align: center; padding: 8px 0; }
+    .rp-big-num  { font-size: 36px; font-weight: 700; color: var(--color-text-primary); line-height: 1; }
+    .rp-big-sub  { font-size: 11px; color: var(--color-text-secondary); margin-top: 4px; }
+    .rp-period-val { font-size: 13px; font-weight: 600; color: var(--color-text-primary); margin-bottom: 3px; }
+    .rp-period-sub { font-size: 11px; color: var(--color-text-secondary); }
     .g-kpi-row {
       display: flex; gap: 16px;
       border-top: 1px solid var(--color-border);
@@ -324,7 +411,6 @@
     .g-kpi-item { text-align: center; }
     .g-kpi-val { font-size: 17px; font-weight: 700; color: var(--color-text-primary); }
     .g-kpi-lbl { font-size: 10px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.03em; }
-    .g-actions { display: flex; gap: 8px; }
 
     /* ── FREQ TAGS ── */
     .freq-tags { display: flex; flex-wrap: wrap; gap: 4px; }
@@ -490,6 +576,21 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
       </svg>
     </div>
+    <a class="nav-item" href="estructura-indicadores.html" title="Estructura de indicadores" style="text-decoration:none">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+      </svg>
+    </a>
+    <a class="nav-item" href="planeacion-metas-admin.html" title="Planeación de metas" style="text-decoration:none">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+      </svg>
+    </a>
+    <a class="nav-item" href="validacion-reportes.html" title="Validación de reportes" style="text-decoration:none">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.746 3.746 0 0 1-3.296 1.043 3.745 3.745 0 0 1-3.068 1.593 3.745 3.745 0 0 1-3.068-1.593 3.746 3.746 0 0 1-3.296-1.043 3.746 3.746 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.746 3.746 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.745 3.745 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+      </svg>
+    </a>
   </div>
   <div class="sidebar-bottom">
     <div class="nav-item" title="Configuración">
@@ -509,247 +610,120 @@
     <!-- PAGE HEADER -->
     <div class="page-header">
       <div>
-        <h1 class="page-title">Sistema de Seguimiento MIR COMAPA Sur</h1>
-        <p class="page-subtitle">Consulta, planeación y seguimiento de indicadores de desempeño</p>
+        <h1 class="page-title">Bienvenida, Leticia</h1>
+        <p class="page-subtitle">MIR COMAPA Sur &nbsp;·&nbsp; Período activo Q2-2026</p>
       </div>
-      <button class="btn-primary">
+      <button class="btn-primary" onclick="window.location='consulta-mir.html'">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
         </svg>
-        Guía MIR
+        Ver MIR
       </button>
     </div>
 
-    <!-- ALERTA INFORMATIVA -->
+    <!-- ALERT INFO -->
     <div class="alert-info">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
       </svg>
-      <p>Algunos campos como <strong>línea base, meta anual, supuestos y observaciones</strong> pueden estar pendientes de captura o validación. Consulta con tu enlace responsable antes de reportar.</p>
+      <p>El período de captura Q2-2026 está activo. Las fechas límite de reporte van del <strong>30 de junio al 1 de julio de 2026</strong>. Monitorea el avance por gerencia en la sección de seguimiento.</p>
     </div>
 
     <!-- INTRO CARD -->
     <div class="intro-card">
-      <div class="intro-badge">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-        </svg>
-        Plataforma activa · 4 MIR cargadas
+      <div style="position:relative;z-index:1;">
+        <div class="intro-badge">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="11" height="11">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          Plataforma activa &nbsp;·&nbsp; 4 MIR cargadas
+        </div>
+        <p class="intro-title">MIR COMAPA Sur — Sistema de monitoreo y seguimiento de indicadores</p>
+        <p class="intro-body">Consulta la estructura de cada MIR, supervisa el avance de los reportes por gerencia y revisa el estado de validación de indicadores en tiempo real. El sistema integra 193 indicadores distribuidos en 4 gerencias.</p>
       </div>
-      <p class="intro-title">Consulta, comprende y da seguimiento a los indicadores de desempeño de las Matrices de Indicadores para Resultados de COMAPA Sur.</p>
-      <p class="intro-body">Explora las MIR por gerencia, identifica tus indicadores y prepara la planeación y reporte de avances con sus medios de verificación.</p>
     </div>
 
-    <!-- KPI SECTION -->
-    <p class="section-label">Resumen general de la plataforma</p>
+    <!-- MIR STRUCTURE KPI GRID -->
+    <p class="section-label">Estructura del sistema MIR</p>
     <div class="kpi-grid">
       <div class="kpi-card">
         <p class="kpi-label">MIR / Programas</p>
         <p class="kpi-value">4</p>
-        <p class="kpi-sub">Programas presupuestarios activos</p>
+        <p class="kpi-sub">Matrices activas en el sistema</p>
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Total de indicadores</p>
         <p class="kpi-value">193</p>
-        <p class="kpi-sub">Elementos MIR en las 4 gerencias</p>
+        <p class="kpi-sub">En las 4 gerencias</p>
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Fines</p>
         <p class="kpi-value">4</p>
-        <p class="kpi-sub">Nivel superior de cada MIR</p>
+        <p class="kpi-sub">Nivel F — uno por MIR</p>
+        <span class="kpi-tag">Nivel F</span>
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Propósitos</p>
         <p class="kpi-value">4</p>
-        <p class="kpi-sub">Objetivo directo por programa</p>
+        <p class="kpi-sub">Nivel P — uno por MIR</p>
+        <span class="kpi-tag">Nivel P</span>
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Componentes</p>
         <p class="kpi-value">30</p>
-        <p class="kpi-sub">Productos y servicios entregables</p>
+        <p class="kpi-sub">Nivel C — agrupadores</p>
+        <span class="kpi-tag">Nivel C</span>
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Actividades</p>
         <p class="kpi-value">155</p>
-        <p class="kpi-sub">Acciones para producir componentes</p>
+        <p class="kpi-sub">Nivel A — indicadores operativos</p>
+        <span class="kpi-tag">Nivel A</span>
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Medios de verificación</p>
         <p class="kpi-value sm">—</p>
-        <p class="kpi-sub">Por validar con responsables</p>
-        <span class="kpi-tag">Pendiente de validar</span>
+        <p class="kpi-sub">Documentos de soporte</p>
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Con denominador</p>
         <p class="kpi-value">145</p>
-        <p class="kpi-sub">48 indicadores sin denominador</p>
+        <p class="kpi-sub">Indicadores tipo fracción (%)</p>
       </div>
     </div>
 
-    <!-- GERENCIAS SECTION -->
-    <p class="section-label">MIR por gerencia</p>
-    <div class="gerencia-grid">
+    <!-- MONITORING SECTION -->
+    <p class="section-label">Seguimiento por gerencia — Q2-2026</p>
 
-      <!-- Planeación Estratégica -->
-      <div class="gerencia-card">
-        <div class="g-header">
-          <div class="g-header-left">
-            <div class="g-icon pe">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-              </svg>
-            </div>
-            <div>
-              <p class="g-name">Planeación Estratégica</p>
-              <p class="g-desc">Seguimiento institucional, proyectos estratégicos e indicadores de desempeño.</p>
-            </div>
-          </div>
-          <span class="g-badge">19 indicadores</span>
-        </div>
-        <div class="g-kpi-row">
-          <div class="g-kpi-item"><p class="g-kpi-val">1</p><p class="g-kpi-lbl">Fin</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">1</p><p class="g-kpi-lbl">Propósito</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">~3</p><p class="g-kpi-lbl">Componentes</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">~14</p><p class="g-kpi-lbl">Actividades</p></div>
-        </div>
-        <div class="freq-tags">
-          <span class="freq-tag mensual">Mensual</span>
-          <span class="freq-tag trimestral">Trimestral</span>
-          <span class="freq-tag anual">Anual</span>
-        </div>
-        <div class="g-actions">
-          <button class="btn-primary sm" onclick="window.location='consulta-mir.html'">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            </svg>
-            Consultar MIR
-          </button>
-          <button class="btn-secondary" onclick="window.location='consulta-mir.html'">Ver indicadores</button>
-        </div>
+    <div class="kpi-strip">
+      <div class="kpi-card">
+        <p class="kpi-label">Completitud general</p>
+        <p class="kpi-value">75%</p>
+        <p class="kpi-sub">40 / 53 indicadores reportados</p>
       </div>
-
-      <!-- Técnica -->
-      <div class="gerencia-card">
-        <div class="g-header">
-          <div class="g-header-left">
-            <div class="g-icon tec">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
-              </svg>
-            </div>
-            <div>
-              <p class="g-name">Técnica</p>
-              <p class="g-desc">Operación, mantenimiento, infraestructura y servicios técnicos del ciclo del agua.</p>
-            </div>
-          </div>
-          <span class="g-badge">56 indicadores</span>
-        </div>
-        <div class="g-kpi-row">
-          <div class="g-kpi-item"><p class="g-kpi-val">1</p><p class="g-kpi-lbl">Fin</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">1</p><p class="g-kpi-lbl">Propósito</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">~9</p><p class="g-kpi-lbl">Componentes</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">~45</p><p class="g-kpi-lbl">Actividades</p></div>
-        </div>
-        <div class="freq-tags">
-          <span class="freq-tag mensual">Mensual</span>
-          <span class="freq-tag bimestral">Bimestral</span>
-          <span class="freq-tag trimestral">Trimestral</span>
-          <span class="freq-tag semestral">Semestral</span>
-        </div>
-        <div class="g-actions">
-          <button class="btn-primary sm" onclick="window.location='consulta-mir.html'">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            </svg>
-            Consultar MIR
-          </button>
-          <button class="btn-secondary" onclick="window.location='consulta-mir.html'">Ver indicadores</button>
-        </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Aprobados</p>
+        <p class="kpi-value" style="color:#16A34A;">26</p>
+        <p class="kpi-sub">Indicadores aprobados por revisor</p>
       </div>
-
-      <!-- Comercial -->
-      <div class="gerencia-card">
-        <div class="g-header">
-          <div class="g-header-left">
-            <div class="g-icon com">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
-              </svg>
-            </div>
-            <div>
-              <p class="g-name">Comercial</p>
-              <p class="g-desc">Ingresos, medición, facturación, cobranza y atención comercial.</p>
-            </div>
-          </div>
-          <span class="g-badge">60 indicadores</span>
-        </div>
-        <div class="g-kpi-row">
-          <div class="g-kpi-item"><p class="g-kpi-val">1</p><p class="g-kpi-lbl">Fin</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">1</p><p class="g-kpi-lbl">Propósito</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">~9</p><p class="g-kpi-lbl">Componentes</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">~49</p><p class="g-kpi-lbl">Actividades</p></div>
-        </div>
-        <div class="freq-tags">
-          <span class="freq-tag mensual">Mensual</span>
-          <span class="freq-tag trimestral">Trimestral</span>
-          <span class="freq-tag semestral">Semestral</span>
-          <span class="freq-tag anual">Anual</span>
-        </div>
-        <div class="g-actions">
-          <button class="btn-primary sm" onclick="window.location='consulta-mir.html'">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            </svg>
-            Consultar MIR
-          </button>
-          <button class="btn-secondary" onclick="window.location='consulta-mir.html'">Ver indicadores</button>
-        </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Con observaciones</p>
+        <p class="kpi-value" style="color:#EA580C;">4</p>
+        <p class="kpi-sub">Indicadores con observaciones</p>
       </div>
-
-      <!-- Administrativa -->
-      <div class="gerencia-card">
-        <div class="g-header">
-          <div class="g-header-left">
-            <div class="g-icon adm">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
-              </svg>
-            </div>
-            <div>
-              <p class="g-name">Administrativa</p>
-              <p class="g-desc">Recursos, adquisiciones, finanzas, personal e insumos institucionales.</p>
-            </div>
-          </div>
-          <span class="g-badge">58 indicadores</span>
-        </div>
-        <div class="g-kpi-row">
-          <div class="g-kpi-item"><p class="g-kpi-val">1</p><p class="g-kpi-lbl">Fin</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">1</p><p class="g-kpi-lbl">Propósito</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">~9</p><p class="g-kpi-lbl">Componentes</p></div>
-          <div class="g-kpi-item"><p class="g-kpi-val">~47</p><p class="g-kpi-lbl">Actividades</p></div>
-        </div>
-        <div class="freq-tags">
-          <span class="freq-tag mensual">Mensual</span>
-          <span class="freq-tag bimestral">Bimestral</span>
-          <span class="freq-tag trimestral">Trimestral</span>
-          <span class="freq-tag anual">Anual</span>
-        </div>
-        <div class="g-actions">
-          <button class="btn-primary sm" onclick="window.location='consulta-mir.html'">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            </svg>
-            Consultar MIR
-          </button>
-          <button class="btn-secondary" onclick="window.location='consulta-mir.html'">Ver indicadores</button>
-        </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Pendientes de carga</p>
+        <p class="kpi-value" style="color:#D97706;">11</p>
+        <p class="kpi-sub">Sin evidencia cargada aún</p>
       </div>
-
     </div>
+
+    <div class="gerencia-grid" id="gerenciaGrid"></div>
 
     <!-- QUICK ACCESS -->
-    <p class="section-label">Accesos rápidos</p>
+    <p class="section-label">Acceso rápido</p>
     <div class="quick-grid">
+
       <div class="quick-card" onclick="window.location='consulta-mir.html'">
         <div class="q-icon teal">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
@@ -757,19 +731,21 @@
           </svg>
         </div>
         <p class="q-title">Consultar MIR</p>
-        <p class="q-desc">Accede a la estructura completa de cada MIR, sus niveles y frecuencias de medición.</p>
-        <span class="q-action" onclick="window.location='consulta-mir.html'" style="cursor:pointer">Explorar <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg></span>
+        <p class="q-desc">Explora la estructura completa de indicadores por gerencia y nivel.</p>
+        <span class="q-action">Ir a consulta <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
       </div>
-      <div class="quick-card" onclick="window.location='reporte-avance.html'">
+
+      <div class="quick-card" onclick="window.location='dashboard-enlace.html'">
         <div class="q-icon purple">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" />
           </svg>
         </div>
         <p class="q-title">Reportar avance</p>
-        <p class="q-desc">Captura el avance de tus indicadores para el período de reporte activo.</p>
-        <span class="q-action">Ir a reporte <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg></span>
+        <p class="q-desc">Accede al módulo de captura de avances por indicador.</p>
+        <span class="q-action">Ir a reporte <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
       </div>
+
       <div class="quick-card">
         <div class="q-icon orange">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
@@ -777,9 +753,10 @@
           </svg>
         </div>
         <p class="q-title">Cargar medio de verificación</p>
-        <p class="q-desc">Adjunta documentos o evidencias que respalden los avances reportados.</p>
-        <span class="q-action">Cargar archivo <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg></span>
+        <p class="q-desc">Adjunta documentos de soporte a los indicadores reportados.</p>
+        <span class="q-action">Cargar archivo <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
       </div>
+
       <div class="quick-card">
         <div class="q-icon blue">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
@@ -787,45 +764,44 @@
           </svg>
         </div>
         <p class="q-title">Ver Guía MIR</p>
-        <p class="q-desc">Consulta el glosario: Fin, Propósito, Componente, Actividad, Numerador, Denominador.</p>
-        <span class="q-action">Abrir guía <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg></span>
+        <p class="q-desc">Consulta la guía metodológica de llenado y validación de indicadores.</p>
+        <span class="q-action">Abrir guía <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
       </div>
+
     </div>
 
-    <!-- BOTTOM SECTION -->
+    <!-- BOTTOM GRID -->
     <div class="bottom-grid">
 
-      <!-- Didactic help card -->
       <div class="help-card">
-        <span class="help-badge">
+        <div class="help-badge">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="11" height="11">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
           </svg>
-          Nuevo en MIR
-        </span>
-        <p class="help-title">¿Nuevo en MIR?</p>
-        <p class="help-body">Consulta conceptos clave como Fin, Propósito, Componente, Actividad, Numerador, Denominador y Medio de verificación.</p>
-        <p class="help-micro">Esta guía te ayuda a entender cómo leer tu indicador y qué información debes reportar.</p>
+          Soporte
+        </div>
+        <p class="help-title">¿Necesitas ayuda con el sistema?</p>
+        <p class="help-body">Consulta la guía metodológica o contacta al equipo de soporte para resolver dudas sobre el llenado de indicadores.</p>
         <button class="btn-white">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+          Ver guía MIR
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
           </svg>
-          Ir a Guía MIR
         </button>
+        <p class="help-micro">Mesa de soporte: soporte@comapa.mx</p>
       </div>
 
-      <!-- Reference card -->
       <div class="ref-card">
-        <p class="ref-card-title">Referencia rápida del sistema</p>
-        <p class="ref-card-sub">Tipos y categorías que encontrarás al consultar los indicadores.</p>
+        <p class="ref-card-title">Referencia rápida — Estructura MIR</p>
+        <p class="ref-card-sub">Tipos de niveles, medios de verificación y frecuencias de reporte</p>
         <div class="ref-inner-grid">
           <div>
-            <p class="ref-sub-title">Niveles MIR</p>
+            <p class="ref-sub-title">Niveles de indicador</p>
             <div class="ref-col">
-              <span class="level-tag fin">Fin</span>
-              <span class="level-tag proposito">Propósito</span>
-              <span class="level-tag componente">Componente</span>
-              <span class="level-tag actividad">Actividad</span>
+              <span class="level-tag fin">Fin (F)</span>
+              <span class="level-tag proposito">Propósito (P)</span>
+              <span class="level-tag componente">Componente (C)</span>
+              <span class="level-tag actividad">Actividad (A)</span>
             </div>
           </div>
           <div>
@@ -837,9 +813,8 @@
             </div>
           </div>
           <div class="ref-full">
-            <p class="ref-sub-title">Frecuencias de medición</p>
+            <p class="ref-sub-title">Frecuencias de reporte</p>
             <div class="freq-tags">
-              <span class="freq-tag semanal">Semanal</span>
               <span class="freq-tag mensual">Mensual</span>
               <span class="freq-tag bimestral">Bimestral</span>
               <span class="freq-tag trimestral">Trimestral</span>
@@ -851,6 +826,7 @@
       </div>
 
     </div>
+
   </main>
 
   <!-- TOGGLE BUTTON -->
@@ -866,7 +842,7 @@
       <div class="rp-avatar">LS</div>
       <div>
         <p class="rp-name">Leticia Solís</p>
-        <p class="rp-role">Administrador · Planeación</p>
+        <p class="rp-role">Administrador</p>
       </div>
     </div>
 
@@ -874,53 +850,80 @@
 
     <p class="rp-section-title">Indicadores por gerencia</p>
     <div class="rp-stat">
-      <div class="rp-bar b-purple"></div>
-      <div><p class="rp-stat-val">19</p><p class="rp-stat-lbl">Planeación Estratégica</p></div>
+      <div class="rp-bar" style="background:#7C3AED;"></div>
+      <div><p class="rp-stat-val">19</p><p class="rp-stat-lbl">Planeación</p></div>
     </div>
     <div class="rp-stat">
-      <div class="rp-bar b-teal"></div>
+      <div class="rp-bar" style="background:#0891B2;"></div>
       <div><p class="rp-stat-val">56</p><p class="rp-stat-lbl">Técnica</p></div>
     </div>
     <div class="rp-stat">
-      <div class="rp-bar b-orange"></div>
+      <div class="rp-bar" style="background:#8B1D3A;"></div>
       <div><p class="rp-stat-val">60</p><p class="rp-stat-lbl">Comercial</p></div>
     </div>
     <div class="rp-stat">
-      <div class="rp-bar b-black"></div>
+      <div class="rp-bar" style="background:#065F46;"></div>
       <div><p class="rp-stat-val">58</p><p class="rp-stat-lbl">Administrativa</p></div>
     </div>
-
-    <div class="rp-divider"></div>
-
-    <p class="rp-section-title">Total indicadores</p>
     <div class="rp-total-big">
       <p class="num">193</p>
-      <p class="sub">en 4 MIR activas</p>
+      <p class="sub">indicadores totales</p>
     </div>
 
     <div class="rp-divider"></div>
 
-    <p class="rp-section-title">Estructura MIR</p>
-    <div class="rp-stat">
-      <div class="rp-bar b-black"></div>
-      <div><p class="rp-stat-val">4</p><p class="rp-stat-lbl">Fines</p></div>
+    <p class="rp-section-title">Período activo</p>
+    <p class="rp-period-val">Q2-2026</p>
+    <p class="rp-period-sub">15 abr – 30 jun / 1 jul 2026</p>
+
+    <div class="rp-divider"></div>
+
+    <p class="rp-section-title">Completitud general</p>
+    <div class="rp-big-stat">
+      <p class="rp-big-num">75%</p>
+      <p class="rp-big-sub">40 / 53 indicadores</p>
     </div>
-    <div class="rp-stat">
-      <div class="rp-bar b-black"></div>
-      <div><p class="rp-stat-val">4</p><p class="rp-stat-lbl">Propósitos</p></div>
+
+    <div class="rp-divider"></div>
+
+    <p class="rp-section-title">Alertas activas</p>
+    <div class="rp-alert-item">
+      <span class="rp-alert-name">Técnica</span>
+      <span class="rp-alert-badge">2 obs.</span>
     </div>
-    <div class="rp-stat">
-      <div class="rp-bar b-black"></div>
-      <div><p class="rp-stat-val">30</p><p class="rp-stat-lbl">Componentes</p></div>
+    <div class="rp-alert-item">
+      <span class="rp-alert-name">Comercial</span>
+      <span class="rp-alert-badge">1 obs.</span>
     </div>
-    <div class="rp-stat">
-      <div class="rp-bar b-black"></div>
-      <div><p class="rp-stat-val">155</p><p class="rp-stat-lbl">Actividades</p></div>
+    <div class="rp-alert-item">
+      <span class="rp-alert-name">Administrativa</span>
+      <span class="rp-alert-badge">1 obs.</span>
+    </div>
+
+    <div class="rp-divider"></div>
+
+    <p class="rp-section-title">Próximas fechas límite</p>
+    <div class="rp-date-item">
+      <span class="rp-date-name">Técnica</span>
+      <span class="rp-date-val">30 jun</span>
+    </div>
+    <div class="rp-date-item">
+      <span class="rp-date-name">Planeación</span>
+      <span class="rp-date-val">30 jun</span>
+    </div>
+    <div class="rp-date-item">
+      <span class="rp-date-name">Administrativa</span>
+      <span class="rp-date-val">30 jun</span>
+    </div>
+    <div class="rp-date-item">
+      <span class="rp-date-name">Comercial</span>
+      <span class="rp-date-val">1 jul</span>
     </div>
   </aside>
 </div>
 
 <script>
+  // ── Right panel toggle ────────────────────────────────────────────────────
   const panel = document.getElementById('rightPanel');
   const toggle = document.getElementById('rpToggle');
   const main = document.querySelector('.main-content');
@@ -930,6 +933,82 @@
     toggle.classList.toggle('collapsed', isCollapsed);
     main.classList.toggle('expanded', isCollapsed);
   });
+
+  // ── Gerencia icons ────────────────────────────────────────────────────────
+  const ICONS = {
+    planeacion: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />',
+    tecnica:    '<path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />',
+    comercial:  '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />',
+    administrativa: '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />'
+  };
+
+  function renderGerenciaCard(g) {
+    const s = g.stats;
+    const reported = s.aprobados + s.enRevision + s.observados;
+    const pct = s.total > 0 ? Math.round((reported / s.total) * 100) : 0;
+    const icon = ICONS[g.id] || ICONS['planeacion'];
+    const iconBg = g.color;
+
+    return `
+      <div class="gerencia-card">
+        <div class="g-header">
+          <div class="g-header-left">
+            <div class="g-icon" style="background:${iconBg};">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="20" height="20">
+                ${icon}
+              </svg>
+            </div>
+            <div>
+              <p class="g-name">${g.nombre}</p>
+              ${g.descripcion ? `<p class="g-desc">${g.descripcion}</p>` : ''}
+            </div>
+          </div>
+          <span class="g-badge">${s.total} / ${g.totalIndicadores} indicadores en período</span>
+        </div>
+
+        <div class="g-progress-wrap">
+          <div class="g-progress-label">
+            <span class="g-progress-title">Completitud del período</span>
+            <span class="g-progress-pct">${pct}%</span>
+          </div>
+          <div class="g-progress-bar">
+            <div class="g-progress-fill" style="width:${pct}%;background:${g.color};"></div>
+          </div>
+        </div>
+
+        <div class="g-estado-row">
+          <span class="g-chip green">${s.aprobados} Aprobados</span>
+          <span class="g-chip blue">${s.enRevision} En revisión</span>
+          <span class="g-chip orange">${s.observados} Observados</span>
+          <span class="g-chip gray">${s.pendientes} Pendientes</span>
+        </div>
+
+        <div class="g-team-row">
+          <span class="g-team-label">Equipo</span>
+          <span class="g-person-chip">
+            <span class="g-person-avatar" style="background:${g.color};">${g.enlace.iniciales}</span>
+            ${g.enlace.nombre}
+          </span>
+          <span class="g-person-chip">
+            <span class="g-person-avatar" style="background:#6B7280;">${g.revisor.iniciales}</span>
+            ${g.revisor.nombre}
+          </span>
+        </div>
+
+        <div class="g-actions">
+          <button class="btn-primary sm" onclick="window.location='detalle-gerencia.html?g=${g.id}'">
+            Ver detalle &rarr;
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  // Render all gerencia cards
+  const grid = document.getElementById('gerenciaGrid');
+  if (grid && typeof GERENCIAS_MIR !== 'undefined') {
+    grid.innerHTML = GERENCIAS_MIR.map(renderGerenciaCard).join('');
+  }
 </script>
 </body>
 </html>

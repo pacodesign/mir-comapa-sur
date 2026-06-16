@@ -18,6 +18,9 @@ const ACTIVIDADES_ENLACE = [
     avanceReportado: { numerador: 428, denominador: 483, resultado: 88.61,
       comentario: 'El padrón refleja las actualizaciones realizadas en campo durante mayo. Se identificaron 55 registros con información desactualizada que requirieron verificación en sitio, lo que retrasó el cierre del trimestre.',
       analisis: { causas: 'Alta rotación de usuarios en colonias perimetrales y falta de sincronización con el sistema catastral municipal.', riesgos: 'Sin la depuración continua, el índice podría deteriorarse en Q3 cuando inicia la campaña de nuevas conexiones.', medidas: 'Se implementará revisión mensual de bajas y altas en coordinación con el área técnica a partir de julio.' } },
+    periodosAnteriores: [
+      { periodo: 'Q1-2026 (Ene–Mar)', numerador: 384, denominador: 478, resultado: 80.33, estado: 'aprobado' }
+    ],
     estado: 'corregido',
     fechaLimite: '2026-07-01', periodo: 'Q2-2026', ultimaActualizacion: '2026-06-08',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -53,6 +56,12 @@ const ACTIVIDADES_ENLACE = [
     reglasExtra: 'Debe incluir el número de folio del reporte y la fecha de generación del sistema.',
     lineaBase: '88%', metaAnual: '97%', acumulable: false, tieneDenominador: true,
     avanceReportado: { numerador: 4851, denominador: 4980, resultado: 97.41 },
+    periodosAnteriores: [
+      { periodo: 'Enero 2026',   numerador: 4420, denominador: 5012, resultado: 88.19, estado: 'aprobado' },
+      { periodo: 'Febrero 2026', numerador: 4522, denominador: 4998, resultado: 90.48, estado: 'aprobado' },
+      { periodo: 'Marzo 2026',   numerador: 4672, denominador: 5010, resultado: 93.25, estado: 'aprobado' },
+      { periodo: 'Abril 2026',   numerador: 4788, denominador: 5018, resultado: 95.42, estado: 'aprobado' }
+    ],
     estado: 'aprobado_revisor',
     fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-30',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -81,6 +90,13 @@ const ACTIVIDADES_ENLACE = [
     formatoEsperado: 'PDF',
     reglasExtra: 'El reporte debe desglosar la facturación por zona geográfica y tipo de usuario (doméstico, comercial, industrial).',
     lineaBase: '78%', metaAnual: '90%', acumulable: false, tieneDenominador: true,
+    periodosAnteriores: [
+      { periodo: 'Enero 2026',   numerador: 4210000, denominador: 5400000, resultado: 77.96, estado: 'aprobado' },
+      { periodo: 'Febrero 2026', numerador: 4380000, denominador: 5400000, resultado: 81.11, estado: 'aprobado' },
+      { periodo: 'Marzo 2026',   numerador: 4510000, denominador: 5400000, resultado: 83.52, estado: 'aprobado' },
+      { periodo: 'Abril 2026',   numerador: 4620000, denominador: 5400000, resultado: 85.56, estado: 'aprobado' },
+      { periodo: 'Mayo 2026',    numerador: 4750000, denominador: 5400000, resultado: 87.96, estado: 'aprobado' }
+    ],
     estado: 'pendiente_carga',
     fechaLimite: '2026-06-20', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-15',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -106,6 +122,9 @@ const ACTIVIDADES_ENLACE = [
     reglasExtra: 'La muestra mínima debe ser de 200 usuarios. El informe debe incluir metodología y margen de error.',
     lineaBase: '71%', metaAnual: '80%', acumulable: false, tieneDenominador: true,
     avanceReportado: { numerador: 183, denominador: 215, resultado: 85.12 },
+    periodosAnteriores: [
+      { periodo: 'S2-2025 (Jul–Dic)', numerador: 145, denominador: 201, resultado: 72.14, estado: 'aprobado' }
+    ],
     estado: 'aprobado_revisor',
     fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-29',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -136,6 +155,13 @@ const ACTIVIDADES_ENLACE = [
     reglasExtra: 'El reporte debe distinguir conexiones domésticas, comerciales e industriales.',
     lineaBase: '142 conexiones/mes', metaAnual: '1,800 conexiones', acumulable: true, tieneDenominador: false,
     avanceReportado: { numerador: null, denominador: null, resultado: null, valor: 163 },
+    periodosAnteriores: [
+      { periodo: 'Enero 2026',   valor: 142, estado: 'aprobado' },
+      { periodo: 'Febrero 2026', valor: 158, estado: 'aprobado' },
+      { periodo: 'Marzo 2026',   valor: 171, estado: 'aprobado' },
+      { periodo: 'Abril 2026',   valor: 149, estado: 'aprobado' },
+      { periodo: 'Mayo 2026',    valor: 163, estado: 'aprobado' }
+    ],
     estado: 'aprobado_revisor',
     fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-27',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -165,6 +191,12 @@ const ACTIVIDADES_ENLACE = [
     reglasExtra: 'Debe incluir folio de cada queja, fecha de ingreso, fecha de resolución y tipo de atención brindada.',
     lineaBase: '76%', metaAnual: '90%', acumulable: false, tieneDenominador: true,
     avanceReportado: { numerador: 54, denominador: 61, resultado: 88.52 },
+    periodosAnteriores: [
+      { periodo: 'Enero 2026',   numerador: 43, denominador: 62, resultado: 69.35, estado: 'aprobado' },
+      { periodo: 'Febrero 2026', numerador: 48, denominador: 64, resultado: 75.00, estado: 'aprobado' },
+      { periodo: 'Marzo 2026',   numerador: 51, denominador: 63, resultado: 80.95, estado: 'aprobado' },
+      { periodo: 'Abril 2026',   numerador: 52, denominador: 63, resultado: 82.54, estado: 'aprobado' }
+    ],
     estado: 'aprobado_revisor',
     fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-26',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -193,6 +225,10 @@ const ACTIVIDADES_ENLACE = [
     formatoEsperado: 'Excel con captura de lecturas',
     reglasExtra: 'El archivo debe contener: sector, número de toma, lectura anterior, lectura actual y consumo calculado.',
     lineaBase: '82%', metaAnual: '93%', acumulable: false, tieneDenominador: true,
+    periodosAnteriores: [
+      { periodo: 'Bim. 1 (Ene–Feb)', numerador: 3892, denominador: 4810, resultado: 80.91, estado: 'aprobado' },
+      { periodo: 'Bim. 2 (Mar–Abr)', numerador: 4105, denominador: 4892, resultado: 83.92, estado: 'aprobado' }
+    ],
     estado: 'pendiente_carga',
     fechaLimite: '2026-06-22', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-15',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -220,6 +256,13 @@ const ACTIVIDADES_ENLACE = [
     avanceReportado: { numerador: 280000, denominador: 620000, resultado: 45.16,
       comentario: 'La recuperación está por debajo de la meta mensual. El mes presentó un volumen inusualmente alto de acuerdos de pago diferidos que aún no se reflejan en el monto recuperado oficial.',
       analisis: { causas: 'Incremento del 18% en usuarios que solicitaron planes de pago a 3 meses. Los acuerdos firmados no se contabilizan como recuperación hasta el primer pago efectivo.', riesgos: 'Si los acuerdos no se cumplen, la deuda se acumulará al siguiente período y empeorará el indicador.', medidas: 'Se está implementando seguimiento individual a cada acuerdo con recordatorio automático de pago a través del sistema de cobranza.' } },
+    periodosAnteriores: [
+      { periodo: 'Enero 2026',   numerador: 185000, denominador: 620000, resultado: 29.84, estado: 'aprobado' },
+      { periodo: 'Febrero 2026', numerador: 208000, denominador: 622000, resultado: 33.44, estado: 'aprobado' },
+      { periodo: 'Marzo 2026',   numerador: 238000, denominador: 621000, resultado: 38.33, estado: 'aprobado' },
+      { periodo: 'Abril 2026',   numerador: 261000, denominador: 620000, resultado: 42.10, estado: 'aprobado' },
+      { periodo: 'Mayo 2026',    numerador: 275000, denominador: 620000, resultado: 44.35, estado: 'aprobado' }
+    ],
     estado: 'observado',
     fechaLimite: '2026-06-17', periodo: 'Q2-2026', ultimaActualizacion: '2026-06-08',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -261,6 +304,9 @@ const ACTIVIDADES_ENLACE = [
     reglasExtra: 'El reporte debe incluir: número de contrato, nombre del usuario, fecha de firma y fecha de vencimiento.',
     lineaBase: '61%', metaAnual: '85%', acumulable: false, tieneDenominador: true,
     avanceReportado: { numerador: 3847, denominador: 4682, resultado: 82.17 },
+    periodosAnteriores: [
+      { periodo: 'Q1-2026 (Ene–Mar)', numerador: 3280, denominador: 4640, resultado: 70.69, estado: 'aprobado' }
+    ],
     estado: 'aprobado_revisor',
     fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-28',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -292,6 +338,13 @@ const ACTIVIDADES_ENLACE = [
     avanceReportado: { numerador: 1240000, denominador: 8500000, resultado: 14.59,
       comentario: 'El índice de cartera vencida sigue por encima de la meta de 10%, aunque muestra tendencia a la baja respecto al mes anterior (15.8%). Se adjunta reporte con desglose por antigüedad.',
       analisis: { causas: 'Concentración de cartera vencida en sector industrial (3 grandes cuentas) y en colonias de bajo ingreso donde la morosidad supera el 25%.', riesgos: 'Sin recuperación de las cuentas industriales grandes, no se alcanzará la meta anual del 10%.', medidas: 'Se escaló a dirección jurídica para inicio de cobranza extrajudicial en las 3 cuentas industriales. En colonias de bajo ingreso se aplicará programa de condonación de recargos condicionado a pago de capital.' } },
+    periodosAnteriores: [
+      { periodo: 'Enero 2026',   numerador: 1680000, denominador: 8100000, resultado: 20.74, estado: 'aprobado' },
+      { periodo: 'Febrero 2026', numerador: 1580000, denominador: 8200000, resultado: 19.27, estado: 'aprobado' },
+      { periodo: 'Marzo 2026',   numerador: 1480000, denominador: 8300000, resultado: 17.83, estado: 'aprobado' },
+      { periodo: 'Abril 2026',   numerador: 1380000, denominador: 8400000, resultado: 16.43, estado: 'aprobado' },
+      { periodo: 'Mayo 2026',    numerador: 1335000, denominador: 8450000, resultado: 15.80, estado: 'aprobado' }
+    ],
     estado: 'enviado_revision',
     fechaLimite: '2026-07-01', periodo: 'Q2-2026', ultimaActualizacion: '2026-06-06',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -319,6 +372,13 @@ const ACTIVIDADES_ENLACE = [
     formatoEsperado: 'PDF con firmas de campo',
     reglasExtra: 'El reporte debe incluir nombre del gestor de cobranza, zona asignada y resultado de cada visita (pago, acuerdo, ausente).',
     lineaBase: '70%', metaAnual: '88%', acumulable: false, tieneDenominador: true,
+    periodosAnteriores: [
+      { periodo: 'Enero 2026',   numerador: 115, denominador: 162, resultado: 70.99, estado: 'aprobado' },
+      { periodo: 'Febrero 2026', numerador: 128, denominador: 172, resultado: 74.42, estado: 'aprobado' },
+      { periodo: 'Marzo 2026',   numerador: 141, denominador: 178, resultado: 79.21, estado: 'aprobado' },
+      { periodo: 'Abril 2026',   numerador: 148, denominador: 180, resultado: 82.22, estado: 'aprobado' },
+      { periodo: 'Mayo 2026',    numerador: 156, denominador: 183, resultado: 85.25, estado: 'aprobado' }
+    ],
     estado: 'pendiente_carga',
     fechaLimite: '2026-06-25', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-15',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
@@ -343,6 +403,7 @@ const ACTIVIDADES_ENLACE = [
     formatoEsperado: 'PDF (informe ejecutivo)',
     reglasExtra: 'El informe debe incluir metodología de ponderación, fuentes de datos y comparativo con el año anterior.',
     lineaBase: 'N/A (primer año)', metaAnual: '80 puntos (escala 100)', acumulable: false, tieneDenominador: false,
+    periodosAnteriores: [],
     estado: 'borrador',
     fechaLimite: '2026-06-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-06-01',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
