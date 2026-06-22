@@ -733,7 +733,8 @@
   }
 
   function refreshAvanceCalc() {
-    const x = parseFloat(avanceNum), y = parseFloat(avanceDen);
+    const effectiveDen = actividad.denominadorFijo ? String(actividad.denomFijoVal) : avanceDen;
+    const x = parseFloat(avanceNum), y = parseFloat(effectiveDen);
     const ok = !isNaN(x) && !isNaN(y) && y > 0;
     const calcEl  = document.getElementById('avanceCalcVal');
     const saveBtn = document.getElementById('btnSaveAvanceFrac');
@@ -777,15 +778,17 @@
       return;
     }
     if (actividad.tieneDenominador) {
-      const x = parseFloat(avanceNum), y = parseFloat(avanceDen);
+      const effectiveDen = actividad.denominadorFijo ? String(actividad.denomFijoVal) : avanceDen;
+      const x = parseFloat(avanceNum), y = parseFloat(effectiveDen);
       if (isNaN(x) || isNaN(y) || y <= 0) return;
       const result = (x / y * 100).toFixed(2) + '%';
       avanceValue = result;
       avanceSaved = true;
+      if (actividad.denominadorFijo) avanceDen = effectiveDen;
       actividad.historial.push({
         fecha: nowStr(), hora: nowTime(),
         usuario: 'Ana Torres', rol: 'Enlace',
-        accion: `Avance del período reportado: ${result} (Numerador: ${avanceNum}, Denominador: ${avanceDen})`,
+        accion: `Avance del período reportado: ${result} (Numerador: ${avanceNum}, Denominador: ${effectiveDen})`,
         estadoAnterior: null, estadoNuevo: null
       });
     } else {
@@ -930,11 +933,30 @@
 
     // ── FRACCIÓN ──
     if (isFrac) {
-      const x = parseFloat(avanceNum), y = parseFloat(avanceDen);
+      const denFijo = !!act.denominadorFijo;
+      const denFijoVal = act.denomFijoVal != null ? act.denomFijoVal : '';
+      // Pre-fill avanceDen with fixed value when denominadorFijo and not yet entered
+      const denVal = (denFijo && !avanceDen) ? String(denFijoVal) : avanceDen;
+      const x = parseFloat(avanceNum), y = parseFloat(denVal);
       const hasResult = !isNaN(x) && !isNaN(y) && y > 0;
       const resultPct = hasResult ? (x / y * 100).toFixed(2) + '%' : null;
       const mpNum = mp ? parseFloat(mp.label) : null;
       const progPct = (hasResult && mpNum && mpNum > 0) ? Math.min(x/y*100/mpNum*100, 100) : 0;
+
+      const denField = denFijo
+        ? `<div>
+            <span class="avance-frac-label">Denominador (Y) &nbsp;<span style="font-size:9px;font-weight:700;background:#EFF6FF;color:#1D4ED8;padding:1px 7px;border-radius:999px;letter-spacing:.02em">Fijo · configurado por Admin</span></span>
+            <input type="number" class="avance-input-field" value="${denFijoVal}" readonly
+                   style="background:#F3F4F6;color:#6B7280;cursor:not-allowed;width:100%">
+            <p class="avance-frac-desc">${act.denominador}</p>
+           </div>`
+        : `<div>
+            <span class="avance-frac-label">Denominador (Y)</span>
+            <input type="number" class="avance-input-field" value="${denVal}"
+                   oninput="onAvanceDen(this.value)" placeholder="0.01" min="0.01" style="width:100%">
+            <p class="avance-frac-desc">${act.denominador}</p>
+           </div>`;
+
       return `
         <div class="avance-ctx">${ctx}</div>
         ${histHtml}
@@ -942,7 +964,7 @@
           <div class="avance-saved-banner">
             ${CHECK_ICO}
             Avance guardado: <strong style="margin-left:2px">${avanceValue}</strong>
-            <span style="font-size:11px;color:#15803D;margin-left:4px">(X=${avanceNum}, Y=${avanceDen})</span>
+            <span style="font-size:11px;color:#15803D;margin-left:4px">(X=${avanceNum}, Y=${denVal})</span>
             . Puedes actualizarlo.
           </div>` : ''}
         <div class="avance-frac-grid">
@@ -952,12 +974,7 @@
                    oninput="onAvanceNum(this.value)" placeholder="0" min="0" style="width:100%">
             <p class="avance-frac-desc">${act.numerador}</p>
           </div>
-          <div>
-            <span class="avance-frac-label">Denominador (Y)</span>
-            <input type="number" class="avance-input-field" value="${avanceDen}"
-                   oninput="onAvanceDen(this.value)" placeholder="0.01" min="0.01" style="width:100%">
-            <p class="avance-frac-desc">${act.denominador}</p>
-          </div>
+          ${denField}
         </div>
         <div class="avance-calc-block">
           <p class="avance-calc-lbl">( X ÷ Y ) × 100</p>
@@ -1028,13 +1045,13 @@
     const lockBody = (msg) =>
       `<div class="step-sep"></div><div class="step-locked-body">${LOCK_S} ${msg}</div>`;
 
-    // ── Paso 1: Valor del avance ──────────────────────────────────────────
+    // ── Paso 1: Meta del indicador ────────────────────────────────────────
     const paso1 = `
       <div class="step-card">
         <div class="step-hdr">
           ${badge(1, step1Done, true)}
           <div class="step-title-col">
-            <p class="step-card-name">Valor del avance</p>
+            <p class="step-card-name">Meta del indicador</p>
           </div>
           ${step1Done ? doneChip('Completado') : ''}
         </div>

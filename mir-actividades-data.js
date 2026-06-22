@@ -89,7 +89,7 @@ const ACTIVIDADES_ENLACE = [
     medioVerificacion: 'Reporte de facturación por sector con firma del jefe de área comercial.',
     formatoEsperado: 'PDF',
     reglasExtra: 'El reporte debe desglosar la facturación por zona geográfica y tipo de usuario (doméstico, comercial, industrial).',
-    lineaBase: '78%', metaAnual: '90%', acumulable: false, tieneDenominador: true,
+    lineaBase: '78%', metaAnual: '90%', acumulable: false, tieneDenominador: true, denominadorFijo: true, denomFijoVal: 5400000,
     periodosAnteriores: [
       { periodo: 'Enero 2026',   numerador: 4210000, denominador: 5400000, resultado: 77.96, estado: 'aprobado' },
       { periodo: 'Febrero 2026', numerador: 4380000, denominador: 5400000, resultado: 81.11, estado: 'aprobado' },
@@ -224,7 +224,7 @@ const ACTIVIDADES_ENLACE = [
     medioVerificacion: 'Reporte de lecturas de medidor por sector, firmado por el jefe de rutas.',
     formatoEsperado: 'Excel con captura de lecturas',
     reglasExtra: 'El archivo debe contener: sector, número de toma, lectura anterior, lectura actual y consumo calculado.',
-    lineaBase: '82%', metaAnual: '93%', acumulable: false, tieneDenominador: true,
+    lineaBase: '82%', metaAnual: '93%', acumulable: false, tieneDenominador: true, denominadorFijo: false,
     periodosAnteriores: [
       { periodo: 'Bim. 1 (Ene–Feb)', numerador: 3892, denominador: 4810, resultado: 80.91, estado: 'aprobado' },
       { periodo: 'Bim. 2 (Mar–Abr)', numerador: 4105, denominador: 4892, resultado: 83.92, estado: 'aprobado' }
