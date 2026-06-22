@@ -125,18 +125,6 @@
     .comment-textarea{width:100%;padding:10px 12px;font-size:12px;font-family:inherit;border:1px solid var(--color-border);border-radius:10px;resize:vertical;min-height:72px;outline:none;line-height:1.5;transition:border-color .15s;}
     .comment-textarea:focus{border-color:var(--color-primary);}
     .comment-textarea:read-only{background:#F9FAFB;color:#6B7280;}
-    .comment-textarea:disabled{background:#F9FAFB;color:#9CA3AF;cursor:not-allowed;}
-
-    .analysis-section{border-top:1px solid var(--color-border);padding-top:16px;display:flex;flex-direction:column;gap:14px;margin-top:4px;}
-    .analysis-title{font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:0;}
-    .cumpl-row{display:flex;flex-direction:column;gap:6px;}
-    .cumpl-label{font-size:12px;font-weight:600;color:var(--color-text-primary);}
-    .cumpl-options{display:flex;gap:8px;}
-    .cumpl-btn{padding:5px 14px;border-radius:var(--radius-btn);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;border:1.5px solid var(--color-border);background:white;color:#6B7280;transition:all .15s;}
-    .cumpl-btn:hover:not(:disabled){background:var(--color-surface);}
-    .cumpl-btn.active-yes{background:#D1FAE5;color:#065F46;border-color:#6EE7B7;}
-    .cumpl-btn.active-no{background:#FEF2F2;color:#DC2626;border-color:#FECACA;}
-    .cumpl-btn:disabled{opacity:.5;cursor:not-allowed;}
 
     .btn-primary{background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
     .btn-primary:hover{background:var(--color-accent-dark);}
@@ -435,50 +423,8 @@ function openModal(id) {
     html += '<div class="acum-total"><span class="acum-total-label">Total acumulado</span><span class="acum-total-val" id="acumTotal">'+total.toLocaleString('es-MX')+(item.unidad?' '+item.unidad:'')+'</span></div>';
   }
 
-  // ── Análisis narrativo del indicador ──────────────────────────────────────
-  var mc = item.plan.metaCumplida; // true | false | null/undefined
-  var ro = IS_READONLY ? ' readonly' : '';
-  var condLabel = mc===true  ? 'Explique las acciones que llevaron al logro de la meta.'
-                : mc===false ? 'Explique las causas por las que no se logra la meta.'
-                : null;
-  var condPlaceholder = mc===true  ? 'Describe las acciones, decisiones o factores que permitieron alcanzar la meta…'
-                      : mc===false ? 'Describe los obstáculos, circunstancias o factores que impidieron alcanzar la meta…'
-                      : '';
-
-  html += '<div class="analysis-section">';
-  html += '<p class="analysis-title">Análisis narrativo del indicador</p>';
-
-  // Cumplimiento toggle
-  html += '<div class="cumpl-row">';
-  html += '<span class="cumpl-label">Cumplimiento de meta en el período</span>';
-  html += '<div class="cumpl-options">';
-  html += '<button class="cumpl-btn'+(mc===true?' active-yes':'')+'"'+(IS_READONLY?' disabled':'')+' onclick="setCumpl(true)">Meta alcanzada</button>';
-  html += '<button class="cumpl-btn'+(mc===false?' active-no':'')+'"'+(IS_READONLY?' disabled':'')+' onclick="setCumpl(false)">Meta no alcanzada</button>';
-  html += '</div>';
-  html += '</div>';
-
-  // Conditional field
-  html += '<div id="conditionalField">';
-  if (condLabel) {
-    html += '<label class="comment-label">'+condLabel+'</label>';
-    html += '<textarea class="comment-textarea" id="analisisLogro" placeholder="'+condPlaceholder+'"'+ro+'>'+( item.plan.analisisLogro||'')+'</textarea>';
-  } else {
-    html += '<label class="comment-label" style="color:#9CA3AF;">Selecciona el cumplimiento para ver este campo.</label>';
-    html += '<textarea class="comment-textarea" id="analisisLogro" placeholder="Primero indica si la meta fue alcanzada o no." disabled></textarea>';
-  }
-  html += '</div>';
-
-  // Always-present fields
-  html += '<div><label class="comment-label">Situaciones o cambios que pongan en riesgo lograr la meta del indicador.</label>'+
-    '<textarea class="comment-textarea" id="analisisRiesgos" placeholder="Describe riesgos u obstáculos que amenacen el cumplimiento futuro de la meta…"'+ro+'>'+( item.plan.analisisRiesgos||'')+'</textarea></div>';
-
-  html += '<div><label class="comment-label">Situaciones o cambios que puedan aprovecharse para lograr la meta del indicador.</label>'+
-    '<textarea class="comment-textarea" id="analisisOportunidades" placeholder="Describe oportunidades o factores favorables que puedan apoyar el logro de la meta…"'+ro+'>'+( item.plan.analisisOportunidades||'')+'</textarea></div>';
-
-  html += '<div><label class="comment-label">Acciones implementadas y propuestas para la toma de decisiones.</label>'+
-    '<textarea class="comment-textarea" id="analisisAcciones" placeholder="Describe las acciones ya tomadas y las propuestas que recomiendas para mejorar el avance…"'+ro+'>'+( item.plan.analisisAcciones||'')+'</textarea></div>';
-
-  html += '</div>'; // end analysis-section
+  html += '<label class="comment-label" style="margin-top:4px;">Comentarios de justificación</label>'+
+    '<textarea class="comment-textarea" id="commentTA" placeholder="Justifica tus metas proyectadas: base histórica, factores externos, supuestos…"'+(IS_READONLY?' readonly':'')+'>'+( item.plan.comentariosEnlace||'')+'</textarea>';
 
   document.getElementById('modalBody').innerHTML = html;
 
@@ -498,26 +444,6 @@ function openModal(id) {
 
 function closeModal()    { document.getElementById('modalOverlay').classList.remove('open'); }
 function overlayClick(e) { if (e.target===document.getElementById('modalOverlay')) closeModal(); }
-
-function setCumpl(val) {
-  if (IS_READONLY) return;
-  var item = INDICATORS.find(function(i){ return i.id===EDITING_ID; });
-  if (!item) return;
-  item.plan.metaCumplida = val;
-
-  document.querySelectorAll('.cumpl-btn').forEach(function(b){ b.className='cumpl-btn'; });
-  document.querySelector('.cumpl-btn:first-child').classList.toggle('active-yes', val===true);
-  document.querySelector('.cumpl-btn:last-child').classList.toggle('active-no', val===false);
-
-  var condLabel = val ? 'Explique las acciones que llevaron al logro de la meta.'
-                      : 'Explique las causas por las que no se logra la meta.';
-  var condPlaceholder = val ? 'Describe las acciones, decisiones o factores que permitieron alcanzar la meta…'
-                            : 'Describe los obstáculos, circunstancias o factores que impidieron alcanzar la meta…';
-  var prevValue = (document.getElementById('analisisLogro')||{}).value || '';
-  document.getElementById('conditionalField').innerHTML =
-    '<label class="comment-label">'+condLabel+'</label>'+
-    '<textarea class="comment-textarea" id="analisisLogro" placeholder="'+condPlaceholder+'">'+prevValue+'</textarea>';
-}
 
 function onMetaInput(idx) {
   var item = INDICATORS.find(function(i){ return i.id===EDITING_ID; });
@@ -539,21 +465,12 @@ function collectMetas() {
   return periods.map(function(_,i){ var el=document.getElementById('pg_'+i); return el ? (el.value!==''?parseFloat(el.value):null) : null; });
 }
 
-function collectAnalysis() {
-  var g = function(id){ var el=document.getElementById(id); return el?el.value.trim():''; };
-  return {
-    analisisLogro:        g('analisisLogro'),
-    analisisRiesgos:      g('analisisRiesgos'),
-    analisisOportunidades:g('analisisOportunidades'),
-    analisisAcciones:     g('analisisAcciones'),
-  };
-}
-
 function saveDraft() {
   var item = INDICATORS.find(function(i){ return i.id===EDITING_ID; });
   if (!item) return;
-  var plan = Object.assign({}, item.plan, collectAnalysis(), {
-    metas: collectMetas(),
+  var comment = document.getElementById('commentTA').value.trim();
+  var plan = Object.assign({}, item.plan, {
+    metas: collectMetas(), comentariosEnlace: comment,
     estado: 'borrador', id: item.id, gerencia: 'comercial', frecuencia: item.frecuencia,
   });
   upsertPlan(plan);
@@ -568,8 +485,9 @@ function submitPlan() {
   if (!item) return;
   var metas = collectMetas();
   if (metas.every(function(v){ return v===null||v===undefined; })) { showToast('Ingresa al menos una meta antes de enviar'); return; }
-  var plan = Object.assign({}, item.plan, collectAnalysis(), {
-    metas: metas,
+  var comment = document.getElementById('commentTA').value.trim();
+  var plan = Object.assign({}, item.plan, {
+    metas: metas, comentariosEnlace: comment,
     estado: 'enviado', id: item.id, gerencia: 'comercial', frecuencia: item.frecuencia,
     fechaEnvio: '2026-06-16',
   });

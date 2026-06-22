@@ -30,12 +30,7 @@ const SEED_PLANES = [
     estado:'bloqueado',
     obsRevisor:'Metas consistentes con el histórico y el programa de actualización catastral. Aprobadas.',
     obsAdmin:'Aprobado definitivamente. Leticia Solís — 20 Mar 2026.',
-    fechaEnvio:'2026-03-10', fechaRevision:'2026-03-15', fechaAprobacion:'2026-03-20',
-    metaCumplida: true,
-    analisisLogro: 'Se alcanzó la meta gracias a la campaña de regularización de usuarios morosos realizada en febrero, que incorporó 340 tomas al padrón activo. La coordinación entre el área comercial y técnica permitió reducir el tiempo de activación de nuevas conexiones de 7 a 4 días hábiles.',
-    analisisRiesgos: 'El aumento de temperatura en Q2 puede elevar la demanda y reducir artificialmente la eficiencia medida. Se tiene una ventana de mantenimiento correctivo de medidores en junio que podría afectar temporalmente la medición.',
-    analisisOportunidades: 'La puesta en marcha del sistema de lectura remota en la colonia Centro en Q2 permitirá reducir errores de lectura y aumentar la cobertura de facturación real.',
-    analisisAcciones: 'Se implementó revisión semanal del padrón activo con corte al último día hábil del mes. Se propone escalar la campaña de regularización a colonias periféricas en Q2-Q3 para mantener la trayectoria de mejora.',
+    fechaEnvio:'2026-03-10', fechaRevision:'2026-03-15', fechaAprobacion:'2026-03-20'
   },
   {
     id:'COM-ACT-02', gerencia:'comercial', frecuencia:'Trimestral',
@@ -82,12 +77,7 @@ const SEED_PLANES = [
     estado:'bloqueado',
     obsRevisor:'Aprobado. Metas consistentes con el POA 2026 y los compromisos directivos.',
     obsAdmin:'Aprobado. Marco Gutiérrez y Patricia Vázquez confirmaron viabilidad.',
-    fechaEnvio:'2026-02-28', fechaRevision:'2026-03-05', fechaAprobacion:'2026-03-12',
-    metaCumplida: true,
-    analisisLogro: 'El cumplimiento del Q1 se logró gracias al seguimiento semanal mediante el tablero de metas institucional y la resolución oportuna de cuellos de botella en tres proyectos estratégicos. La dirección general apoyó con recursos adicionales en febrero.',
-    analisisRiesgos: 'Dos compromisos directivos con fecha límite en mayo presentan riesgo de retraso por dependencias con áreas externas (CONAGUA y municipio). Si no se resuelven antes del Q2, el avance del POA podría bajar 3-4 pp.',
-    analisisOportunidades: 'La aprobación del presupuesto ampliado para infraestructura digital abre la posibilidad de automatizar el reporte de avance de 6 proyectos, lo que reduciría el tiempo de captura y mejoraría la oportunidad del dato.',
-    analisisAcciones: 'Se estableció un comité de seguimiento mensual presidido por la Dirección. Se propone incluir en la agenda directiva del Q2 un punto de revisión de los compromisos en riesgo para tomar decisiones oportunas.',
+    fechaEnvio:'2026-02-28', fechaRevision:'2026-03-05', fechaAprobacion:'2026-03-12'
   },
   {
     id:'PE-ACT-02', gerencia:'planeacion', frecuencia:'Trimestral',
@@ -127,12 +117,7 @@ const SEED_PLANES = [
     estado:'bloqueado',
     obsRevisor:'Aprobado. Las metas de reducción son alcanzables con el presupuesto de rehabilitación aprobado.',
     obsAdmin:'Aprobado definitivamente.',
-    fechaEnvio:'2026-02-20', fechaRevision:'2026-02-26', fechaAprobacion:'2026-03-03',
-    metaCumplida: false,
-    analisisLogro: 'El Bim.1 cerró en 34.2%, por encima de la meta de 33%. El retraso en la entrega de material de rehabilitación impidió completar los trabajos de sectorización en el sector 4 y 7, que concentran el mayor índice de fugas no visibles.',
-    analisisRiesgos: 'La temporada de lluvias de mayo-junio incrementa la presión en la red y puede generar fugas nuevas que eleven el índice. Además, el presupuesto de materiales tiene un riesgo de subejercicio por el proceso de licitación de tuberías.',
-    analisisOportunidades: 'El equipo de detección de fugas acústico adquirido en enero comenzará operaciones en Bim.2. Esto permitirá localizar fugas no visibles con mayor precisión y reducir el IANC de forma más efectiva a partir del segundo trimestre.',
-    analisisAcciones: 'Se aceleró el proceso de recepción de materiales y se reasignó una brigada adicional al sector 4. Para Bim.2 se propone priorizar los 12 tramos de red con mayor índice de pérdidas identificados en el diagnóstico hidráulico de enero.',
+    fechaEnvio:'2026-02-20', fechaRevision:'2026-02-26', fechaAprobacion:'2026-03-03'
   },
   // ── ADMINISTRATIVA ─────────────────────────────────────────────────────────
   {
@@ -142,12 +127,7 @@ const SEED_PLANES = [
     estado:'bloqueado',
     obsRevisor:'Revisado y consistente con el PAC 2026 y el calendario de adquisiciones. Aprobado.',
     obsAdmin:'Aprobado definitivamente. Ejecución monitoreada mensualmente.',
-    fechaEnvio:'2026-02-25', fechaRevision:'2026-03-03', fechaAprobacion:'2026-03-10',
-    metaCumplida: true,
-    analisisLogro: 'La ejecución de enero y febrero superó la meta gracias a que 4 contratos del PAC se formalizaron antes de lo previsto. La digitalización del módulo de requisiciones redujo el tiempo promedio de autorización de 8 a 3 días hábiles.',
-    analisisRiesgos: 'Dos partidas del capítulo 5000 (bienes muebles) están en proceso de licitación y podrían retrasarse hasta mayo si no se reciben propuestas suficientes. Esto podría reducir la ejecución acumulada de Q2 en 2-3 pp.',
-    analisisOportunidades: 'La disponibilidad de saldo en fondo revolvente permite adelantar compras directas de insumos críticos sin esperar el proceso de licitación. Esto podría acelerar la ejecución de Q2 si se aprovecha oportunamente.',
-    analisisAcciones: 'Se implementó tablero de seguimiento semanal de compromisos presupuestales con semáforo por partida. Se propone revisar con Dirección la posibilidad de reasignar las partidas en riesgo a capítulos con mayor capacidad de ejecución.',
+    fechaEnvio:'2026-02-25', fechaRevision:'2026-03-03', fechaAprobacion:'2026-03-10'
   },
   {
     id:'ADM-ACT-02', gerencia:'administrativa', frecuencia:'Mensual',
