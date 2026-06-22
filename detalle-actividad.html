@@ -324,6 +324,11 @@
     .avance-frac-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
     .avance-frac-label{font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;display:block;}
     .avance-frac-desc{font-size:11px;color:var(--color-text-secondary);margin-top:5px;line-height:1.4;}
+    .den-fijo-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;background:#EFF6FF;color:#1D4ED8;padding:1px 6px;border-radius:999px;letter-spacing:.02em;vertical-align:middle;margin-left:6px;position:relative;cursor:default;}
+    .den-fijo-badge svg{width:10px;height:10px;flex-shrink:0;}
+    .den-fijo-badge .den-tooltip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1F2937;color:white;font-size:11px;font-weight:400;line-height:1.4;padding:7px 10px;border-radius:8px;white-space:normal;width:220px;pointer-events:none;opacity:0;transition:opacity .15s;z-index:200;text-align:left;letter-spacing:0;}
+    .den-fijo-badge:hover .den-tooltip{opacity:1;}
+    .den-fijo-badge .den-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1F2937;}
     .avance-calc-block{background:#FDF5F7;border:1.5px solid #E8C5CD;border-radius:12px;padding:14px;text-align:center;margin-bottom:12px;}
     .avance-calc-lbl{font-size:10px;font-weight:600;color:var(--color-primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;}
     .avance-calc-val{font-size:30px;font-weight:700;color:var(--color-primary);line-height:1;}
@@ -945,7 +950,7 @@
 
       const denField = denFijo
         ? `<div>
-            <span class="avance-frac-label">Denominador (Y) &nbsp;<span style="font-size:9px;font-weight:700;background:#EFF6FF;color:#1D4ED8;padding:1px 7px;border-radius:999px;letter-spacing:.02em">Fijo · configurado por Admin</span></span>
+            <span class="avance-frac-label">Denominador (Y)<span class="den-fijo-badge"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>Fijo<span class="den-tooltip">Configurado en la planeación, si se requiere cambiar a meta variable, contactar al administrador</span></span></span>
             <input type="number" class="avance-input-field" value="${denFijoVal}" readonly
                    style="background:#F3F4F6;color:#6B7280;cursor:not-allowed;width:100%">
             <p class="avance-frac-desc">${act.denominador}</p>
