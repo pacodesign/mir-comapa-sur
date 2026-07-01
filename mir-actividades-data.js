@@ -62,7 +62,7 @@ const ACTIVIDADES_ENLACE = [
       { periodo: 'Marzo 2026',   numerador: 4672, denominador: 5010, resultado: 93.25, estado: 'aprobado' },
       { periodo: 'Abril 2026',   numerador: 4788, denominador: 5018, resultado: 95.42, estado: 'aprobado' }
     ],
-    estado: 'aprobado_revisor',
+    estado: 'listo_validar',
     fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-30',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
     archivosEvidencia: [
@@ -72,7 +72,7 @@ const ACTIVIDADES_ENLACE = [
     historial: [
       { fecha: '2026-05-15', hora: '09:00', usuario: 'Sistema', rol: 'Sistema', accion: 'Actividad asignada al Enlace', estadoAnterior: null, estadoNuevo: 'pendiente_carga' },
       { fecha: '2026-05-28', hora: '11:00', usuario: 'Ana Torres', rol: 'Enlace', accion: 'Evidencia cargada y enviada a revisión', estadoAnterior: 'pendiente_carga', estadoNuevo: 'enviado_revision' },
-      { fecha: '2026-05-30', hora: '16:20', usuario: 'Carlos Mendoza', rol: 'Revisor', accion: 'Aprobada técnicamente', estadoAnterior: 'pendiente_revision', estadoNuevo: 'aprobado_revisor' }
+      { fecha: '2026-05-30', hora: '16:20', usuario: 'Carlos Mendoza', rol: 'Revisor', accion: 'Aprobada técnicamente — sin observaciones', estadoAnterior: 'pendiente_revision', estadoNuevo: 'listo_validar' }
     ]
   },
   {
@@ -125,8 +125,8 @@ const ACTIVIDADES_ENLACE = [
     periodosAnteriores: [
       { periodo: 'S2-2025 (Jul–Dic)', numerador: 145, denominador: 201, resultado: 72.14, estado: 'aprobado' }
     ],
-    estado: 'aprobado_revisor',
-    fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-29',
+    estado: 'listo_validar',
+    fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-30',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
     archivosEvidencia: [
       { id: 'f-04-a', nombre: 'encuesta-satisfaccion-sem1-2026.pdf', tipo: 'PDF', tamanio: '4.1 MB', fechaCarga: '2026-05-29 10:15', cargadoPor: 'Ana Torres', estado: 'aprobado' },
@@ -136,7 +136,7 @@ const ACTIVIDADES_ENLACE = [
     historial: [
       { fecha: '2026-05-15', hora: '09:00', usuario: 'Sistema', rol: 'Sistema', accion: 'Actividad asignada al Enlace', estadoAnterior: null, estadoNuevo: 'pendiente_carga' },
       { fecha: '2026-05-29', hora: '10:15', usuario: 'Ana Torres', rol: 'Enlace', accion: 'Evidencia cargada y enviada', estadoAnterior: 'pendiente_carga', estadoNuevo: 'enviado_revision' },
-      { fecha: '2026-05-30', hora: '09:45', usuario: 'Carlos Mendoza', rol: 'Revisor', accion: 'Aprobada técnicamente', estadoAnterior: 'pendiente_revision', estadoNuevo: 'aprobado_revisor' }
+      { fecha: '2026-05-30', hora: '09:45', usuario: 'Carlos Mendoza', rol: 'Revisor', accion: 'Aprobada técnicamente — sin observaciones', estadoAnterior: 'pendiente_revision', estadoNuevo: 'listo_validar' }
     ]
   },
   {
@@ -162,8 +162,8 @@ const ACTIVIDADES_ENLACE = [
       { periodo: 'Abril 2026',   valor: 149, estado: 'aprobado' },
       { periodo: 'Mayo 2026',    valor: 163, estado: 'aprobado' }
     ],
-    estado: 'aprobado_revisor',
-    fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-27',
+    estado: 'listo_validar',
+    fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-29',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
     archivosEvidencia: [
       { id: 'f-05-a', nombre: 'altas-servicio-may-2026.pdf', tipo: 'PDF', tamanio: '1.2 MB', fechaCarga: '2026-05-27 15:00', cargadoPor: 'Ana Torres', estado: 'aprobado' }
@@ -172,7 +172,7 @@ const ACTIVIDADES_ENLACE = [
     historial: [
       { fecha: '2026-05-15', hora: '09:00', usuario: 'Sistema', rol: 'Sistema', accion: 'Actividad asignada al Enlace', estadoAnterior: null, estadoNuevo: 'pendiente_carga' },
       { fecha: '2026-05-27', hora: '15:00', usuario: 'Ana Torres', rol: 'Enlace', accion: 'Evidencia cargada y enviada', estadoAnterior: 'pendiente_carga', estadoNuevo: 'enviado_revision' },
-      { fecha: '2026-05-29', hora: '11:30', usuario: 'Carlos Mendoza', rol: 'Revisor', accion: 'Aprobada técnicamente', estadoAnterior: 'pendiente_revision', estadoNuevo: 'aprobado_revisor' }
+      { fecha: '2026-05-29', hora: '11:30', usuario: 'Carlos Mendoza', rol: 'Revisor', accion: 'Aprobada técnicamente — sin observaciones', estadoAnterior: 'pendiente_revision', estadoNuevo: 'listo_validar' }
     ]
   },
   {
@@ -197,8 +197,8 @@ const ACTIVIDADES_ENLACE = [
       { periodo: 'Marzo 2026',   numerador: 51, denominador: 63, resultado: 80.95, estado: 'aprobado' },
       { periodo: 'Abril 2026',   numerador: 52, denominador: 63, resultado: 82.54, estado: 'aprobado' }
     ],
-    estado: 'aprobado_revisor',
-    fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-26',
+    estado: 'listo_validar',
+    fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-28',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
     archivosEvidencia: [
       { id: 'f-06-a', nombre: 'reporte-quejas-may-2026.pdf', tipo: 'PDF', tamanio: '0.9 MB', fechaCarga: '2026-05-26 17:00', cargadoPor: 'Ana Torres', estado: 'aprobado' }
@@ -207,7 +207,7 @@ const ACTIVIDADES_ENLACE = [
     historial: [
       { fecha: '2026-05-15', hora: '09:00', usuario: 'Sistema', rol: 'Sistema', accion: 'Actividad asignada al Enlace', estadoAnterior: null, estadoNuevo: 'pendiente_carga' },
       { fecha: '2026-05-26', hora: '17:00', usuario: 'Ana Torres', rol: 'Enlace', accion: 'Evidencia cargada y enviada', estadoAnterior: 'pendiente_carga', estadoNuevo: 'enviado_revision' },
-      { fecha: '2026-05-28', hora: '10:00', usuario: 'Carlos Mendoza', rol: 'Revisor', accion: 'Aprobada técnicamente', estadoAnterior: 'pendiente_revision', estadoNuevo: 'aprobado_revisor' }
+      { fecha: '2026-05-28', hora: '10:00', usuario: 'Carlos Mendoza', rol: 'Revisor', accion: 'Aprobada técnicamente — sin observaciones', estadoAnterior: 'pendiente_revision', estadoNuevo: 'listo_validar' }
     ]
   },
   {
@@ -307,8 +307,8 @@ const ACTIVIDADES_ENLACE = [
     periodosAnteriores: [
       { periodo: 'Q1-2026 (Ene–Mar)', numerador: 3280, denominador: 4640, resultado: 70.69, estado: 'aprobado' }
     ],
-    estado: 'aprobado_revisor',
-    fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-05-28',
+    estado: 'cerrado',
+    fechaLimite: '2026-05-30', periodo: 'Q2-2026', ultimaActualizacion: '2026-06-02',
     responsableEnlace: 'Ana Torres', responsableRevisor: 'Carlos Mendoza',
     archivosEvidencia: [
       { id: 'f-09-a', nombre: 'contratos-vigentes-q2-2026.pdf', tipo: 'PDF', tamanio: '3.5 MB', fechaCarga: '2026-05-28 09:30', cargadoPor: 'Ana Torres', estado: 'aprobado' }
@@ -317,7 +317,8 @@ const ACTIVIDADES_ENLACE = [
     historial: [
       { fecha: '2026-05-15', hora: '09:00', usuario: 'Sistema', rol: 'Sistema', accion: 'Actividad asignada al Enlace', estadoAnterior: null, estadoNuevo: 'pendiente_carga' },
       { fecha: '2026-05-28', hora: '09:30', usuario: 'Ana Torres', rol: 'Enlace', accion: 'Evidencia cargada y enviada', estadoAnterior: 'pendiente_carga', estadoNuevo: 'enviado_revision' },
-      { fecha: '2026-05-30', hora: '14:00', usuario: 'Carlos Mendoza', rol: 'Revisor', accion: 'Aprobada técnicamente', estadoAnterior: 'pendiente_revision', estadoNuevo: 'aprobado_revisor' }
+      { fecha: '2026-05-30', hora: '14:00', usuario: 'Carlos Mendoza', rol: 'Revisor', accion: 'Aprobada técnicamente — sin observaciones', estadoAnterior: 'pendiente_revision', estadoNuevo: 'listo_validar' },
+      { fecha: '2026-06-02', hora: '10:30', usuario: 'Luis Sandoval', rol: 'Admin', accion: 'Indicador validado por el Administrador — reporte cerrado', estadoAnterior: 'listo_validar', estadoNuevo: 'cerrado' }
     ]
   },
   {
@@ -417,17 +418,19 @@ const ACTIVIDADES_ENLACE = [
 
 // ── Configuración de estados ──────────────────────────────────────────────────
 const ESTADO_CFG = {
-  borrador:           { label: 'Borrador',          cls: 'borrador',           accion: 'Continuar',           btnCls: 'neutral' },
-  pendiente_carga:    { label: 'Pendiente de carga', cls: 'pendiente_carga',    accion: 'Cargar evidencia',    btnCls: 'primary' },
-  pendiente_envio:    { label: 'Listo para enviar',  cls: 'pendiente_envio',    accion: 'Enviar a revisión',   btnCls: 'primary' },
-  enviado_revision:   { label: 'En revisión',        cls: 'enviado_revision',   accion: 'Ver detalle',         btnCls: 'neutral' },
-  pendiente_revision: { label: 'En revisión',        cls: 'enviado_revision',   accion: 'Ver detalle',         btnCls: 'neutral' },
-  observado:          { label: 'Observada',           cls: 'observado',          accion: 'Atender observación', btnCls: 'warning' },
-  corregido:          { label: 'Corrección enviada',  cls: 'corregido',          accion: 'Ver detalle',         btnCls: 'neutral' },
-  aprobado_revisor:   { label: 'Aprobada',            cls: 'aprobado_revisor',   accion: 'Ver aprobada',        btnCls: 'success' },
-  validado_admin:     { label: 'Validada',            cls: 'aprobado_revisor',   accion: 'Ver detalle',         btnCls: 'success' },
-  publicado:          { label: 'Publicada',           cls: 'aprobado_revisor',   accion: 'Ver detalle',         btnCls: 'success' },
-  vencido:            { label: 'Vencida',             cls: 'vencido',            accion: 'Ver detalle',         btnCls: 'danger'  },
+  borrador:           { label: 'Borrador',              cls: 'borrador',           accion: 'Continuar',           btnCls: 'neutral' },
+  pendiente_carga:    { label: 'Pendiente de carga',    cls: 'pendiente_carga',    accion: 'Cargar evidencia',    btnCls: 'primary' },
+  pendiente_envio:    { label: 'Listo para enviar',     cls: 'pendiente_envio',    accion: 'Enviar a revisión',   btnCls: 'primary' },
+  enviado_revision:   { label: 'En revisión',           cls: 'enviado_revision',   accion: 'Ver detalle',         btnCls: 'neutral' },
+  pendiente_revision: { label: 'En revisión',           cls: 'enviado_revision',   accion: 'Ver detalle',         btnCls: 'neutral' },
+  observado:          { label: 'Observada',             cls: 'observado',          accion: 'Atender observación', btnCls: 'warning' },
+  corregido:          { label: 'Corrección enviada',    cls: 'corregido',          accion: 'Ver detalle',         btnCls: 'neutral' },
+  aprobado_revisor:   { label: 'Aprobada por revisor',  cls: 'aprobado_revisor',   accion: 'Ver detalle',         btnCls: 'success' },
+  listo_validar:      { label: 'Listo para validar',    cls: 'listo_validar',      accion: 'Ver detalle',         btnCls: 'success' },
+  cerrado:            { label: 'Validado',              cls: 'cerrado',            accion: 'Ver detalle',         btnCls: 'success' },
+  validado_admin:     { label: 'Validada',              cls: 'cerrado',            accion: 'Ver detalle',         btnCls: 'success' },
+  publicado:          { label: 'Publicada',             cls: 'cerrado',            accion: 'Ver detalle',         btnCls: 'success' },
+  vencido:            { label: 'Vencida',               cls: 'vencido',            accion: 'Ver detalle',         btnCls: 'danger'  },
 };
 
 // ── Configuración de niveles MIR ──────────────────────────────────────────────
@@ -456,10 +459,28 @@ function formatFecha(iso) {
 }
 
 // ── Helpers del Revisor ───────────────────────────────────────────────────────
-const ESTADOS_REVISOR = ['enviado_revision','pendiente_revision','observado','corregido','aprobado_revisor','validado_admin','publicado','vencido'];
+const ESTADOS_REVISOR = ['enviado_revision','pendiente_revision','observado','corregido','aprobado_revisor','listo_validar','validado_admin','publicado','vencido'];
 
 function getActividadesRevisor() {
   return ACTIVIDADES_ENLACE.filter(a => ESTADOS_REVISOR.includes(a.estado));
+}
+
+// ── Helpers del Admin ─────────────────────────────────────────────────────────
+function getActividadesListasValidar() {
+  return ACTIVIDADES_ENLACE.filter(a => a.estado === 'listo_validar');
+}
+
+function getActividadesCerradas() {
+  return ACTIVIDADES_ENLACE.filter(a => a.estado === 'cerrado' || a.estado === 'validado_admin' || a.estado === 'publicado');
+}
+
+function urgenciaDeadline(fechaLimite) {
+  const d = diasRestantes(fechaLimite);
+  if (d < 0)   return { cls: 'urgente', label: 'Vencida',       prioridad: 0 };
+  if (d === 0) return { cls: 'urgente', label: 'Hoy',           prioridad: 1 };
+  if (d <= 7)  return { cls: 'urgente', label: d + 'd restantes', prioridad: 2 };
+  if (d <= 14) return { cls: 'proximo', label: d + 'd restantes', prioridad: 3 };
+  return              { cls: 'normal',  label: d + 'd restantes', prioridad: 4 };
 }
 
 function prioridad(act) {

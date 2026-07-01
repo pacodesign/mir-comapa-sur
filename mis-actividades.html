@@ -30,20 +30,21 @@
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-surface); color: var(--color-text-primary); display: flex; min-height: 100vh; }
 
     /* SIDEBAR */
-    .sidebar { width: 64px; background: var(--color-bg); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
-    .sidebar-logo { width: 36px; height: 36px; background: var(--color-primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .sidebar { width: 148px; background: var(--color-bg); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: stretch; padding: 16px 0; gap: 4px; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
+    .sidebar-logo { width: 36px; height: 36px; background: var(--color-primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
     .sidebar-logo svg { width: 18px; height: 18px; stroke: white; }
-    .sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-    .nav-item { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text-secondary); transition: background .15s, color .15s; position: relative; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; align-items: stretch; padding: 0 8px; }
+    .nav-item { width: 100%; height: auto; padding: 7px 10px; border-radius: 12px; display: flex; align-items: center; justify-content: flex-start; flex-direction: row; gap: 8px; cursor: pointer; color: var(--color-text-secondary); transition: background .15s, color .15s; position: relative; }
     .nav-item:hover { background: var(--color-surface); }
     .nav-item.active { background: #F5E8EC; color: var(--color-primary); }
-    .nav-item svg { width: 20px; height: 20px; }
+    .nav-label { font-size: 11px; font-weight: 600; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav-item svg { width: 18px; height: 18px; }
     .nav-badge { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-danger); border: 1.5px solid #fff; }
-    .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 8px; }
     .avatar-xs { width: 32px; height: 32px; border-radius: 50%; background: var(--color-avatar-bg); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; }
 
     /* LAYOUT */
-    .app-wrapper { display: flex; flex: 1; margin-left: 64px; flex-direction: column; }
+    .app-wrapper { display: flex; flex: 1; margin-left:148px; flex-direction: column; }
     .main-content { flex: 1; padding: 24px; }
 
     /* PAGE HEADER */
@@ -134,6 +135,10 @@
     .corregido::before  { background: #8B5CF6; }
     .aprobado_revisor   { background: #F0FDF4; color: #16A34A; }
     .aprobado_revisor::before { background: #22C55E; }
+    .listo_validar      { background: #ECFDF5; color: #059669; }
+    .listo_validar::before { background: #10B981; }
+    .cerrado            { background: #F0FDF4; color: #15803D; }
+    .cerrado::before    { background: #16A34A; }
     .vencido            { background: #FEF2F2; color: #DC2626; }
     .vencido::before    { background: #EF4444; }
 
@@ -169,12 +174,15 @@
   <div class="sidebar-nav">
     <a class="nav-item" href="dashboard-enlace.html" title="Inicio">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
+      <span class="nav-label">Inicio</span>
     </a>
     <div class="nav-item active" title="Mis indicadores">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
+      <span class="nav-label">Mis indicadores</span>
     </div>
     <a class="nav-item" href="mis-observaciones.html" title="Observaciones" style="position:relative">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+      <span class="nav-label">Observaciones</span>
       <span class="nav-badge"></span>
     </a>
     <div class="nav-item" title="Notificaciones"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg></div>
@@ -198,6 +206,7 @@
       </div>
       <button class="btn-primary" onclick="window.location.href='dashboard-enlace.html'">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
+        <span class="nav-label">Configuración</span>
         Volver al dashboard
       </button>
     </div>
@@ -216,7 +225,9 @@
           <option value="pendiente_envio">Listo para enviar</option>
           <option value="enviado_revision">En revisión</option>
           <option value="observado">Observada</option>
-          <option value="aprobado_revisor">Aprobada</option>
+          <option value="aprobado_revisor">Aprobada por revisor</option>
+          <option value="listo_validar">Listo para validar</option>
+          <option value="cerrado">Validado</option>
           <option value="vencido">Vencida</option>
         </select>
         <select class="filter-select" id="filterNivel" onchange="applyFilters()">
@@ -237,6 +248,7 @@
         <div class="chip" data-filter="observadas" onclick="setChip(this,'observadas')">Observadas <span class="chip-count" id="cntObservadas">1</span></div>
         <div class="chip" data-filter="en_revision" onclick="setChip(this,'en_revision')">En revisión <span class="chip-count" id="cntRevision">2</span></div>
         <div class="chip" data-filter="aprobadas" onclick="setChip(this,'aprobadas')">Aprobadas <span class="chip-count" id="cntAprobadas">5</span></div>
+        <div class="chip" data-filter="validadas" onclick="setChip(this,'validadas')">Validadas <span class="chip-count" id="cntValidadas">0</span></div>
         <div class="chip" data-filter="vencidas" onclick="setChip(this,'vencidas')">Vencidas <span class="chip-count" id="cntVencidas">0</span></div>
       </div>
     </div>
@@ -325,7 +337,19 @@
     </td></tr>`;
   }
 
+  function updateCounts() {
+    const all = ACTIVIDADES_ENLACE;
+    document.getElementById('cntTodas').textContent     = all.length;
+    document.getElementById('cntPendiente').textContent = all.filter(a => ['pendiente_carga','pendiente_envio','borrador'].includes(a.estado)).length;
+    document.getElementById('cntObservadas').textContent= all.filter(a => a.estado === 'observado').length;
+    document.getElementById('cntRevision').textContent  = all.filter(a => ['enviado_revision','pendiente_revision','corregido'].includes(a.estado)).length;
+    document.getElementById('cntAprobadas').textContent = all.filter(a => ['aprobado_revisor','listo_validar'].includes(a.estado)).length;
+    document.getElementById('cntValidadas').textContent = all.filter(a => ['cerrado','validado_admin','publicado'].includes(a.estado)).length;
+    document.getElementById('cntVencidas').textContent  = all.filter(a => a.estado === 'vencido').length;
+  }
+
   function applyFilters() {
+    updateCounts();
     const q       = document.getElementById('searchInput').value.trim().toLowerCase();
     const estado  = document.getElementById('filterEstado').value;
     const nivel   = document.getElementById('filterNivel').value;
@@ -333,10 +357,11 @@
     let data = [...ACTIVIDADES_ENLACE];
 
     // chip quick filter
-    if (activeChip === 'pendiente')   data = data.filter(a => a.estado === 'pendiente_carga' || a.estado === 'pendiente_envio' || a.estado === 'borrador');
+    if (activeChip === 'pendiente')   data = data.filter(a => ['pendiente_carga','pendiente_envio','borrador'].includes(a.estado));
     if (activeChip === 'observadas')  data = data.filter(a => a.estado === 'observado');
-    if (activeChip === 'en_revision') data = data.filter(a => a.estado === 'enviado_revision' || a.estado === 'pendiente_revision');
-    if (activeChip === 'aprobadas')   data = data.filter(a => a.estado === 'aprobado_revisor' || a.estado === 'validado_admin' || a.estado === 'publicado');
+    if (activeChip === 'en_revision') data = data.filter(a => ['enviado_revision','pendiente_revision','corregido'].includes(a.estado));
+    if (activeChip === 'aprobadas')   data = data.filter(a => ['aprobado_revisor','listo_validar'].includes(a.estado));
+    if (activeChip === 'validadas')   data = data.filter(a => ['cerrado','validado_admin','publicado'].includes(a.estado));
     if (activeChip === 'vencidas')    data = data.filter(a => a.estado === 'vencido');
 
     // select filters

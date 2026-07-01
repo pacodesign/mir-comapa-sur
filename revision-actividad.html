@@ -20,19 +20,20 @@
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
 
-    .sidebar{width:64px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
-    .sidebar-logo{width:36px;height:36px;background:var(--color-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+    .sidebar{width: 148px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items: stretch;padding: 16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
+    .sidebar-logo{width:36px;height:36px;background:var(--color-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;margin: 0 auto 16px;}
     .sidebar-logo svg{width:18px;height:18px;stroke:white;}
-    .sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
-    .nav-item{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s;position:relative;text-decoration:none;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;align-items: stretch; padding: 0 8px; }
+    .nav-item{width: 100%; height: auto; padding: 7px 10px;border-radius:12px;display:flex;align-items: center; justify-content: flex-start; flex-direction: row; gap: 8px;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s;position:relative;text-decoration:none;}
     .nav-item:hover{background:var(--color-surface);}
     .nav-item.active{background:#EFF6FF;color:var(--color-info);}
-    .nav-item svg{width:20px;height:20px;}
+    .nav-item svg{width:18px;height:18px;}
+    .nav-label{font-size:11px;font-weight:600;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .nav-badge{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--color-danger);border:1.5px solid #fff;}
-    .sidebar-bottom{display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .sidebar-bottom{display:flex;flex-direction:column;align-items:center;gap:8px; padding: 0 8px; }
     .avatar-xs{width:32px;height:32px;border-radius:50%;background:var(--color-info);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;}
 
-    .app-wrapper{display:flex;flex:1;margin-left:64px;}
+    .app-wrapper{display:flex;flex:1; margin-left:148px;}
     .main-content{flex:1;padding:24px;min-width:0;margin-right:300px;max-width:860px;}
     .review-panel{width:300px;background:var(--color-bg);border-left:1px solid var(--color-border);padding:20px 18px;position:fixed;right:0;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
 
@@ -60,6 +61,8 @@
     .pendiente_revision{background:#EFF6FF;color:#2563EB;}.pendiente_revision::before{background:#3B82F6;}
     .observado{background:#FFF7ED;color:#EA580C;}.observado::before{background:#F97316;}
     .aprobado_revisor{background:#F0FDF4;color:#16A34A;}.aprobado_revisor::before{background:#22C55E;}
+    .listo_validar{background:#ECFDF5;color:#059669;}.listo_validar::before{background:#10B981;}
+    .cerrado{background:#F0FDF4;color:#15803D;}.cerrado::before{background:#16A34A;}
     .vencido{background:#FEF2F2;color:#DC2626;}.vencido::before{background:#EF4444;}
 
     /* NIVEL */
@@ -183,11 +186,48 @@
     .info-box.info-orange .ib-title{color:#C2410C;}
     .info-box.info-orange .ib-sub{font-size:11px;color:#EA580C;line-height:1.5;}
 
+    /* APPROVED STATE PANEL */
+    .approved-panel{background:linear-gradient(135deg,#ECFDF5 0%,#F0FDF4 100%);border:1.5px solid #A7F3D0;border-radius:14px;padding:16px;margin-bottom:12px;}
+    .approved-check{width:40px;height:40px;border-radius:50%;background:#059669;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+    .approved-check svg{width:20px;height:20px;color:white;}
+    .approved-title{font-size:13px;font-weight:700;color:#065F46;text-align:center;margin-bottom:4px;}
+    .approved-sub{font-size:11px;color:#059669;text-align:center;line-height:1.5;margin-bottom:14px;}
+    .approved-date{font-size:10px;color:#6B7280;text-align:center;margin-bottom:14px;}
+    /* Workflow steps */
+    .wf-steps{display:flex;flex-direction:column;gap:0;position:relative;}
+    .wf-step{display:flex;align-items:flex-start;gap:10px;padding:7px 0;position:relative;}
+    .wf-step-line{position:absolute;left:11px;top:26px;width:2px;bottom:-7px;background:#D1FAE5;}
+    .wf-step:last-child .wf-step-line{display:none;}
+    .wf-dot{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+    .wf-dot.done{background:#059669;}
+    .wf-dot.done svg{width:11px;height:11px;color:white;}
+    .wf-dot.active{background:#1E40AF;box-shadow:0 0 0 3px #BFDBFE;}
+    .wf-dot.active svg{width:11px;height:11px;color:white;}
+    .wf-dot.pending{background:#E5E7EB;border:2px solid #D1D5DB;}
+    .wf-info{flex:1;padding-top:2px;}
+    .wf-label{font-size:11px;font-weight:700;line-height:1.3;}
+    .wf-label.done{color:#065F46;}
+    .wf-label.active{color:#1E3A8A;}
+    .wf-label.pending{color:#9CA3AF;}
+    .wf-actor{font-size:10px;margin-top:1px;}
+    .wf-actor.done{color:#059669;}
+    .wf-actor.active{color:#2563EB;}
+    .wf-actor.pending{color:#9CA3AF;}
+    /* Next action callout */
+    .next-action{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:11px 12px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;}
+    .next-action svg{width:14px;height:14px;color:#2563EB;flex-shrink:0;margin-top:1px;}
+    .next-action-text{font-size:11px;color:#1E40AF;line-height:1.5;}
+    .next-action-text strong{display:block;font-size:12px;margin-bottom:2px;}
+    /* Closed state */
+    .closed-panel{background:linear-gradient(135deg,#F0FDF4 0%,#DCFCE7 100%);border:1.5px solid #86EFAC;border-radius:14px;padding:16px;margin-bottom:12px;}
+    .closed-title{font-size:13px;font-weight:700;color:#15803D;text-align:center;margin-bottom:4px;}
+    .closed-sub{font-size:11px;color:#16A34A;text-align:center;line-height:1.5;}
     /* ASSIGNEES */
     .assignee-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--color-surface);border-radius:10px;margin-bottom:6px;}
     .asgn-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;}
     .asgn-av.revisor{background:var(--color-info);}
     .asgn-av.enlace{background:var(--color-primary);}
+    .asgn-av.admin{background:#059669;}
     .asgn-name{font-size:12px;font-weight:600;}
     .asgn-rol{font-size:10px;color:var(--color-text-secondary);}
 
@@ -244,10 +284,14 @@
     <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
   </div>
   <div class="sidebar-nav">
-    <a class="nav-item" href="dashboard-revisor.html" title="Inicio"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg></a>
-    <a class="nav-item active" href="bandeja-revision.html" title="Bandeja"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg></a>
-    <a class="nav-item" href="historial-revisor.html" title="Historial"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></a>
-    <div class="nav-item" title="Notificaciones"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg></div>
+    <a class="nav-item" href="dashboard-revisor.html" title="Inicio"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
+      <span class="nav-label">Inicio</span></a>
+    <a class="nav-item active" href="bandeja-revision.html" title="Bandeja"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg>
+      <span class="nav-label">Bandeja</span></a>
+    <a class="nav-item" href="historial-revisor.html" title="Historial"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+      <span class="nav-label">Historial</span></a>
+    <div class="nav-item" title="Notificaciones"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg>
+      <span class="nav-label">Notificaciones</span></div>
   </div>
   <div class="sidebar-bottom">
     <div class="nav-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg></div>
@@ -389,16 +433,17 @@
   function confirmarAprobacion() {
     closeAllModals();
     const prev = actividad.estado;
-    actividad.estado = 'aprobado_revisor';
+    const tieneObs = actividad.observaciones.length > 0;
+    actividad.estado = 'listo_validar';
     actividad.archivosEvidencia.forEach(f => { if (f.estado !== 'aprobado') f.estado = 'aprobado'; });
     actividad.historial.push({
       fecha: nowStr(), hora: nowTime(),
       usuario: 'Carlos Mendoza', rol: 'Revisor',
-      accion: 'Evidencia aprobada técnicamente',
-      estadoAnterior: prev, estadoNuevo: 'aprobado_revisor'
+      accion: tieneObs ? 'Aprobada técnicamente — pasa a validación del Administrador' : 'Aprobada técnicamente — sin observaciones — pasa a validación del Administrador',
+      estadoAnterior: prev, estadoNuevo: 'listo_validar'
     });
     renderPage();
-    showToast('Evidencia aprobada. El Enlace ha sido notificado.', 'green');
+    showToast('Reporte aprobado. Listo para validación del Administrador.', 'green');
   }
 
   // ── Observe (5.7) ──────────────────────────────────────────────────────────
@@ -700,7 +745,8 @@
     const dCls = dias < 0 ? '' : dias <= 7 ? 'urgente' : dias <= 14 ? 'proximo' : 'normal';
     const dTxt = dias < 0 ? 'Vencida' : dias === 0 ? 'Hoy' : `${dias} días`;
     const canRev = canReview();
-    const isApproved = ['aprobado_revisor','validado_admin','publicado'].includes(act.estado);
+    const isApproved = ['listo_validar','aprobado_revisor','cerrado','validado_admin','publicado'].includes(act.estado);
+    const isCerrado = act.estado === 'cerrado';
     const isObs = act.estado === 'observado';
 
     document.getElementById('reviewPanel').innerHTML = `
@@ -737,7 +783,71 @@
           </button>
         </div>` : ''}
 
-      ${isApproved ? `<div class="info-box info-green"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="28" height="28" style="color:#22C55E;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg><p class="ib-title">Actividad aprobada</p><p class="ib-sub">Esta evidencia fue aprobada técnicamente. Pendiente de validación del Administrador.</p></div>` : ''}
+      ${isApproved && !isCerrado ? `
+        <div class="approved-panel">
+          <div class="approved-check">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </div>
+          <p class="approved-title">Reporte aprobado por ti</p>
+          <p class="approved-sub">Validación técnica completada.<br>Sin observaciones pendientes.</p>
+          <p class="approved-date">Aprobado el ${formatFecha(act.historial.filter(h=>h.estadoNuevo==='listo_validar').slice(-1)[0]?.fecha || act.ultimaActualizacion)}</p>
+          <div class="wf-steps">
+            <div class="wf-step">
+              <div class="wf-step-line"></div>
+              <div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
+              <div class="wf-info">
+                <p class="wf-label done">Enlace reportó avance</p>
+                <p class="wf-actor done">${act.responsableEnlace}</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-step-line"></div>
+              <div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
+              <div class="wf-info">
+                <p class="wf-label done">Revisor aprobó</p>
+                <p class="wf-actor done">${act.responsableRevisor} · Tú</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-step-line"></div>
+              <div class="wf-dot active"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
+              <div class="wf-info">
+                <p class="wf-label active">Admin valida</p>
+                <p class="wf-actor active">Luis Sandoval · Pendiente</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-dot pending"></div>
+              <div class="wf-info">
+                <p class="wf-label pending">Reporte cerrado</p>
+                <p class="wf-actor pending">Completitud de período</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="next-action">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>
+          <div class="next-action-text">
+            <strong>Siguiente paso: Admin</strong>
+            Luis Sandoval debe validar este reporte en la vista de gerencia para cerrarlo.
+          </div>
+        </div>` : ''}
+
+      ${isCerrado ? `
+        <div class="closed-panel">
+          <div style="width:40px;height:40px;border-radius:50%;background:#15803D;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" width="20" height="20" style="color:white"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </div>
+          <p class="closed-title">Reporte cerrado</p>
+          <p class="closed-sub">Validado por el Administrador.<br>Período completado oficialmente.</p>
+          <div style="margin-top:12px;" class="wf-steps">
+            <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Enlace reportó</p><p class="wf-actor done">${act.responsableEnlace}</p></div></div>
+            <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Revisor aprobó</p><p class="wf-actor done">${act.responsableRevisor}</p></div></div>
+            <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Admin validó</p><p class="wf-actor done">Luis Sandoval</p></div></div>
+            <div class="wf-step"><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Reporte cerrado</p><p class="wf-actor done">${formatFecha(act.historial.filter(h=>h.estadoNuevo==='cerrado').slice(-1)[0]?.fecha || act.ultimaActualizacion)}</p></div></div>
+          </div>
+        </div>` : ''}
+
       ${isObs ? `<div class="info-box info-orange"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="28" height="28" style="color:#F59E0B;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg><p class="ib-title">Observación emitida</p><p class="ib-sub">Esperando que el Enlace cargue la corrección correspondiente.</p></div>` : ''}
 
       <div class="ap-divider"></div>
@@ -756,6 +866,7 @@
 
       <div class="ap-divider"></div>
       <p class="ap-title">Responsables</p>
+      <div class="assignee-row"><div class="asgn-av admin">LS</div><div><p class="asgn-name">Luis Sandoval</p><p class="asgn-rol">Admin${act.estado === 'listo_validar' ? ' · Acción pendiente' : ''}</p></div></div>
       <div class="assignee-row"><div class="asgn-av revisor">CM</div><div><p class="asgn-name">${act.responsableRevisor}</p><p class="asgn-rol">Revisor</p></div></div>
       <div class="assignee-row"><div class="asgn-av enlace">AT</div><div><p class="asgn-name">${act.responsableEnlace}</p><p class="asgn-rol">Enlace · ${act.gerencia}</p></div></div>
     `;

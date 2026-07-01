@@ -12,226 +12,145 @@
   <script src="mir-actividades-data.js"></script>
   <style>
     :root {
-      --color-primary: #8B1D3A;
-      --color-accent: #8B1D3A;
-      --color-accent-dark: #6B1630;
-      --color-danger: #EF4444;
-      --color-warning: #F59E0B;
-      --color-link: #6B7280;
-      --color-bg: #FFFFFF;
-      --color-surface: #F7F7F7;
-      --color-border: #E5E7EB;
-      --color-text-primary: #111827;
-      --color-text-secondary: #6B7280;
-      --color-avatar-bg: #9CA3AF;
-      --radius-card: 16px;
-      --radius-btn: 999px;
-      --pad-card: 20px;
-      --gap: 16px;
+      --color-primary: #8B1D3A; --color-accent-dark: #6B1630;
+      --color-danger: #EF4444; --color-warning: #F59E0B;
+      --color-success: #22C55E; --color-info: #3B82F6;
+      --color-bg: #FFFFFF; --color-surface: #F7F7F7;
+      --color-border: #E5E7EB; --color-text-primary: #111827;
+      --color-text-secondary: #6B7280; --color-avatar-bg: #9CA3AF;
+      --radius-card: 16px; --radius-btn: 999px; --pad-card: 20px; --gap: 16px;
     }
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--color-surface);
-      color: var(--color-text-primary);
-      display: flex;
-      min-height: 100vh;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-surface); color: var(--color-text-primary); display: flex; min-height: 100vh; }
 
     /* ── SIDEBAR ── */
-    .sidebar {
-      width: 64px;
-      background: var(--color-bg);
-      border-right: 1px solid var(--color-border);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 16px 0;
-      gap: 4px;
-      position: fixed;
-      top: 0; left: 0;
-      height: 100vh;
-      z-index: 100;
-    }
-    .sidebar-logo {
-      width: 36px; height: 36px;
-      background: var(--color-primary);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 16px;
-    }
+    .sidebar { width: 148px; background: var(--color-bg); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: stretch; padding: 16px 0; gap: 4px; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
+    .sidebar-logo { width: 36px; height: 36px; background: var(--color-primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
     .sidebar-logo svg { width: 18px; height: 18px; stroke: white; }
-    .sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-    .nav-item {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      color: var(--color-text-secondary);
-      transition: background 0.15s, color 0.15s;
-      text-decoration: none;
-    }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; align-items: stretch; padding: 0 8px; }
+    .nav-item { width: 100%; height: auto; padding: 7px 10px; border-radius: 12px; display: flex; align-items: center; justify-content: flex-start; flex-direction: row; gap: 8px; cursor: pointer; color: var(--color-text-secondary); transition: background 0.15s, color 0.15s; text-decoration: none; }
     .nav-item:hover { background: var(--color-surface); }
     .nav-item.active { background: #F5E8EC; color: var(--color-primary); }
-    .nav-item svg { width: 20px; height: 20px; }
-    .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-    .avatar-xs {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: var(--color-avatar-bg);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700; color: white;
-    }
+    .nav-label { font-size: 11px; font-weight: 600; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav-item svg { width: 18px; height: 18px; }
+    .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 8px; }
+    .avatar-xs { width: 32px; height: 32px; border-radius: 50%; background: var(--color-avatar-bg); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; }
 
     /* ── MAIN ── */
-    .main-content {
-      margin-left: 64px;
-      flex: 1;
-      padding: 24px;
-      min-width: 0;
-    }
+    .app-wrapper { display: flex; flex: 1; margin-left: 148px; }
+    .main-content { flex: 1; padding: 24px; min-width: 0; }
 
-    /* ── BACK LINK ── */
-    .back-link {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 12px; font-weight: 600; color: var(--color-text-secondary);
-      text-decoration: none; margin-bottom: 14px;
-      transition: color 0.15s;
-    }
+    /* ── BACK & BREADCRUMB ── */
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--color-text-secondary); text-decoration: none; margin-bottom: 14px; transition: color 0.15s; }
     .back-link:hover { color: var(--color-text-primary); }
     .back-link svg { width: 14px; height: 14px; }
-
-    /* ── BREADCRUMB ── */
-    .breadcrumb {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12px; color: var(--color-text-secondary);
-      margin-bottom: 20px;
-    }
+    .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 20px; }
     .breadcrumb a { color: var(--color-text-secondary); text-decoration: none; }
     .breadcrumb a:hover { color: var(--color-text-primary); text-decoration: underline; }
     .breadcrumb-sep { color: var(--color-border); }
     .breadcrumb-current { color: var(--color-text-primary); font-weight: 600; }
 
     /* ── GERENCIA HEADER CARD ── */
-    .gerencia-header-card {
-      background: var(--color-bg);
-      border-radius: var(--radius-card);
-      padding: var(--pad-card);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-      border-left: 4px solid transparent;
-      margin-bottom: 20px;
-      display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
-    }
+    .gerencia-header-card { background: var(--color-bg); border-radius: var(--radius-card); padding: var(--pad-card); box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-left: 4px solid transparent; margin-bottom: 20px; display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
     .gh-left { flex: 1; }
-    .gh-name { font-size: 22px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 6px; }
+    .gh-name { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
     .gh-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 12px; }
     .gh-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    .gh-tag {
-      font-size: 11px; font-weight: 600;
-      padding: 4px 10px; border-radius: var(--radius-btn);
-      background: var(--color-surface); color: var(--color-text-secondary);
-    }
+    .gh-tag { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-btn); background: var(--color-surface); color: var(--color-text-secondary); }
     .gh-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
     .gh-team-label { font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
-    .gh-team-chips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-    .person-chip {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--color-surface); border-radius: var(--radius-btn);
-      padding: 4px 10px 4px 4px; font-size: 12px; font-weight: 500; color: var(--color-text-primary);
-    }
-    .person-avatar {
-      width: 24px; height: 24px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 9px; font-weight: 700; color: white;
-    }
+    .person-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--color-surface); border-radius: var(--radius-btn); padding: 4px 10px 4px 4px; font-size: 12px; font-weight: 500; }
+    .person-avatar { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; }
     .person-role { font-size: 10px; color: var(--color-text-secondary); }
 
     /* ── KPI ROW ── */
-    .kpi-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--gap);
-      margin-bottom: 24px;
-    }
-    .kpi-card {
-      background: var(--color-bg);
-      border-radius: var(--radius-card);
-      padding: var(--pad-card);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    }
-    .kpi-label {
-      font-size: 10px; font-weight: 600;
-      color: var(--color-text-secondary);
-      text-transform: uppercase; letter-spacing: 0.04em;
-      margin-bottom: 8px;
-    }
-    .kpi-value { font-size: 30px; font-weight: 700; color: var(--color-text-primary); line-height: 1; margin-bottom: 4px; }
+    .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap); margin-bottom: 24px; }
+    .kpi-card { background: var(--color-bg); border-radius: var(--radius-card); padding: var(--pad-card); box-shadow: 0 1px 3px rgba(0,0,0,0.06); cursor: pointer; transition: box-shadow .15s; }
+    .kpi-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+    .kpi-card.active-filter { box-shadow: 0 0 0 2px var(--color-primary); }
+    .kpi-label { font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+    .kpi-value { font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
     .kpi-sub { font-size: 11px; color: var(--color-text-secondary); line-height: 1.4; }
 
     /* ── SECTION LABEL ── */
-    .section-label {
-      font-size: 11px; font-weight: 600;
-      color: var(--color-text-secondary);
-      text-transform: uppercase; letter-spacing: 0.06em;
-      margin-bottom: 12px;
-    }
+    .section-label { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+
+    /* ── VALIDAR SECTION ── */
+    .validar-section { margin-bottom: 24px; }
+    .validar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .validar-title { display: flex; align-items: center; gap: 8px; }
+    .validar-title-text { font-size: 14px; font-weight: 700; }
+    .validar-count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px; background: #059669; color: white; font-size: 11px; font-weight: 700; }
+    .validar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+    .validar-card { background: var(--color-bg); border-radius: 14px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.06); border: 1.5px solid #A7F3D0; display: flex; flex-direction: column; gap: 10px; }
+    .vc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .vc-id { font-size: 10px; font-weight: 700; color: var(--color-primary); font-family: monospace; margin-bottom: 3px; }
+    .vc-nombre { font-size: 13px; font-weight: 600; line-height: 1.35; }
+    .vc-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .vc-freq { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: #F3F4F6; color: #6B7280; }
+    .vc-deadline { font-size: 11px; font-weight: 700; }
+    .vc-deadline.urgente { color: var(--color-danger); }
+    .vc-deadline.proximo { color: var(--color-warning); }
+    .vc-deadline.normal  { color: var(--color-success); }
+    .vc-deadline.pasado  { color: var(--color-text-secondary); }
+    .vc-resultado { font-size: 11px; color: var(--color-text-secondary); }
+    .vc-resultado strong { color: var(--color-text-primary); font-weight: 700; }
+    .vc-actions { display: flex; gap: 8px; }
+    .btn-validar { flex: 1; background: #059669; color: white; border: none; border-radius: 10px; padding: 9px 14px; font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background .12s; }
+    .btn-validar:hover { background: #047857; }
+    .btn-validar svg { width: 14px; height: 14px; }
+    .btn-ver { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); border-radius: 10px; padding: 9px 12px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: border-color .12s; white-space: nowrap; }
+    .btn-ver:hover { border-color: var(--color-text-secondary); }
+    .btn-ver svg { width: 12px; height: 12px; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar { background: var(--color-bg); border-radius: var(--radius-card); padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .fchip { padding: 5px 12px; border-radius: 999px; font-size: 11px; font-weight: 600; border: 1.5px solid var(--color-border); background: var(--color-surface); color: var(--color-text-secondary); cursor: pointer; transition: all .12s; white-space: nowrap; }
+    .fchip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+    .fchip.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+    .fchip-count { display: inline-flex; align-items: center; justify-content: center; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; font-size: 9px; font-weight: 700; margin-left: 4px; background: rgba(0,0,0,.08); }
+    .fchip.active .fchip-count { background: rgba(255,255,255,.25); }
+    .sort-btn { margin-left: auto; display: flex; align-items: center; gap: 5px; padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 10px; font-size: 11px; font-weight: 600; color: var(--color-text-secondary); background: var(--color-surface); cursor: pointer; font-family: inherit; transition: border-color .12s, color .12s; }
+    .sort-btn:hover, .sort-btn.active { border-color: var(--color-primary); color: var(--color-primary); }
+    .sort-btn svg { width: 13px; height: 13px; }
 
     /* ── TABLE ── */
-    .table-card {
-      background: var(--color-bg);
-      border-radius: var(--radius-card);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-      overflow: hidden;
-      margin-bottom: 24px;
-    }
-    .ind-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
-    .ind-table th {
-      background: var(--color-surface);
-      padding: 10px 14px;
-      text-align: left;
-      font-size: 10px; font-weight: 600;
-      color: var(--color-text-secondary);
-      text-transform: uppercase; letter-spacing: 0.05em;
-      border-bottom: 1px solid var(--color-border);
-      white-space: nowrap;
-    }
-    .ind-table td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--color-border);
-      vertical-align: middle;
-    }
+    .table-card { background: var(--color-bg); border-radius: var(--radius-card); box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 24px; }
+    .ind-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .ind-table th { background: var(--color-surface); padding: 10px 14px; text-align: left; font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--color-border); white-space: nowrap; cursor: pointer; user-select: none; }
+    .ind-table th:hover { color: var(--color-primary); }
+    .ind-table th.sorted { color: var(--color-primary); }
+    .ind-table td { padding: 12px 14px; border-bottom: 1px solid var(--color-border); vertical-align: middle; }
     .ind-table tbody tr:last-child td { border-bottom: none; }
     .ind-table tbody tr:hover { background: #FAFAFA; }
     .td-id { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); white-space: nowrap; }
-    .td-nombre { font-weight: 500; color: var(--color-text-primary); max-width: 280px; line-height: 1.4; }
-    .td-resultado { font-weight: 600; color: var(--color-text-primary); }
+    .td-nombre { font-weight: 500; max-width: 260px; line-height: 1.4; }
+    .td-fecha { white-space: nowrap; }
+    .fecha-val { font-size: 12px; font-weight: 600; }
+    .fecha-dias { font-size: 10px; margin-top: 2px; font-weight: 700; }
+    .fecha-dias.urgente { color: var(--color-danger); }
+    .fecha-dias.proximo { color: var(--color-warning); }
+    .fecha-dias.normal  { color: var(--color-success); }
+    .fecha-dias.pasado  { color: var(--color-text-secondary); font-weight: 400; }
+    .td-resultado { font-weight: 600; }
     .td-resultado.empty { color: var(--color-text-secondary); font-weight: 400; }
-    .td-fecha { white-space: nowrap; color: var(--color-text-secondary); }
+    .td-action { text-align: right; white-space: nowrap; }
 
     /* ── ESTADO BADGES ── */
-    .badge {
-      display: inline-flex; align-items: center;
-      font-size: 10px; font-weight: 700;
-      padding: 3px 9px; border-radius: var(--radius-btn);
-      white-space: nowrap;
-    }
-    .badge-green  { background: #F0FDF4; color: #16A34A; }
-    .badge-blue   { background: #EFF6FF; color: #2563EB; }
-    .badge-orange { background: #FFF7ED; color: #EA580C; }
-    .badge-yellow { background: #FEF3C7; color: #D97706; }
-    .badge-gray   { background: #F3F4F6; color: #6B7280; }
+    .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: var(--radius-btn); white-space: nowrap; }
+    .badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .badge-green     { background: #F0FDF4; color: #16A34A; } .badge-green::before     { background: #22C55E; }
+    .badge-teal      { background: #ECFDF5; color: #059669; } .badge-teal::before      { background: #10B981; }
+    .badge-darkgreen { background: #F0FDF4; color: #15803D; } .badge-darkgreen::before { background: #16A34A; }
+    .badge-blue      { background: #EFF6FF; color: #2563EB; } .badge-blue::before      { background: #3B82F6; }
+    .badge-orange    { background: #FFF7ED; color: #EA580C; } .badge-orange::before    { background: #F97316; }
+    .badge-yellow    { background: #FEF3C7; color: #D97706; } .badge-yellow::before    { background: #F59E0B; }
+    .badge-purple    { background: #F5F3FF; color: #7C3AED; } .badge-purple::before    { background: #8B5CF6; }
+    .badge-gray      { background: #F3F4F6; color: #6B7280; } .badge-gray::before      { background: #9CA3AF; }
 
     /* ── NIVEL BADGES ── */
-    .nivel-badge {
-      display: inline-flex; align-items: center;
-      font-size: 10px; font-weight: 700;
-      padding: 2px 8px; border-radius: var(--radius-btn);
-      white-space: nowrap;
-    }
+    .nivel-badge { display: inline-flex; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-btn); white-space: nowrap; }
     .nivel-F { background: #EDE9FE; color: #7C3AED; }
     .nivel-P { background: #DBEAFE; color: #1D4ED8; }
     .nivel-C { background: #CCFBF1; color: #0F766E; }
@@ -240,29 +159,43 @@
     /* ── FREQ TAG ── */
     .freq-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); background: #F3F4F6; color: #6B7280; }
 
-    /* ── BUTTONS ── */
-    .btn-primary {
-      background: var(--color-accent); color: white; border: none;
-      border-radius: var(--radius-btn);
-      padding: 9px 18px; font-size: 13px; font-weight: 600;
-      font-family: inherit; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 6px;
-      transition: background 0.15s;
-    }
-    .btn-primary:hover { background: var(--color-accent-dark); }
+    /* ── ACTION BTN ── */
+    .btn-tbl { border: none; border-radius: 8px; padding: 5px 11px; font-size: 11px; font-weight: 700; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: opacity .12s; text-decoration: none; }
+    .btn-tbl:hover { opacity: .82; }
+    .btn-tbl svg { width: 12px; height: 12px; }
+    .btn-tbl.teal { background: #ECFDF5; color: #059669; }
+    .btn-tbl.neutral { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1100px) {
-      .kpi-row { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 900px) {
-      .gerencia-header-card { flex-direction: column; }
-      .gh-right { align-items: flex-start; }
-    }
-    @media (max-width: 640px) {
-      .main-content { padding: 16px; }
-      .kpi-row { grid-template-columns: 1fr 1fr; }
-    }
+    /* ── TOAST ── */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: #1A1A1A; color: white; padding: 12px 18px; border-radius: 12px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.2); transform: translateY(80px); opacity: 0; transition: all .3s ease; z-index: 2000; pointer-events: none; }
+    .toast.show { transform: none; opacity: 1; }
+    .toast svg { width: 18px; height: 18px; color: var(--color-success); }
+
+    /* ── MODAL ── */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .modal-overlay.open { display: flex; }
+    .modal-card { background: white; border-radius: 20px; padding: 28px; width: 480px; max-width: 90vw; box-shadow: 0 20px 60px rgba(0,0,0,.2); animation: modalIn .2s ease; }
+    @keyframes modalIn { from { opacity:0; transform:scale(.96) translateY(8px); } to { opacity:1; transform:none; } }
+    .modal-icon { width: 44px; height: 44px; border-radius: 12px; background: #ECFDF5; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .modal-icon svg { width: 22px; height: 22px; color: #059669; }
+    .modal-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .modal-sub { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 16px; }
+    .modal-summary { background: var(--color-surface); border-radius: 10px; padding: 12px 14px; margin-bottom: 18px; }
+    .ms-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 12px; }
+    .ms-row:not(:last-child) { border-bottom: 1px solid var(--color-border); }
+    .ms-label { color: var(--color-text-secondary); }
+    .ms-value { font-weight: 700; text-align: right; max-width: 220px; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+    .btn-modal { border: none; border-radius: 10px; padding: 10px 20px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; transition: opacity .12s; }
+    .btn-modal:hover { opacity: .88; }
+    .btn-modal.cancel { background: var(--color-surface); color: var(--color-text-primary); }
+    .btn-modal.confirm { background: #059669; color: white; }
+
+    /* ── EMPTY ── */
+    .empty-row td { text-align: center; padding: 40px; color: var(--color-text-secondary); font-size: 13px; }
+
+    @media (max-width: 1100px) { .kpi-row { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px)  { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
   </style>
 </head>
 <body>
@@ -276,59 +209,48 @@
   </div>
   <div class="sidebar-nav">
     <a class="nav-item" href="dashboard-inicio.html" title="Inicio">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" />
-      </svg>
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" /></svg>
+      <span class="nav-label">Inicio</span>
     </a>
     <a class="nav-item active" href="dashboard-inicio.html" title="MIR por gerencia">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
-      </svg>
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" /></svg>
+      <span class="nav-label">MIR por gerencia</span>
     </a>
     <div class="nav-item" title="Indicadores">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-      </svg>
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>
+      <span class="nav-label">Indicadores</span>
     </div>
     <div class="nav-item" title="Reportar avance">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" />
-      </svg>
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" /></svg>
+      <span class="nav-label">Reportar avance</span>
     </div>
-    <div class="nav-item" title="Medios de verificación">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
-      </svg>
-    </div>
-    <div class="nav-item" title="Guía MIR">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-      </svg>
-    </div>
+    <a class="nav-item" href="estructura-indicadores.html" title="Estructura de indicadores">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" /></svg>
+      <span class="nav-label">Estructura</span>
+    </a>
+    <a class="nav-item" href="validacion-reportes.html" title="Validación de reportes">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+      <span class="nav-label">Validación</span>
+    </a>
   </div>
   <div class="sidebar-bottom">
     <div class="nav-item" title="Configuración">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-      </svg>
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+      <span class="nav-label">Configuración</span>
     </div>
     <div class="avatar-xs">LS</div>
   </div>
 </nav>
 
-<!-- ═══ MAIN CONTENT ═══ -->
+<!-- ═══ MAIN ═══ -->
+<div class="app-wrapper">
 <main class="main-content" id="mainContent">
 
-  <!-- BACK LINK -->
   <a href="dashboard-inicio.html" class="back-link">
-    <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-    </svg>
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>
     Volver al panel de seguimiento
   </a>
 
-  <!-- BREADCRUMB -->
   <nav class="breadcrumb">
     <a href="dashboard-inicio.html">Inicio</a>
     <span class="breadcrumb-sep">/</span>
@@ -337,216 +259,352 @@
     <span class="breadcrumb-current" id="breadcrumbName">—</span>
   </nav>
 
-  <!-- GERENCIA HEADER CARD -->
-  <div class="gerencia-header-card" id="gerenciaHeader">
-    <!-- Rendered by JS -->
+  <div class="gerencia-header-card" id="gerenciaHeader"></div>
+
+  <div class="kpi-row" id="kpiRow"></div>
+
+  <div class="validar-section" id="validarSection"></div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+    <p class="section-label" style="margin-bottom:0">Todos los indicadores del período</p>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="filter-chips" id="filterChips"></div>
+      <button class="sort-btn" id="sortBtn" onclick="toggleSort()">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"/></svg>
+        <span id="sortLabel">Deadline ↑</span>
+      </button>
+    </div>
   </div>
 
-  <!-- KPI ROW -->
-  <div class="kpi-row" id="kpiRow">
-    <!-- Rendered by JS -->
-  </div>
-
-  <!-- INDICADORES TABLE -->
-  <p class="section-label">Indicadores del período</p>
   <div class="table-card">
-    <table class="ind-table" id="indicadoresTable">
+    <table class="ind-table">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Nombre</th>
+          <th>Indicador</th>
           <th>Nivel</th>
           <th>Frecuencia</th>
+          <th class="sorted" onclick="toggleSort()">Fecha límite ↕</th>
           <th>Estado</th>
           <th>Resultado</th>
-          <th>Fecha límite</th>
+          <th style="text-align:right">Acción</th>
         </tr>
       </thead>
-      <tbody id="indicadoresTbody">
-        <!-- Rendered by JS -->
-      </tbody>
+      <tbody id="indicadoresTbody"></tbody>
     </table>
   </div>
 
 </main>
+</div>
+
+<!-- VALIDAR MODAL -->
+<div class="modal-overlay" id="validarModal">
+  <div class="modal-card">
+    <div class="modal-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+    </div>
+    <h3 class="modal-title">Validar indicador</h3>
+    <p class="modal-sub">Confirma la validación administrativa de este indicador. El reporte quedará cerrado para el período y se actualizará la vista del Revisor y del Enlace.</p>
+    <div class="modal-summary" id="validarSummary"></div>
+    <div class="modal-actions">
+      <button class="btn-modal cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-modal confirm" onclick="confirmarValidacion()">Confirmar validación</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+  <span id="toastMsg"></span>
+</div>
 
 <script>
-  // ── Helpers ───────────────────────────────────────────────────────────────
-  function qs(param) {
-    return new URLSearchParams(window.location.search).get(param);
-  }
+  let sortAsc = true;
+  let activeFilter = 'todas';
+  let pendingValidarId = null;
 
-  function formatFechaShort(iso) {
-    if (!iso) return '—';
-    var parts = iso.split('T')[0].split('-');
-    var meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-    return parseInt(parts[2]) + ' ' + meses[parseInt(parts[1]) - 1] + ' ' + parts[0];
+  function qs(p) { return new URLSearchParams(window.location.search).get(p); }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3600);
+  }
+  function closeModal() { document.getElementById('validarModal').classList.remove('open'); pendingValidarId = null; }
+  document.getElementById('validarModal').addEventListener('click', e => { if (e.target === document.getElementById('validarModal')) closeModal(); });
+
+  function diasLabel(dias) {
+    if (dias < 0)  return { text: 'Vencida',       cls: 'pasado' };
+    if (dias === 0) return { text: 'Hoy',           cls: 'urgente' };
+    if (dias <= 7)  return { text: dias + 'd',      cls: 'urgente' };
+    if (dias <= 14) return { text: dias + 'd',      cls: 'proximo' };
+    return               { text: dias + 'd',        cls: 'normal'  };
   }
 
   function estadoBadge(estado) {
-    var map = {
-      'aprobado_revisor': ['badge-green', 'Aprobado'],
-      'enviado_revision': ['badge-blue', 'En revisión'],
-      'corregido':        ['badge-blue', 'En revisión'],
-      'observado':        ['badge-orange', 'Observada'],
-      'pendiente_carga':  ['badge-yellow', 'Pendiente'],
-      'borrador':         ['badge-gray', 'Borrador']
+    const map = {
+      'cerrado':          ['badge-darkgreen', 'Validado'],
+      'listo_validar':    ['badge-teal',      'Listo para validar'],
+      'aprobado_revisor': ['badge-green',     'Aprobado'],
+      'enviado_revision': ['badge-blue',      'En revisión'],
+      'corregido':        ['badge-purple',    'Corrección enviada'],
+      'observado':        ['badge-orange',    'Observada'],
+      'pendiente_carga':  ['badge-yellow',    'Pendiente'],
+      'pendiente_envio':  ['badge-yellow',    'Por enviar'],
+      'borrador':         ['badge-gray',      'Borrador'],
     };
-    var cfg = map[estado] || ['badge-gray', estado];
-    return '<span class="badge ' + cfg[0] + '">' + cfg[1] + '</span>';
+    const cfg = map[estado] || ['badge-gray', estado];
+    return `<span class="badge ${cfg[0]}">${cfg[1]}</span>`;
   }
 
   function nivelBadge(nivel) {
-    var labels = { F: 'Fin', P: 'Propósito', C: 'Componente', A: 'Actividad' };
-    var lbl = labels[nivel] || nivel;
-    return '<span class="nivel-badge nivel-' + nivel + '">' + lbl + '</span>';
+    const labels = { F:'Fin', P:'Propósito', C:'Componente', A:'Actividad' };
+    return `<span class="nivel-badge nivel-${nivel}">${labels[nivel]||nivel}</span>`;
   }
 
-  function formatResultado(r) {
-    if (r === null || r === undefined) return '<span class="td-resultado empty">—</span>';
-    var val = (typeof r === 'number' && !Number.isInteger(r))
-      ? r.toFixed(2) + '%'
-      : String(r);
-    return '<span class="td-resultado">' + val + '</span>';
+  function formatResultado(act) {
+    if (!act.avanceReportado) return '<span class="td-resultado empty">—</span>';
+    const ar = act.avanceReportado;
+    if (ar.resultado != null) return `<span class="td-resultado">${ar.resultado}%</span>`;
+    if (ar.valor != null) return `<span class="td-resultado">${ar.valor.toLocaleString('es-MX')}</span>`;
+    return '<span class="td-resultado empty">—</span>';
   }
 
-  // ── Build table rows ──────────────────────────────────────────────────────
-  function buildRows(indicadores) {
-    return indicadores.map(function(ind) {
-      return '<tr>' +
-        '<td class="td-id">' + ind.id + '</td>' +
-        '<td><span class="td-nombre">' + ind.nombre + '</span></td>' +
-        '<td>' + nivelBadge(ind.nivel) + '</td>' +
-        '<td><span class="freq-tag">' + ind.frecuencia + '</span></td>' +
-        '<td>' + estadoBadge(ind.estado) + '</td>' +
-        '<td>' + formatResultado(ind.resultado) + '</td>' +
-        '<td class="td-fecha">' + formatFechaShort(ind.fechaLimite) + '</td>' +
-        '</tr>';
-    }).join('');
+  // ── Validar (admin) ─────────────────────────────────────────────────────────
+  function openValidarModal(id) {
+    const act = ACTIVIDADES_ENLACE.find(a => a.id === id);
+    if (!act) return;
+    pendingValidarId = id;
+    const dias = diasRestantes(act.fechaLimite);
+    document.getElementById('validarSummary').innerHTML = [
+      { l: 'Indicador',    v: act.nombre },
+      { l: 'ID',           v: act.id },
+      { l: 'Enlace',       v: act.responsableEnlace },
+      { l: 'Revisor',      v: act.responsableRevisor },
+      { l: 'Período',      v: act.periodo },
+      { l: 'Fecha límite', v: formatFecha(act.fechaLimite) + (dias < 0 ? ' (vencida)' : '') },
+    ].map(r => `<div class="ms-row"><span class="ms-label">${r.l}</span><span class="ms-value">${r.v}</span></div>`).join('');
+    document.getElementById('validarModal').classList.add('open');
   }
 
-  // ── Map ACTIVIDADES_ENLACE to common shape ────────────────────────────────
-  function mapActividadesReales() {
-    return ACTIVIDADES_ENLACE.map(function(act) {
-      var res = null;
-      if (act.avanceReportado) {
-        var ar = act.avanceReportado;
-        if (ar.resultado !== null && ar.resultado !== undefined) {
-          res = ar.resultado;
-        } else if (ar.valor !== null && ar.valor !== undefined) {
-          res = ar.valor;
-        }
-      }
-      return {
-        id: act.id,
-        nombre: act.nombre,
-        nivel: act.nivelCodigo,
-        frecuencia: act.frecuenciaMedicion,
-        estado: act.estado,
-        resultado: res,
-        fechaLimite: act.fechaLimite
-      };
+  function confirmarValidacion() {
+    if (!pendingValidarId) return;
+    const act = ACTIVIDADES_ENLACE.find(a => a.id === pendingValidarId);
+    if (!act) return;
+    const prev = act.estado;
+    act.estado = 'cerrado';
+    act.ultimaActualizacion = '2026-06-09';
+    act.historial.push({
+      fecha: '2026-06-09', hora: '10:00',
+      usuario: 'Luis Sandoval', rol: 'Admin',
+      accion: 'Indicador validado por el Administrador — reporte cerrado',
+      estadoAnterior: prev, estadoNuevo: 'cerrado'
     });
+    closeModal();
+    renderPage();
+    showToast('Indicador validado y cerrado correctamente.');
   }
 
-  // ── Render KPI row ────────────────────────────────────────────────────────
-  function renderKPIs(g) {
-    var s = g.stats;
-    var reported = s.aprobados + s.enRevision + s.observados;
-    var pct = s.total > 0 ? Math.round((reported / s.total) * 100) : 0;
-    return '<div class="kpi-card">' +
-        '<p class="kpi-label">Completitud del período</p>' +
-        '<p class="kpi-value">' + pct + '%</p>' +
-        '<p class="kpi-sub">' + reported + ' de ' + s.total + ' indicadores reportados</p>' +
-      '</div>' +
-      '<div class="kpi-card">' +
-        '<p class="kpi-label">Aprobados</p>' +
-        '<p class="kpi-value" style="color:#16A34A;">' + s.aprobados + '</p>' +
-        '<p class="kpi-sub">Aprobados por revisor</p>' +
-      '</div>' +
-      '<div class="kpi-card">' +
-        '<p class="kpi-label">En revisión</p>' +
-        '<p class="kpi-value" style="color:#2563EB;">' + s.enRevision + '</p>' +
-        '<p class="kpi-sub">Enviados al revisor</p>' +
-      '</div>' +
-      '<div class="kpi-card">' +
-        '<p class="kpi-label">Con observaciones</p>' +
-        '<p class="kpi-value" style="color:#EA580C;">' + s.observados + '</p>' +
-        '<p class="kpi-sub">Requieren corrección</p>' +
-      '</div>';
-  }
+  // ── Render validar section ──────────────────────────────────────────────────
+  function renderValidarSection() {
+    const listos = ACTIVIDADES_ENLACE.filter(a => a.estado === 'listo_validar')
+      .sort((a, b) => a.fechaLimite.localeCompare(b.fechaLimite));
 
-  // ── Render gerencia header ────────────────────────────────────────────────
-  function renderHeader(g) {
-    var freqTags = g.frecuencias.map(function(f) {
-      return '<span class="gh-tag">' + f + '</span>';
+    const section = document.getElementById('validarSection');
+    if (!listos.length) { section.innerHTML = ''; return; }
+
+    const cards = listos.map(act => {
+      const dias = diasRestantes(act.fechaLimite);
+      const dl = diasLabel(dias);
+      const ar = act.avanceReportado;
+      const res = ar ? (ar.resultado != null ? ar.resultado + '%' : ar.valor != null ? ar.valor.toLocaleString('es-MX') : '—') : '—';
+      return `
+        <div class="validar-card">
+          <div class="vc-top">
+            <div>
+              <p class="vc-id">${act.id}</p>
+              <p class="vc-nombre">${act.nombre}</p>
+            </div>
+            <span class="nivel-badge nivel-${act.nivelCodigo}" style="flex-shrink:0">${{F:'Fin',P:'Propósito',C:'Componente',A:'Actividad'}[act.nivelCodigo]||act.nivelCodigo}</span>
+          </div>
+          <div class="vc-meta">
+            <span class="vc-freq">${act.frecuenciaMedicion}</span>
+            <span class="vc-deadline ${dl.cls}">⏱ ${formatFecha(act.fechaLimite)} · ${dl.text}</span>
+            <span class="vc-resultado">Resultado: <strong>${res}</strong></span>
+          </div>
+          <div class="vc-actions">
+            <button class="btn-validar" onclick="openValidarModal('${act.id}')">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+              Validar indicador
+            </button>
+            <a href="detalle-actividad.html?id=${act.id}" class="btn-ver">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+              Ver
+            </a>
+          </div>
+        </div>`;
     }).join('');
 
-    return '<div class="gh-left">' +
-        '<p class="gh-name">' + g.nombre + '</p>' +
-        '<p class="gh-desc">' + g.descripcion + '</p>' +
-        '<div class="gh-tags">' +
-          '<span class="gh-tag" style="background:#F5E8EC;color:#8B1D3A;font-weight:700;">' + g.periodo + '</span>' +
-          '<span class="gh-tag">' + g.totalIndicadores + ' indicadores totales</span>' +
-          freqTags +
-        '</div>' +
-      '</div>' +
-      '<div class="gh-right">' +
-        '<p class="gh-team-label">Equipo</p>' +
-        '<div class="gh-team-chips">' +
-          '<div>' +
-            '<span class="person-chip">' +
-              '<span class="person-avatar" style="background:' + g.color + ';">' + g.enlace.iniciales + '</span>' +
-              '<span>' +
-                g.enlace.nombre +
-                '<br><span class="person-role">Enlace</span>' +
-              '</span>' +
-            '</span>' +
-          '</div>' +
-          '<div>' +
-            '<span class="person-chip">' +
-              '<span class="person-avatar" style="background:#6B7280;">' + g.revisor.iniciales + '</span>' +
-              '<span>' +
-                g.revisor.nombre +
-                '<br><span class="person-role">Revisor</span>' +
-              '</span>' +
-            '</span>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
+    section.innerHTML = `
+      <div class="validar-header">
+        <div class="validar-title">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="18" height="18" style="color:#059669"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          <span class="validar-title-text">Listos para validar</span>
+          <span class="validar-count">${listos.length}</span>
+        </div>
+        <span style="font-size:11px;color:var(--color-text-secondary)">Ordenados por deadline más próximo</span>
+      </div>
+      <div class="validar-grid">${cards}</div>`;
   }
 
-  // ── Main init ─────────────────────────────────────────────────────────────
-  function init() {
-    var gid = qs('g') || 'comercial';
-    var g = (typeof getGerencia === 'function') ? getGerencia(gid) : null;
+  // ── Render table ────────────────────────────────────────────────────────────
+  function getFilteredData() {
+    let data = [...ACTIVIDADES_ENLACE];
+    if (activeFilter === 'validar')   data = data.filter(a => a.estado === 'listo_validar');
+    if (activeFilter === 'cerrados')  data = data.filter(a => a.estado === 'cerrado' || a.estado === 'validado_admin');
+    if (activeFilter === 'revision')  data = data.filter(a => ['enviado_revision','pendiente_revision','corregido'].includes(a.estado));
+    if (activeFilter === 'pendiente') data = data.filter(a => ['pendiente_carga','pendiente_envio','borrador','observado'].includes(a.estado));
+    data.sort((a, b) => {
+      const cmp = a.fechaLimite.localeCompare(b.fechaLimite);
+      return sortAsc ? cmp : -cmp;
+    });
+    return data;
+  }
 
+  function buildRows(indicadores) {
+    if (!indicadores.length) return `<tr class="empty-row"><td colspan="8">Sin indicadores que coincidan con el filtro.</td></tr>`;
+    return indicadores.map(ind => {
+      const dias = diasRestantes(ind.fechaLimite);
+      const dl = diasLabel(dias);
+      const isValidar = ind.estado === 'listo_validar';
+      const isCerrado = ind.estado === 'cerrado' || ind.estado === 'validado_admin';
+      const actionBtn = isValidar
+        ? `<button class="btn-tbl teal" onclick="openValidarModal('${ind.id}')"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Validar</button>`
+        : `<a href="detalle-actividad.html?id=${ind.id}" class="btn-tbl neutral"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>Ver</a>`;
+      return `<tr>
+        <td class="td-id">${ind.id}</td>
+        <td><span class="td-nombre">${ind.nombre}</span></td>
+        <td>${nivelBadge(ind.nivelCodigo)}</td>
+        <td><span class="freq-tag">${ind.frecuenciaMedicion}</span></td>
+        <td class="td-fecha">
+          <p class="fecha-val">${formatFecha(ind.fechaLimite)}</p>
+          <p class="fecha-dias ${dl.cls}">${dl.text}</p>
+        </td>
+        <td>${estadoBadge(ind.estado)}</td>
+        <td>${formatResultado(ind)}</td>
+        <td class="td-action">${actionBtn}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── Render KPIs ─────────────────────────────────────────────────────────────
+  function renderKPIs() {
+    const total      = ACTIVIDADES_ENLACE.length;
+    const pendientes = ACTIVIDADES_ENLACE.filter(a => ['pendiente_carga','pendiente_envio','borrador','observado'].includes(a.estado)).length;
+    const revision   = ACTIVIDADES_ENLACE.filter(a => ['enviado_revision','pendiente_revision','corregido'].includes(a.estado)).length;
+    const listos     = ACTIVIDADES_ENLACE.filter(a => a.estado === 'listo_validar').length;
+    const cerrados   = ACTIVIDADES_ENLACE.filter(a => a.estado === 'cerrado' || a.estado === 'validado_admin').length;
+    const pct = total > 0 ? Math.round((cerrados / total) * 100) : 0;
+
+    return `
+      <div class="kpi-card" onclick="setFilter('todas')">
+        <p class="kpi-label">Total indicadores</p>
+        <p class="kpi-value" style="color:var(--color-text-primary)">${total}</p>
+        <p class="kpi-sub">Período Q2-2026</p>
+      </div>
+      <div class="kpi-card" onclick="setFilter('pendiente')">
+        <p class="kpi-label">Pendientes / Observados</p>
+        <p class="kpi-value" style="color:#D97706">${pendientes}</p>
+        <p class="kpi-sub">Requieren acción del Enlace</p>
+      </div>
+      <div class="kpi-card" onclick="setFilter('revision')">
+        <p class="kpi-label">En revisión</p>
+        <p class="kpi-value" style="color:#2563EB">${revision}</p>
+        <p class="kpi-sub">En proceso con el Revisor</p>
+      </div>
+      <div class="kpi-card" onclick="setFilter('validar')">
+        <p class="kpi-label">Listos para validar</p>
+        <p class="kpi-value" style="color:#059669">${listos}</p>
+        <p class="kpi-sub">Requieren validación admin</p>
+      </div>
+      <div class="kpi-card" onclick="setFilter('cerrados')">
+        <p class="kpi-label">Cerrados</p>
+        <p class="kpi-value" style="color:#15803D">${cerrados} <span style="font-size:14px;font-weight:500;color:var(--color-text-secondary)">(${pct}%)</span></p>
+        <p class="kpi-sub">Validados por Administrador</p>
+      </div>`;
+  }
+
+  function renderFilterChips() {
+    const total    = ACTIVIDADES_ENLACE.length;
+    const pend     = ACTIVIDADES_ENLACE.filter(a => ['pendiente_carga','pendiente_envio','borrador','observado'].includes(a.estado)).length;
+    const rev      = ACTIVIDADES_ENLACE.filter(a => ['enviado_revision','pendiente_revision','corregido'].includes(a.estado)).length;
+    const listos   = ACTIVIDADES_ENLACE.filter(a => a.estado === 'listo_validar').length;
+    const cerrados = ACTIVIDADES_ENLACE.filter(a => a.estado === 'cerrado' || a.estado === 'validado_admin').length;
+
+    const chips = [
+      { key: 'todas',    label: 'Todos',             count: total    },
+      { key: 'pendiente',label: 'Pendientes',        count: pend     },
+      { key: 'revision', label: 'En revisión',       count: rev      },
+      { key: 'validar',  label: 'Listo para validar',count: listos   },
+      { key: 'cerrados', label: 'Cerrados',          count: cerrados },
+    ];
+    document.getElementById('filterChips').innerHTML = chips.map(c =>
+      `<div class="fchip${activeFilter===c.key?' active':''}" onclick="setFilter('${c.key}')">${c.label}<span class="fchip-count">${c.count}</span></div>`
+    ).join('');
+  }
+
+  function setFilter(key) {
+    activeFilter = key;
+    renderPage();
+  }
+
+  function toggleSort() {
+    sortAsc = !sortAsc;
+    document.getElementById('sortLabel').textContent = 'Deadline ' + (sortAsc ? '↑' : '↓');
+    document.getElementById('indicadoresTbody').innerHTML = buildRows(getFilteredData());
+  }
+
+  // ── Render gerencia header ──────────────────────────────────────────────────
+  function renderHeader(g) {
+    const freqTags = g.frecuencias.map(f => `<span class="gh-tag">${f}</span>`).join('');
+    return `<div class="gh-left">
+        <p class="gh-name">${g.nombre}</p>
+        <p class="gh-desc">${g.descripcion}</p>
+        <div class="gh-tags">
+          <span class="gh-tag" style="background:#F5E8EC;color:#8B1D3A;font-weight:700;">${g.periodo}</span>
+          <span class="gh-tag">${g.totalIndicadores} indicadores</span>
+          ${freqTags}
+        </div>
+      </div>
+      <div class="gh-right">
+        <p class="gh-team-label">Equipo</p>
+        <span class="person-chip"><span class="person-avatar" style="background:${g.color}">${g.enlace.iniciales}</span><span>${g.enlace.nombre}<br><span class="person-role">Enlace</span></span></span>
+        <span class="person-chip"><span class="person-avatar" style="background:#6B7280">${g.revisor.iniciales}</span><span>${g.revisor.nombre}<br><span class="person-role">Revisor</span></span></span>
+      </div>`;
+  }
+
+  // ── Main render ─────────────────────────────────────────────────────────────
+  function renderPage() {
+    document.getElementById('kpiRow').innerHTML = renderKPIs();
+    renderFilterChips();
+    renderValidarSection();
+    document.getElementById('indicadoresTbody').innerHTML = buildRows(getFilteredData());
+  }
+
+  function init() {
+    const gid = qs('g') || 'comercial';
+    const g   = (typeof getGerencia === 'function') ? getGerencia(gid) : null;
     if (!g) {
-      document.getElementById('mainContent').innerHTML =
-        '<p style="padding:40px;color:#6B7280;">Gerencia no encontrada. <a href="dashboard-inicio.html">Volver al panel</a></p>';
+      document.getElementById('mainContent').innerHTML = '<p style="padding:40px;color:#6B7280;">Gerencia no encontrada. <a href="dashboard-inicio.html">Volver</a></p>';
       return;
     }
-
-    // Title
     document.title = g.nombre + ' — MIR COMAPA Sur';
     document.getElementById('breadcrumbName').textContent = g.nombre;
-
-    // Header card
-    var hdr = document.getElementById('gerenciaHeader');
+    const hdr = document.getElementById('gerenciaHeader');
     hdr.style.borderLeftColor = g.color;
     hdr.innerHTML = renderHeader(g);
-
-    // KPIs
-    document.getElementById('kpiRow').innerHTML = renderKPIs(g);
-
-    // Indicadores
-    var indicadores;
-    if (g.usaDataReal && typeof ACTIVIDADES_ENLACE !== 'undefined') {
-      indicadores = mapActividadesReales();
-    } else {
-      indicadores = g.indicadores || [];
-    }
-    document.getElementById('indicadoresTbody').innerHTML = buildRows(indicadores);
+    renderPage();
   }
 
   init();
