@@ -573,7 +573,7 @@
         <p class="gh-desc">${g.descripcion}</p>
         <div class="gh-tags">
           <span class="gh-tag" style="background:#F5E8EC;color:#8B1D3A;font-weight:700;">${g.periodo}</span>
-          <span class="gh-tag">${g.totalIndicadores} indicadores</span>
+          <span class="gh-tag">${ACTIVIDADES_ENLACE.filter(a => a.gerencia === g.gerenciaName).length} indicadores</span>
           ${freqTags}
         </div>
       </div>

@@ -650,7 +650,7 @@
           Plataforma activa &nbsp;·&nbsp; 4 MIR cargadas
         </div>
         <p class="intro-title">MIR COMAPA Sur — Sistema de monitoreo y seguimiento de indicadores</p>
-        <p class="intro-body">Consulta la estructura de cada MIR, supervisa el avance de los reportes por gerencia y revisa el estado de validación de indicadores en tiempo real. El sistema integra 193 indicadores distribuidos en 4 gerencias.</p>
+        <p class="intro-body">Consulta la estructura de cada MIR, supervisa el avance de los reportes por gerencia y revisa el estado de validación de indicadores en tiempo real. El sistema integra 132 indicadores distribuidos en 4 gerencias.</p>
       </div>
     </div>
 
@@ -664,7 +664,7 @@
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Total de indicadores</p>
-        <p class="kpi-value">193</p>
+        <p class="kpi-value" id="kpiTotal">132</p>
         <p class="kpi-sub">En las 4 gerencias</p>
       </div>
       <div class="kpi-card">
@@ -687,7 +687,7 @@
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Actividades</p>
-        <p class="kpi-value">155</p>
+        <p class="kpi-value" id="kpiActividades">94</p>
         <p class="kpi-sub">Nivel A — indicadores operativos</p>
         <span class="kpi-tag">Nivel A</span>
       </div>
@@ -862,22 +862,22 @@
     <p class="rp-section-title">Indicadores por gerencia</p>
     <div class="rp-stat">
       <div class="rp-bar" style="background:#7C3AED;"></div>
-      <div><p class="rp-stat-val">19</p><p class="rp-stat-lbl">Planeación</p></div>
+      <div><p class="rp-stat-val" id="rpStatPla">15</p><p class="rp-stat-lbl">Planeación</p></div>
     </div>
     <div class="rp-stat">
       <div class="rp-bar" style="background:#0891B2;"></div>
-      <div><p class="rp-stat-val">56</p><p class="rp-stat-lbl">Técnica</p></div>
+      <div><p class="rp-stat-val" id="rpStatTec">41</p><p class="rp-stat-lbl">Técnica</p></div>
     </div>
     <div class="rp-stat">
       <div class="rp-bar" style="background:#8B1D3A;"></div>
-      <div><p class="rp-stat-val">60</p><p class="rp-stat-lbl">Comercial</p></div>
+      <div><p class="rp-stat-val" id="rpStatCom">29</p><p class="rp-stat-lbl">Comercial</p></div>
     </div>
     <div class="rp-stat">
       <div class="rp-bar" style="background:#065F46;"></div>
-      <div><p class="rp-stat-val">58</p><p class="rp-stat-lbl">Administrativa</p></div>
+      <div><p class="rp-stat-val" id="rpStatAdm">47</p><p class="rp-stat-lbl">Administrativa</p></div>
     </div>
     <div class="rp-total-big">
-      <p class="num">193</p>
+      <p class="num" id="rpTotal">132</p>
       <p class="sub">indicadores totales</p>
     </div>
 
@@ -954,9 +954,16 @@
   };
 
   function renderGerenciaCard(g) {
-    const s = g.stats;
-    const reported = s.aprobados + s.enRevision + s.observados;
-    const pct = s.total > 0 ? Math.round((reported / s.total) * 100) : 0;
+    const inds = (typeof ACTIVIDADES_ENLACE !== 'undefined' && g.gerenciaName)
+      ? ACTIVIDADES_ENLACE.filter(function(a){ return a.gerencia === g.gerenciaName; })
+      : [];
+    const total      = inds.length;
+    const aprobados  = inds.filter(function(a){ return ['listo_validar','cerrado'].includes(a.estado); }).length;
+    const enRevision = inds.filter(function(a){ return ['enviado_revision','corregido'].includes(a.estado); }).length;
+    const observados = inds.filter(function(a){ return a.estado === 'observado'; }).length;
+    const s = { total, aprobados, enRevision, observados };
+    const reported = aprobados + enRevision + observados;
+    const pct = total > 0 ? Math.round((reported / total) * 100) : 0;
     const icon = ICONS[g.id] || ICONS['planeacion'];
     const iconBg = g.color;
 
@@ -974,7 +981,7 @@
               ${g.descripcion ? `<p class="g-desc">${g.descripcion}</p>` : ''}
             </div>
           </div>
-          <span class="g-badge">${s.total} / ${g.totalIndicadores} indicadores en período</span>
+          <span class="g-badge">${total} indicadores en período</span>
         </div>
 
         <div class="g-progress-wrap">
