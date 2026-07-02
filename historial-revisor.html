@@ -166,7 +166,7 @@
   getActividadesRevisor().forEach(act => {
     act.historial.forEach(h => {
       if (h.rol === 'Revisor') {
-        allActions.push({ ...h, actId: act.id, actNombre: act.nombre });
+        allActions.push({ ...h, actId: act.id, actNombre: act.nombreIndicador });
       }
     });
   });

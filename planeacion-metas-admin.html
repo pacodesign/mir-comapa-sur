@@ -353,8 +353,10 @@ function buildIndMap() {
   var map = {};
   if (typeof GERENCIAS_MIR === 'undefined') return map;
   GERENCIAS_MIR.forEach(function(g){
-    var inds = (g.usaDataReal && typeof ACTIVIDADES_ENLACE !== 'undefined') ? ACTIVIDADES_ENLACE : (g.indicadores||[]);
-    inds.forEach(function(a){ map[a.id]={ id:a.id, nombre:a.nombre, nivel:a.nivel||'A', frecuencia:a.frecuencia||'Mensual', unidad:a.unidad||'%', acumulable:!!a.acumulable, gerencia:g.id, gerenciaNombre:g.nombre }; });
+    var inds = (g.usaDataReal && typeof ACTIVIDADES_ENLACE !== 'undefined')
+      ? ACTIVIDADES_ENLACE.filter(function(a){ return a.gerencia === g.gerenciaName; })
+      : (g.indicadores||[]);
+    inds.forEach(function(a){ map[a.id]={ id:a.id, nombre:a.nombreIndicador||a.nombre, nivel:a.nivel||'A', frecuencia:a.frecuenciaMedicion||a.frecuencia||'Mensual', unidad:a.unidadMedida||a.unidad||'%', acumulable:!!a.acumulable, gerencia:g.id, gerenciaNombre:g.nombre }; });
   });
   return map;
 }

@@ -577,22 +577,24 @@ function buildIndicators() {
   var list = [];
   if (typeof GERENCIAS_MIR === 'undefined') return list;
   GERENCIAS_MIR.forEach(function(g) {
-    var inds = (g.usaDataReal && typeof ACTIVIDADES_ENLACE !== 'undefined') ? ACTIVIDADES_ENLACE : (g.indicadores || []);
-    inds.forEach(function(act) {
+    var source = (g.usaDataReal && typeof ACTIVIDADES_ENLACE !== 'undefined')
+      ? ACTIVIDADES_ENLACE.filter(function(a) { return a.gerencia === g.gerenciaName; })
+      : (g.indicadores || []);
+    source.forEach(function(act) {
       list.push({
-        id: act.id, nombre: act.nombre,
+        id: act.id, nombre: act.nombreIndicador || act.nombre,
         gerencia: g.id, gerenciaNombre: g.nombre, gerenciaColor: g.color,
         nivel: act.nivel || 'A',
-        frecuencia: act.frecuencia || 'Mensual',
-        unidad: act.unidad || '%',
+        frecuencia: act.frecuenciaMedicion || act.frecuencia || 'Mensual',
+        unidad: act.unidadMedida || act.unidad || '%',
         acumulable: !!act.acumulable,
         tieneDenominador: !!act.tieneDenominador,
-        denominadorFijo: !!act.denominadorFijo,
-        denomFijoVal: act.denomFijoVal || null,
-        numLabel: act.numLabel || '',
-        denLabel: act.denLabel || '',
-        formula: act.formula || '',
-        descripcion: act.descripcion || '',
+        denominadorFijo: false,
+        denomFijoVal: null,
+        numLabel: act.numerador || '',
+        denLabel: act.denominador || '',
+        formula: act.metodoCalculo || '',
+        descripcion: act.resumenNarrativo || act.descripcion || '',
         medioVerificacion: act.medioVerificacion || 'Interno',
         estado: 'activo', isNew: false,
       });

@@ -470,7 +470,7 @@ function getFiltered() {
     if (state.den === 'no' && r.tieneDenominador) return false;
     if (state.search) {
       const q = state.search.toLowerCase();
-      if (!r.denominacionIndicador.toLowerCase().includes(q) && !(r.objetivoResumen||'').toLowerCase().includes(q) && !r.id.toLowerCase().includes(q)) return false;
+      if (!r.nombreIndicador.toLowerCase().includes(q) && !(r.resumenNarrativo||'').toLowerCase().includes(q) && !r.id.toLowerCase().includes(q)) return false;
     }
     return true;
   });
@@ -491,8 +491,8 @@ function renderTable(rows) {
       <td><span class="row-id">${r.id}</span></td>
       <td><span class="g-chip ${gClass(r.gerencia)}">${gShort(r.gerencia)}</span></td>
       <td><span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span></td>
-      <td class="td-ind"><p>${r.denominacionIndicador}</p></td>
-      <td class="td-obj"><p>${r.objetivoResumen || r.objetivo}</p></td>
+      <td class="td-ind"><p>${r.nombreIndicador}</p></td>
+      <td class="td-obj"><p>${r.resumenNarrativo || r.objetivo}</p></td>
       <td><span class="freq-tag ${frClass(r.frecuenciaMedicion)}">${r.frecuenciaMedicion}</span></td>
       <td style="font-size:11px;color:var(--color-text-secondary)">${r.unidadMedida}</td>
       <td class="td-mv"><p>${r.medioVerificacionNombre}</p></td>
@@ -519,7 +519,7 @@ function renderTree(rows) {
       grouped[g][n].map(r => `
         <div class="tree-item ${lvIndent(r.nivel)}${state.selected===r.id?' selected':''}" onclick="openDetail('${r.id}')">
           <div class="tree-item-content">
-            <p class="tree-item-name">${r.denominacionIndicador}</p>
+            <p class="tree-item-name">${r.nombreIndicador}</p>
             <div class="tree-item-meta">
               <span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span>
               <span class="tree-item-id">${r.id}</span>
@@ -581,7 +581,7 @@ function openDetail(id) {
       <span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span>
       <span class="g-chip ${gClass(r.gerencia)}">${gShort(r.gerencia)}</span>
     </div>
-    <p class="drawer-name">${r.denominacionIndicador}</p>
+    <p class="drawer-name">${r.nombreIndicador}</p>
     <div class="d-divider"></div>
     <div class="d-field">
       <span class="d-label">Gerencia</span>
@@ -589,7 +589,7 @@ function openDetail(id) {
     </div>
     <div class="d-field">
       <span class="d-label">Objetivo resumido</span>
-      <span class="d-value">${r.objetivoResumen || r.objetivo}</span>
+      <span class="d-value">${r.resumenNarrativo || r.objetivo}</span>
     </div>
     <div class="d-field">
       <span class="d-label">

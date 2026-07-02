@@ -586,7 +586,7 @@
     if (filesCount > 0) items.push({ ok: true,  text: `${filesCount} archivo${filesCount>1?'s':''} de evidencia adjunto${filesCount>1?'s':''}` });
     if (usingJust)      items.push({ ok: false, text: 'Incluye justificación de ausencia de evidencia' });
     items.push({ ok: true, text: `Período: ${actividad.periodo}` });
-    items.push({ ok: true, text: `Medio requerido: ${actividad.formatoEsperado}` });
+    items.push({ ok: true, text: `Medio requerido: ${actividad.medioVerificacion}` });
     document.getElementById('modalChecklist').innerHTML = items.map(i => `
       <div class="modal-check-item${!i.ok?' warn':''}">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
@@ -1453,7 +1453,7 @@
         <div class="detail-col">
           <div class="header-card">
             <div class="hc-top">
-              <div><p class="hc-id">${act.id}</p><h1 class="hc-title">${act.nombre}</h1></div>
+              <div><p class="hc-id">${act.id}</p><h1 class="hc-title">${act.nombreIndicador}</h1></div>
               <span class="estado-badge ${cfg.cls}" style="flex-shrink:0;margin-top:4px;">${cfg.label}</span>
             </div>
             <div class="hc-meta">
@@ -1470,9 +1470,9 @@
             </div>
             <div class="section-body open" id="sec-mir">
               <div class="info-grid single">
-                <div class="info-item"><label>Objetivo</label><p>${act.objetivo}</p></div>
+                <div class="info-item"><label>Objetivo</label><p>${act.resumenNarrativo}</p></div>
                 <div class="info-divider"></div>
-                <div class="info-item"><label>Denominación del indicador</label><p>${act.denominacionIndicador}</p></div>
+                <div class="info-item"><label>Denominación del indicador</label><p>${act.nombreIndicador}</p></div>
                 <div class="info-divider"></div>
                 <div class="info-item"><label>Nivel MIR</label><p><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></p></div>
                 <div class="info-item"><label>Frecuencia de medición</label><p>${act.frecuenciaMedicion}</p></div>
@@ -1686,7 +1686,7 @@
 
   // ── Init ──────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
-    const id = getParam('id') || 'COM-ACT-08';
+    const id = getParam('id') || 'COM-ACT-1-1';
     actividad = getActividad(id);
     if (isRevisor && actividad) {
       actividad.estado = 'enviado_revision';

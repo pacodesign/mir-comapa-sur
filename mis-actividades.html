@@ -306,7 +306,7 @@
       <tr>
         <td class="td-actividad">
           <p class="act-id">${act.id}</p>
-          <p class="act-nombre">${act.nombre}</p>
+          <p class="act-nombre">${act.nombreIndicador}</p>
           <p class="act-gerencia">${act.gerencia}</p>
         </td>
         <td><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></td>
@@ -369,7 +369,7 @@
     if (nivel)  data = data.filter(a => a.nivelCodigo === nivel);
 
     // search
-    if (q) data = data.filter(a => a.nombre.toLowerCase().includes(q) || a.id.toLowerCase().includes(q) || a.denominacionIndicador.toLowerCase().includes(q));
+    if (q) data = data.filter(a => a.nombreIndicador.toLowerCase().includes(q) || a.id.toLowerCase().includes(q) || a.nombreIndicador.toLowerCase().includes(q));
 
     // sort
     data.sort((a, b) => {

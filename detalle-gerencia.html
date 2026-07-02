@@ -378,7 +378,7 @@
     pendingValidarId = id;
     const dias = diasRestantes(act.fechaLimite);
     document.getElementById('validarSummary').innerHTML = [
-      { l: 'Indicador',    v: act.nombre },
+      { l: 'Indicador',    v: act.nombreIndicador },
       { l: 'ID',           v: act.id },
       { l: 'Enlace',       v: act.responsableEnlace },
       { l: 'Revisor',      v: act.responsableRevisor },
@@ -424,7 +424,7 @@
           <div class="vc-top">
             <div>
               <p class="vc-id">${act.id}</p>
-              <p class="vc-nombre">${act.nombre}</p>
+              <p class="vc-nombre">${act.nombreIndicador}</p>
             </div>
             <span class="nivel-badge nivel-${act.nivelCodigo}" style="flex-shrink:0">${{F:'Fin',P:'Propósito',C:'Componente',A:'Actividad'}[act.nivelCodigo]||act.nivelCodigo}</span>
           </div>

@@ -228,7 +228,7 @@
     else if (activeChip === 'observadas') data = data.filter(a => a.estado === 'observado');
     else if (activeChip === 'aprobadas')  data = data.filter(a => ['aprobado_revisor','validado_admin','publicado'].includes(a.estado));
 
-    if (q)  data = data.filter(a => a.nombre.toLowerCase().includes(q) || a.id.toLowerCase().includes(q));
+    if (q)  data = data.filter(a => a.nombreIndicador.toLowerCase().includes(q) || a.id.toLowerCase().includes(q));
     if (fe) data = data.filter(a => a.estado === fe);
     if (fn) data = data.filter(a => a.nivelCodigo === fn);
 
@@ -265,7 +265,7 @@
     return `<tr>
       <td style="padding-left:20px;max-width:260px;">
         <div class="act-id">${a.id}</div>
-        <div class="act-name">${a.nombre}</div>
+        <div class="act-name">${a.nombreIndicador}</div>
         <div class="act-sub"><span class="nivel-badge ${niv.cls}">${niv.label}</span> · ${a.periodo}</div>
       </td>
       <td style="font-size:12px;white-space:nowrap;">${a.responsableEnlace}<br><span style="color:var(--color-text-secondary);">${a.gerencia}</span></td>

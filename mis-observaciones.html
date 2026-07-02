@@ -162,7 +162,7 @@
       document.getElementById('alertBanner').innerHTML = `
         <div class="alert-banner">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
-          <p>Tienes <strong>${total} actividad${total>1?'es':''}</strong> con observación${total>1?'es':''} del Revisor pendiente${total>1?'s':''} de corrección. La más urgente es <strong>${masUrgente.nombre}</strong> con ${diasMin < 0 ? 'fecha vencida' : `${diasMin} días restantes`}. Atiéndelas antes de que venzan los plazos.</p>
+          <p>Tienes <strong>${total} actividad${total>1?'es':''}</strong> con observación${total>1?'es':''} del Revisor pendiente${total>1?'s':''} de corrección. La más urgente es <strong>${masUrgente.nombreIndicador}</strong> con ${diasMin < 0 ? 'fecha vencida' : `${diasMin} días restantes`}. Atiéndelas antes de que venzan los plazos.</p>
         </div>`;
     }
 
@@ -198,7 +198,7 @@
             <div class="och-row1">
               <div>
                 <p class="och-id">${act.id}</p>
-                <h2 class="och-title">${act.nombre}</h2>
+                <h2 class="och-title">${act.nombreIndicador}</h2>
               </div>
               <span class="estado-badge observado">Con observación</span>
             </div>
@@ -216,7 +216,7 @@
               </div>
               <div class="och-meta">
                 <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"/></svg>
-                ${act.formatoEsperado}
+                ${act.medioVerificacion}
               </div>
             </div>
           </div>

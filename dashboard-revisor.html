@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const allMovements = [];
   actsRevisor.forEach(a => {
     a.historial.forEach(h => {
-      allMovements.push({ ...h, actId: a.id, actNombre: a.nombre });
+      allMovements.push({ ...h, actId: a.id, actNombre: a.nombreIndicador });
     });
   });
   allMovements.sort((a, b) => {
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <tr>
           <td>
             <div class="act-id">${a.id}</div>
-            <div class="act-name">${a.nombre}</div>
+            <div class="act-name">${a.nombreIndicador}</div>
             <div class="act-name-sub">${nivelBadge(a)} · ${a.periodo}</div>
           </td>
           <td>${estadoBadge(a.estado)}</td>
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="ui-body">
               <div class="ui-id">${a.id}</div>
-              <div class="ui-name">${a.nombre}</div>
+              <div class="ui-name">${a.nombreIndicador}</div>
               <div class="ui-meta">${d <= 0 ? '¡Vencida!' : `${d} día${d!==1?'s':''} restantes`} · ${formatFecha(a.fechaLimite)}</div>
             </div>
             <div class="ui-action">

@@ -273,11 +273,11 @@ function buildIndicatorList() {
     ACTIVIDADES_ENLACE.forEach(function(act) {
       var plan = getPlan(act.id);
       list.push({
-        id: act.id, nombre: act.nombre, nivel: act.nivel||'A',
-        frecuencia: act.frecuencia||'Mensual', unidad: act.unidad||'%',
+        id: act.id, nombre: act.nombreIndicador, nivel: act.nivel||'A',
+        frecuencia: act.frecuenciaMedicion||'Mensual', unidad: act.unidadMedida||'%',
         acumulable: !!act.acumulable, tieneDenominador: !!act.tieneDenominador,
         metaAnual: act.metaAnual,
-        plan: plan || { id:act.id, gerencia:'comercial', frecuencia:act.frecuencia||'Mensual', metas:[], comentariosEnlace:'', estado:'pendiente', obsRevisor:'', obsAdmin:'', fechaEnvio:null, fechaRevision:null, fechaAprobacion:null },
+        plan: plan || { id:act.id, gerencia:'comercial', frecuencia:act.frecuenciaMedicion||'Mensual', metas:[], comentariosEnlace:'', estado:'pendiente', obsRevisor:'', obsAdmin:'', fechaEnvio:null, fechaRevision:null, fechaAprobacion:null },
       });
     });
   }

@@ -643,18 +643,18 @@ function buildIndicators() {
 
   GERENCIAS_MIR.forEach(function(g) {
     if (g.usaDataReal && typeof ACTIVIDADES_ENLACE !== 'undefined') {
-      ACTIVIDADES_ENLACE.forEach(function(act) {
+      ACTIVIDADES_ENLACE.filter(function(act) { return act.gerencia === g.gerenciaName; }).forEach(function(act) {
         list.push({
-          id: act.id, nombre: act.nombre,
+          id: act.id, nombre: act.nombreIndicador,
           gerencia: g.id, gerenciaNombre: g.nombre, gerenciaColor: g.color,
           nivel: act.nivel || 'A',
-          frecuencia: act.frecuencia || 'Mensual',
+          frecuencia: act.frecuenciaMedicion || 'Mensual',
           metaAnual: act.metaAnual != null ? String(act.metaAnual) : null,
-          unidad: act.unidad || '',
+          unidad: act.unidadMedida || '%',
           acumulable: !!act.acumulable,
           tieneDenominador: !!act.tieneDenominador,
-          descripcion: act.descripcion || '',
-          medioVerificacion: 'Interno',
+          descripcion: act.resumenNarrativo || '',
+          medioVerificacion: act.medioVerificacion || '—',
           estado: 'activo',
           metasPeriodo: act.metasPeriodo || {},
           isNew: false,
