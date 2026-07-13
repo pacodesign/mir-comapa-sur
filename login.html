@@ -11,32 +11,18 @@
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      display: flex;
       height: 100vh;
       overflow: hidden;
-      background: #fff;
+      background: #1A4A2A;
       color: #111827;
     }
 
-    /* ── PANEL IZQUIERDO ───────────────────────────────────────────────────── */
-    .left-panel {
-      flex: 0 0 50vw;
-      height: 100vh;
-      padding: 20px;
+    /* ── BACKGROUND CAROUSEL (full-screen) ─────────────────────────────────── */
+    .bg-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
     }
-
-    /* Marco con bordes redondeados que contiene todo lo gráfico */
-    .left-frame {
-      width: 100%;
-      height: 100%;
-      border-radius: 22px;
-      overflow: hidden;
-      position: relative;
-      box-shadow: none;
-    }
-
-    /* Fondos fotográficos */
-    .bg-wrap { position: absolute; inset: 0; z-index: 0; }
 
     .bg-scene {
       position: absolute; inset: 0;
@@ -80,85 +66,87 @@
     @keyframes kb4 { from { transform: scale(1.05) translate( 0%,  1%); } to { transform: scale(1.00) translate( 1%, -1%); } }
     @keyframes kb5 { from { transform: scale(1.03) translate(-1%,  0%); } to { transform: scale(1.00) translate( 1%,  1%); } }
 
-    /* Overlay oscuro */
+    /* Gradient overlay — heavier on left where text sits */
     .bg-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(to bottom,
-        rgba(0,0,0,0.65) 0%,
-        rgba(0,0,0,0.16) 60%,
+      background: linear-gradient(110deg,
+        rgba(0,0,0,0.62) 0%,
+        rgba(0,0,0,0.38) 48%,
         rgba(0,0,0,0.10) 100%);
     }
 
-    /* Olas */
-    .waves-wrap {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      z-index: 2; pointer-events: none;
-    }
-    .wave { position: absolute; bottom: 0; left: 0; right: 0; overflow: hidden; }
-    .wave-inner { width: 200%; display: flex; }
-    .wave-inner svg { flex: 0 0 50%; height: 100%; }
-
-    .wave-1 { height: 64px; }
-    .wave-1 .wave-inner { animation: waveScroll 14s linear infinite; }
-    .wave-1 svg path { fill: rgba(0,0,0,0.14); }
-    .wave-2 { height: 42px; }
-    .wave-2 .wave-inner { animation: waveScroll 9s linear infinite reverse; }
-    .wave-2 svg path { fill: rgba(255,255,255,0.07); }
-
-    @keyframes waveScroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+    /* ── PAGE LAYOUT ─────────────────────────────────────────────────────────── */
+    .page-layout {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      align-items: stretch;
+      padding: 28px 28px 28px 44px;
+      gap: 36px;
     }
 
-    /* Contenido sobre la fotografía */
-    .left-content {
-      position: absolute; inset: 0;
-      z-index: 3;
+    /* ── LEFT CONTENT ────────────────────────────────────────────────────────── */
+    .page-left {
+      flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 32px;
+      padding: 4px 0 4px;
     }
-
-.cl-bottom { display: flex; flex-direction: column; gap: 10px; }
 
     .cl-brand-logo {
-      width: 450px;
-      opacity: 0.90;
-      filter: drop-shadow(0 1px 3px rgba(0,0,0,.30));
+      width: 420px;
+      max-width: 100%;
+      opacity: 0.92;
+      filter: drop-shadow(0 1px 4px rgba(0,0,0,.35));
     }
-    .cl-heading {
-      font-size: 22px; font-weight: 700; line-height: 1.35;
-      color: #fff;
-    }
-    .cl-caption {
-      display: flex; align-items: flex-start; gap: 6px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.14);
-    }
-    .cl-caption svg { width: 12px; height: 12px; stroke: rgba(255,255,255,0.38); flex-shrink: 0; margin-top: 2px; }
-    .caption-place { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: .04em; }
-    .caption-name  { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.52); margin-top: 2px; transition: opacity .5s; }
 
-    /* ── PANEL DERECHO ─────────────────────────────────────────────────────── */
-    .right-panel {
-      flex: 1;
-      height: 100vh;
-      overflow-y: auto;
-      background: #fff;
+    .cl-headline-area {
       display: flex;
       flex-direction: column;
+      gap: 18px;
+    }
+
+    .cl-heading {
+      font-size: clamp(30px, 3.4vw, 50px);
+      font-weight: 700;
+      line-height: 1.18;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(0,0,0,.22);
+      max-width: 560px;
+    }
+
+    .cl-caption {
+      display: flex; align-items: flex-start; gap: 7px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.16);
+    }
+    .cl-caption svg { width: 12px; height: 12px; stroke: rgba(255,255,255,0.38); flex-shrink: 0; margin-top: 2px; }
+    .caption-place { font-size: 10px; color: rgba(255,255,255,0.38); letter-spacing: .04em; }
+    .caption-name  { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.55); margin-top: 2px; transition: opacity .5s; }
+
+    /* ── RIGHT CARD ──────────────────────────────────────────────────────────── */
+    .page-right {
+      flex-shrink: 0;
+      width: 420px;
+      display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 40px 48px;
     }
 
-    .form-wrap {
+    .login-card {
       width: 100%;
-      max-width: 380px;
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px 36px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.28), 0 0 0 1px rgba(0,0,0,0.04);
+      overflow-y: auto;
+      max-height: calc(100vh - 56px);
     }
 
-.login-system {
+    /* ── LOGIN FORM TYPOGRAPHY ───────────────────────────────────────────────── */
+    .login-system {
       font-size: 11px; font-weight: 600;
       color: #9CA3AF; text-transform: uppercase;
       letter-spacing: .06em; margin-bottom: 6px;
@@ -174,23 +162,16 @@
 
     /* ── ERROR BOX ── */
     .error-box {
-      background: #FEF2F2;
-      border: 1px solid #FECACA;
-      border-radius: 10px;
-      padding: 11px 14px;
-      display: flex; align-items: flex-start; gap: 8px;
-      margin-bottom: 16px;
-      font-size: 12px; color: #991B1B; line-height: 1.5;
+      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 10px;
+      padding: 11px 14px; display: flex; align-items: flex-start; gap: 8px;
+      margin-bottom: 16px; font-size: 12px; color: #991B1B; line-height: 1.5;
     }
     .error-box.hidden { display: none; }
     .error-box svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
 
     /* ── FORM ── */
     .form-group { margin-bottom: 14px; }
-    .form-label {
-      display: block; font-size: 12px; font-weight: 600;
-      color: #374151; margin-bottom: 6px;
-    }
+    .form-label { display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 6px; }
     .form-input {
       width: 100%; padding: 11px 14px;
       border: 1.5px solid #E5E7EB; border-radius: 10px;
@@ -199,31 +180,19 @@
       background: #fff;
     }
     .form-input::placeholder { color: #9CA3AF; }
-    .form-input:focus {
-      border-color: #8B1D3A;
-      box-shadow: 0 0 0 3px rgba(139,29,58,.08);
-    }
-    .form-input.error {
-      border-color: #EF4444;
-      box-shadow: 0 0 0 3px rgba(239,68,68,.08);
-    }
+    .form-input:focus { border-color: #8B1D3A; box-shadow: 0 0 0 3px rgba(139,29,58,.08); }
+    .form-input.error { border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,.08); }
     .field-error { font-size: 11px; color: #EF4444; margin-top: 4px; }
     .field-error.hidden { display: none; }
 
-    .form-footer {
-      display: flex; justify-content: flex-end;
-      margin-top: -2px; margin-bottom: 18px;
-    }
-    .forgot-link {
-      font-size: 12px; font-weight: 600; color: #8B1D3A; text-decoration: none;
-    }
+    .form-footer { display: flex; justify-content: flex-end; margin-top: -2px; margin-bottom: 18px; }
+    .forgot-link { font-size: 12px; font-weight: 600; color: #8B1D3A; text-decoration: none; }
     .forgot-link:hover { text-decoration: underline; }
 
     /* ── BOTÓN ── */
     .btn-login {
       width: 100%; padding: 12px;
-      background: #8B1D3A; color: #fff;
-      border: none; border-radius: 10px;
+      background: #8B1D3A; color: #fff; border: none; border-radius: 10px;
       font-family: inherit; font-size: 14px; font-weight: 700;
       cursor: pointer; transition: background .15s;
       display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -234,23 +203,15 @@
     .spinner {
       width: 16px; height: 16px;
       border: 2px solid rgba(255,255,255,.3);
-      border-top-color: #fff;
-      border-radius: 50%;
+      border-top-color: #fff; border-radius: 50%;
       animation: spin .65s linear infinite;
     }
     .spinner.hidden { display: none; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ── ACCESOS DE PRUEBA ── */
-    .hint-section {
-      margin-top: 24px; padding-top: 20px;
-      border-top: 1px solid #F3F4F6;
-    }
-    .hint-label {
-      font-size: 10px; font-weight: 600;
-      color: #9CA3AF; text-transform: uppercase;
-      letter-spacing: .06em; margin-bottom: 8px;
-    }
+    .hint-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid #F3F4F6; }
+    .hint-label { font-size: 10px; font-weight: 600; color: #9CA3AF; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
     .hint-list { display: flex; flex-direction: column; gap: 5px; }
     .hint-item {
       display: flex; align-items: center; justify-content: space-between;
@@ -276,12 +237,10 @@
     .hint-role-badge.adm { background: #F5E8EC; color: #8B1D3A; }
     .hint-role-badge.rev { background: #F3F4F6; color: #374151; }
     .hint-role-badge.enl { background: #F3F4F6; color: #374151; }
+    .hint-role-badge.dual { background: #EFF6FF; color: #1D4ED8; }
 
-    /* Footer */
-    .page-footer {
-      margin-top: 20px; padding-top: 20px;
-      font-size: 11px; color: #D1D5DB; text-align: center;
-    }
+    /* ── FOOTER ── */
+    .page-footer { margin-top: 20px; padding-top: 18px; font-size: 11px; color: #D1D5DB; text-align: center; }
 
     /* ── ROLE PICKER ── */
     .role-picker { display: none; }
@@ -308,217 +267,195 @@
     .rp-card-desc { font-size: 11px; color: #9CA3AF; margin-top: 8px; line-height: 1.4; }
     .btn-back-login { background: none; border: none; font-family: inherit; font-size: 12px; color: #9CA3AF; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 5px; }
     .btn-back-login:hover { color: #6B7280; }
-    .hint-role-badge.dual { background: #EFF6FF; color: #1D4ED8; }
 
-    /* ── RESPONSIVE ──────────────────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      body { flex-direction: column; height: auto; overflow: auto; }
-      .left-panel { flex: 0 0 220px; width: 100vw; height: 220px; padding: 14px; }
-      .left-frame  { border-radius: 16px; }
-      .cl-heading  { font-size: 15px; }
-      .right-panel { flex: 1; height: auto; min-height: calc(100vh - 220px); padding: 32px 24px; justify-content: flex-start; padding-top: 40px; }
+    /* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+    @media (max-width: 800px) {
+      .page-layout { flex-direction: column; padding: 0; overflow-y: auto; height: auto; gap: 0; }
+      .page-left { min-height: 260px; padding: 24px; flex: none; }
+      .cl-heading { font-size: 26px; }
+      .cl-brand-logo { width: 300px; }
+      .page-right { width: 100%; padding: 0; }
+      .login-card { border-radius: 0; max-height: none; padding: 32px 24px; box-shadow: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ── PANEL IZQUIERDO ─────────────────────────────────────────────────── -->
-  <div class="left-panel">
-    <div class="left-frame">
-
-      <!-- Fondos fotográficos -->
-      <div class="bg-wrap">
-        <div class="bg-scene active" data-s="1"></div>
-        <div class="bg-scene"        data-s="2"></div>
-        <div class="bg-scene"        data-s="3"></div>
-        <div class="bg-scene"        data-s="4"></div>
-        <div class="bg-scene"        data-s="5"></div>
-        <div class="bg-overlay"></div>
-      </div>
-
-      <!-- Olas -->
-      <div class="waves-wrap">
-        <div class="wave wave-1">
-          <div class="wave-inner">
-            <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
-              <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z"/>
-            </svg>
-            <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
-              <path d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="wave wave-2">
-          <div class="wave-inner">
-            <svg viewBox="0 0 1440 42" preserveAspectRatio="none">
-              <path d="M0,21 C360,42 720,0 1080,21 C1260,31 1380,10 1440,21 L1440,42 L0,42 Z"/>
-            </svg>
-            <svg viewBox="0 0 1440 42" preserveAspectRatio="none">
-              <path d="M0,21 C360,42 720,0 1080,21 C1260,31 1380,10 1440,21 L1440,42 L0,42 Z"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- Contenido sobre la foto -->
-      <div class="left-content">
-<div class="cl-bottom">
-          <img src="logo-comapa-tamaulipas.svg" alt="COMAPA Sur · Tamaulipas" class="cl-brand-logo">
-          <h2 class="cl-heading">Monitorea los indicadores de desempeño con trazabilidad completa</h2>
-          <div class="cl-caption">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
-            </svg>
-            <div>
-              <p class="caption-place">Tamaulipas, México</p>
-              <p class="caption-name" id="captionName">Laguna Madre · pastos acuáticos</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+  <!-- BACKGROUND CAROUSEL (full-screen) -->
+  <div class="bg-wrap">
+    <div class="bg-scene active" data-s="1"></div>
+    <div class="bg-scene"        data-s="2"></div>
+    <div class="bg-scene"        data-s="3"></div>
+    <div class="bg-scene"        data-s="4"></div>
+    <div class="bg-scene"        data-s="5"></div>
+    <div class="bg-overlay"></div>
   </div>
 
-  <!-- ── PANEL DERECHO ──────────────────────────────────────────────────── -->
-  <div class="right-panel">
-    <div class="form-wrap">
+  <!-- PAGE LAYOUT -->
+  <div class="page-layout">
 
-<p class="login-system">MIR COMAPA Sur</p>
-      <h1 class="login-title">Iniciar sesión</h1>
-      <p class="login-sub">Ingresa tus credenciales para acceder al sistema.</p>
+    <!-- LEFT: brand + headline -->
+    <div class="page-left">
 
-      <!-- Error -->
-      <div class="error-box hidden" id="errorBox">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
-        </svg>
-        <span id="errorMsg">Usuario o contraseña incorrectos. Verifica tus datos.</span>
+      <!-- Logo (top) -->
+      <div>
+        <img src="logo-comapa-tamaulipas.svg" alt="COMAPA Sur · Tamaulipas" class="cl-brand-logo">
       </div>
 
-      <!-- Form -->
-      <form id="loginForm" novalidate>
-
-        <div class="form-group">
-          <label class="form-label" for="email">Correo electrónico</label>
-          <input class="form-input" type="email" id="email"
-            placeholder="correo@comapa.mx" autocomplete="email">
-          <p class="field-error hidden" id="emailErr">Ingresa tu correo electrónico.</p>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="password">Contraseña</label>
-          <input class="form-input" type="password" id="password"
-            placeholder="••••••••" autocomplete="current-password">
-          <p class="field-error hidden" id="passErr">Ingresa tu contraseña.</p>
-        </div>
-
-        <div class="form-footer">
-          <a href="#" class="forgot-link" id="forgotLink">¿Olvidaste tu contraseña?</a>
-        </div>
-
-        <button type="submit" id="btnLogin" class="btn-login">
-          <span class="spinner hidden" id="spinner"></span>
-          <span id="btnText">Iniciar sesión</span>
-        </button>
-
-      </form>
-
-      <!-- Accesos de prueba -->
-      <div class="hint-section">
-        <p class="hint-label">Accesos de prueba</p>
-        <div class="hint-list">
-
-          <div class="hint-item" data-email="admin@comapa.mx" data-pass="admin123">
-            <div class="hint-user">
-              <div class="hint-avatar adm">LS</div>
-              <div>
-                <p class="hint-name">Leticia Solís</p>
-                <p class="hint-email">admin@comapa.mx</p>
-              </div>
-            </div>
-            <span class="hint-role-badge adm">Admin</span>
+      <!-- Headline + caption (bottom) -->
+      <div class="cl-headline-area">
+        <h2 class="cl-heading">Monitorea los indicadores de desempeño con trazabilidad completa</h2>
+        <div class="cl-caption">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
+          </svg>
+          <div>
+            <p class="caption-place">Tamaulipas, México</p>
+            <p class="caption-name" id="captionName">Laguna Madre · pastos acuáticos</p>
           </div>
-
-          <div class="hint-item" data-email="revisor@comapa.mx" data-pass="revisor123" data-direct="1">
-            <div class="hint-user">
-              <div class="hint-avatar">CM</div>
-              <div>
-                <p class="hint-name">Carlos Mendoza</p>
-                <p class="hint-email">revisor@comapa.mx</p>
-              </div>
-            </div>
-            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
-              <span class="hint-role-badge rev">Revisor</span>
-              <span style="font-size:9px;color:#9CA3AF;white-space:nowrap">Elige tu vista →</span>
-            </div>
-          </div>
-
-          <div class="hint-item" data-email="enlace@comapa.mx" data-pass="enlace123">
-            <div class="hint-user">
-              <div class="hint-avatar">AT</div>
-              <div>
-                <p class="hint-name">Ana Torres</p>
-                <p class="hint-email">enlace@comapa.mx</p>
-              </div>
-            </div>
-            <span class="hint-role-badge enl">Enlace</span>
-          </div>
-
         </div>
       </div>
-
-      <!-- ROLE PICKER (paso 2 para Revisor) -->
-      <div class="role-picker" id="rolePicker">
-        <div class="rp-user">
-          <div class="rp-avatar">CM</div>
-          <div class="rp-info">
-            <p class="rp-info-name">Carlos Mendoza</p>
-            <p class="rp-info-email">revisor@comapa.mx</p>
-          </div>
-          <span class="rp-ok-badge">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-            Sesión iniciada
-          </span>
-        </div>
-        <h2 class="rp-title">¿Cómo quieres entrar?</h2>
-        <p class="rp-sub">Puedes explorar el sistema como Revisor para validar reportes, o simular la vista del Enlace para ejercer el flujo completo de reporte.</p>
-        <div class="rp-cards">
-          <div class="rp-card revisor" onclick="loginAs('Revisor')">
-            <div class="rp-card-ico">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
-            </div>
-            <p class="rp-card-role">Revisor</p>
-            <p class="rp-card-person">Carlos Mendoza</p>
-            <p class="rp-card-desc">Valida y aprueba los reportes de avance de los indicadores.</p>
-          </div>
-          <div class="rp-card enlace" onclick="loginAs('Enlace')">
-            <div class="rp-card-ico">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
-            </div>
-            <p class="rp-card-role">Enlace</p>
-            <p class="rp-card-person">Ana Torres</p>
-            <p class="rp-card-desc">Reporta el avance de los indicadores de la Gerencia Comercial.</p>
-          </div>
-        </div>
-        <button class="btn-back-login" onclick="backToLogin()">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
-          Volver al inicio de sesión
-        </button>
-      </div>
-
-      <p class="page-footer">COMAPA Sur · Sistema MIR · 2026</p>
 
     </div>
+
+    <!-- RIGHT: floating login card -->
+    <div class="page-right">
+      <div class="login-card">
+
+        <p class="login-system">MIR COMAPA Sur</p>
+        <h1 class="login-title">Iniciar sesión</h1>
+        <p class="login-sub">Ingresa tus credenciales para acceder al sistema.</p>
+
+        <!-- Error -->
+        <div class="error-box hidden" id="errorBox">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+          </svg>
+          <span id="errorMsg">Usuario o contraseña incorrectos. Verifica tus datos.</span>
+        </div>
+
+        <!-- Form -->
+        <form id="loginForm" novalidate>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Correo electrónico</label>
+            <input class="form-input" type="email" id="email"
+              placeholder="correo@comapa.mx" autocomplete="email">
+            <p class="field-error hidden" id="emailErr">Ingresa tu correo electrónico.</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Contraseña</label>
+            <input class="form-input" type="password" id="password"
+              placeholder="••••••••" autocomplete="current-password">
+            <p class="field-error hidden" id="passErr">Ingresa tu contraseña.</p>
+          </div>
+
+          <div class="form-footer">
+            <a href="#" class="forgot-link" id="forgotLink">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button type="submit" id="btnLogin" class="btn-login">
+            <span class="spinner hidden" id="spinner"></span>
+            <span id="btnText">Iniciar sesión</span>
+          </button>
+
+        </form>
+
+        <!-- Accesos de prueba -->
+        <div class="hint-section">
+          <p class="hint-label">Accesos de prueba</p>
+          <div class="hint-list">
+
+            <div class="hint-item" data-email="admin@comapa.mx" data-pass="admin123">
+              <div class="hint-user">
+                <div class="hint-avatar adm">LS</div>
+                <div>
+                  <p class="hint-name">Leticia Solís</p>
+                  <p class="hint-email">admin@comapa.mx</p>
+                </div>
+              </div>
+              <span class="hint-role-badge adm">Admin</span>
+            </div>
+
+            <div class="hint-item" data-email="revisor@comapa.mx" data-pass="revisor123" data-direct="1">
+              <div class="hint-user">
+                <div class="hint-avatar">CM</div>
+                <div>
+                  <p class="hint-name">Carlos Mendoza</p>
+                  <p class="hint-email">revisor@comapa.mx</p>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+                <span class="hint-role-badge rev">Revisor</span>
+                <span style="font-size:9px;color:#9CA3AF;white-space:nowrap">Elige tu vista →</span>
+              </div>
+            </div>
+
+            <div class="hint-item" data-email="enlace@comapa.mx" data-pass="enlace123">
+              <div class="hint-user">
+                <div class="hint-avatar">AT</div>
+                <div>
+                  <p class="hint-name">Ana Torres</p>
+                  <p class="hint-email">enlace@comapa.mx</p>
+                </div>
+              </div>
+              <span class="hint-role-badge enl">Enlace</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ROLE PICKER (paso 2 para Revisor) -->
+        <div class="role-picker" id="rolePicker">
+          <div class="rp-user">
+            <div class="rp-avatar">CM</div>
+            <div class="rp-info">
+              <p class="rp-info-name">Carlos Mendoza</p>
+              <p class="rp-info-email">revisor@comapa.mx</p>
+            </div>
+            <span class="rp-ok-badge">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Sesión iniciada
+            </span>
+          </div>
+          <h2 class="rp-title">¿Cómo quieres entrar?</h2>
+          <p class="rp-sub">Puedes explorar el sistema como Revisor para validar reportes, o simular la vista del Enlace para ejercer el flujo completo de reporte.</p>
+          <div class="rp-cards">
+            <div class="rp-card revisor" onclick="loginAs('Revisor')">
+              <div class="rp-card-ico">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+              </div>
+              <p class="rp-card-role">Revisor</p>
+              <p class="rp-card-person">Carlos Mendoza</p>
+              <p class="rp-card-desc">Valida y aprueba los reportes de avance de los indicadores.</p>
+            </div>
+            <div class="rp-card enlace" onclick="loginAs('Enlace')">
+              <div class="rp-card-ico">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
+              </div>
+              <p class="rp-card-role">Enlace</p>
+              <p class="rp-card-person">Ana Torres</p>
+              <p class="rp-card-desc">Reporta el avance de los indicadores de la Gerencia Comercial.</p>
+            </div>
+          </div>
+          <button class="btn-back-login" onclick="backToLogin()">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
+            Volver al inicio de sesión
+          </button>
+        </div>
+
+        <p class="page-footer">COMAPA Sur · Sistema MIR · 2026</p>
+
+      </div>
+    </div>
+
   </div>
 
   <script>
-    // Si ya hay sesión activa, redirigir
-    (function () {
-      const u = Session.getUser();
-      if (u) window.location.href = u.redirect || 'dashboard-inicio.html';
-    })();
+    // Siempre limpiar sesión al cargar login para forzar autenticación
+    Session.clear();
 
     // ── Rotación de fondos ──────────────────────────────────────────────────
     const scenes   = document.querySelectorAll('.bg-scene');

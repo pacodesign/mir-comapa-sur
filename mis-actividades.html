@@ -176,6 +176,10 @@
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
       <span class="nav-label">Inicio</span>
     </a>
+    <a class="nav-item" href="planeacion-enlace.html" title="Planeación">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+      <span class="nav-label">Planeación</span>
+    </a>
     <div class="nav-item active" title="Mis indicadores">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
       <span class="nav-label">Mis indicadores</span>
@@ -202,7 +206,7 @@
     <div class="page-header">
       <div>
         <h1 class="page-title">Mis indicadores</h1>
-        <p class="page-subtitle">Gerencia Comercial · Período Q2 2026 · 12 actividades asignadas</p>
+        <p class="page-subtitle" id="pageSubtitle">Gerencia Comercial · Período 2026 · Indicadores asignados</p>
       </div>
       <button class="btn-primary" onclick="window.location.href='dashboard-enlace.html'">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
@@ -232,10 +236,10 @@
         </select>
         <select class="filter-select" id="filterNivel" onchange="applyFilters()">
           <option value="">Todos los niveles</option>
-          <option value="F">Fin</option>
-          <option value="P">Propósito</option>
-          <option value="C">Componente</option>
-          <option value="A">Actividad</option>
+          <option value="Fin">Fin</option>
+          <option value="Propósito">Propósito</option>
+          <option value="Componente">Componente</option>
+          <option value="Actividad">Actividad</option>
         </select>
         <button class="sort-btn" id="sortBtn" onclick="toggleSort()">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"/></svg>
@@ -285,6 +289,22 @@
 </div>
 
 <script>
+  // Máximo 1 indicador por frecuencia, siempre en estado pendiente_carga
+  function getDisplayIndicators() {
+    var freqCount = {};
+    var result = [];
+    ACTIVIDADES_ENLACE.forEach(function(a) {
+      var f = a.frecuenciaMedicion || 'Mensual';
+      if (!freqCount[f]) freqCount[f] = 0;
+      if (freqCount[f] < 1) {
+        freqCount[f]++;
+        result.push(Object.assign({}, a, { estado: 'pendiente_carga' }));
+      }
+    });
+    return result;
+  }
+  const DISPLAY_ACTIVIDADES = getDisplayIndicators();
+
   let sortAsc = true;
   let activeChip = 'todas';
 
@@ -298,7 +318,8 @@
 
   function renderRow(act) {
     const cfg   = ESTADO_CFG[act.estado] || { label: act.estado, cls: '', accion: 'Ver', btnCls: 'neutral' };
-    const nivel = NIVEL_CFG[act.nivelCodigo] || { label: act.nivelCodigo, cls: 'nivel-actividad' };
+    const NIVEL_LABELS = { 'Fin': { label: 'Fin', cls: 'nivel-fin' }, 'Propósito': { label: 'Propósito', cls: 'nivel-proposito' }, 'Componente': { label: 'Componente', cls: 'nivel-componente' }, 'Actividad': { label: 'Actividad', cls: 'nivel-actividad' } };
+    const nivel = NIVEL_LABELS[act.nivel] || { label: act.nivel || '—', cls: 'nivel-actividad' };
     const dias  = diasRestantes(act.fechaLimite);
     const dLbl  = diasLabel(dias);
     const url   = `detalle-actividad.html?id=${act.id}`;
@@ -338,7 +359,7 @@
   }
 
   function updateCounts() {
-    const all = ACTIVIDADES_ENLACE;
+    const all = DISPLAY_ACTIVIDADES;
     document.getElementById('cntTodas').textContent     = all.length;
     document.getElementById('cntPendiente').textContent = all.filter(a => ['pendiente_carga','pendiente_envio','borrador'].includes(a.estado)).length;
     document.getElementById('cntObservadas').textContent= all.filter(a => a.estado === 'observado').length;
@@ -349,12 +370,12 @@
   }
 
   function applyFilters() {
-    updateCounts();
+    try { updateCounts(); } catch(e) { console.error('updateCounts error:', e); }
     const q       = document.getElementById('searchInput').value.trim().toLowerCase();
     const estado  = document.getElementById('filterEstado').value;
     const nivel   = document.getElementById('filterNivel').value;
 
-    let data = [...ACTIVIDADES_ENLACE];
+    let data = [...DISPLAY_ACTIVIDADES];
 
     // chip quick filter
     if (activeChip === 'pendiente')   data = data.filter(a => ['pendiente_carga','pendiente_envio','borrador'].includes(a.estado));
@@ -366,7 +387,7 @@
 
     // select filters
     if (estado) data = data.filter(a => a.estado === estado || (estado === 'enviado_revision' && a.estado === 'pendiente_revision'));
-    if (nivel)  data = data.filter(a => a.nivelCodigo === nivel);
+    if (nivel)  data = data.filter(a => a.nivel === nivel);
 
     // search
     if (q) data = data.filter(a => a.nombreIndicador.toLowerCase().includes(q) || a.id.toLowerCase().includes(q) || a.nombreIndicador.toLowerCase().includes(q));
@@ -378,9 +399,21 @@
     });
 
     const body = document.getElementById('tableBody');
-    body.innerHTML = data.length ? data.map(renderRow).join('') : renderEmpty();
+    if (!data.length) {
+      body.innerHTML = renderEmpty();
+    } else {
+      try {
+        body.innerHTML = data.map(renderRow).join('');
+      } catch(e) {
+        body.innerHTML = `<tr><td colspan="8" style="padding:24px;color:#EF4444;font-size:13px">
+          <strong>Error de renderizado:</strong> ${e.message}<br>
+          <small style="color:#9CA3AF">Revisa la consola del navegador (F12) para más detalles.</small>
+        </td></tr>`;
+        console.error('renderRow error:', e);
+      }
+    }
 
-    document.getElementById('resultsCount').innerHTML = `<strong>${data.length}</strong> indicador${data.length !== 1 ? 'es' : ''} encontrado${data.length !== 1 ? 's' : ''}`;
+    document.getElementById('resultsCount').innerHTML = `<strong>${data.length}</strong> de <strong>${DISPLAY_ACTIVIDADES.length}</strong> indicador${DISPLAY_ACTIVIDADES.length !== 1 ? 'es' : ''}`;
   }
 
   function toggleSort() {
@@ -398,7 +431,11 @@
     applyFilters();
   }
 
-  document.addEventListener('DOMContentLoaded', () => { applyFilters(); });
+  document.addEventListener('DOMContentLoaded', function() {
+    const sub = document.getElementById('pageSubtitle');
+    if (sub) sub.textContent = 'Gerencia Comercial · Período 2026 · ' + DISPLAY_ACTIVIDADES.length + ' indicadores asignados';
+    applyFilters();
+  });
 </script>
 </body>
 </html>

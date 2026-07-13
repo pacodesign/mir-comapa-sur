@@ -434,6 +434,8 @@
   <div class="sidebar-nav">
     <a class="nav-item" href="dashboard-enlace.html" title="Inicio"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
       <span class="nav-label">Inicio</span></a>
+    <a class="nav-item" href="planeacion-enlace.html" title="Planeación"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+      <span class="nav-label">Planeación</span></a>
     <a class="nav-item active" href="mis-actividades.html" title="Mis actividades"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
       <span class="nav-label">Mis actividades</span></a>
     <a class="nav-item" href="mis-observaciones.html" title="Observaciones" style="position:relative"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
@@ -755,7 +757,18 @@
   // ── Avance ───────────────────────────────────────────────────────────────
   function onAvanceInput(val) {
     avanceValue = val;
-    if (val.trim() && sinAvance) { sinAvance = false; renderPage(); }
+    if (val.trim() && sinAvance) { sinAvance = false; renderPage(); return; }
+    if (warnTimer) clearTimeout(warnTimer);
+    const warnEl = document.getElementById('avanceCalcWarn');
+    if (warnEl) warnEl.classList.remove('warn-visible');
+    warnTimer = setTimeout(function() {
+      if (!actividad) return;
+      const mp      = calcMetaPeriodo(actividad.metaAnual, actividad.frecuenciaMedicion, actividad.acumulable);
+      const mpNum   = (mp ? parseFloat(mp.label) : null) || 100;
+      const v       = parseFloat(avanceValue);
+      const el      = document.getElementById('avanceCalcWarn');
+      if (el && !isNaN(v) && v < mpNum) el.classList.add('warn-visible');
+    }, 2000);
   }
   function onAvanceNum(val) {
     avanceNum = val;
@@ -768,10 +781,10 @@
       const effectiveDen = actividad.denominadorFijo ? String(actividad.denomFijoVal) : avanceDen;
       const x = parseFloat(avanceNum), y = parseFloat(effectiveDen);
       const ok = !isNaN(x) && !isNaN(y) && y > 0;
-      const mp = calcMetaPeriodo(actividad.metaAnual, actividad.frecuenciaMedicion, actividad.acumulable);
-      const mpNum = mp ? parseFloat(mp.label) : null;
-      const el = document.getElementById('avanceCalcWarn');
-      if (el && ok && mpNum && (x / y * 100) < mpNum) el.classList.add('warn-visible');
+      const mp    = calcMetaPeriodo(actividad.metaAnual, actividad.frecuenciaMedicion, actividad.acumulable);
+      const mpNum = (mp ? parseFloat(mp.label) : null) || 100;
+      const el    = document.getElementById('avanceCalcWarn');
+      if (el && ok && (x / y * 100) < mpNum) el.classList.add('warn-visible');
     }, 2500);
   }
   function onAvanceDen(val) {
@@ -866,6 +879,14 @@
         const el = document.getElementById('avanceCalcWarn');
         if (el) el.classList.add('warn-visible');
       }
+    } else {
+      const mp    = calcMetaPeriodo(actividad.metaAnual, actividad.frecuenciaMedicion, actividad.acumulable);
+      const mpNum = (mp ? parseFloat(mp.label) : null) || 100;
+      const v     = parseFloat(avanceValue);
+      if (!isNaN(v) && v < mpNum) {
+        const el = document.getElementById('avanceCalcWarn');
+        if (el) el.classList.add('warn-visible');
+      }
     }
   }
   // ── Análisis del reporte ──────────────────────────────────────────────────
@@ -916,7 +937,7 @@
     actividad.historial.push({
       fecha: nowStr(), hora: nowTime(),
       usuario: 'Ana Torres', rol: 'Enlace',
-      accion: 'Análisis del reporte guardado',
+      accion: 'Análisis de datos guardado',
       estadoAnterior: null, estadoNuevo: null
     });
     renderPage();
@@ -1119,6 +1140,7 @@
       <button class="btn-save-avance" onclick="saveAvance()" ${avanceValue.trim() ? '' : 'disabled'}>
         ${SAVE_ICO} Guardar avance
       </button>
+      <p class="avance-no-meta-warn" id="avanceCalcWarn">${WARN_ICO}<span><strong>La meta del período no fue alcanzada.</strong> Deberás justificar el incumplimiento en el apartado de comentarios.</span></p>
       ${sinAvanceSect}`;
   }
 
@@ -1133,13 +1155,23 @@
 
     // Determinar si la meta del período se cumplió con base al avance registrado
     let metaCumplida = null;
-    if (avanceSaved && act.tieneDenominador) {
-      const _den = act.denominadorFijo ? String(act.denomFijoVal) : avanceDen;
-      const _x = parseFloat(avanceNum), _y = parseFloat(_den);
-      const _mp = calcMetaPeriodo(act.metaAnual, act.frecuenciaMedicion, act.acumulable);
-      const _mpNum = _mp ? parseFloat(_mp.label) : null;
-      if (!isNaN(_x) && !isNaN(_y) && _y > 0 && _mpNum) {
-        metaCumplida = (_x / _y * 100) >= _mpNum;
+    if (avanceSaved && avanceValue !== 'Sin avance') {
+      const _mp    = calcMetaPeriodo(act.metaAnual, act.frecuenciaMedicion, act.acumulable);
+      const _mpRaw = _mp ? parseFloat(_mp.label) : null;
+      if (act.tieneDenominador) {
+        const _den = act.denominadorFijo ? String(act.denomFijoVal) : avanceDen;
+        const _x = parseFloat(avanceNum), _y = parseFloat(_den);
+        if (!isNaN(_x) && !isNaN(_y) && _y > 0) {
+          // Si no hay metaAnual definida, la meta implícita de un indicador
+          // de fracción es 100% (X/Y debe ser igual o mayor que Y)
+          const _target = (!isNaN(_mpRaw) && _mpRaw > 0) ? _mpRaw : 100;
+          metaCumplida = (_x / _y * 100) >= _target;
+        }
+      } else {
+        const _val = parseFloat(avanceValue);
+        if (!isNaN(_val) && !isNaN(_mpRaw) && _mpRaw > 0) {
+          metaCumplida = _val >= _mpRaw;
+        }
       }
     }
 
@@ -1200,7 +1232,7 @@
       </div>
       <div class="mv-rule" style="margin-bottom:16px">
         <p class="mv-rule-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="width:12px;height:12px;vertical-align:middle;margin-right:4px;margin-top:-2px"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>Reglas de carga</p>
-        <p>${act.reglasExtra}</p>
+        <p>${act.reglasExtra || 'El documento debe estar firmado y validado por el responsable de la gerencia.'}</p>
       </div>
       ${evidenceContent}
       ${editingStep2 ? `<button class="btn-save-avance" onclick="guardarEvidencia()" style="margin-top:14px">${SAVE_S} Guardar</button>` : ''}`;
@@ -1221,38 +1253,46 @@
           : lockBody('Registra el valor del avance primero.')}
       </div>`;
 
-    // ── Paso 3: Análisis del reporte ──────────────────────────────────────
-    const logrocausasBlock = metaCumplida === true
-      ? `<span class="analisis-q" style="margin-top:0">Acciones que llevaron al logro de la meta</span>
-         <textarea class="txt-area" rows="3" oninput="onAnalisisLogro(this.value)" placeholder="Describe qué acciones contribuyeron al cumplimiento de la meta...">${analisisLogro}</textarea>`
-      : metaCumplida === false
-      ? `<span class="analisis-q" style="margin-top:0">Causas por las que no se logró la meta</span>
-         <textarea class="txt-area" rows="3" oninput="onAnalisisCausas(this.value)" placeholder="Describe los factores que impidieron alcanzar la meta...">${analisisCausas}</textarea>`
-      : '';
-
+    // ── Paso 3: Análisis de datos ─────────────────────────────────────────
     const step3Editable = editable || editingStep3;
-    const analisisEditForm = `
-         ${analisisSaved ? `<div class="avance-saved-banner" style="margin-bottom:12px">${CHECK_ICO} Análisis guardado. Puedes actualizarlo.</div>` : ''}
-         ${logrocausasBlock}
-         <span class="analisis-q" ${metaCumplida !== null ? '' : 'style="margin-top:0"'}>Riesgos</span>
+
+    // Etiqueta y binding del campo condicional
+    const analisisExito   = metaCumplida === true;
+    const analisisLabel   = analisisExito ? 'Acciones' : 'Causas';
+    const analisisCaption = analisisExito
+      ? 'Explica las acciones que llevaron al logro de la meta'
+      : 'Explica las causas por las que no se logró la meta';
+    const analisisValue   = analisisExito ? analisisLogro : analisisCausas;
+    const analisisChange  = analisisExito ? 'onAnalisisLogro' : 'onAnalisisCausas';
+    const analisisHint    = analisisExito
+      ? 'Describe qué acciones contribuyeron al cumplimiento de la meta…'
+      : 'Describe los factores que impidieron alcanzar la meta…';
+
+    // El form aparece siempre que el avance esté guardado (aunque no se pueda
+    // determinar la comparación con la meta, se muestra por defecto el campo de causas)
+    const avanceRegistrado = avanceSaved && avanceValue !== 'Sin avance';
+
+    const analisisEditForm = !avanceRegistrado
+      ? `<p style="font-size:13px;color:var(--color-text-secondary)">El análisis estará disponible una vez que se haya registrado el avance del período.</p>`
+      : `${analisisSaved ? `<div class="avance-saved-banner" style="margin-bottom:12px">${CHECK_ICO} Análisis guardado. Puedes actualizarlo.</div>` : ''}
+         <span class="analisis-q" style="margin-top:0">${analisisLabel}</span>
+         <span class="analisis-caption">${analisisCaption}</span>
+         <textarea class="txt-area" rows="3" oninput="${analisisChange}(this.value)" placeholder="${analisisHint}">${analisisValue}</textarea>
+         <span class="analisis-q">Riesgos</span>
          <span class="analisis-caption">Explica las situaciones o cambios que pongan en peligro lograr la meta del indicador:</span>
-         <textarea class="txt-area" rows="3" oninput="onAnalisisRiesgos(this.value)" placeholder="Describe posibles amenazas o factores que dificulten el cumplimiento futuro...">${analisisRiesgos}</textarea>
+         <textarea class="txt-area" rows="3" oninput="onAnalisisRiesgos(this.value)" placeholder="Describe posibles amenazas o factores que dificulten el cumplimiento futuro…">${analisisRiesgos}</textarea>
          <span class="analisis-q">Oportunidades</span>
          <span class="analisis-caption">Explica las situaciones o cambios que puedan aprovecharse para lograr la meta del indicador:</span>
-         <textarea class="txt-area" rows="3" oninput="onAnalisisOportunidades(this.value)" placeholder="Describe factores favorables o áreas de mejora que puedan potenciarse...">${analisisOportunidades}</textarea>
+         <textarea class="txt-area" rows="3" oninput="onAnalisisOportunidades(this.value)" placeholder="Describe factores favorables o áreas de mejora que puedan potenciarse…">${analisisOportunidades}</textarea>
          <span class="analisis-q">Toma de decisiones</span>
          <span class="analisis-caption">Explica las acciones implementadas y/o propuestas para mejorar el resultado del indicador:</span>
-         <textarea class="txt-area" rows="3" oninput="onAnalisisAcciones(this.value)" placeholder="Describe las decisiones tomadas o acciones concretas en marcha o propuestas...">${analisisAcciones}</textarea>
+         <textarea class="txt-area" rows="3" oninput="onAnalisisAcciones(this.value)" placeholder="Describe las decisiones tomadas o acciones concretas en marcha o propuestas…">${analisisAcciones}</textarea>
          <button class="btn-save-avance" onclick="guardarAnalisis()" style="margin-top:14px">
            ${SAVE_S} Guardar análisis
          </button>`;
 
-    const logrocausasLabel = metaCumplida === true ? 'Acciones que llevaron al logro de la meta'
-      : metaCumplida === false ? 'Causas por las que no se logró la meta' : null;
-    const logrocausasVal = metaCumplida === true ? analisisLogro : analisisCausas;
-
-    const analisisReadOnly = analisisSaved
-      ? `${logrocausasLabel ? `<div class="ro-analisis-field"><span class="ro-analisis-label">${logrocausasLabel}</span><p class="ro-analisis-value">${logrocausasVal || '—'}</p></div>` : ''}
+    const analisisReadOnly = analisisSaved && avanceRegistrado
+      ? `<div class="ro-analisis-field"><span class="ro-analisis-label">${analisisLabel}</span><p class="ro-analisis-value">${analisisValue || '—'}</p></div>
          <div class="ro-analisis-field"><span class="ro-analisis-label">Riesgos</span><p class="ro-analisis-value">${analisisRiesgos || '—'}</p></div>
          <div class="ro-analisis-field"><span class="ro-analisis-label">Oportunidades</span><p class="ro-analisis-value">${analisisOportunidades || '—'}</p></div>
          <div class="ro-analisis-field"><span class="ro-analisis-label">Toma de decisiones</span><p class="ro-analisis-value">${analisisAcciones || '—'}</p></div>`
@@ -1265,7 +1305,7 @@
         <div class="step-hdr">
           ${badge(3, step3Done, step3Accessible)}
           <div class="step-title-col">
-            <p class="step-card-name ${step3Accessible ? '' : 'locked'}">Análisis del reporte</p>
+            <p class="step-card-name ${step3Accessible ? '' : 'locked'}">Análisis de datos</p>
           </div>
           ${step3Done ? doneChip('Análisis completado') : ''}
           ${!step3Accessible ? `<span class="step-lock-icon">${LOCK_S}</span>` : ''}
@@ -1404,7 +1444,8 @@
   // ── Render main ───────────────────────────────────────────────────────────
   function renderMain(act) {
     const cfg   = ESTADO_CFG[act.estado] || { label: act.estado, cls: '' };
-    const nivel = NIVEL_CFG[act.nivelCodigo] || { label: act.nivelCodigo, cls: '' };
+    const _NIVEL_MAP = { 'Fin': { label: 'Fin', cls: 'nivel-fin' }, 'Propósito': { label: 'Propósito', cls: 'nivel-proposito' }, 'Componente': { label: 'Componente', cls: 'nivel-componente' }, 'Actividad': { label: 'Actividad', cls: 'nivel-actividad' } };
+    const nivel = _NIVEL_MAP[act.nivel] || { label: act.nivel || '—', cls: 'nivel-actividad' };
     const editable = isEditable();
     const isObs    = act.estado === 'observado';
 
@@ -1476,8 +1517,8 @@
                 <div class="info-divider"></div>
                 <div class="info-item"><label>Nivel MIR</label><p><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></p></div>
                 <div class="info-item"><label>Frecuencia de medición</label><p>${act.frecuenciaMedicion}</p></div>
-                <div class="info-item"><label>Línea base</label><p>${act.lineaBase}</p></div>
-                <div class="info-item"><label>Meta anual</label><p>${act.metaAnual}</p></div>
+                <div class="info-item"><label>Línea base</label><p>${act.lineaBase ?? '—'}</p></div>
+                <div class="info-item"><label>Meta anual</label><p>${act.metaAnual ?? '—'}</p></div>
                 <div class="info-divider"></div>
                 <div class="info-item"><label>Método de cálculo</label><p class="mono">${act.metodoCalculo}</p></div>
                 <div class="info-divider"></div>
@@ -1684,10 +1725,45 @@
     renderActionPanel(actividad);
   }
 
+  // ── Periodos anteriores mock ───────────────────────────────────────────────
+  function computePeriodosAnteriores(act) {
+    var freq  = act.frecuenciaMedicion || 'Mensual';
+    var PREV  = {
+      'Mensual':    ['Ene','Feb','Mar','Abr','May','Jun'],
+      'Bimestral':  ['Ene–Feb','Mar–Abr','May–Jun'],
+      'Trimestral': ['T1 (Ene–Mar)','T2 (Abr–Jun)'],
+      'Semestral':  ['S1 (Ene–Jun)'],
+      'Anual':      [],
+    };
+    var labels = PREV[freq] || [];
+    if (!labels.length) return [];
+    // Realistic mock values that look slightly different each period
+    var VALS_FRAC = [82.3, 85.1, 88.4, 79.6, 91.2, 86.8, 84.5, 90.0, 77.9, 93.1, 88.7, 83.2];
+    var VALS_SIMPLE = [1842, 2105, 1978, 2234, 2019, 2387, 1965, 2210, 2088, 2340, 2001, 2150];
+    var isFrac = !!act.tieneDenominador;
+    return labels.map(function(lbl, i) {
+      var resultado = VALS_FRAC[i % VALS_FRAC.length];
+      var valor     = VALS_SIMPLE[i % VALS_SIMPLE.length];
+      var estado    = i < labels.length - 1 ? 'aprobado' : 'aprobado';
+      return { periodo: lbl, resultado: resultado, valor: valor, estado: estado };
+    });
+  }
+
   // ── Init ──────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
     const id = getParam('id') || 'PLA-ACT-1-1';
     actividad = getActividad(id);
+    // Para el enlace, todos los indicadores están pendientes de carga
+    if (actividad && !isRevisor) {
+      actividad.estado = 'pendiente_carga';
+      actividad.archivosEvidencia = actividad.archivosEvidencia || [];
+      actividad.observaciones     = actividad.observaciones     || [];
+      actividad.historial         = actividad.historial         || [];
+    }
+    // Inyectar historial de períodos anteriores si no existe
+    if (actividad && !actividad.periodosAnteriores) {
+      actividad.periodosAnteriores = computePeriodosAnteriores(actividad);
+    }
     if (isRevisor && actividad) {
       actividad.estado = 'enviado_revision';
       avanceSaved = true;

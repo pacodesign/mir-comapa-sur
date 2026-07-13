@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planeación — MIR COMAPA Sur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mock-notifications.js"></script>
+  <script src="mir-actividades-data.js"></script>
+  <script src="layout.js"></script>
+  <style>
+    :root {
+      --color-primary: #8B1D3A; --color-accent-dark: #6B1630;
+      --color-bg: #FFFFFF; --color-surface: #F7F7F7;
+      --color-border: #E5E7EB; --color-text-primary: #111827;
+      --color-text-secondary: #6B7280; --color-avatar-bg: #9CA3AF;
+      --radius-card: 16px; --radius-btn: 999px;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-surface); color: var(--color-text-primary); display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: 148px; background: var(--color-bg); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: stretch; padding: 16px 0; gap: 4px; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
+    .sidebar-logo { width: 36px; height: 36px; background: var(--color-primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+    .sidebar-logo svg { width: 18px; height: 18px; stroke: white; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; align-items: stretch; padding: 0 8px; }
+    .nav-item { width: 100%; height: auto; padding: 7px 10px; border-radius: 12px; display: flex; align-items: center; justify-content: flex-start; flex-direction: row; gap: 8px; cursor: pointer; color: var(--color-text-secondary); transition: background .15s, color .15s; position: relative; text-decoration: none; }
+    .nav-item:hover { background: var(--color-surface); }
+    .nav-item.active { background: #F5E8EC; color: var(--color-primary); }
+    .nav-label { font-size: 11px; font-weight: 600; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .nav-badge { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: #EF4444; border: 1.5px solid #fff; }
+    .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 8px; }
+    .avatar-xs { width: 32px; height: 32px; border-radius: 50%; background: var(--color-avatar-bg); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; }
+
+    /* LAYOUT */
+    .app-wrapper { display: flex; flex: 1; margin-left: 148px; }
+    .main-content { flex: 1; padding: 24px; min-width: 0; }
+
+    /* PAGE HEADER */
+    .page-header { margin-bottom: 20px; }
+    .page-title { font-size: 22px; font-weight: 700; color: var(--color-text-primary); }
+    .page-subtitle { font-size: 13px; color: var(--color-text-secondary); margin-top: 3px; }
+
+    /* STATS ROW */
+    .stats-row { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .stat-chip { display: flex; align-items: center; gap: 8px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 12px; padding: 10px 16px; }
+    .stat-num { font-size: 22px; font-weight: 700; color: var(--color-text-primary); line-height: 1; }
+    .stat-lbl { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); }
+    .stat-chip.green .stat-num { color: #16A34A; }
+    .stat-chip.amber .stat-num { color: #D97706; }
+
+    /* TOOLBAR */
+    .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+    .search-input { flex: 1; min-width: 180px; padding: 8px 12px 8px 32px; border: 1px solid var(--color-border); border-radius: var(--radius-btn); font-family: inherit; font-size: 13px; color: var(--color-text-primary); background: var(--color-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z'/%3E%3C/svg%3E") 10px center/14px no-repeat; outline: none; transition: border-color .15s; }
+    .search-input:focus { border-color: var(--color-primary); }
+    .filter-select { padding: 8px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-btn); font-family: inherit; font-size: 12px; color: var(--color-text-secondary); background: var(--color-bg); outline: none; cursor: pointer; }
+    .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .chip { font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: var(--radius-btn); border: 1px solid var(--color-border); background: var(--color-bg); color: var(--color-text-secondary); cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 5px; }
+    .chip:hover { background: #F9FAFB; border-color: #D1D5DB; }
+    .chip.active { background: var(--color-primary); border-color: var(--color-primary); color: white; }
+    .chip-count { font-size: 10px; font-weight: 700; background: rgba(0,0,0,.1); padding: 1px 6px; border-radius: var(--radius-btn); }
+    .chip.active .chip-count { background: rgba(255,255,255,.25); }
+
+    /* TABLE */
+    .table-wrap { background: var(--color-bg); border-radius: var(--radius-card); border: 1px solid var(--color-border); overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .04em; padding: 12px 16px; text-align: left; background: #FAFAFA; border-bottom: 1px solid var(--color-border); white-space: nowrap; }
+    td { padding: 13px 16px; border-bottom: 1px solid #F3F4F6; vertical-align: middle; font-size: 13px; }
+    tr:last-child td { border-bottom: none; }
+    tr.selected td { background: #FDF5F7; }
+    .td-ind { min-width: 200px; }
+    .ind-id { font-family: monospace; font-size: 11px; font-weight: 700; color: var(--color-primary); margin-bottom: 3px; }
+    .ind-nombre { font-size: 13px; font-weight: 600; color: var(--color-text-primary); line-height: 1.35; }
+    .nivel-badge { display: inline-flex; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+    .nivel-fin        { background: #EDE9FE; color: #7C3AED; }
+    .nivel-proposito  { background: #DBEAFE; color: #1D4ED8; }
+    .nivel-componente { background: #CCFBF1; color: #0F766E; }
+    .nivel-actividad  { background: #F3F4F6; color: #374151; }
+    .cfg-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .cfg-badge.pendiente { background: #FEF3C7; color: #D97706; }
+    .cfg-badge.configurado { background: #ECFDF5; color: #059669; }
+    .btn-cfg { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--color-primary); color: white; border: none; border-radius: var(--radius-btn); font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background .15s; white-space: nowrap; }
+    .btn-cfg:hover { background: var(--color-accent-dark); }
+    .btn-cfg.done { background: #F0FDF4; color: #15803D; }
+    .btn-cfg.done:hover { background: #DCFCE7; }
+    .results-count { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 10px; }
+    .empty-state { padding: 48px 24px; text-align: center; color: var(--color-text-secondary); }
+    .empty-state svg { width: 40px; height: 40px; margin: 0 auto 12px; display: block; color: #D1D5DB; }
+    .empty-state p { font-size: 13px; }
+
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal-card { background: var(--color-bg); border-radius: 20px; width: min(740px, 100%); max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,.2); overflow: hidden; }
+    .modal-header { padding: 20px 24px 0; flex-shrink: 0; display: flex; align-items: flex-start; gap: 12px; }
+    .mh-info { flex: 1; min-width: 0; }
+    .mh-id { font-family: monospace; font-size: 11px; font-weight: 700; color: var(--color-primary); margin-bottom: 3px; }
+    .mh-name { font-size: 15px; font-weight: 700; color: var(--color-text-primary); line-height: 1.3; }
+    .mh-meta { display: flex; align-items: center; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+    .mh-gerencia { font-size: 11px; color: var(--color-text-secondary); }
+    .modal-close { width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--color-border); background: var(--color-bg); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text-secondary); flex-shrink: 0; transition: background .12s; }
+    .modal-close:hover { background: var(--color-surface); }
+    .modal-tabs { display: flex; border-bottom: 1px solid var(--color-border); padding: 12px 24px 0; gap: 2px; flex-shrink: 0; margin-top: 14px; }
+    .mtab { padding: 8px 14px; font-size: 13px; font-weight: 600; font-family: inherit; color: var(--color-text-secondary); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all .15s; margin-bottom: -1px; border-radius: 8px 8px 0 0; }
+    .mtab:hover { color: var(--color-text-primary); }
+    .mtab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+    .modal-body { flex: 1; overflow-y: auto; }
+    .modal-tab-panel { display: none; }
+    .modal-tab-panel.active { display: block; }
+    .drawer-section { padding: 16px 24px; border-bottom: 1px solid var(--color-border); }
+    .ds-title { font-size: 10px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .ds-title svg { width: 13px; height: 13px; }
+    .dg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+    .dg-item label { display: block; font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px; }
+    .dg-item p { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; }
+    .dg-item.full { grid-column: 1 / -1; }
+    .dg-divider { height: 1px; background: var(--color-border); grid-column: 1 / -1; margin: 2px 0; }
+
+    /* FORM */
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group:last-child { margin-bottom: 0; }
+    .form-label { display: block; font-size: 11px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+    .form-select, .form-input { width: 100%; padding: 8px 11px; border: 1px solid var(--color-border); border-radius: 10px; font-family: inherit; font-size: 13px; color: var(--color-text-primary); background: var(--color-bg); outline: none; transition: border-color .15s; }
+    .form-select:focus, .form-input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
+    .form-hint { font-size: 11px; color: var(--color-text-secondary); margin-top: 4px; line-height: 1.5; }
+
+    /* TOGGLES */
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #F3F4F6; }
+    .toggle-row:last-of-type { border-bottom: none; }
+    .toggle-info .toggle-label { font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
+    .toggle-info .toggle-desc { font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; }
+    .toggle-switch { width: 38px; height: 22px; border-radius: 11px; background: #D1D5DB; cursor: pointer; position: relative; transition: background .2s; flex-shrink: 0; }
+    .toggle-switch.on { background: var(--color-primary); }
+    .toggle-knob { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: white; transition: left .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+    .toggle-switch.on .toggle-knob { left: 19px; }
+    .frac-subfields { background: #FAFAFA; border: 1px solid var(--color-border); border-radius: 10px; padding: 12px; margin-top: 10px; }
+
+    /* MODAL FOOTER */
+    .modal-footer { padding: 14px 24px; border-top: 1px solid var(--color-border); flex-shrink: 0; display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+    .btn-save { padding: 10px 18px; background: var(--color-primary); color: white; border: none; border-radius: var(--radius-btn); font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background .15s; }
+    .btn-save:hover { background: var(--color-accent-dark); }
+    .btn-cancel { padding: 10px 16px; background: var(--color-surface); color: var(--color-text-secondary); border: none; border-radius: var(--radius-btn); font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background .12s; }
+    .btn-cancel:hover { background: var(--color-border); }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(10px); background: #1F2937; color: white; font-size: 13px; font-weight: 500; padding: 10px 20px; border-radius: var(--radius-btn); opacity: 0; transition: all .25s; z-index: 2000; pointer-events: none; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast svg { width: 15px; height: 15px; color: #22C55E; }
+
+    /* ── MODAL DOS COLUMNAS ── */
+    .modal-wide { max-width: 900px !important; }
+    .ind-selector-bar { padding: 12px 20px; border-bottom: 1px solid var(--color-border); background: #FAFAFA; flex-shrink: 0; }
+    .ind-selector-label { display: block; font-size: 10px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+    .modal-cols { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+    .col-left { width: 42%; background: #F9FAFB; border-right: 1px solid var(--color-border); overflow-y: auto; padding: 20px; flex-shrink: 0; }
+    .col-right { flex: 1; overflow-y: auto; padding: 20px; }
+    .col-section-title { font-size: 10px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+    .col-section-title svg { width: 12px; height: 12px; flex-shrink: 0; }
+    .readonly-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; background: #F3F4F6; color: #6B7280; padding: 3px 9px; border-radius: 999px; margin-bottom: 14px; }
+    .info-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin-bottom: 10px; }
+    .info-item { min-width: 0; }
+    .info-label { font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 2px; }
+    .info-value { font-size: 13px; color: var(--color-text-primary); line-height: 1.4; }
+    .info-divider { height: 1px; background: var(--color-border); margin: 12px 0; }
+
+    /* ── PERIOD GRID ── */
+    .period-grid { display: grid; gap: 8px; margin-top: 10px; }
+    .period-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .period-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .period-grid.cols-1 { grid-template-columns: 1fr; }
+    .period-cell { display: flex; flex-direction: column; gap: 3px; }
+    .period-cell label { font-size: 10px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .04em; }
+    .period-cell input { width: 100%; padding: 7px 10px; border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit; font-size: 13px; color: var(--color-text-primary); background: white; outline: none; transition: border-color .15s; }
+    .period-cell input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
+
+    /* ── FREQUENCY LIST ── */
+    .freq-list { display: flex; flex-direction: column; gap: 10px; }
+    .freq-card { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 18px 20px; display: flex; align-items: center; gap: 16px; transition: border-color .15s, box-shadow .15s; }
+    .freq-card:hover { border-color: #D1D5DB; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+    .freq-icon-wrap { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .freq-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+    .freq-sub { font-size: 12px; color: var(--color-text-secondary); }
+    .freq-bar-wrap { height: 3px; background: #E5E7EB; border-radius: 2px; overflow: hidden; margin-top: 7px; }
+    .freq-bar { height: 100%; border-radius: 2px; transition: width .3s; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="dashboard-enlace.html" title="Inicio">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
+      <span class="nav-label">Inicio</span>
+    </a>
+    <a class="nav-item active" href="planeacion-enlace.html" title="Planeación">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+      <span class="nav-label">Planeación</span>
+    </a>
+    <a class="nav-item" href="mis-actividades.html" title="Mis indicadores">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
+      <span class="nav-label">Mis indicadores</span>
+    </a>
+    <a class="nav-item" href="mis-observaciones.html" title="Observaciones" style="position:relative">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+      <span class="nav-label">Observaciones</span>
+    </a>
+    <div class="nav-item" title="Notificaciones">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg>
+      <span class="nav-label">Notificaciones</span>
+    </div>
+    <div class="nav-item" title="Ayuda">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
+      <span class="nav-label">Ayuda</span>
+    </div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="avatar-xs">AT</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="app-wrapper" id="appWrapper">
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1 class="page-title">Planeación MIR</h1>
+      <p class="page-subtitle">Configura la medición de los indicadores de tu gerencia</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row" id="statsRow"></div>
+
+    <!-- CHIPS -->
+    <div class="chip-row">
+      <div class="chip active" data-chip="todos"       onclick="setChip(this)">Todos        <span class="chip-count" id="cntTodos">0</span></div>
+      <div class="chip"        data-chip="pendiente"   onclick="setChip(this)">Pendientes   <span class="chip-count" id="cntPendiente">0</span></div>
+      <div class="chip"        data-chip="configurado" onclick="setChip(this)">Configurados <span class="chip-count" id="cntConfigurado">0</span></div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar por nombre o clave…" oninput="renderTable()">
+      <select class="filter-select" id="filterNivel" onchange="renderTable()">
+        <option value="">Todos los niveles</option>
+        <option value="Fin">Fin</option>
+        <option value="Propósito">Propósito</option>
+        <option value="Componente">Componente</option>
+        <option value="Actividad">Actividad</option>
+      </select>
+    </div>
+
+    <p class="results-count" id="resultsCount"></p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Nivel MIR</th>
+            <th>Frecuencia</th>
+            <th>Estado</th>
+            <th style="text-align:right">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="cfgModal" onclick="if(event.target===this)closeDrawer()">
+  <div class="modal-card modal-wide">
+
+    <div class="modal-header">
+      <div class="mh-info">
+        <p class="mh-id" id="mhId"></p>
+        <p class="mh-name" id="mhName"></p>
+        <div class="mh-meta" id="mhMeta"></div>
+      </div>
+      <button class="modal-close" onclick="closeDrawer()">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Dos columnas -->
+    <div class="modal-cols">
+
+      <div class="col-left">
+        <p class="col-section-title">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+          Configuración del Admin
+        </p>
+        <div id="adminInfoPanel"></div>
+      </div>
+
+      <div class="col-right">
+        <p class="col-section-title">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+          Metas del período
+        </p>
+        <div id="metaFormPanel"></div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeDrawer()">Cancelar</button>
+      <button class="btn-save" onclick="saveMetas()">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        Guardar metas
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+  // ── Constantes ──────────────────────────────────────────────────────────────
+  const PERIODOS = {
+    'Mensual':    { labels: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'], cols: 3 },
+    'Bimestral':  { labels: ['Ene–Feb','Mar–Abr','May–Jun','Jul–Ago','Sep–Oct','Nov–Dic'], cols: 2 },
+    'Trimestral': { labels: ['T1 (Ene–Mar)','T2 (Abr–Jun)','T3 (Jul–Sep)','T4 (Oct–Dic)'], cols: 2 },
+    'Semestral':  { labels: ['S1 (Ene–Jun)','S2 (Jul–Dic)'], cols: 2 },
+    'Anual':      { labels: ['Ejercicio 2026'], cols: 1 },
+  };
+
+  // Máximo 2 indicadores por frecuencia para esta vista de enlace
+  function getDisplayIndicators() {
+    var freqCount = {};
+    var result = [];
+    ACTIVIDADES_ENLACE.forEach(function(a) {
+      var f = a.frecuenciaMedicion || 'Mensual';
+      if (!freqCount[f]) freqCount[f] = 0;
+      if (freqCount[f] < 2) { freqCount[f]++; result.push(a); }
+    });
+    return result;
+  }
+
+  // ── Estado ──────────────────────────────────────────────────────────────────
+  const ALL = getDisplayIndicators();
+  const META = {};
+  const CONFIGURADOS = new Set();
+  let CHIP = 'todos';
+  let activeIndicatorId = null;
+
+  ALL.forEach(function(a) {
+    var pDef = PERIODOS[a.frecuenciaMedicion] || PERIODOS['Mensual'];
+    META[a.id] = {
+      lineaBase: a.lineaBase != null ? String(a.lineaBase) : '',
+      metaAnual: a.metaAnual != null ? String(a.metaAnual) : '',
+      periodos:  Array(pDef.labels.length).fill(''),
+    };
+  });
+
+  // ── Helpers ─────────────────────────────────────────────────────────────────
+  const NIVEL_LABELS = {
+    'Fin':        { label: 'Fin',        cls: 'nivel-fin' },
+    'Propósito':  { label: 'Propósito',  cls: 'nivel-proposito' },
+    'Componente': { label: 'Componente', cls: 'nivel-componente' },
+    'Actividad':  { label: 'Actividad',  cls: 'nivel-actividad' },
+  };
+
+  function nivelBadge(nivel) {
+    var n = NIVEL_LABELS[nivel] || { label: nivel, cls: 'nivel-actividad' };
+    return '<span class="nivel-badge ' + n.cls + '">' + n.label + '</span>';
+  }
+
+  var _toastTimer;
+  function showToast(msg) {
+    document.getElementById('toastMsg').textContent = msg;
+    var t = document.getElementById('toast');
+    t.classList.add('show');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(function() { t.classList.remove('show'); }, 3200);
+  }
+
+  // ── Lista ──────────────────────────────────────────────────────────────────
+  function getFiltered() {
+    var q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+    var nivel = document.getElementById('filterNivel').value;
+    return ALL.filter(function(a) {
+      if (CHIP === 'pendiente'   &&  CONFIGURADOS.has(a.id)) return false;
+      if (CHIP === 'configurado' && !CONFIGURADOS.has(a.id)) return false;
+      if (nivel && a.nivel !== nivel) return false;
+      if (q && !((a.id + ' ' + a.nombreIndicador).toLowerCase().includes(q))) return false;
+      return true;
+    });
+  }
+
+  function updateCounts() {
+    var done = CONFIGURADOS.size;
+    var pend = ALL.length - done;
+    document.getElementById('cntTodos').textContent      = ALL.length;
+    document.getElementById('cntPendiente').textContent  = pend;
+    document.getElementById('cntConfigurado').textContent = done;
+    document.getElementById('statsRow').innerHTML =
+      '<div class="stat-chip"><div><div class="stat-num">' + ALL.length + '</div><div class="stat-lbl">Indicadores asignados</div></div></div>' +
+      '<div class="stat-chip green"><div><div class="stat-num">' + done + '</div><div class="stat-lbl">Con metas configuradas</div></div></div>' +
+      '<div class="stat-chip amber"><div><div class="stat-num">' + pend + '</div><div class="stat-lbl">Pendientes</div></div></div>';
+  }
+
+  function setChip(el) {
+    document.querySelectorAll('.chip').forEach(function(c) { c.classList.remove('active'); });
+    el.classList.add('active');
+    CHIP = el.dataset.chip;
+    renderTable();
+  }
+
+  function renderTable() {
+    updateCounts();
+    var rows = getFiltered();
+    document.getElementById('resultsCount').textContent =
+      rows.length === ALL.length ? '' : rows.length + ' de ' + ALL.length + ' indicadores';
+
+    if (!rows.length) {
+      document.getElementById('tableBody').innerHTML =
+        '<tr><td colspan="5"><div class="empty-state">' +
+        '<svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>' +
+        '<p>No hay indicadores que coincidan</p></div></td></tr>';
+      return;
+    }
+
+    document.getElementById('tableBody').innerHTML = rows.map(function(a) {
+      var cfg = CONFIGURADOS.has(a.id);
+      return '<tr>' +
+        '<td class="td-ind">' +
+          '<div class="ind-id">' + a.id + '</div>' +
+          '<div class="ind-nombre">' + a.nombreIndicador + '</div>' +
+        '</td>' +
+        '<td>' + nivelBadge(a.nivel) + '</td>' +
+        '<td><span style="font-size:12px;color:var(--color-text-secondary)">' + (a.frecuenciaMedicion || '—') + '</span></td>' +
+        '<td><span class="cfg-badge ' + (cfg ? 'configurado' : 'pendiente') + '">' +
+          (cfg ? '✓ Configurado' : 'Pendiente') + '</span></td>' +
+        '<td style="text-align:right">' +
+          '<button class="btn-cfg ' + (cfg ? 'done' : '') + '" onclick="openDrawer(\'' + a.id + '\')">' +
+            (cfg ? 'Revisar' : 'Configurar') +
+            ' <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>' +
+          '</button>' +
+        '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  // ── Modal ────────────────────────────────────────────────────────────────────
+  function openDrawer(id) {
+    var act = ALL.find(function(a) { return a.id === id; });
+    if (!act) return;
+    activeIndicatorId = id;
+    if (!META[id]) {
+      var pDef = PERIODOS[act.frecuenciaMedicion] || PERIODOS['Mensual'];
+      META[id] = { lineaBase: '', metaAnual: '', periodos: Array(pDef.labels.length).fill('') };
+    }
+    document.getElementById('mhId').textContent   = act.id;
+    document.getElementById('mhName').textContent = act.nombreIndicador;
+    document.getElementById('mhMeta').innerHTML   =
+      nivelBadge(act.nivel) +
+      '<span class="mh-gerencia">' + (act.unidadResponsable || act.gerencia || '') + '</span>' +
+      '<span class="mh-gerencia">·</span>' +
+      '<span class="mh-gerencia">' + (act.frecuenciaMedicion || '') + '</span>';
+    document.getElementById('adminInfoPanel').innerHTML = buildAdminPanel(act);
+    document.getElementById('metaFormPanel').innerHTML  = buildMetaPanel(act, META[id]);
+    document.getElementById('cfgModal').classList.add('open');
+  }
+
+  function buildAdminPanel(act) {
+    var LOCK = '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="11" height="11"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>';
+    var html = '<div class="readonly-badge">' + LOCK + ' Configurado por Admin</div>';
+    html += '<div style="margin-bottom:10px"><p class="info-label">Nombre del indicador</p>' +
+            '<p class="info-value" style="font-weight:600;line-height:1.4">' + act.nombreIndicador + '</p></div>';
+    html += '<div class="info-divider"></div>';
+    html += '<div class="info-row">' +
+              '<div class="info-item"><p class="info-label">Nivel MIR</p><p class="info-value">' + nivelBadge(act.nivel) + '</p></div>' +
+              '<div class="info-item"><p class="info-label">Unidad responsable</p><p class="info-value">' + (act.unidadResponsable || act.gerencia || '—') + '</p></div>' +
+            '</div>';
+    html += '<div class="info-row">' +
+              '<div class="info-item"><p class="info-label">Frecuencia</p><p class="info-value">' + (act.frecuenciaMedicion || '—') + '</p></div>' +
+              '<div class="info-item"><p class="info-label">Unidad de medida</p><p class="info-value">' + (act.unidadMedida || '—') + '</p></div>' +
+            '</div>';
+    html += '<div class="info-row">' +
+              '<div class="info-item"><p class="info-label">Tipo</p><p class="info-value">' + (act.acumulable ? 'Acumulable' : 'No acumulable') + '</p></div>' +
+              '<div class="info-item"><p class="info-label">Cálculo</p><p class="info-value">' + (act.tieneDenominador ? 'Fracción' : 'Valor directo') + '</p></div>' +
+            '</div>';
+    if (act.tieneDenominador) {
+      html += '<div class="info-row">' +
+                '<div class="info-item"><p class="info-label">Numerador</p><p class="info-value">' + (act.numerador || '—') + '</p></div>' +
+                '<div class="info-item"><p class="info-label">Denominador</p><p class="info-value">' + (act.denominador || '—') + '</p></div>' +
+              '</div>';
+    }
+    if (act.metodoCalculo) {
+      html += '<div class="info-divider"></div>' +
+              '<div style="margin-bottom:10px"><p class="info-label">Fórmula</p>' +
+              '<p class="info-value" style="font-family:monospace;font-size:12px;background:#F3F4F6;padding:5px 10px;border-radius:6px;display:inline-block">' + act.metodoCalculo + '</p></div>';
+    }
+    if (act.medioVerificacion) {
+      html += '<div style="margin-bottom:10px"><p class="info-label">Medio de verificación</p><p class="info-value">' + act.medioVerificacion + '</p></div>';
+    }
+    if (act.resumenNarrativo) {
+      html += '<div class="info-divider"></div>' +
+              '<div><p class="info-label">Descripción</p>' +
+              '<p class="info-value" style="font-size:12px;color:var(--color-text-secondary);line-height:1.6">' + act.resumenNarrativo + '</p></div>';
+    }
+    return html;
+  }
+
+  function buildMetaPanel(act, meta) {
+    var pDef = PERIODOS[act.frecuenciaMedicion || 'Mensual'] || PERIODOS['Mensual'];
+    var periodInputs = pDef.labels.map(function(lbl, i) {
+      return '<div class="period-cell">' +
+        '<label>' + lbl + '</label>' +
+        '<input type="text" value="' + ((meta.periodos && meta.periodos[i]) || '') + '"' +
+        ' oninput="onMetaChange(\'periodos\', this.value, ' + i + ')" placeholder="—">' +
+        '</div>';
+    }).join('');
+
+    return '<div class="form-group" style="margin-bottom:14px">' +
+        '<label class="form-label" style="margin-bottom:4px">Línea base ' +
+        '<span style="font-weight:400;font-size:11px;color:var(--color-text-secondary);text-transform:none">(valor de referencia inicial)</span></label>' +
+        '<input class="form-input" type="text" value="' + (meta.lineaBase || '') + '"' +
+        ' oninput="onMetaChange(\'lineaBase\', this.value)" placeholder="Ej. 85%"></div>' +
+      '<div class="form-group" style="margin-bottom:16px">' +
+        '<label class="form-label" style="margin-bottom:4px">Meta anual</label>' +
+        '<input class="form-input" type="text" value="' + (meta.metaAnual || '') + '"' +
+        ' oninput="onMetaChange(\'metaAnual\', this.value)" placeholder="Ej. 95%"></div>' +
+      '<div class="info-divider"></div>' +
+      '<p class="form-label" style="margin-bottom:3px">Distribución por período · ' + (act.frecuenciaMedicion || 'Mensual') + '</p>' +
+      '<p class="form-hint" style="margin-bottom:12px">Valor esperado para cada período de reporte en 2026.</p>' +
+      '<div class="period-grid cols-' + pDef.cols + '">' + periodInputs + '</div>';
+  }
+
+  function onMetaChange(field, value, index) {
+    if (!activeIndicatorId || !META[activeIndicatorId]) return;
+    if (field === 'periodos') {
+      if (!META[activeIndicatorId].periodos) META[activeIndicatorId].periodos = [];
+      META[activeIndicatorId].periodos[index] = value;
+    } else {
+      META[activeIndicatorId][field] = value;
+    }
+  }
+
+  function saveMetas() {
+    if (!activeIndicatorId) return;
+    CONFIGURADOS.add(activeIndicatorId);
+    closeDrawer();
+    showToast('Metas guardadas correctamente');
+    renderTable();
+  }
+
+  function closeDrawer() {
+    document.getElementById('cfgModal').classList.remove('open');
+    activeIndicatorId = null;
+  }
+
+  // ── Init ─────────────────────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', function() {
+    renderTable();
+  });
+</script>
+</body>
+</html>

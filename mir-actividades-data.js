@@ -4032,6 +4032,9 @@ function getActividadesPorGerencia(gerencia) {
 function getActividadesPorNivel(nivel) {
   return ACTIVIDADES_ENLACE.filter(a => a.nivel === nivel);
 }
+function getActividad(id) {
+  return ACTIVIDADES_ENLACE.find(a => a.id === id) || null;
+}
 
 // Campos computados de compatibilidad — derivados de los datos reales del Excel
 ACTIVIDADES_ENLACE.forEach(function(a) {
