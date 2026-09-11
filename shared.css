@@ -744,6 +744,28 @@ body {
   line-height: 1.6;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   CALLOUT
+   Bloque informativo inline. El estado se comunica mediante fondo tintado +
+   texto semántico. NUNCA usar border-left-color para indicar estado en este
+   ni en ningún otro componente — usar estado-badge o background tint.
+   ───────────────────────────────────────────────────────────────────────────── */
+.callout {
+  border-radius: var(--radius-input);
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.callout.info    { background: var(--color-info-tint);    color: var(--color-info); }
+.callout.success { background: var(--color-success-tint); color: var(--color-success); }
+.callout.warning { background: var(--color-warning-tint); color: var(--color-warning); }
+.callout.error   { background: var(--color-danger-tint);  color: var(--color-danger); }
+.callout strong  { font-weight: 700; }
+
+/* Nota de diseño: ningún contenedor, card ni componente debe usar
+   border-left-color como indicador de estado. Usar estado-badge o
+   background tint semántico (--color-*-tint). */
+
 /* Pulse animation (badges de notificación) */
 @keyframes badgePulse {
   0%, 100% { opacity: 1; transform: scale(1); }
