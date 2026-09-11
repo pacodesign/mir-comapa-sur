@@ -11,10 +11,6 @@
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
-/* ── Sidebar ── */
-    .sidebar {width:148px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:stretch;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
-/* ── Layout ── */
-    .app-wrapper {display:flex;flex:1;margin-left:148px;}
 .ger-card {background:var(--color-bg);border-radius:var(--radius-card);padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);grid-column:1/-1;}
 .ger-card-title {font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
 .rp-user {display:flex;align-items:center;gap:10px;margin-bottom:16px;}
@@ -29,11 +25,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .rp-bar {height:5px;background:var(--color-border);border-radius:3px;overflow:hidden;}
 .rp-bar-fill {height:100%;border-radius:3px;}
 .rp-ger-stat {display:flex;justify-content:space-between;font-size:10px;color:var(--color-text-secondary);margin-top:3px;}
-/* ── Page header ── */
-    .page-header {display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;}
 .header-actions {display:flex;gap:8px;align-items:center;flex-shrink:0;}
-/* ── Buttons ── */
-    .btn-primary {background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
 .btn-danger-soft {background:var(--color-danger-tint);color:var(--color-danger);border:1px solid #FECACA;border-radius:var(--radius-btn);padding:8px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s;}
 .btn-danger-soft:hover {background:var(--color-danger-tint);}
 .btn-success-soft {background:var(--color-success-tint);color:var(--color-success-dark);border:1px solid #BBF7D0;border-radius:var(--radius-btn);padding:8px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s;}
@@ -61,8 +53,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .filter-select:focus {border-color:var(--color-primary);}
 .filter-clear {font-size:11px;font-weight:600;color:var(--color-text-secondary);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:var(--radius-btn);}
 .filter-clear:hover {background:var(--color-surface);color:var(--color-text-primary);}
-/* ── Table (solicitudes panel) ── */
-    .table-wrap {background:white;border-radius:var(--radius-card);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:12px;}
 table {width:100%;border-collapse:collapse;}
 thead th {background:var(--color-neutral-50);border-bottom:1px solid var(--color-border);padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
 tbody tr {border-bottom:1px solid var(--color-neutral-100);transition:background .1s;}
@@ -113,8 +103,6 @@ td {padding:10px 14px;vertical-align:middle;}
 .person-role {font-size:10px;color:var(--color-text-secondary);}
 /* ── Gerencia pill ── */
     .ger-pill {font-size:10px;font-weight:700;padding:2px 9px;border-radius:var(--radius-btn);white-space:nowrap;}
-/* ── Estado badge ── */
-    .estado-badge {font-size:10px;font-weight:700;padding:3px 10px;border-radius:var(--radius-btn);white-space:nowrap;display:inline-block;}
 /* ── Row actions ── */
     .row-actions {display:flex;gap:4px;}
 .action-btn {height:30px;padding:0 10px;border-radius:8px;border:1px solid var(--color-border);background:white;display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:11px;font-weight:600;color:var(--color-text-secondary);transition:all .1s;font-family:inherit;white-space:nowrap;}
@@ -122,8 +110,6 @@ td {padding:10px 14px;vertical-align:middle;}
 .action-btn svg {width:13px;height:13px;flex-shrink:0;}
 .action-btn.approve:hover {background:var(--color-success-tint);border-color:#BBF7D0;color:var(--color-success-dark);}
 .action-btn.reject:hover {background:var(--color-danger-tint);border-color:#FECACA;color:var(--color-danger);}
-/* ── Empty state ── */
-    .empty-state {padding:48px 24px;text-align:center;}
 /* ── Pagination ── */
     .pagination-wrap {display:flex;align-items:center;justify-content:space-between;padding:0 4px 4px;}
 .pagination-info {font-size:12px;color:var(--color-text-secondary);}
@@ -132,15 +118,11 @@ td {padding:10px 14px;vertical-align:middle;}
 .page-btn:hover:not(:disabled) {background:var(--color-surface);}
 .page-btn.active {background:var(--color-primary);border-color:var(--color-primary);color:white;}
 .page-btn:disabled {opacity:.35;cursor:not-allowed;}
-/* ── MODAL ── */
-    .modal-overlay {position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
 .modal-subtitle {font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
 .modal-tabs {display:flex;gap:0;margin:16px 24px 0;border-bottom:1px solid var(--color-border);}
 .modal-tab {font-size:12px;font-weight:600;padding:9px 16px;border:none;background:none;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;transition:color .1s,border-color .1s;}
 .modal-tab.active {color:var(--color-primary);border-bottom-color:var(--color-primary);}
 .modal-body {flex:1;overflow-y:auto;padding:20px 24px;}
-/* ── Form ── */
-    .form-group {margin-bottom:16px;}
 .form-row {display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .req {color:var(--color-primary);}
 .form-section-label {font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin:18px 0 12px;}
@@ -326,7 +308,7 @@ td {padding:10px 14px;vertical-align:middle;}
         <p class="page-subtitle">Control del ciclo de vida de configuración de metas — Ejercicio 2026</p>
       </div>
       <div class="header-actions">
-        <button class="btn-primary" onclick="openNuevo()">
+        <button class="btn btn-primary" onclick="openNuevo()">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
           Nuevo indicador
         </button>
@@ -507,7 +489,7 @@ td {padding:10px 14px;vertical-align:middle;}
             <textarea class="form-textarea" id="fDesc" placeholder="Describe qué mide este indicador, su relevancia y cómo se interpreta el resultado…"></textarea>
           </div>
           <div style="text-align:right;margin-top:16px;">
-            <button class="btn-primary sm" onclick="continueStep(1)">Continuar →</button>
+            <button class="btn btn-primary sm" onclick="continueStep(1)">Continuar →</button>
           </div>
         </div>
       </div>
@@ -587,7 +569,7 @@ td {padding:10px 14px;vertical-align:middle;}
                    onchange="if(this.files[0])onMvArchivoSeleccionado(this.files[0])">
           </div>
           <div style="text-align:right;margin-top:16px;">
-            <button class="btn-primary sm" onclick="continueStep(2)">Continuar →</button>
+            <button class="btn btn-primary sm" onclick="continueStep(2)">Continuar →</button>
           </div>
         </div>
       </div>
@@ -660,8 +642,8 @@ td {padding:10px 14px;vertical-align:middle;}
 
     </div>
     <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modalNuevo')">Cancelar</button>
-      <button class="btn-primary" onclick="guardarNuevo()">
+      <button class="btn btn-secondary" onclick="closeModal('modalNuevo')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarNuevo()">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
         Guardar indicador
       </button>
@@ -1083,7 +1065,7 @@ function openDetalle(id){
   document.getElementById('mDetGer').textContent=ind.gerencia;
   document.getElementById('mDetGer').style.cssText='background:'+gc.bg+';color:'+gc.color+';font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px;';
   renderDetTab(0,ind);
-  document.getElementById('mDetFooter').innerHTML='<button class="btn-secondary" onclick="closeModal(\'modalDetalle\')">Cerrar</button>';
+  document.getElementById('mDetFooter').innerHTML='<button class="btn btn-secondary" onclick="closeModal(\'modalDetalle\')">Cerrar</button>';
   document.getElementById('modalDetalle').classList.add('open');
 }
 
@@ -1256,15 +1238,15 @@ function openSolicitud(id){
     right+='<div class="callout warning" style="margin-bottom:14px"><strong>Acción requerida</strong>Aprueba o rechaza el cambio. Esta decisión es final y no puede modificarse.</div>';
     right+='<div class="form-group"><label class="comment-label">Comentario <span class="req">*</span><span style="font-weight:400;color:var(--color-text-secondary)"> — obligatorio al rechazar</span></label>';
     right+='<textarea class="comment-textarea" id="solComment" placeholder="Escribe el motivo de tu decisión…"></textarea></div>';
-    footer='<button class="btn-secondary" onclick="closeModal(\'modalSolicitud\')">Cancelar</button>'+
+    footer='<button class="btn btn-secondary" onclick="closeModal(\'modalSolicitud\')">Cancelar</button>'+
            '<button class="btn-action red" onclick="resolverSolicitud(\'rechazada\')">Rechazar solicitud</button>'+
            '<button class="btn-action green" onclick="resolverSolicitud(\'aprobada\')">Aprobar solicitud</button>';
   } else if(sol.estado==='aprobada'){
     right+='<div class="callout success"><strong>Solicitud aprobada — '+sol.fechaResolucion+'</strong>'+sol.comentarioAdmin+'</div>';
-    footer='<button class="btn-secondary" onclick="closeModal(\'modalSolicitud\')">Cerrar</button>';
+    footer='<button class="btn btn-secondary" onclick="closeModal(\'modalSolicitud\')">Cerrar</button>';
   } else {
     right+='<div class="callout error"><strong>Solicitud rechazada — '+sol.fechaResolucion+'</strong>'+sol.comentarioAdmin+'</div>';
-    footer='<button class="btn-secondary" onclick="closeModal(\'modalSolicitud\')">Cerrar</button>';
+    footer='<button class="btn btn-secondary" onclick="closeModal(\'modalSolicitud\')">Cerrar</button>';
   }
 
   document.getElementById('mSolLeft').innerHTML=left;

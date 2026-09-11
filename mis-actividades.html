@@ -14,12 +14,6 @@
   <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-surface); color: var(--color-text-primary); display: flex; min-height: 100vh; }
-/* SIDEBAR */
-    .sidebar { width: 148px; background: var(--color-bg); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: stretch; padding: 16px 0; gap: 4px; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
-/* LAYOUT */
-    .app-wrapper { display: flex; flex: 1; margin-left:148px; flex-direction: column; }
-/* PAGE HEADER */
-    .page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
 /* TYPE SWITCHER */
     .tipo-switcher { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
 .tipo-tabs { display: inline-flex; background: var(--color-border); border-radius: 12px; padding: 3px; gap: 2px; }
@@ -28,8 +22,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .tipo-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; margin-left: 6px; }
 .tipo-tag.mir { background: var(--color-info-tint); color: var(--color-info); }
 .tipo-tag.ger { background: var(--color-success-tint); color: var(--color-success-dark); }
-/* BUTTONS */
-    .btn-primary { background: var(--color-primary); color: white; border: none; border-radius: var(--radius-btn); padding: 9px 18px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background .15s; }
 /* FILTER BAR */
     .filter-bar { background: var(--color-bg); border-radius: var(--radius-card); padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); display: flex; flex-direction: column; gap: 12px; }
 .filter-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
@@ -43,8 +35,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
     .results-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .results-count { font-size: 12px; color: var(--color-text-secondary); }
 .results-count strong { color: var(--color-text-primary); }
-/* TABLE */
-    .table-wrap { background: var(--color-bg); border-radius: var(--radius-card); box-shadow: 0 1px 3px rgba(0,0,0,.06); overflow: hidden; }
 table { width: 100%; border-collapse: collapse; }
 thead th { padding: 11px 14px; text-align: left; font-size: 10px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--color-border); background: var(--color-surface); white-space: nowrap; }
 thead th.sortable { cursor: pointer; user-select: none; }
@@ -72,15 +62,11 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
 .fecha-dias.pasado { color: var(--color-text-secondary); }
 .td-upd { font-size: 11px; color: var(--color-text-secondary); white-space: nowrap; }
 .td-action { text-align: right; white-space: nowrap; }
-/* NIVEL / TIPO BADGE */
-    .nivel-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
 .nivel-fin { background: var(--color-corregido-tint); color: var(--color-corregido); }
 .nivel-proposito { background: var(--color-info-tint); color: var(--color-info); }
 .nivel-componente { background: var(--color-success-tint); color: var(--color-info); }
 .nivel-actividad { background: var(--color-neutral-100); color: var(--color-text-primary); }
 .nivel-gerencial { background: var(--color-success-tint); color: var(--color-success-dark); }
-/* ESTADO BADGE */
-    .estado-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
 .borrador { background: var(--color-neutral-100); color: var(--color-text-secondary); }
 .borrador::before { background: var(--color-text-muted); }
 .pendiente_carga { background: var(--color-warning-tint); color: var(--color-warning-dark); }
@@ -110,8 +96,6 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
 .btn-act.neutral { background: var(--color-surface); color: var(--color-text-primary); border: 1px solid var(--color-border); }
 .btn-act.success { background: var(--color-success-tint); color: var(--color-success-dark); }
 .btn-act.danger { background: var(--color-danger-tint); color: var(--color-danger); }
-/* EMPTY STATE */
-    .empty-state { text-align: center; padding: 56px 24px; }
 .empty-title { font-size: 14px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px; }
 .empty-sub { font-size: 13px; color: var(--color-text-secondary); }
 /* FRECUENCIA */
@@ -212,7 +196,7 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
         <h1 class="page-title">Mis indicadores</h1>
         <p class="page-subtitle" id="pageSubtitle">Gerencia Comercial · Período 2026 · Indicadores asignados</p>
       </div>
-      <button class="btn-primary" onclick="window.location.href='dashboard-enlace.html'">
+      <button class="btn btn-primary" onclick="window.location.href='dashboard-enlace.html'">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
         <span class="nav-label">Configuración</span>
         Volver al dashboard

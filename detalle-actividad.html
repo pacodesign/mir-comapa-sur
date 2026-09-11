@@ -13,10 +13,6 @@
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
-/* SIDEBAR */
-    .sidebar {width: 148px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items: stretch;padding: 16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
-/* LAYOUT */
-    .app-wrapper {display:flex;flex:1; margin-left:148px;}
 .detail-cols {display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:16px;align-items:start;}
 .detail-col {display:flex;flex-direction:column;}
 .detail-col .section-card:last-child {margin-bottom:0;}
@@ -39,8 +35,6 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
 .hc-meta-item {display:flex;align-items:center;gap:5px;font-size:12px;color:var(--color-text-secondary);}
 .hc-meta-item svg {width:14px;height:14px;}
 .hc-meta-item strong {color:var(--color-text-primary);font-weight:600;}
-/* ESTADO BADGE */
-    .estado-badge {display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
 .borrador {background:var(--color-neutral-100);color:var(--color-text-secondary);}
 .borrador::before {background:var(--color-text-muted);}
 .pendiente_carga {background:var(--color-warning-tint);color:var(--color-border);}
@@ -61,14 +55,10 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
 .cerrado::before { background: var(--color-success); }
 .vencido {background:var(--color-danger-tint);color:var(--color-danger);}
 .vencido::before {background:var(--color-danger);}
-/* NIVEL */
-    .nivel-badge {display:inline-flex;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;}
 .nivel-fin {background:var(--color-corregido-tint);color:var(--color-corregido);}
 .nivel-proposito {background:var(--color-info-tint);color:var(--color-info);}
 .nivel-componente {background:var(--color-success-tint);color:var(--color-info);}
 .nivel-actividad {background:var(--color-neutral-100);color:var(--color-text-primary);}
-/* SECTIONS */
-    .section-card {background:var(--color-bg);border-radius:var(--radius-card);margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;}
 .section-header {display:flex;align-items:center;justify-content:space-between;padding:16px 22px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:background .12s;}
 .section-header:hover {background:var(--color-neutral-50);}
 .section-header.open {border-bottom-color:var(--color-border);}
@@ -269,8 +259,6 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
 .info-box.info-blue .ib-sub {color:var(--color-info);}
 .info-box.info-green .ib-title {color:var(--color-success-dark);}
 .info-box.info-green .ib-sub {color:var(--color-success);}
-/* MODAL */
-    .modal-overlay {position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000;}
 
     @keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(8px);}to{opacity:1;transform:none;}}.modal-icon {width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
 .modal-icon.green {background:var(--color-success-tint);}

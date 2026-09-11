@@ -13,10 +13,6 @@
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
-/* SIDEBAR */
-    .sidebar {width: 148px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items: stretch;padding: 16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
-/* LAYOUT */
-    .app-wrapper {display:flex;flex:1; margin-left:148px;}
 /* WELCOME */
     .welcome-row {display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
 .welcome-left h1 {font-size:22px;font-weight:700;margin-bottom:2px;}
@@ -40,8 +36,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .kpi-sub {font-size:11px;color:var(--color-text-secondary);}
 /* GRID 2 COL */
     .two-col {display:grid;grid-template-columns:1fr 340px;gap:16px;margin-bottom:16px;}
-/* SECTION CARD */
-    .section-card {background:var(--color-bg);border-radius:var(--radius-card);box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;}
 .sc-link {font-size:12px;font-weight:600;color:var(--color-info);text-decoration:none;}
 .sc-link:hover {text-decoration:underline;}
 /* PENDIENTES TABLE */
@@ -72,8 +66,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .btn-revisar.purple {background:var(--color-corregido-tint);color:var(--color-corregido);}
 .btn-revisar:hover {opacity:.80;}
 .btn-revisar svg {width:12px;height:12px;}
-/* ESTADO BADGE */
-    .estado-badge {display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:700;white-space:nowrap;}
 .corregido {background:var(--color-corregido-tint);color:var(--color-corregido);}
 .corregido::before {background:var(--color-corregido);}
 .enviado_revision {background:var(--color-info-tint);color:var(--color-info);}
@@ -120,8 +112,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .btn-cta.primary {background:var(--color-info);color:white;}
 .btn-cta.secondary {background:var(--color-bg);color:var(--color-text-primary);border:1px solid var(--color-border);}
 .btn-cta svg {width:16px;height:16px;}
-/* NIVEL */
-    .nivel-badge {display:inline-flex;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;}
 .nivel-fin {background:var(--color-corregido-tint);color:var(--color-corregido);}
 .nivel-proposito {background:var(--color-info-tint);color:var(--color-info);}
 .nivel-componente {background:var(--color-success-tint);color:var(--color-info);}

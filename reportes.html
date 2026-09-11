@@ -13,10 +13,6 @@
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
-/* ── App sidebar ── */
-    .sidebar {width:148px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:stretch;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
-/* ── App wrapper ── */
-    .app-wrapper {display:flex;flex:1;margin-left:148px;}
 /* ── Secondary nav ── */
     .sec-nav {width:220px;flex-shrink:0;background:var(--color-bg);border-right:1px solid var(--color-border);padding:24px 12px;display:flex;flex-direction:column;gap:0;min-height:100vh;}
 .sec-nav-title {font-size:11px;font-weight:700;color:var(--color-primary);text-transform:uppercase;letter-spacing:.08em;padding:0 8px;margin-bottom:16px;}
@@ -28,12 +24,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .sec-nav-item svg {width:15px;height:15px;flex-shrink:0;opacity:.7;}
 .sec-nav-item.active svg {opacity:1;}
 .sec-nav-soon {font-size:9px;font-weight:600;padding:2px 6px;border-radius:999px;background:var(--color-neutral-100);color:var(--color-text-muted);margin-left:auto;flex-shrink:0;}
-/* ── Main content ── */
-    .main-content {flex:1;padding:28px 32px;min-width:0;}
-/* ── Page header ── */
-    .page-header {display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px;}
-/* ── Buttons ── */
-    .btn-primary {background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
 .btn-outline {background:white;color:var(--color-text-primary);border:1px solid var(--color-border);border-radius:var(--radius-btn);padding:8px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;}
 .btn-outline:hover {border-color:var(--color-neutral-300);background:var(--color-neutral-50);}
 .btn-outline svg {width:13px;height:13px;}
@@ -214,7 +204,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             <option value="2026-05" selected>Mayo 2026</option>
             <option value="2026-06">Junio 2026</option>
           </select>
-          <button class="btn-secondary" onclick="toast('Generando reporte…')">
+          <button class="btn btn-secondary" onclick="toast('Generando reporte…')">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
             Exportar PDF
           </button>
@@ -303,7 +293,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           <h1 class="page-title">Estado de indicadores</h1>
           <p class="page-subtitle">Resumen del estatus de captura y validación de todos los indicadores</p>
         </div>
-        <button class="btn-secondary" onclick="toast('Generando reporte…')">
+        <button class="btn btn-secondary" onclick="toast('Generando reporte…')">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
           Exportar
         </button>
@@ -366,7 +356,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             <option>Gerencia Administrativa</option>
             <option>Gerencia de Planeación Estratégica</option>
           </select>
-          <button class="btn-secondary" onclick="toast('Generando reporte…')">
+          <button class="btn btn-secondary" onclick="toast('Generando reporte…')">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
             Exportar
           </button>
@@ -491,7 +481,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             <option value="Gerencia Administrativa">Gerencia Administrativa</option>
             <option value="Gerencia de Planeación Estratégica">Gerencia de Planeación Estratégica</option>
           </select>
-          <button class="btn-secondary" onclick="toast('Generando reporte…')">
+          <button class="btn btn-secondary" onclick="toast('Generando reporte…')">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
             Exportar
           </button>
@@ -1514,6 +1504,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 @media(max-width:900px) {
 .gpe-ger-grid {grid-template-columns:1fr;}
 }
+
 .gpe-ger-card {background:var(--color-bg);border:1px solid var(--color-border);border-radius:16px;overflow:hidden;}
 .gpe-ger-hdr {display:flex;align-items:center;gap:10px;padding:14px 18px 10px;}
 .gpe-ger-dot {width:9px;height:9px;border-radius:50%;flex-shrink:0;}

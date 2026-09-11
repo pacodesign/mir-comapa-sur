@@ -14,10 +14,6 @@
   <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-surface); color: var(--color-text-primary); display: flex; min-height: 100vh; }
-/* ── SIDEBAR ── */
-    .sidebar { width: 148px; background: var(--color-bg); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: stretch; padding: 16px 0; gap: 4px; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
-/* ── MAIN ── */
-    .app-wrapper { display: flex; flex: 1; margin-left: 148px; }
 /* ── BACK & BREADCRUMB ── */
     .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--color-text-secondary); text-decoration: none; margin-bottom: 14px; transition: color 0.15s; }
 .back-link:hover { color: var(--color-text-primary); }
@@ -42,8 +38,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 /* ── KPI ROW ── */
     .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap); margin-bottom: 24px; }
 .kpi-sub { font-size: 11px; color: var(--color-text-secondary); line-height: 1.4; }
-/* ── SECTION LABEL ── */
-    .section-label { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
 /* ── VALIDAR SECTION ── */
     .validar-section { margin-bottom: 24px; }
 .validar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
@@ -122,8 +116,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .badge-purple::before { background: var(--color-corregido); }
 .badge-gray { background: var(--color-neutral-100); color: var(--color-text-secondary); }
 .badge-gray::before { background: var(--color-text-muted); }
-/* ── NIVEL BADGES ── */
-    .nivel-badge { display: inline-flex; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-btn); white-space: nowrap; }
 .nivel-F { background: var(--color-corregido-tint); color: var(--color-corregido); }
 .nivel-P { background: var(--color-info-tint); color: var(--color-info); }
 .nivel-C { background: var(--color-success-tint); color: var(--color-info); }
@@ -140,8 +132,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
     .toast { position: fixed; bottom: 24px; right: 24px; background: #1A1A1A; color: white; padding: 12px 18px; border-radius: 12px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.2); transform: translateY(80px); opacity: 0; transition: all .3s ease; z-index: 2000; pointer-events: none; }
 .toast.show { transform: none; opacity: 1; }
 .toast svg { width: 18px; height: 18px; color: var(--color-success); }
-/* ── MODAL ── */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; }
 
     @keyframes modalIn { from { opacity:0; transform:scale(.96) translateY(8px); } to { opacity:1; transform:none; } }.modal-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--color-success-tint); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
 .modal-icon svg { width: 22px; height: 22px; color: var(--color-success); }
@@ -161,6 +151,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 @media (max-width: 1100px) {
 .kpi-row { grid-template-columns: repeat(3, 1fr); }
 }
+
 @media (max-width: 768px) {
 .kpi-row { grid-template-columns: repeat(2, 1fr); }
 }

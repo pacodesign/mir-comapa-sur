@@ -12,10 +12,6 @@
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-surface); color: var(--color-text-primary); display: flex; min-height: 100vh; }
-/* ── SIDEBAR ── */
-.sidebar { width: 148px; background: var(--color-bg); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: stretch; padding: 16px 0; gap: 4px; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
-/* ── LAYOUT ── */
-.app-wrapper { display: flex; flex: 1; margin-left:148px; }
 /* ── BREADCRUMB ── */
 .breadcrumb { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
 .breadcrumb a { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-decoration: none; }
@@ -47,12 +43,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .report-layout { display: grid; grid-template-columns: 1fr 300px; gap: var(--gap); align-items: start; }
 .report-main { min-width: 0; display: flex; flex-direction: column; gap: var(--gap); }
 .report-aside { display: flex; flex-direction: column; gap: var(--gap); position: sticky; top: 24px; }
-/* ── CARDS ── */
-.section-card { background: var(--color-bg); border-radius: var(--radius-card); padding: var(--pad-card); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
 .section-title { font-size: 13px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 .section-title svg { width: 16px; height: 16px; color: var(--color-primary); flex-shrink: 0; }
-/* ── BUTTONS ── */
-.btn-primary { background: var(--color-accent); color: white; border: none; border-radius: var(--radius-btn); padding: 9px 18px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s; white-space: nowrap; }
 .btn-outline-purple { background: transparent; color: var(--color-primary); border: 1.5px solid var(--color-primary); border-radius: var(--radius-btn); padding: 9px 16px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
 .btn-outline-purple:hover { background: var(--color-primary-tint); }
 .btn-link { background: none; border: none; color: var(--color-primary); font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; padding: 4px 0; }
@@ -186,12 +178,14 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
   .report-layout { grid-template-columns: 1fr; }
   .report-aside { position: static; }
 }
+
 @media (max-width: 860px) {
 .form-grid { grid-template-columns: 1fr; }
 .meta-strip { grid-template-columns: repeat(3, 1fr); }
 .period-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
 .period-meta { margin-left: 0; }
 }
+
 @media (max-width: 640px) {
 .meta-strip { grid-template-columns: 1fr 1fr; }
 .modal-backdrop { padding: 16px 12px; }
@@ -344,7 +338,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
           </div>
           <p class="upload-title">Arrastra el PDF aquí</p>
           <p class="upload-sub">o haz clic para seleccionar el archivo<br>desde tu computadora</p>
-          <button class="btn-secondary" onclick="event.stopPropagation();triggerFileInput()" style="margin:0 auto">
+          <button class="btn btn-secondary" onclick="event.stopPropagation();triggerFileInput()" style="margin:0 auto">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>
             Seleccionar archivo
           </button>
@@ -367,7 +361,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
           </div>
           <p class="upload-error-msg">El archivo no es válido</p>
           <p class="upload-sub">Solo se aceptan archivos en formato PDF.<br>Intenta con otro archivo.</p>
-          <button class="btn-secondary" onclick="event.stopPropagation();triggerFileInput()" style="margin:0 auto">Seleccionar otro archivo</button>
+          <button class="btn btn-secondary" onclick="event.stopPropagation();triggerFileInput()" style="margin:0 auto">Seleccionar otro archivo</button>
         </div>
 
         <!-- STATE: VALIDATED -->
@@ -419,7 +413,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 
     <!-- Modal Footer -->
     <div class="modal-footer">
-      <button class="btn-primary">
+      <button class="btn btn-primary">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg>
         Guardar archivo
       </button>
@@ -427,7 +421,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" /></svg>
         Enviar a revisión
       </button>
-      <button class="btn-ghost" onclick="closeModal()" style="margin-left:auto">Cancelar</button>
+      <button class="btn btn-ghost" onclick="closeModal()" style="margin-left:auto">Cancelar</button>
     </div>
 
   </div><!-- /modal-card -->
@@ -658,7 +652,7 @@ uploadArea.addEventListener('drop', function(e) {
         '</div>' +
         '<p class="mv-required-meta">Fuente: ' + (r.medioVerificacionFuente || '—') + (r.medioVerificacionCount ? ' · ' + r.medioVerificacionCount + ' documento(s) por reporte' : '') + '</p>' +
         '<div class="info-block" style="margin-top:10px"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg><p>Carga el PDF que comprueba el avance reportado para el periodo <strong>Abril 2025</strong>. Sin este documento no se podrá enviar el reporte a revisión.</p></div>' +
-        '<button class="btn-primary" style="margin-top:14px" onclick="openModal()"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>Subir medio de verificación</button>' +
+        '<button class="btn btn-primary" style="margin-top:14px" onclick="openModal()"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>Subir medio de verificación</button>' +
       '</div>' +
     '</div>' +
 
@@ -700,12 +694,12 @@ uploadArea.addEventListener('drop', function(e) {
 
     '<div class="actions-card">' +
       '<p style="font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">Acciones</p>' +
-      '<button class="btn-secondary btn-full-width"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg>Guardar borrador</button>' +
-      '<button class="btn-primary btn-full-width" onclick="openModal()"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>Subir medio de verificación</button>' +
+      '<button class="btn btn-secondary btn-full-width"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg>Guardar borrador</button>' +
+      '<button class="btn btn-primary btn-full-width" onclick="openModal()"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>Subir medio de verificación</button>' +
       '<button class="btn-outline-purple btn-full-width" id="btnEnviar" disabled><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" /></svg>Enviar a revisión</button>' +
       '<p style="font-size:10px;color:var(--color-text-secondary);text-align:center;line-height:1.4">Para enviar a revisión debes capturar los valores y subir el medio de verificación.</p>' +
       '<div class="divider"></div>' +
-      '<button class="btn-ghost btn-full-width" onclick="window.location='consulta-mir.html'"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>Cancelar</button>' +
+      '<button class="btn btn-ghost btn-full-width" onclick="window.location='consulta-mir.html'"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>Cancelar</button>' +
     '</div>' +
 
   '</div>' +

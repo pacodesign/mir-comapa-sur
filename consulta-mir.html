@@ -12,14 +12,6 @@
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-surface); color: var(--color-text-primary); display: flex; min-height: 100vh; }
-/* ── SIDEBAR ── */
-.sidebar { width: 148px; background: var(--color-bg); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: stretch; padding: 16px 0; gap: 4px; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
-/* ── LAYOUT ── */
-.app-wrapper { display: flex; flex: 1; margin-left:148px; }
-/* ── PAGE HEADER ── */
-.page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
-/* ── BUTTONS ── */
-.btn-primary { background: var(--color-accent); color: white; border: none; border-radius: var(--radius-btn); padding: 9px 18px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s; white-space: nowrap; }
 .btn-detail { background: var(--color-surface); color: var(--color-primary); border: none; border-radius: var(--radius-btn); padding: 5px 12px; font-size: 11px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
 .btn-detail:hover { background: var(--color-primary-tint); }
 .btn-clear { background: transparent; color: var(--color-danger); border: none; border-radius: var(--radius-btn); padding: 7px 12px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: background 0.15s; white-space: nowrap; }
@@ -146,17 +138,14 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .breadcrumb a:hover { color: var(--color-primary); }
 .breadcrumb .sep { font-size: 12px; color: var(--color-border); }
 .breadcrumb .current { font-size: 12px; font-weight: 700; color: var(--color-text-primary); }
-/* ── EMPTY STATE ── */
-.empty-state { padding: 56px 24px; text-align: center; }
 /* ── UTILS ── */
 .hidden { display: none !important; }
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   .filter-panel { flex-wrap: wrap; }
   .filter-search { min-width: 200px; }
-  .data-table { font-size: 11px; }
-  .data-table thead th, .data-table tbody td { padding: 9px 10px; }
 }
+
 @media (max-width: 860px) {
 .gerencia-tabs { overflow-x: auto; white-space: nowrap; padding-bottom: 2px; }
 .table-scroll { overflow-x: auto; }
@@ -164,6 +153,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .td-obj { display: none; }
 .td-fuente { display: none; }
 }
+
 @media (max-width: 640px) {
 .view-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
 .filter-panel { gap: 6px; padding: 12px 14px; }
@@ -257,7 +247,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
       <h1 class="page-title">Consulta dinámica de MIR</h1>
       <p class="page-subtitle">Explora la estructura de las Matrices de Indicadores para Resultados por gerencia, nivel, indicador, frecuencia y medio de verificación.</p>
     </div>
-    <button class="btn-primary">
+    <button class="btn btn-primary">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>
       Guía MIR
     </button>
@@ -443,7 +433,7 @@ function hasFilters() {
 function renderTable(rows) {
   const tbody = document.getElementById('tableBody');
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state"><div class="empty-state-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg></div><p>No se encontraron indicadores con los filtros seleccionados.</p><button class="btn-primary" onclick="clearFilters()" style="margin:0 auto">Limpiar filtros</button></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state"><div class="empty-state-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg></div><p>No se encontraron indicadores con los filtros seleccionados.</p><button class="btn btn-primary" onclick="clearFilters()" style="margin:0 auto">Limpiar filtros</button></div></td></tr>`;
     return;
   }
   tbody.innerHTML = rows.map(r => `
@@ -464,7 +454,7 @@ function renderTable(rows) {
 function renderTree(rows) {
   const container = document.getElementById('viewJerarquica');
   if (!rows.length) {
-    container.innerHTML = `<div class="empty-state" style="background:var(--color-bg);border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06)"><p>No se encontraron indicadores con los filtros seleccionados.</p><button class="btn-primary" onclick="clearFilters()" style="margin:0 auto">Limpiar filtros</button></div>`;
+    container.innerHTML = `<div class="empty-state" style="background:var(--color-bg);border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06)"><p>No se encontraron indicadores con los filtros seleccionados.</p><button class="btn btn-primary" onclick="clearFilters()" style="margin:0 auto">Limpiar filtros</button></div>`;
     return;
   }
   const grouped = {};

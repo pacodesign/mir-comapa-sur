@@ -54,8 +54,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .btn-card.warn {background:var(--color-observado-tint);color:var(--color-observado);border:1px solid var(--color-observado-tint);}
 .btn-card:disabled {opacity:.5;cursor:not-allowed;}
 .lock-icon {font-size:12px;}
-/* MODAL */
-    .modal-overlay {position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:16px;}
 .modal-header-top {display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px;}
 .modal-subtitle {font-size:11px;color:var(--color-text-secondary);}
 .modal-meta {display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
@@ -254,7 +252,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     </div>
     <div class="modal-body" id="modalBody"></div>
     <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal()">Cerrar</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>
       <div class="footer-right" id="modalFooterBtns"></div>
     </div>
   </div>
@@ -570,7 +568,7 @@ function openModal(id) {
       ((item.plan.cambioMeta&&item.plan.cambioMeta.fecha)||'2026-07-28')+'</span>';
   } else if (!IS_READONLY) {
     footer = '<button class="btn-draft" onclick="saveDraft()">Guardar borrador</button>'+
-      '<button class="btn-primary" onclick="submitPlan()">'+
+      '<button class="btn btn-primary" onclick="submitPlan()">'+
       '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>'+
       'Enviar para revisión</button>';
   }
@@ -610,7 +608,7 @@ function showMetaChangeForm() {
 
   document.getElementById('modalBody').innerHTML = html;
   document.getElementById('modalFooterBtns').innerHTML =
-    '<button class="btn-primary" onclick="submitMetaChange()">'+
+    '<button class="btn btn-primary" onclick="submitMetaChange()">'+
     '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>'+
     'Enviar solicitud de cambio</button>';
 }

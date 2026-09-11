@@ -13,10 +13,6 @@
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
-/* ── Sidebar ── */
-    .sidebar {width: 148px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items: stretch;padding: 16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
-/* ── Layout ── */
-    .app-wrapper {display:flex;flex:1; margin-left:148px;}
 /* ── Right panel ── */
     .rp-user {display:flex;align-items:center;gap:10px;margin-bottom:16px;}
 .rp-avatar {width:40px;height:40px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;}
@@ -30,8 +26,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .rp-badge.blue {background:var(--color-info-tint);color:var(--color-info);}
 .rp-badge.orange {background:var(--color-observado-tint);color:var(--color-observado);}
 .rp-badge.gray {background:var(--color-neutral-100);color:var(--color-text-secondary);}
-/* ── Page header ── */
-    .page-header {display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;}
 .header-actions {display:flex;gap:8px;align-items:center;flex-shrink:0;}
 /* ── Period tabs ── */
     .period-tabs {display:flex;gap:4px;margin-bottom:20px;background:white;padding:4px;border-radius:var(--radius-btn);border:1px solid var(--color-border);width:fit-content;}
@@ -78,8 +72,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .btn-card.lista:hover {background:#A7F3D0;}
 .btn-card.validado {background:var(--color-info-tint);color:var(--color-info);border:1px solid var(--color-info-tint);}
 .btn-card.validado:hover {background:var(--color-info-tint);}
-/* ── Modal ── */
-    .modal-overlay {position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:500;padding:24px;}
 .modal-hdr-top {display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px;}
 .modal-subtitle {font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
 .modal-estado-row {display:flex;align-items:center;gap:10px;margin-top:8px;}
@@ -131,12 +123,8 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .comment-textarea {width:100%;min-height:80px;padding:10px 12px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:12px;resize:vertical;outline:none;line-height:1.5;}
 .comment-textarea:focus {border-color:var(--color-primary);}
 .comment-textarea:disabled {background:var(--color-neutral-50);color:var(--color-text-secondary);}
-/* Action buttons */
-    .btn-primary {background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:9px 20px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s;}
 .btn-unlock {background:white;color:var(--color-warning-dark);border:1px solid #FDE68A;border-radius:var(--radius-btn);padding:7px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;}
 .btn-unlock:hover {background:var(--color-warning-tint);}
-/* Empty state */
-    .empty-state {text-align:center;padding:48px 24px;color:var(--color-text-secondary);}
 /* Toast */
     .toast {position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--color-text-primary);color:white;padding:10px 18px;border-radius:var(--radius-btn);font-size:13px;font-weight:500;pointer-events:none;opacity:0;transition:opacity .2s;z-index:1000;white-space:nowrap;}
 .toast.show {opacity:1;}
@@ -220,7 +208,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
         <p class="page-subtitle">Validación institucional del avance por gerencia y período</p>
       </div>
       <div class="header-actions">
-        <button class="btn-danger" onclick="if(confirm('¿Restablecer validaciones al estado inicial de demostración?')){resetValidaciones();location.reload();}">Resetear datos demo</button>
+        <button class="btn btn-danger" onclick="if(confirm('¿Restablecer validaciones al estado inicial de demostración?')){resetValidaciones();location.reload();}">Resetear datos demo</button>
       </div>
     </div>
 
@@ -575,11 +563,11 @@ function openModal(gid){
   document.getElementById('mBody').innerHTML=body;
 
   // ── Footer ─────────────────────────────────────────────────────────────────
-  var footer='<button class="btn-secondary" onclick="closeModal()">Cerrar</button>';
+  var footer='<button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>';
   if(estado==='validado'){
     footer+='<button class="btn-unlock" onclick="unlockGerencia(\''+gid+'\')">Desbloquear (caso excepcional)</button>';
   } else {
-    footer+='<button class="btn-primary" onclick="validateGerencia(\''+gid+'\')">Validar reporte de gerencia</button>';
+    footer+='<button class="btn btn-primary" onclick="validateGerencia(\''+gid+'\')">Validar reporte de gerencia</button>';
   }
   document.getElementById('mFooter').innerHTML=footer;
 

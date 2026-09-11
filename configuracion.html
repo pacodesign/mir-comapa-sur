@@ -10,10 +10,6 @@
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
-/* ── App sidebar ── */
-    .sidebar {width:148px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:stretch;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
-/* ── App wrapper ── */
-    .app-wrapper {display:flex;flex:1;margin-left:148px;}
 /* ── Config secondary nav ── */
     .config-nav {width:220px;flex-shrink:0;background:var(--color-bg);border-right:1px solid var(--color-border);padding:24px 12px;display:flex;flex-direction:column;gap:0;min-height:100vh;}
 .config-nav-title {font-size:11px;font-weight:700;color:var(--color-primary);text-transform:uppercase;letter-spacing:.08em;padding:0 8px;margin-bottom:16px;}
@@ -25,10 +21,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .config-nav-item svg {width:16px;height:16px;flex-shrink:0;opacity:.7;}
 .config-nav-item.active svg {opacity:1;}
 .config-nav-soon {font-size:9px;font-weight:600;padding:2px 6px;border-radius:999px;background:var(--color-neutral-100);color:var(--color-text-muted);margin-left:auto;flex-shrink:0;}
-/* ── Main content ── */
-    .main-content {flex:1;padding:28px 28px;min-width:0;}
-/* ── Page header ── */
-    .page-header {display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px;}
 /* ── Stat chips ── */
     .stat-row {display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
 .stat-chip {background:var(--color-bg);border:1px solid var(--color-border);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;min-width:130px;}
@@ -79,17 +71,9 @@ td {padding:12px 16px;vertical-align:middle;}
 .btn-row:hover {background:var(--color-surface);border-color:var(--color-neutral-300);}
 .btn-row svg {width:12px;height:12px;}
 .btn-row.danger:hover {background:var(--color-danger-tint);border-color:#FECACA;color:var(--color-danger);}
-/* ── Buttons ── */
-    .btn-primary {background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
-/* ── Empty state ── */
-    .empty-state {padding:56px 24px;text-align:center;}
-/* ── Modal ── */
-    .modal-overlay {position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
 .modal-subtitle {font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
 .modal-body {flex:1;overflow-y:auto;padding:20px 24px;}
 .modal-footer-right {display:flex;gap:8px;}
-/* ── Form ── */
-    .form-group {margin-bottom:16px;}
 .form-row {display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .form-section {font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin:20px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--color-border);}
 /* ── Role selector ── */
@@ -322,7 +306,7 @@ td {padding:12px 16px;vertical-align:middle;}
           <h1 class="page-title">Usuarios del sistema</h1>
           <p class="page-subtitle">Gestiona accesos, roles y gerencias asignadas</p>
         </div>
-        <button class="btn-primary" onclick="openNuevoUsuario()">
+        <button class="btn btn-primary" onclick="openNuevoUsuario()">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
           Nuevo usuario
         </button>
@@ -388,7 +372,7 @@ td {padding:12px 16px;vertical-align:middle;}
           <h1 class="page-title">Medios de verificación</h1>
           <p class="page-subtitle">Catálogo oficial de fuentes de evidencia utilizadas en los indicadores del MIR</p>
         </div>
-        <button class="btn-primary" onclick="openNuevoMedio()">
+        <button class="btn btn-primary" onclick="openNuevoMedio()">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
           Nuevo medio
         </button>
@@ -824,8 +808,8 @@ td {padding:12px 16px;vertical-align:middle;}
     <div class="modal-footer">
       <div id="modalFooterLeft"></div>
       <div class="modal-footer-right">
-        <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
-        <button class="btn-primary" id="btnGuardarUsr" onclick="guardarUsuario()">
+        <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+        <button class="btn btn-primary" id="btnGuardarUsr" onclick="guardarUsuario()">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
           Guardar usuario
         </button>
@@ -924,8 +908,8 @@ td {padding:12px 16px;vertical-align:middle;}
     <div class="modal-footer">
       <div id="modalMedioFooterLeft"></div>
       <div class="modal-footer-right">
-        <button class="btn-secondary" onclick="cerrarModalMedio()">Cancelar</button>
-        <button class="btn-primary" id="btnGuardarMedio" onclick="guardarMedio()">
+        <button class="btn btn-secondary" onclick="cerrarModalMedio()">Cancelar</button>
+        <button class="btn btn-primary" id="btnGuardarMedio" onclick="guardarMedio()">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
           Guardar
         </button>
@@ -940,8 +924,8 @@ td {padding:12px 16px;vertical-align:middle;}
     <p class="confirm-title" id="confirmTitle">¿Desactivar usuario?</p>
     <p class="confirm-body" id="confirmBody">El usuario no podrá iniciar sesión. Puedes reactivar la cuenta en cualquier momento.</p>
     <div class="confirm-actions">
-      <button class="btn-secondary" onclick="closeConfirm()">Cancelar</button>
-      <button class="btn-danger" id="confirmBtn">Confirmar</button>
+      <button class="btn btn-secondary" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn btn-danger" id="confirmBtn">Confirmar</button>
     </div>
   </div>
 </div>
@@ -1249,7 +1233,7 @@ function openEditarUsuario(id){
   document.getElementById('swActivo').classList.toggle('on', u.activo);
   document.getElementById('btnGuardarUsr').innerHTML='<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg> Guardar cambios';
   document.getElementById('modalFooterLeft').innerHTML=
-    '<button class="btn-ghost" style="color:var(--color-danger)" onclick="confirmarToggle(\''+id+'\');closeModal()">'+
+    '<button class="btn btn-ghost" style="color:var(--color-danger)" onclick="confirmarToggle(\''+id+'\');closeModal()">'+
     (u.activo?'Desactivar cuenta':'Activar cuenta')+'</button>';
   // set gerencia from user's primary gerencia, then populate units
   var primaryGer = (u.gerencias && u.gerencias.length) ? u.gerencias[0] : '';

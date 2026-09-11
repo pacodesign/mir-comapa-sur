@@ -13,12 +13,6 @@
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
-/* SIDEBAR */
-    .sidebar {width: 148px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items: stretch;padding: 16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
-/* LAYOUT */
-    .app-wrapper {display:flex;flex:1; margin-left:148px;}
-/* PAGE HEADER */
-    .page-header {margin-bottom:24px;}
 .ph-meta {display:flex;align-items:center;gap:12px;margin-top:10px;}
 .ph-badge {display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;background:var(--color-observado-tint);color:var(--color-observado);}
 .ph-badge::before {content:'';width:6px;height:6px;border-radius:50%;background:var(--color-observado);}
@@ -27,8 +21,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .alert-banner svg {width:18px;height:18px;color:var(--color-warning-dark);flex-shrink:0;margin-top:2px;}
 .alert-banner p {font-size:13px;color:#78350F;line-height:1.55;}
 .alert-banner strong {font-weight:700;}
-/* EMPTY STATE */
-    .empty-state {text-align:center;padding:80px 24px;}
 /* OBS CARD */
     .obs-card {background:var(--color-bg);border-radius:var(--radius-card);box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px;overflow:hidden;}
 .obs-card-head {padding:18px 20px 14px;border-bottom:1px solid var(--color-border);}

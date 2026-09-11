@@ -12,10 +12,6 @@
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-surface); color: var(--color-text-primary); display: flex; min-height: 100vh; }
-/* ── SIDEBAR NAV ── */
-.sidebar { width: 148px; background: var(--color-bg); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: stretch; padding: 16px 0; gap: 4px; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
-/* ── PAGE SHELL ── */
-.app-wrapper { display: flex; flex: 1; margin-left: 148px; flex-direction: column; }
 .page-content { flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
 /* ── BREADCRUMB ── */
 .breadcrumb { display: flex; align-items: center; gap: 6px; }
@@ -402,7 +398,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
         '<p class="avance-hint">Registra el valor obtenido al cierre del período según el método de cálculo del indicador.</p>' +
       '</div>' +
       '<div class="avance-actions">' +
-        '<button class="btn-primary" id="saveBtn" onclick="saveAvance()" disabled>' +
+        '<button class="btn btn-primary" id="saveBtn" onclick="saveAvance()" disabled>' +
           '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>' +
           'Guardar avance' +
         '</button>' +
@@ -423,7 +419,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 '<div class="bottom-bar">' +
   '<p class="bottom-bar-info">Indicador <strong>' + r.id + '</strong> · ' + r.area + ' · ' + r.gerencia + '</p>' +
   '<div class="bottom-bar-actions">' +
-    '<button class="btn-ghost" onclick="history.back()">' +
+    '<button class="btn btn-ghost" onclick="history.back()">' +
       '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>' +
       'Volver a mis indicadores' +
     '</button>' +
