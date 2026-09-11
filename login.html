@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar sesión — MIR COMAPA Sur</title>
   <script src="session.js"></script>
+  <script src="mir-actividades-data.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -220,6 +221,36 @@
     }
     .hint-item:hover  { background: #F3F4F6; border-color: #E5E7EB; }
     .hint-item:active { background: #F5E8EC; border-color: #E8C5CD; }
+    /* Enlace accordion */
+    .hint-enlace-item { flex-direction: column; align-items: stretch; cursor: default; }
+    .hint-enlace-item:hover { background: #F9FAFB; border-color: transparent; }
+    .hint-enlace-item.expanded { border-color: transparent; background: #F3F4F6; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    .hint-item-row { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+    .hint-item-row:hover .hint-enlace-sub { color: #8B1D3A; }
+    .hint-enlace-sub { font-size: 9px; color: #9CA3AF; white-space: nowrap; transition: color .15s; }
+    .hint-enlace-item.expanded .hint-enlace-sub { display: none; }
+    .hint-enlace-expand { display: none; border-top: 1px solid #F3E8EC; margin-top: 10px; padding-top: 10px; }
+    .hint-enlace-item.expanded .hint-enlace-expand { display: block; }
+    .hint-ger-label { font-size: 10px; font-weight: 700; color: #9CA3AF; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+    .hint-ger-list { display: flex; flex-direction: column; gap: 5px; }
+    .hint-ger-btn { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #E5E7EB; border-radius: 10px; background: #fff; text-align: left; cursor: pointer; font-family: inherit; transition: all .15s; width: 100%; }
+    .hint-ger-btn:hover { border-color: #D1B3BB; background: #FFF8F9; }
+    .hint-ger-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .hint-ger-info { flex: 1; min-width: 0; }
+    .hint-ger-name { display: block; font-size: 12px; font-weight: 600; color: #1F2937; line-height: 1.3; }
+    .hint-ger-meta { display: block; font-size: 10px; color: #9CA3AF; margin-top: 1px; }
+    .hint-ger-btn:hover .hint-ger-name { color: #8B1D3A; }
+    .hint-ger-chevron { width: 13px; height: 13px; color: #D1D5DB; flex-shrink: 0; transition: color .15s, transform .2s; }
+    .hint-ger-btn:hover .hint-ger-chevron { color: #8B1D3A; }
+    .hint-ger-item.active .hint-ger-chevron { transform: rotate(90deg); color: #8B1D3A; }
+    .hint-ger-item.active .hint-ger-btn { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom-color: transparent; }
+    .hint-ger-units { display: none; border: 1px solid #E5E7EB; border-top: none; border-radius: 0 0 10px 10px; background: #fff; padding: 4px; }
+    .hint-ger-item.active .hint-ger-units { display: block; }
+    .hint-unit-btn { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; text-align: left; padding: 7px 10px 7px 28px; border: none; border-radius: 7px; background: transparent; font-size: 11px; color: #374151; cursor: pointer; font-family: inherit; transition: all .12s; }
+    .hint-unit-btn:hover { background: #FFF1F3; color: #8B1D3A; }
+    .hint-unit-name { flex: 1; min-width: 0; }
+    .hint-unit-kpis { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+    .kpi-mir { font-size: 9px; font-weight: 700; color: #6B7280; background: #F3F4F6; border-radius: 4px; padding: 1px 5px; white-space: nowrap; }
     .hint-user { display: flex; align-items: center; gap: 9px; }
     .hint-avatar {
       width: 30px; height: 30px; border-radius: 50%;
@@ -268,6 +299,57 @@
     .btn-back-login { background: none; border: none; font-family: inherit; font-size: 12px; color: #9CA3AF; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 5px; }
     .btn-back-login:hover { color: #6B7280; }
 
+    /* ── GERENCIA PICKER ── */
+    .gerencia-picker { display: none; }
+    .gerencia-picker.visible { display: block; }
+    .rp-cards-gerencia { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .rp-card-gerencia {
+      border: 1.5px solid #E5E7EB; border-radius: 14px; padding: 14px 16px;
+      cursor: pointer; background: white;
+      display: flex; align-items: center; gap: 14px;
+      transition: border-color .15s, box-shadow .15s, background .12s;
+      position: relative;
+    }
+    .rp-card-gerencia:hover { border-color: #8B1D3A; background: #FDF5F7; box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
+    .rp-ger-icon {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .rp-ger-icon svg { width: 20px; height: 20px; }
+    .rp-ger-body { flex: 1; min-width: 0; }
+    .rp-ger-name { font-size: 15px; font-weight: 700; color: #111827; line-height: 1.2; }
+    .rp-ger-count { font-size: 11px; color: #9CA3AF; margin-top: 2px; }
+    .rp-ger-arrow {
+      opacity: 0; transform: translateX(-4px);
+      transition: opacity .15s, transform .15s;
+      color: #8B1D3A; flex-shrink: 0;
+    }
+    .rp-card-gerencia:hover .rp-ger-arrow { opacity: 1; transform: translateX(0); }
+
+    /* ── COORDINACIÓN PICKER ── */
+    .coord-picker { display: none; }
+    .coord-picker.visible { display: block; }
+    .rp-step-back { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; font-family: inherit; font-size: 12px; font-weight: 600; color: #9CA3AF; cursor: pointer; padding: 0; margin-bottom: 16px; }
+    .rp-step-back:hover { color: #6B7280; }
+    .rp-step-back svg { width: 14px; height: 14px; }
+    .rp-gerencia-crumb { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; margin-bottom: 16px; }
+    .rp-cards-coord { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; max-height: 320px; overflow-y: auto; padding-right: 2px; }
+    .rp-cards-coord::-webkit-scrollbar { width: 4px; }
+    .rp-cards-coord::-webkit-scrollbar-track { background: transparent; }
+    .rp-cards-coord::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 4px; }
+    .rp-card-coord {
+      border: 1.5px solid #E5E7EB; border-radius: 12px; padding: 12px 14px;
+      cursor: pointer; background: white;
+      display: flex; align-items: center; gap: 12px;
+      transition: border-color .15s, box-shadow .15s, background .12s;
+    }
+    .rp-card-coord:hover { border-color: #8B1D3A; background: #FDF5F7; box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
+    .rp-coord-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .rp-coord-name { font-size: 13px; font-weight: 600; color: #111827; flex: 1; line-height: 1.3; }
+    .rp-coord-count { font-size: 10px; color: #9CA3AF; white-space: nowrap; }
+    .rp-coord-arrow { opacity: 0; transform: translateX(-4px); transition: opacity .15s, transform .15s; color: #8B1D3A; flex-shrink: 0; }
+    .rp-card-coord:hover .rp-coord-arrow { opacity: 1; transform: translateX(0); }
+
     /* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
     @media (max-width: 800px) {
       .page-layout { flex-direction: column; padding: 0; overflow-y: auto; height: auto; gap: 0; }
@@ -299,6 +381,7 @@
     m.mazeUniversalSnippetApiKey = e;
   })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '9da16a9c-d16b-42b8-837b-4ba698f5135d');
   </script>
+  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
 </head>
 <body>
 
@@ -414,15 +497,102 @@
               </div>
             </div>
 
-            <div class="hint-item" data-email="enlace@comapa.mx" data-pass="enlace123">
-              <div class="hint-user">
-                <div class="hint-avatar">AT</div>
-                <div>
-                  <p class="hint-name">Ana Torres</p>
-                  <p class="hint-email">enlace@comapa.mx</p>
+            <div class="hint-item hint-enlace-item" id="hintEnlace">
+              <div class="hint-item-row" onclick="toggleEnlaceAccordion()">
+                <div class="hint-user">
+                  <div class="hint-avatar">AT</div>
+                  <div>
+                    <p class="hint-name">Ana Torres</p>
+                    <p class="hint-email">enlace@comapa.mx</p>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">
+                  <span class="hint-role-badge enl">Enlace</span>
+                  <span class="hint-enlace-sub" id="hintEnlaceSub">Elige tu gerencia →</span>
                 </div>
               </div>
-              <span class="hint-role-badge enl">Enlace</span>
+              <div class="hint-enlace-expand" id="hintEnlaceExpand">
+                <p class="hint-ger-label">¿A cuál gerencia vas a entrar?</p>
+                <div class="hint-ger-list">
+                  <div class="hint-ger-item" id="hgi-tecnica">
+                    <button class="hint-ger-btn" onclick="toggleHintGer('tecnica', event)">
+                      <span class="hint-ger-dot" style="background:#0891B2"></span>
+                      <div class="hint-ger-info">
+                        <span class="hint-ger-name">Gerencia Técnica</span>
+                        <span class="hint-ger-meta">43 MIR · 17 Gerenciales</span>
+                      </div>
+                      <svg class="hint-ger-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+                    </button>
+                    <div class="hint-ger-units" id="hgu-tecnica">
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Técnica', event, 'Coordinación General Técnica')"><span class="hint-unit-name">Coordinación General Técnica</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Técnica', event, 'Coordinación de Distribución y Mantenimiento de Redes')"><span class="hint-unit-name">Coordinación de Distribución y Mantenimiento de Redes</span><span class="hint-unit-kpis"><span class="kpi-mir">10 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Técnica', event, 'Coordinación de Plantas Potabilizadoras y Cárcamos')"><span class="hint-unit-name">Coordinación de Plantas Potabilizadoras y Cárcamos</span><span class="hint-unit-kpis"><span class="kpi-mir">14 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Técnica', event, 'Coordinación de Proyectos Especiales')"><span class="hint-unit-name">Coordinación de Proyectos Especiales</span><span class="hint-unit-kpis"><span class="kpi-mir">5 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Técnica', event, 'Coordinación de Proyectos y Construcción')"><span class="hint-unit-name">Coordinación de Proyectos y Construcción</span><span class="hint-unit-kpis"><span class="kpi-mir">10 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Técnica', event, 'Gerencia Técnica')"><span class="hint-unit-name">Gerencia Técnica</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                    </div>
+                  </div>
+                  <div class="hint-ger-item" id="hgi-comercial">
+                    <button class="hint-ger-btn" onclick="toggleHintGer('comercial', event)">
+                      <span class="hint-ger-dot" style="background:#8B1D3A"></span>
+                      <div class="hint-ger-info">
+                        <span class="hint-ger-name">Gerencia Comercial</span>
+                        <span class="hint-ger-meta">30 MIR · 18 Gerenciales</span>
+                      </div>
+                      <svg class="hint-ger-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+                    </button>
+                    <div class="hint-ger-units" id="hgu-comercial">
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Comercial', event, 'Coordinación General Comercial')"><span class="hint-unit-name">Coordinación General Comercial</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Comercial', event, 'Coordinación Módulo de Atención Accesible')"><span class="hint-unit-name">Coordinación Módulo de Atención Accesible</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Comercial', event, 'Coordinación de Atención a Usuarios')"><span class="hint-unit-name">Coordinación de Atención a Usuarios</span><span class="hint-unit-kpis"><span class="kpi-mir">6 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Comercial', event, 'Coordinación de Atención a la Industria y Comercio')"><span class="hint-unit-name">Coordinación de Atención a la Industria y Comercio</span><span class="hint-unit-kpis"><span class="kpi-mir">4 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Comercial', event, 'Coordinación de Control de Rezago')"><span class="hint-unit-name">Coordinación de Control de Rezago</span><span class="hint-unit-kpis"><span class="kpi-mir">4 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Comercial', event, 'Coordinación de Facturación y Medición')"><span class="hint-unit-name">Coordinación de Facturación y Medición</span><span class="hint-unit-kpis"><span class="kpi-mir">6 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Comercial', event, 'Coordinación de Padrón y Censo')"><span class="hint-unit-name">Coordinación de Padrón y Censo</span><span class="hint-unit-kpis"><span class="kpi-mir">4 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Comercial', event, 'Gerencia Comercial')"><span class="hint-unit-name">Gerencia Comercial</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                    </div>
+                  </div>
+                  <div class="hint-ger-item" id="hgi-admin">
+                    <button class="hint-ger-btn" onclick="toggleHintGer('admin', event)">
+                      <span class="hint-ger-dot" style="background:#065F46"></span>
+                      <div class="hint-ger-info">
+                        <span class="hint-ger-name">Gerencia Administrativa</span>
+                        <span class="hint-ger-meta">47 MIR · 12 Gerenciales</span>
+                      </div>
+                      <svg class="hint-ger-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+                    </button>
+                    <div class="hint-ger-units" id="hgu-admin">
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Coordinación General Administrativa')"><span class="hint-unit-name">Coordinación General Administrativa</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Coordinación Jurídica')"><span class="hint-unit-name">Coordinación Jurídica</span><span class="hint-unit-kpis"><span class="kpi-mir">3 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Coordinación de Adquisiciones')"><span class="hint-unit-name">Coordinación de Adquisiciones</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Coordinación de Contabilidad')"><span class="hint-unit-name">Coordinación de Contabilidad</span><span class="hint-unit-kpis"><span class="kpi-mir">5 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Coordinación de Finanzas')"><span class="hint-unit-name">Coordinación de Finanzas</span><span class="hint-unit-kpis"><span class="kpi-mir">5 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Coordinación de Informática')"><span class="hint-unit-name">Coordinación de Informática</span><span class="hint-unit-kpis"><span class="kpi-mir">7 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Coordinación de Política de Ingresos')"><span class="hint-unit-name">Coordinación de Política de Ingresos</span><span class="hint-unit-kpis"><span class="kpi-mir">5 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Coordinación de Recursos Humanos')"><span class="hint-unit-name">Coordinación de Recursos Humanos</span><span class="hint-unit-kpis"><span class="kpi-mir">4 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Coordinación de Seguridad, Salud e Higiene')"><span class="hint-unit-name">Coordinación de Seguridad, Salud e Higiene</span><span class="hint-unit-kpis"><span class="kpi-mir">6 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Coordinación de Servicios Generales')"><span class="hint-unit-name">Coordinación de Servicios Generales</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia Administrativa', event, 'Gerencia Administrativa')"><span class="hint-unit-name">Gerencia Administrativa</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                    </div>
+                  </div>
+                  <div class="hint-ger-item" id="hgi-plan">
+                    <button class="hint-ger-btn" onclick="toggleHintGer('plan', event)">
+                      <span class="hint-ger-dot" style="background:#7C3AED"></span>
+                      <div class="hint-ger-info">
+                        <span class="hint-ger-name">Gerencia de Planeación Estratégica</span>
+                        <span class="hint-ger-meta">15 MIR · 2 Gerenciales</span>
+                      </div>
+                      <svg class="hint-ger-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+                    </button>
+                    <div class="hint-ger-units" id="hgu-plan">
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia de Planeación Estratégica', event, 'Coordinación General de Planeación Estratégica')"><span class="hint-unit-name">Coordinación General de Planeación Estratégica</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia de Planeación Estratégica', event, 'Coordinación de Proyectos Estratégicos')"><span class="hint-unit-name">Coordinación de Proyectos Estratégicos</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia de Planeación Estratégica', event, 'Coordinación de Seguimiento a Plantas de Tratamiento')"><span class="hint-unit-name">Coordinación de Seguimiento a Plantas de Tratamiento</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                      <button class="hint-unit-btn" onclick="hintLoginAsGerencia('Gerencia de Planeación Estratégica', event, 'Gerencia de Planeación Estratégica')"><span class="hint-unit-name">Gerencia de Planeación Estratégica</span><span class="hint-unit-kpis"><span class="kpi-mir">2 MIR</span></span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -458,13 +628,126 @@
               </div>
               <p class="rp-card-role">Enlace</p>
               <p class="rp-card-person">Ana Torres</p>
-              <p class="rp-card-desc">Reporta el avance de los indicadores de la Gerencia Comercial.</p>
+              <p class="rp-card-desc">Reporta el avance de los indicadores de tu gerencia.</p>
             </div>
           </div>
           <button class="btn-back-login" onclick="backToLogin()">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
             Volver al inicio de sesión
           </button>
+        </div>
+
+        <!-- GERENCIA PICKER (paso 3 para Enlace) -->
+        <div class="gerencia-picker" id="gerenciaPicker">
+          <div class="rp-user">
+            <div class="rp-avatar" style="background:#8B1D3A;">AT</div>
+            <div class="rp-info">
+              <p class="rp-info-name">Ana Torres</p>
+              <p class="rp-info-email">enlace@comapa.mx</p>
+            </div>
+            <span class="rp-ok-badge">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Enlace
+            </span>
+          </div>
+          <h2 class="rp-title" id="gerPickerTitle">¿Cuál es tu gerencia?</h2>
+          <p class="rp-sub" id="gerPickerSub">Selecciona la gerencia para ver los indicadores correspondientes.</p>
+          <div class="rp-cards-gerencia">
+
+            <div class="rp-card-gerencia" onclick="loginAsGerencia('Gerencia de Planeación Estratégica')">
+              <div class="rp-ger-icon" style="background:#F5F3FF;">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="#7C3AED">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/>
+                </svg>
+              </div>
+              <div class="rp-ger-body">
+                <p class="rp-ger-name">Planeación Estratégica</p>
+                <p class="rp-ger-count">15 indicadores asignados</p>
+              </div>
+              <svg class="rp-ger-arrow" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </div>
+
+            <div class="rp-card-gerencia" onclick="loginAsGerencia('Gerencia Comercial')">
+              <div class="rp-ger-icon" style="background:#FFF1F3;">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="#8B1D3A">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/>
+                </svg>
+              </div>
+              <div class="rp-ger-body">
+                <p class="rp-ger-name">Comercial</p>
+                <p class="rp-ger-count">30 indicadores asignados</p>
+              </div>
+              <svg class="rp-ger-arrow" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </div>
+
+            <div class="rp-card-gerencia" onclick="loginAsGerencia('Gerencia Administrativa')">
+              <div class="rp-ger-icon" style="background:#F0FDF4;">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="#065F46">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/>
+                </svg>
+              </div>
+              <div class="rp-ger-body">
+                <p class="rp-ger-name">Administrativa</p>
+                <p class="rp-ger-count">48 indicadores asignados</p>
+              </div>
+              <svg class="rp-ger-arrow" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </div>
+
+            <div class="rp-card-gerencia" onclick="loginAsGerencia('Gerencia Técnica')">
+              <div class="rp-ger-icon" style="background:#EFF9FF;">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="#0891B2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"/>
+                </svg>
+              </div>
+              <div class="rp-ger-body">
+                <p class="rp-ger-name">Técnica</p>
+                <p class="rp-ger-count">43 indicadores asignados</p>
+              </div>
+              <svg class="rp-ger-arrow" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </div>
+
+          </div>
+          <button class="btn-back-login" onclick="backToLogin()">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
+            Volver al inicio de sesión
+          </button>
+        </div>
+
+        <!-- COORDINACIÓN PICKER (paso 3 para Enlace) -->
+        <div class="coord-picker" id="coordPicker">
+          <div class="rp-user">
+            <div class="rp-avatar" style="background:#8B1D3A;">AT</div>
+            <div class="rp-info">
+              <p class="rp-info-name">Ana Torres</p>
+              <p class="rp-info-email">enlace@comapa.mx</p>
+            </div>
+            <span class="rp-ok-badge">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Enlace
+            </span>
+          </div>
+          <span class="rp-gerencia-crumb" id="gerenciaCrumb"></span>
+          <h2 class="rp-title">¿Cuál es tu unidad?</h2>
+          <p class="rp-sub">Selecciona la coordinación o unidad responsable para ver solo tus indicadores asignados.</p>
+          <div class="rp-cards-coord" id="coordList"></div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;margin-top:4px;">
+            <button class="rp-step-back" onclick="backToGerenciaPicker()">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
+              Cambiar gerencia
+            </button>
+            <button class="btn-back-login" onclick="backToLogin()">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
+              Volver al inicio de sesión
+            </button>
+          </div>
         </div>
 
         <p class="page-footer">COMAPA Sur · Sistema MIR · 2026</p>
@@ -552,6 +835,7 @@
           return;
         }
         if (user.rol === 'Revisor') { showRolePicker(); return; }
+        if (user.rol === 'Enlace')  { showEnlaceFlow(user); return; }
         window.location.href = user.redirect || 'dashboard-inicio.html';
       }, 800);
     });
@@ -562,24 +846,191 @@
       document.getElementById('rolePicker').classList.add('visible');
     }
 
+    function showGerenciaPicker() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.querySelector('.hint-section').style.display = 'none';
+      document.getElementById('gerenciaPicker').classList.add('visible');
+    }
+
     function backToLogin() {
+      try { localStorage.removeItem('userUnidad'); } catch(e) {}
+      _enlaceSkippedGerencia = false;
       Session.clear();
       document.getElementById('loginForm').style.display = 'block';
       document.querySelector('.hint-section').style.display = 'block';
       document.getElementById('rolePicker').classList.remove('visible');
+      document.getElementById('gerenciaPicker').classList.remove('visible');
+      document.getElementById('coordPicker').classList.remove('visible');
       passEl.value = '';
     }
 
+    var _pendingRole = 'Enlace';
+    var _enlaceSkippedGerencia = false;
+
+    function showEnlaceFlow(user) {
+      document.getElementById('loginForm').style.display = 'none';
+      document.querySelector('.hint-section').style.display = 'none';
+      try { localStorage.setItem('userGerencia', user.gerencia); } catch(e) {}
+      if (user.unidadResponsable) {
+        // Acceso directo — unidad pre-asignada, sin pickers
+        try { localStorage.setItem('userUnidad', user.unidadResponsable); } catch(e) {}
+        window.location.href = 'dashboard-enlace.html';
+        return;
+      }
+      // Enlace general — mostrar selector de coordinación directamente
+      _enlaceSkippedGerencia = true;
+      showCoordinacionPicker(user.gerencia);
+    }
+
     function loginAs(rol) {
-      if (rol === 'Revisor') {
+      _pendingRole = rol;
+      var subs = {
+        Revisor: 'Selecciona la gerencia cuyos indicadores quieres revisar y validar.',
+        Enlace:  'Selecciona la gerencia a la que perteneces para ver tus indicadores asignados.',
+      };
+      document.getElementById('gerPickerSub').textContent = subs[rol] || subs.Enlace;
+      document.getElementById('rolePicker').classList.remove('visible');
+      document.getElementById('gerenciaPicker').classList.add('visible');
+    }
+
+    function backToRolePicker() {
+      document.getElementById('gerenciaPicker').classList.remove('visible');
+      document.getElementById('rolePicker').classList.add('visible');
+    }
+
+    var COORDINACIONES_POR_GERENCIA = {
+      'Gerencia de Planeación Estratégica': [
+        'Coordinación General de Planeación Estratégica',
+        'Coordinación de Proyectos Especiales',
+        'Coordinación de Proyectos Estratégicos',
+        'Coordinación de Seguimiento a Plantas de Tratamiento',
+        'Coordinación de Vinculación Social',
+        'Departamento de Mejora Continua y Calidad',
+        'Departamento de Seguimiento a Plantas de Tratamiento',
+        'Gerencia de Planeación Estratégica',
+      ],
+      'Gerencia Comercial': [
+        'Coordinación General Comercial',
+        'Coordinación Módulo de Atención Accesible',
+        'Coordinación de Atención a Usuarios',
+        'Coordinación de Atención a la Industria y Comercio',
+        'Coordinación de Control de Rezago',
+        'Coordinación de Facturación y Medición',
+        'Coordinación de Padrón y Censo',
+        'Gerencia Comercial',
+      ],
+      'Gerencia Administrativa': [
+        'Coordinación General Administrativa',
+        'Coordinación Jurídica',
+        'Coordinación de Adquisiciones',
+        'Coordinación de Contabilidad',
+        'Coordinación de Finanzas',
+        'Coordinación de Informática',
+        'Coordinación de Política de Ingresos',
+        'Coordinación de Recursos Humanos',
+        'Coordinación de Seguridad Salud e Higiene',
+        'Coordinación de Servicios Generales',
+        'Coordinación de Vinculación Social',
+        'Gerencia Administrativa',
+      ],
+      'Gerencia Técnica': [
+        'Coordinación General Técnica',
+        'Coordinación de Distribución y Mantenimiento de Redes',
+        'Coordinación de Plantas Potabilizadoras y Cárcamos',
+        'Coordinación de Proyectos Especiales',
+        'Coordinación de Proyectos y Construcción',
+        'Coordinación de Seguimiento a Plantas de Tratamiento',
+        'Gerencia Técnica',
+      ],
+    };
+
+    var GER_COORD_CFG = {
+      'Gerencia de Planeación Estratégica': { label:'Planeación Estratégica', dot:'#7C3AED', bg:'#F5F3FF', color:'#7C3AED' },
+      'Gerencia Comercial':                  { label:'Comercial',              dot:'#8B1D3A', bg:'#FFF1F3', color:'#8B1D3A' },
+      'Gerencia Administrativa':             { label:'Administrativa',          dot:'#065F46', bg:'#F0FDF4', color:'#065F46' },
+      'Gerencia Técnica':                    { label:'Técnica',                 dot:'#0891B2', bg:'#EFF9FF', color:'#0891B2' },
+    };
+
+    function loginAsGerencia(gerencia) {
+      try { localStorage.setItem('userGerencia', gerencia); } catch(e) {}
+      if (_pendingRole === 'Revisor') {
         window.location.href = 'dashboard-revisor.html';
       } else {
-        Session.login('enlace@comapa.mx', 'enlace123');
-        window.location.href = 'dashboard-enlace.html';
+        showCoordinacionPicker(gerencia);
+      }
+    }
+
+    function showCoordinacionPicker(gerencia) {
+      document.getElementById('gerenciaPicker').classList.remove('visible');
+
+      // Actualizar info del usuario actual en el picker
+      var u = Session.getUser() || {};
+      document.querySelector('#coordPicker .rp-avatar').textContent = u.iniciales || '—';
+      document.querySelector('#coordPicker .rp-info-name').textContent = u.nombre || 'Enlace';
+      document.querySelector('#coordPicker .rp-info-email').textContent = u.email || '';
+
+      var cfg = GER_COORD_CFG[gerencia] || { label: gerencia, dot:'#8B1D3A', bg:'#FFF1F3', color:'#8B1D3A' };
+      var crumb = document.getElementById('gerenciaCrumb');
+      crumb.style.background = cfg.bg;
+      crumb.style.color = cfg.color;
+      crumb.innerHTML =
+        '<span style="width:8px;height:8px;border-radius:50%;background:'+cfg.dot+';display:inline-block;margin-right:6px;flex-shrink:0;"></span>' +
+        cfg.label;
+
+      var coords = COORDINACIONES_POR_GERENCIA[gerencia] || [];
+      var arrowSvg = '<svg class="rp-coord-arrow" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>';
+
+      // Opción general al inicio
+      var generalCard =
+        '<div class="rp-card-coord" onclick="loginAsGeneral()" style="border-style:dashed;margin-bottom:6px;">' +
+          '<span class="rp-coord-dot" style="background:#9CA3AF;"></span>' +
+          '<span class="rp-coord-name" style="color:#6B7280;">Todos los indicadores de la gerencia</span>' +
+          arrowSvg +
+        '</div>';
+
+      var list = document.getElementById('coordList');
+      list.innerHTML = generalCard + coords.map(function(c) {
+        var count = (typeof ACTIVIDADES_ENLACE !== 'undefined')
+          ? ACTIVIDADES_ENLACE.filter(function(a) { return a.gerencia === gerencia && a.unidadResponsable === c; }).length
+          : 0;
+        var countHtml = count > 0
+          ? '<span class="rp-coord-count">'+count+' indicador'+(count!==1?'es':'')+'</span>'
+          : '';
+        return '<div class="rp-card-coord" onclick="loginAsCoordinacion(\''+c.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')">' +
+          '<span class="rp-coord-dot" style="background:'+cfg.dot+';"></span>' +
+          '<span class="rp-coord-name">'+c+'</span>' +
+          countHtml +
+          arrowSvg +
+          '</div>';
+      }).join('');
+      document.getElementById('coordPicker').classList.add('visible');
+    }
+
+    function loginAsGeneral() {
+      try { localStorage.removeItem('userUnidad'); } catch(e) {}
+      window.location.href = 'dashboard-enlace.html';
+    }
+
+    function loginAsCoordinacion(coordinacion) {
+      try { localStorage.setItem('userUnidad', coordinacion); } catch(e) {}
+      window.location.href = 'dashboard-enlace.html';
+    }
+
+    function backToGerenciaPicker() {
+      try { localStorage.removeItem('userGerencia'); } catch(e) {}
+      document.getElementById('coordPicker').classList.remove('visible');
+      if (_enlaceSkippedGerencia) {
+        // vino directo al coord picker → volver al login
+        _enlaceSkippedGerencia = false;
+        document.getElementById('loginForm').style.display = 'block';
+        document.querySelector('.hint-section').style.display = 'block';
+      } else {
+        document.getElementById('gerenciaPicker').classList.add('visible');
       }
     }
 
     document.querySelectorAll('.hint-item').forEach(function (item) {
+      if (item.id === 'hintEnlace') return; // maneja su propio accordion
       item.addEventListener('click', function () {
         clearErrors();
         if (this.dataset.direct) {
@@ -592,6 +1043,29 @@
         emailEl.focus();
       });
     });
+
+    function toggleEnlaceAccordion() {
+      document.getElementById('hintEnlace').classList.toggle('expanded');
+    }
+
+    function toggleHintGer(key, evt) {
+      if (evt) evt.stopPropagation();
+      var item = document.getElementById('hgi-' + key);
+      var isActive = item.classList.contains('active');
+      document.querySelectorAll('.hint-ger-item').forEach(function(el) { el.classList.remove('active'); });
+      if (!isActive) item.classList.add('active');
+    }
+
+    function hintLoginAsGerencia(gerencia, evt, unidad) {
+      if (evt) evt.stopPropagation();
+      var user = Session.login('enlace@comapa.mx', 'enlace123');
+      if (!user) return;
+      try {
+        localStorage.setItem('userGerencia', gerencia);
+        if (unidad) localStorage.setItem('userUnidad', unidad);
+      } catch(e) {}
+      window.location.href = 'dashboard-enlace.html';
+    }
 
     document.getElementById('forgotLink').addEventListener('click', function (e) {
       e.preventDefault();

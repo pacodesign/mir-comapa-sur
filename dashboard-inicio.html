@@ -10,6 +10,7 @@
   <script src="layout.js"></script>
   <script src="mir-gerencias-data.js"></script>
   <script src="mir-actividades-data.js"></script>
+  <script src="validacion-admin-store.js"></script>
   <style>
     :root {
       --color-primary: #8B1D3A;
@@ -28,6 +29,8 @@
       --radius-btn: 999px;
       --pad-card: 20px;
       --gap: 16px;
+      --color-success:         #22C55E;
+      --color-info:            #3B82F6;
     }
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -89,7 +92,6 @@
       flex: 1;
       padding: 24px;
       min-width: 0;
-      margin-right: 240px;
     }
 
     /* ── RIGHT PANEL ── */
@@ -201,14 +203,13 @@
 
     /* ── ALERT ── */
     .alert-info {
-      background: #F8F8F8;
-      border: 1px solid var(--color-border);
+      background: #FEF3C7;
       border-radius: var(--radius-card);
       padding: 11px 16px;
-      display: flex; align-items: flex-start; gap: 10px;
+      display: flex; align-items: center; gap: 10px;
       margin-bottom: 20px;
     }
-    .alert-info svg { width: 16px; height: 16px; color: #9CA3AF; flex-shrink: 0; margin-top: 1px; }
+    .alert-info svg { width: 24px; height: 24px; color: #374151; flex-shrink: 0; }
     .alert-info p { font-size: 12px; color: #4B5563; line-height: 1.5; }
 
     /* ── INTRO CARD ── */
@@ -535,6 +536,79 @@
       .page-header { flex-direction: column; gap: 12px; }
       .intro-title { font-size: 14px; }
     }
+
+    /* ── VALIDACIÓN EMBED ── */
+    .vadmin-embed { margin-bottom: 24px; }
+    .vadmin-layout { display:flex; gap:24px; align-items:flex-start; }
+    .vadmin-kpi-col { width:30%; flex-shrink:0; display:flex; flex-direction:column; gap:24px; }
+    .vadmin-title-wrap { border-bottom:1px solid rgba(0,0,0,.12); padding-bottom:16px; }
+    .vadmin-title { font-size:32px; font-weight:700; color:#313338; line-height:1.2; margin:0; }
+    .vadmin-period-card { background:#F7F7F7; border-radius:8px; padding:16px; display:flex; flex-direction:column; gap:8px; }
+    .vadmin-period-label { display:flex; align-items:center; gap:8px; font-size:13px; color:#7A7A7A; font-weight:400; }
+    .vadmin-period-dates { display:flex; align-items:center; gap:8px; font-size:16px; font-weight:600; color:#313338; }
+    .vadmin-ger-col { flex:1; min-width:0; }
+    .vadmin-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .kpi-value.green { color:#16A34A; }
+    .kpi-value.amber { color:#D97706; }
+    .kpi-value.blue  { color:#2563EB; }
+
+    /* Period dropdown */
+    .period-dropdown { position:relative; width:100%; margin-bottom:16px; }
+    .period-trigger { width:100%; display:flex; align-items:center; gap:8px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:var(--radius-btn); padding:10px 14px 10px 16px; font-family:inherit; font-size:14px; font-weight:700; color:var(--color-text-primary); cursor:pointer; text-align:left; transition:border-color .15s; }
+    .period-trigger:hover { border-color:var(--color-text-secondary); }
+    .period-trigger.open { border-color:var(--color-primary); }
+    .period-trigger-label { flex:1; }
+    .period-demo-tag { font-size:10px; font-weight:600; padding:2px 8px; border-radius:var(--radius-btn); background:#FEF3C7; color:#92400E; }
+    .period-chevron { width:16px; height:16px; flex-shrink:0; transition:transform .2s; }
+    .period-trigger.open .period-chevron { transform:rotate(180deg); }
+    .period-panel { position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:200; background:var(--color-bg); border:1px solid var(--color-border); border-radius:16px; padding:6px; max-height:220px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.08); display:none; }
+    .period-panel.open { display:block; }
+    .period-option { display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; font-size:13px; font-weight:500; cursor:pointer; transition:background .12s; color:var(--color-text-primary); }
+    .period-option:hover { background:var(--color-surface); }
+    .period-option.selected { background:#F5E8EC; color:var(--color-primary); font-weight:600; }
+    .period-option-demo { font-size:10px; font-weight:600; padding:2px 7px; border-radius:var(--radius-btn); background:#FEF3C7; color:#92400E; margin-left:auto; }
+
+    /* Gerencia card (admin embed) */
+    .g-card { background:#F7F7F7; border-radius:var(--radius-card); overflow:hidden; display:flex; flex-direction:column; cursor:pointer; transition:transform .15s; text-decoration:none; color:inherit; }
+    .g-card:hover { transform:translateY(-2px); }
+    .g-body { padding:18px; display:flex; flex-direction:column; gap:14px; flex:1; }
+    .g-meta { font-size:11px; color:var(--color-text-secondary); margin-top:3px; }
+
+    /* Estado badge */
+    .g-estado-badge { font-size:10px; font-weight:700; padding:3px 10px; border-radius:var(--radius-btn); white-space:nowrap; flex-shrink:0; display:inline-flex; align-items:center; gap:4px; }
+    .g-estado-badge.en_captura               { background:#FFFFFF; color:#6B7280; }
+    .g-estado-badge.enviado_revision          { background:#EFF6FF; color:#1D4ED8; }
+    .g-estado-badge.listo_para_validar        { background:#FEF3C7; color:#92400E; }
+    .g-estado-badge.validado                  { background:#D1FAE5; color:#065F46; }
+    .g-estado-badge.regresado_correccion_parcial { background:#FFF7ED; color:#EA580C; }
+    .g-estado-badge .badge-dot { width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
+
+    /* Fraction display */
+    .g-fraction { display:flex; flex-direction:column; gap:6px; }
+    .g-fraction-row { display:flex; align-items:baseline; gap:6px; }
+    .g-fraction-num { font-size:28px; font-weight:700; line-height:1; color:var(--color-text-primary); }
+    .g-fraction-sep { font-size:16px; font-weight:400; color:var(--color-text-secondary); }
+    .g-fraction-total { font-size:16px; font-weight:600; color:var(--color-text-secondary); }
+    .g-fraction-label { font-size:11px; color:var(--color-text-secondary); }
+
+    /* Semáforo */
+    .g-incum-row { display:flex; align-items:center; gap:8px; background:#F5E8EC; border-radius:8px; padding:8px; }
+    .g-incum-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .g-incum-dot.rojo     { background:#EF4444; }
+    .g-incum-dot.amarillo { background:#F59E0B; }
+    .g-incum-dot.verde    { background:#22C55E; }
+    .g-incum-text { font-size:12px; font-weight:600; }
+    .g-incum-text.rojo     { color:#DC2626; }
+    .g-incum-text.amarillo { color:#D97706; }
+    .g-incum-text.verde    { color:#16A34A; }
+    .g-incum-row.amarillo  { background:#FEF3C7; }
+    .g-incum-row.verde     { background:#D1FAE5; }
+
+    /* Stats footer */
+    .g-stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; padding:0 12px 12px; }
+    .g-stat-item { background:#FFFFFF; border-radius:10px; padding:10px 6px; text-align:center; }
+    .g-stat-val { font-size:18px; font-weight:700; line-height:1; color:var(--color-text-primary); }
+    .g-stat-lbl { font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--color-text-secondary); margin-top:4px; }
   </style>
   <script>
   (function (m, a, z, e) {
@@ -557,6 +631,7 @@
     m.mazeUniversalSnippetApiKey = e;
   })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '9da16a9c-d16b-42b8-837b-4ba698f5135d');
   </script>
+  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
 </head>
 <body>
 
@@ -586,51 +661,43 @@
       </svg>
       <span class="nav-label">Indicadores</span>
     </div>
-    <div class="nav-item" title="Reportar avance">
+    <a class="nav-item" href="planeacion-indicadores.html" title="Planeación de indicadores">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" />
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
       </svg>
-      <span class="nav-label">Reportar avance</span>
-    </div>
-    <div class="nav-item" title="Medios de verificación">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
-      </svg>
-      <span class="nav-label">Medios de verificación</span>
-    </div>
+      <span class="nav-label">Planeación de indicadores</span>
+    </a>
     <div class="nav-item" title="Guía MIR">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
       </svg>
       <span class="nav-label">Guía MIR</span>
     </div>
-    <a class="nav-item" href="estructura-indicadores.html" title="Estructura de indicadores" style="text-decoration:none">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-      </svg>
-      <span class="nav-label">Estructura de indicadores</span>
-    </a>
-    <a class="nav-item" href="planeacion-metas-admin.html" title="Planeación de metas" style="text-decoration:none">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-      </svg>
-      <span class="nav-label">Planeación de metas</span>
-    </a>
     <a class="nav-item" href="validacion-reportes.html" title="Validación de reportes" style="text-decoration:none">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.746 3.746 0 0 1-3.296 1.043 3.745 3.745 0 0 1-3.068 1.593 3.745 3.745 0 0 1-3.068-1.593 3.746 3.746 0 0 1-3.296-1.043 3.746 3.746 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.746 3.746 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.745 3.745 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
       </svg>
       <span class="nav-label">Validación de reportes</span>
     </a>
-  </div>
+    <a class="nav-item" href="validacion-admin-dashboard.html" title="Validación de avance">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+      <span class="nav-label">Validación</span>
+    </a>
+      <a class="nav-item" href="reportes.html" title="Reportes">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"/>
+      </svg>
+      <span class="nav-label">Reportes</span>
+    </a>
+</div>
   <div class="sidebar-bottom">
-    <div class="nav-item" title="Configuración">
+    <a class="nav-item" href="configuracion.html" title="Configuración">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
       </svg>
       <span class="nav-label">Configuración</span>
-    </div>
+    </a>
     <div class="avatar-xs">LS</div>
   </div>
 </nav>
@@ -640,29 +707,24 @@
   <main class="main-content">
 
     <!-- PAGE HEADER -->
-    <div class="page-header">
+    <div class="page-header" style="display:none">
       <div>
         <h1 class="page-title">Bienvenida, Leticia</h1>
         <p class="page-subtitle">MIR COMAPA Sur &nbsp;·&nbsp; Período activo Q2-2026</p>
       </div>
-      <button class="btn-primary" onclick="window.location='consulta-mir.html'">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
-        </svg>
-        Ver MIR
-      </button>
     </div>
 
     <!-- ALERT INFO -->
-    <div class="alert-info">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+    <div class="alert-info" style="display:none">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 13.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" />
       </svg>
-      <p>El período de captura Q2-2026 está activo. Las fechas límite de reporte van del <strong>30 de junio al 1 de julio de 2026</strong>. Monitorea el avance por gerencia en la sección de seguimiento.</p>
+      <p>El período de captura <strong>está activo</strong>. Las fechas límite de reporte van del <strong>30 de junio al 1 de julio de 2026</strong>. Monitorea el avance por gerencia en la sección de seguimiento.</p>
     </div>
 
     <!-- INTRO CARD -->
-    <div class="intro-card">
+    <div class="intro-card" style="display:none">
       <div style="position:relative;z-index:1;">
         <div class="intro-badge">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="11" height="11">
@@ -672,6 +734,43 @@
         </div>
         <p class="intro-title">MIR COMAPA Sur — Sistema de monitoreo y seguimiento de indicadores</p>
         <p class="intro-body">Consulta la estructura de cada MIR, supervisa el avance de los reportes por gerencia y revisa el estado de validación de indicadores en tiempo real. El sistema integra 132 indicadores distribuidos en 4 gerencias.</p>
+      </div>
+    </div>
+
+    <!-- VALIDACIÓN EMBED -->
+    <div class="vadmin-embed">
+      <div style="background:var(--color-bg);border-radius:var(--radius-card);padding:24px;box-shadow:0px 1px 1.5px rgba(0,0,0,.06);">
+      <div class="vadmin-layout">
+
+        <!-- Izquierda: título + período -->
+        <div class="vadmin-kpi-col">
+          <div class="vadmin-title-wrap">
+            <h2 class="vadmin-title">Avance de captura<br>por gerencia</h2>
+          </div>
+          <div class="vadmin-period-card">
+            <div class="vadmin-period-label">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" style="flex-shrink:0;color:#7A7A7A">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
+                <circle cx="12" cy="15" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+              <span>Periodo de captura</span>
+            </div>
+            <div class="vadmin-period-dates">
+              <span id="vadmin-fecha-inicio">30 de junio</span>
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="flex-shrink:0;color:#9CA3AF">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+              <span id="vadmin-fecha-fin">1 de julio</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Derecha: grid de gerencias -->
+        <div class="vadmin-ger-col">
+          <div class="vadmin-grid" id="vadmin-gerencias-grid"></div>
+        </div>
+
+      </div>
       </div>
     </div>
 
@@ -723,34 +822,6 @@
         <p class="kpi-sub">Indicadores tipo fracción (%)</p>
       </div>
     </div>
-
-    <!-- MONITORING SECTION -->
-    <p class="section-label">Seguimiento por gerencia — Q2-2026</p>
-
-    <div class="kpi-strip">
-      <div class="kpi-card">
-        <p class="kpi-label">Completitud general</p>
-        <p class="kpi-value">75%</p>
-        <p class="kpi-sub">40 / 53 indicadores reportados</p>
-      </div>
-      <div class="kpi-card">
-        <p class="kpi-label">Aprobados</p>
-        <p class="kpi-value" style="color:#16A34A;">26</p>
-        <p class="kpi-sub">Indicadores aprobados por revisor</p>
-      </div>
-      <div class="kpi-card">
-        <p class="kpi-label">Con observaciones</p>
-        <p class="kpi-value" style="color:#EA580C;">4</p>
-        <p class="kpi-sub">Indicadores con observaciones</p>
-      </div>
-      <div class="kpi-card">
-        <p class="kpi-label">Pendientes de carga</p>
-        <p class="kpi-value" style="color:#D97706;">11</p>
-        <p class="kpi-sub">Sin evidencia cargada aún</p>
-      </div>
-    </div>
-
-    <div class="gerencia-grid" id="gerenciaGrid"></div>
 
     <!-- QUICK ACCESS -->
     <p class="section-label">Acceso rápido</p>
@@ -862,14 +933,8 @@
   </main>
 
   <!-- TOGGLE BUTTON -->
-  <button class="rp-toggle" id="rpToggle" title="Mostrar / ocultar panel">
-    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-    </svg>
-  </button>
-
   <!-- ═══ RIGHT PANEL ═══ -->
-  <aside class="right-panel" id="rightPanel">
+  <aside class="right-panel" id="rightPanel" style="display:none">
     <div class="rp-user">
       <div class="rp-avatar">LS</div>
       <div>
@@ -955,16 +1020,6 @@
 </div>
 
 <script>
-  // ── Right panel toggle ────────────────────────────────────────────────────
-  const panel = document.getElementById('rightPanel');
-  const toggle = document.getElementById('rpToggle');
-  const main = document.querySelector('.main-content');
-
-  toggle.addEventListener('click', () => {
-    const isCollapsed = panel.classList.toggle('collapsed');
-    toggle.classList.toggle('collapsed', isCollapsed);
-    main.classList.toggle('expanded', isCollapsed);
-  });
 
   // ── Gerencia icons ────────────────────────────────────────────────────────
   const ICONS = {
@@ -1048,6 +1103,185 @@
   if (grid && typeof GERENCIAS_MIR !== 'undefined') {
     grid.innerHTML = GERENCIAS_MIR.map(renderGerenciaCard).join('');
   }
+
+  // Compute totals dynamically from real data
+  if (typeof ACTIVIDADES_ENLACE !== 'undefined') {
+    const total = ACTIVIDADES_ENLACE.length;
+    const byGer = ACTIVIDADES_ENLACE.reduce(function(acc, a) {
+      acc[a.gerencia] = (acc[a.gerencia] || 0) + 1;
+      return acc;
+    }, {});
+    const pla = byGer['Gerencia de Planeación Estratégica'] || 0;
+    const com = byGer['Gerencia Comercial'] || 0;
+    const adm = byGer['Gerencia Administrativa'] || 0;
+    const tec = byGer['Gerencia Técnica'] || 0;
+    const setText = function(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+    setText('kpiTotal', total);
+    setText('rpTotal', total);
+    setText('rpStatPla', pla);
+    setText('rpStatCom', com);
+    setText('rpStatAdm', adm);
+    setText('rpStatTec', tec);
+    var introBody = document.querySelector('.intro-body');
+    if (introBody) {
+      introBody.textContent = 'Consulta la estructura de cada MIR, supervisa el avance de los reportes por gerencia y revisa el estado de validación de indicadores en tiempo real. El sistema integra ' + total + ' indicadores distribuidos en 4 gerencias.';
+    }
+  }
+</script>
+
+<script>
+(function () {
+  if (typeof ValidationAdminStore === 'undefined') return;
+
+  var MESES_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  var _hoy    = new Date();
+  var _maxPer = _hoy.getFullYear() + '-' + String(_hoy.getMonth() + 1).padStart(2, '0');
+  var _periodo = ValidationAdminStore.DEMO_PERIODO;
+
+  function _parsePer(p) { return { year: parseInt(p.slice(0,4),10), month: parseInt(p.slice(5,7),10) }; }
+  function _addMonths(p, delta) {
+    var d = _parsePer(p); var m = d.month - 1 + delta;
+    var y = d.year + Math.floor(m / 12); m = ((m % 12) + 12) % 12;
+    return y + '-' + String(m + 1).padStart(2, '0');
+  }
+  function _perLabel(p) { var d = _parsePer(p); return MESES_ES[d.month - 1] + ' ' + d.year; }
+
+  function _buildPeriodList() {
+    var periods = []; var cur = _maxPer;
+    for (var i = 0; i < 24; i++) {
+      periods.push(cur); cur = _addMonths(cur, -1);
+      if (cur < '2020-01') break;
+    }
+    var demoPer = ValidationAdminStore.DEMO_PERIODO;
+    if (periods.indexOf(demoPer) === -1) periods.push(demoPer);
+    periods.sort(function (a, b) { return b > a ? 1 : -1; });
+    return periods;
+  }
+
+  function renderPeriodPanel() {
+    var panel = document.getElementById('period-panel');
+    var demoPer = ValidationAdminStore.DEMO_PERIODO;
+    panel.innerHTML = _buildPeriodList().map(function (p) {
+      return '<div class="period-option' + (p === _periodo ? ' selected' : '') + '" onclick="selectPeriodo(\'' + p + '\')">' +
+        _perLabel(p) + (p === demoPer ? '<span class="period-option-demo">Demo</span>' : '') + '</div>';
+    }).join('');
+  }
+
+  function togglePeriodDropdown() {
+    var trigger = document.getElementById('period-trigger');
+    var panel   = document.getElementById('period-panel');
+    if (panel.classList.contains('open')) {
+      trigger.classList.remove('open'); panel.classList.remove('open');
+    } else {
+      renderPeriodPanel(); trigger.classList.add('open'); panel.classList.add('open');
+    }
+  }
+  window.togglePeriodDropdown = togglePeriodDropdown;
+
+  function selectPeriodo(p) {
+    _periodo = p;
+    document.getElementById('period-trigger').classList.remove('open');
+    document.getElementById('period-panel').classList.remove('open');
+    renderAll();
+  }
+  window.selectPeriodo = selectPeriodo;
+
+  document.addEventListener('click', function (e) {
+    var dd = document.getElementById('period-dropdown');
+    if (dd && !dd.contains(e.target)) {
+      var t = document.getElementById('period-trigger');
+      var p = document.getElementById('period-panel');
+      if (t) t.classList.remove('open');
+      if (p) p.classList.remove('open');
+    }
+  });
+
+  var _estadoLabels = {
+    en_captura: 'En captura', enviado_revision: 'En revisión',
+    listo_para_validar: 'Listo para validar', validado: 'Validado',
+    regresado_correccion_parcial: 'Reg. a corrección',
+  };
+  var _semaforoLabels = { verde: 'Cumplimiento verde', amarillo: 'Cumplimiento con alerta', rojo: 'Incumplimiento', nd: 'Sin datos' };
+
+  function _semaforoAgregado(g) {
+    if (g.rojo > 0) return 'rojo'; if (g.amarillo > 0) return 'amarillo';
+    if (g.verde > 0) return 'verde'; return 'nd';
+  }
+  function _pctSafe(v, t) { return t ? Math.round(v / t * 100) : 0; }
+
+  function renderAll() {
+    var gerencias = ValidationAdminStore.getGerencias(_periodo);
+    renderCards(gerencias);
+  }
+
+  function renderCards(gerencias) {
+    var grid = document.getElementById('vadmin-gerencias-grid');
+    if (!grid) return;
+    if (!gerencias.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--color-text-secondary);background:var(--color-bg);border-radius:var(--radius-card)">No hay gerencias configuradas.</div>';
+      return;
+    }
+    var allEmpty = gerencias.every(function (g) { return g.indicadoresConCorte === 0; });
+    grid.innerHTML = gerencias.map(function (g) {
+      var estadoLbl  = _estadoLabels[g.periodoEstado] || g.periodoEstado;
+      var pctCorte   = _pctSafe(g.indicadoresConCorte, g.totalIndicadores);
+      var accentColor = g.color || '#8B1D3A';
+      var url = 'validacion-gerencia-detalle.html?ger=' + g.id + '&periodo=' + _periodo;
+      var incumStatus = g.rojo > 0 ? 'rojo' : g.amarillo > 0 ? 'amarillo' : 'verde';
+      var incumText = g.rojo > 0
+        ? g.rojo + ' en incumplimiento de meta'
+        : g.amarillo > 0
+          ? g.amarillo + ' con alerta de meta'
+          : 'Todos en cumplimiento';
+      var iconPath = (typeof ICONS !== 'undefined' && ICONS[g.id]) ? ICONS[g.id] : '<path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/>';
+      var iconHtml = '<div style="width:34px;height:34px;border-radius:10px;background:' + accentColor + '1A;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="' + accentColor + '" width="17" height="17">' + iconPath + '</svg></div>';
+      return [
+        '<a class="g-card" href="' + url + '">',
+        '  <div class="g-body">',
+        '    <div class="g-header">',
+        '      <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">',
+        '        ' + iconHtml,
+        '        <div style="min-width:0">',
+        '          <div class="g-name">' + g.nombre.replace('Gerencia de ','').replace('Gerencia ','') + '</div>',
+        '          <div class="g-meta">' + g.numUnidades + ' unidades · ' + g.totalIndicadores + ' indicadores total</div>',
+        '        </div>',
+        '      </div>',
+        '      <span class="g-estado-badge ' + g.periodoEstado + '"><span class="badge-dot"></span>' + estadoLbl + '</span>',
+        '    </div>',
+        '    <div class="g-fraction">',
+        '      <div class="g-fraction-row">',
+        '        <span class="g-fraction-num">' + g.indicadoresConCorte + '</span>',
+        '        <span class="g-fraction-sep">/</span>',
+        '        <span class="g-fraction-total">' + g.totalIndicadores + '</span>',
+        '        <span class="g-fraction-label" style="margin-left:4px">indicadores con corte este mes</span>',
+        '      </div>',
+        '      <div class="g-progress-bar"><div class="g-progress-fill" style="width:' + pctCorte + '%;background:' + accentColor + '80"></div></div>',
+        '    </div>',
+        '    <div class="g-incum-row ' + incumStatus + '">',
+        '      <div class="g-incum-dot ' + incumStatus + '"></div>',
+        '      <span class="g-incum-text ' + incumStatus + '">' + incumText + '</span>',
+        '    </div>',
+        '  </div>',
+        '  <div class="g-stats-row">',
+        '    <div class="g-stat-item"><div class="g-stat-val">' + (g.aprobados + g.validados) + '</div><div class="g-stat-lbl">Aprobados</div></div>',
+        '    <div class="g-stat-item"><div class="g-stat-val">' + g.enRevision + '</div><div class="g-stat-lbl">En revisión</div></div>',
+        '    <div class="g-stat-item"><div class="g-stat-val">' + g.regresados + '</div><div class="g-stat-lbl">Regresados</div></div>',
+        '    <div class="g-stat-item"><div class="g-stat-val">' + g.pendientes + '</div><div class="g-stat-lbl">Pendientes</div></div>',
+        '  </div>',
+        '</a>',
+      ].join('\n');
+    }).join('\n');
+
+    if (allEmpty) {
+      var hint = document.createElement('p');
+      hint.style.cssText = 'text-align:center;font-size:12px;color:var(--color-primary);font-weight:600;margin-top:12px;grid-column:1/-1';
+      hint.textContent = 'Los datos demo están en Mayo 2026. Navega a ese período para verlos.';
+      grid.appendChild(hint);
+    }
+  }
+
+  renderAll();
+})();
 </script>
 </body>
 </html>

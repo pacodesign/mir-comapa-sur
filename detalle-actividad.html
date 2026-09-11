@@ -48,7 +48,7 @@
     .ap-divider{height:1px;background:var(--color-border);margin:14px 0;}
 
     /* BREADCRUMB */
-    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;}
+    .breadcrumb{display:none;}align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;}
     .breadcrumb a{color:var(--color-primary);text-decoration:none;font-weight:600;}
     .breadcrumb a:hover{text-decoration:underline;}
     .breadcrumb svg{width:14px;height:14px;}
@@ -67,7 +67,7 @@
     .estado-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
     .estado-badge::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;}
     .borrador{background:#F3F4F6;color:#6B7280;}.borrador::before{background:#9CA3AF;}
-    .pendiente_carga{background:#FEF3C7;color:#D97706;}.pendiente_carga::before{background:#F59E0B;}
+    .pendiente_carga{background:#FEF3C7;color:var(--color-border);}.pendiente_carga::before{background:#F59E0B;}
     .pendiente_envio{background:#EFF6FF;color:#2563EB;}.pendiente_envio::before{background:#3B82F6;}
     .enviado_revision{background:#EFF6FF;color:#2563EB;}.enviado_revision::before{background:#3B82F6;}
     .observado{background:#FFF7ED;color:#EA580C;}.observado::before{background:#F97316;}
@@ -148,7 +148,7 @@
     .file-icon.pdf{background:#FEE2E2;color:#DC2626;}
     .file-icon.excel{background:#DCFCE7;color:#16A34A;}
     .file-icon.word{background:#DBEAFE;color:#2563EB;}
-    .file-icon.img{background:#FEF3C7;color:#D97706;}
+    .file-icon.img{background:#FEF3C7;color:var(--color-border);}
     .file-info{flex:1;min-width:0;}
     .file-name{font-size:13px;font-weight:600;color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .file-meta{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
@@ -188,7 +188,7 @@
     .justify-inner{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--color-border);}
     .justify-inner.open{display:block;}
     .justify-warning{display:flex;align-items:flex-start;gap:8px;background:#FFFBEB;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#92400E;line-height:1.5;}
-    .justify-warning svg{width:14px;height:14px;flex-shrink:0;margin-top:1px;color:#D97706;}
+    .justify-warning svg{width:14px;height:14px;flex-shrink:0;margin-top:1px;color:var(--color-border);}
     .justify-ta{width:100%;border:1px solid var(--color-border);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:13px;color:var(--color-text-primary);resize:vertical;min-height:80px;outline:none;transition:border-color .15s;}
     .justify-ta:focus{border-color:var(--color-border);}
     .justify-ta.error{border-color:var(--color-danger);}
@@ -209,12 +209,12 @@
     .obs-card{background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:16px;}
     .obs-card-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
     .obs-card-icon{width:32px;height:32px;background:#FEF3C7;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .obs-card-icon svg{width:16px;height:16px;color:#D97706;}
+    .obs-card-icon svg{width:16px;height:16px;color:var(--color-border);}
     .obs-card-who{font-size:12px;font-weight:700;color:var(--color-text-primary);}
     .obs-card-when{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
     .obs-card-text{font-size:13px;color:#78350F;line-height:1.65;background:rgba(255,255,255,.7);border-radius:8px;padding:12px 14px;border:1px solid #FDE68A;}
     .obs-status{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;margin-top:10px;}
-    .obs-status.pendiente{color:#D97706;}
+    .obs-status.pendiente{color:var(--color-border);}
     .obs-status.atendida{color:#16A34A;}
     .obs-status svg{width:14px;height:14px;}
 
@@ -268,6 +268,21 @@
     .obs-ta:focus{border-color:var(--color-primary);}
     .revisor-obs-wrap{margin-top:10px;padding-top:10px;border-top:1px solid var(--color-border);}
     .revisor-obs-label{font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px;}
+    .obs-cat-dropdown{position:relative;width:100%;margin-bottom:8px;}
+    .obs-cat-trigger{width:100%;background:var(--color-surface);border:1px solid var(--color-border);border-radius:10px;padding:8px 12px;font-family:inherit;font-size:12px;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;transition:border-color .15s,border-radius .1s;}
+    .obs-cat-trigger:hover{border-color:var(--color-border);}
+    .obs-cat-trigger span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .obs-cat-trigger svg{width:14px;height:14px;color:var(--color-text-secondary);flex-shrink:0;transition:transform .2s;}
+    .obs-cat-dropdown.open .obs-cat-trigger{border-color:var(--color-border);border-bottom-left-radius:0;border-bottom-right-radius:0;}
+    .obs-cat-dropdown.open .obs-cat-trigger svg{transform:rotate(180deg);}
+    .obs-cat-menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--color-bg);border:1px solid var(--color-border);border-top:none;border-bottom-left-radius:10px;border-bottom-right-radius:10px;overflow:hidden;z-index:300;box-shadow:0 6px 16px rgba(0,0,0,.1);}
+    .obs-cat-dropdown.open .obs-cat-menu{display:block;}
+    .obs-cat-option{padding:9px 12px;font-size:12px;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s;border-bottom:1px solid var(--color-border);}
+    .obs-cat-option:last-child{border-bottom:none;}
+    .obs-cat-option:hover{background:var(--color-surface);}
+    .obs-cat-option.selected{color:var(--color-primary);font-weight:700;}
+    .obs-cat-option .opt-check{width:14px;height:14px;flex-shrink:0;color:var(--color-primary);visibility:hidden;}
+    .obs-cat-option.selected .opt-check{visibility:visible;}
     .ap-step{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--color-text-secondary);margin-bottom:5px;}
     .ap-step svg{width:14px;height:14px;flex-shrink:0;}
     .ap-step.done{color:var(--color-success);}
@@ -304,6 +319,15 @@
     .btn-modal.cancel{background:var(--color-surface);color:var(--color-text-primary);}
     .btn-modal.confirm{background:var(--color-success);color:white;}
     .btn-modal.confirm-primary{background:var(--color-primary);color:white;}
+    .btn-modal.confirm-green{background:#16A34A;color:white;}
+    .modal-summary{background:var(--color-surface);border-radius:12px;overflow:hidden;margin-bottom:20px;}
+    .modal-summary-row{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-bottom:1px solid var(--color-border);}
+    .modal-summary-row:last-child{border-bottom:none;}
+    .modal-summary-lbl{font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;min-width:90px;padding-top:1px;}
+    .modal-summary-val{font-size:13px;font-weight:600;color:var(--color-text-primary);line-height:1.4;}
+    .modal-summary-val.accent{color:var(--color-primary);}
+    .modal-warning{background:#FFFBEB;border-radius:10px;padding:12px 14px;margin-bottom:18px;}
+    .modal-warning p{font-size:12px;color:#78350F;line-height:1.6;}
 
     /* TOAST */
     .toast{position:fixed;bottom:24px;right:24px;background:#1A1A1A;color:white;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.2);transform:translateY(80px);opacity:0;transition:all .3s ease;z-index:2000;pointer-events:none;}
@@ -384,6 +408,28 @@
     .step-done-chip svg{width:10px;height:10px;}
     .step-lock-icon{color:#D1D5DB;flex-shrink:0;}
     .step-lock-icon svg{width:15px;height:15px;display:block;}
+
+    /* ── File viewer ── */
+    .file-viewer-overlay{position:fixed;inset:0;background:#0D0D0D;z-index:2000;display:none;flex-direction:column;}
+    .file-viewer-overlay.open{display:flex;}
+    .file-viewer-bar{height:56px;background:#1A1A1A;border-bottom:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:space-between;padding:0 20px;gap:16px;flex-shrink:0;}
+    .fv-info{display:flex;align-items:center;gap:12px;min-width:0;}
+    .fv-type-badge{font-size:10px;font-weight:800;color:white;background:#374151;border-radius:6px;padding:3px 7px;flex-shrink:0;letter-spacing:.03em;}
+    .fv-name{font-size:13px;font-weight:700;color:white;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .fv-meta{font-size:11px;color:#6B7280;margin-top:1px;}
+    .fv-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+    .fv-btn{background:rgba(255,255,255,.1);color:white;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
+    .fv-btn:hover{background:rgba(255,255,255,.18);}
+    .fv-btn svg{width:14px;height:14px;}
+    .fv-close{width:34px;height:34px;background:rgba(255,255,255,.08);border:none;border-radius:8px;cursor:pointer;color:white;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0;}
+    .fv-close:hover{background:rgba(255,255,255,.18);}
+    .fv-close svg{width:16px;height:16px;}
+    .fv-content{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;padding:32px;}
+    .fv-img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.6);}
+    .fv-placeholder{text-align:center;}
+    .fv-placeholder-icon{width:72px;height:72px;border-radius:18px;background:#1F2937;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:22px;font-weight:800;color:#9CA3AF;}
+    .fv-placeholder-name{font-size:15px;font-weight:700;color:#D1D5DB;margin-bottom:8px;}
+    .fv-placeholder-sub{font-size:13px;color:#4B5563;line-height:1.5;}
     .step-sep{height:1px;background:var(--color-border);}
     .step-edit-btn{margin-left:auto;background:transparent;border:1.5px solid var(--color-border);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:600;font-family:inherit;color:var(--color-text-secondary);cursor:pointer;display:flex;align-items:center;gap:4px;transition:border-color .15s,color .15s;flex-shrink:0;}
     .step-edit-btn:hover{border-color:var(--color-primary);color:var(--color-primary);}
@@ -399,13 +445,13 @@
 
     /* SIN AVANCE */
     .sin-avance-banner{display:flex;align-items:flex-start;gap:10px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;margin-top:14px;}
-    .sin-avance-banner svg{width:15px;height:15px;color:#D97706;flex-shrink:0;margin-top:1px;}
+    .sin-avance-banner svg{width:15px;height:15px;color:var(--color-border);flex-shrink:0;margin-top:1px;}
     .sin-avance-banner p{font-size:12px;color:#78350F;line-height:1.55;}
     .sin-avance-ro{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;}
     .sin-avance-ro svg{width:15px;height:15px;color:#EA580C;flex-shrink:0;}
     .sin-avance-ro p{font-size:13px;color:#C2410C;font-weight:600;}
     .btn-sin-avance{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--color-text-secondary);border:1.5px dashed var(--color-border);border-radius:var(--radius-btn);padding:7px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:border-color .15s,color .15s;margin-top:14px;}
-    .btn-sin-avance:hover{border-color:#D97706;color:#D97706;}
+    .btn-sin-avance:hover{border-color:var(--color-border);color:var(--color-border);}
     .btn-sin-avance svg{width:14px;height:14px;}
     .btn-cancel-link{background:none;border:none;color:var(--color-text-secondary);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:underline;padding:0;}
     .btn-cancel-link:hover{color:var(--color-text-primary);}
@@ -420,7 +466,7 @@
     .periodos-table td{font-size:12px;padding:5px 10px 5px 0;border-bottom:1px solid var(--color-border);vertical-align:middle;}
     .periodos-table tr:last-child td{border-bottom:none;}
     .ph-ap{color:#16A34A;font-size:11px;font-weight:600;white-space:nowrap;}
-    .ph-obs{color:#D97706;font-size:11px;font-weight:600;}
+    .ph-obs{color:var(--color-border);font-size:11px;font-weight:600;}
     .ph-acum-val{color:var(--color-text-primary);font-weight:700;}
   </style>
   <script>
@@ -444,6 +490,7 @@
     m.mazeUniversalSnippetApiKey = e;
   })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '9da16a9c-d16b-42b8-837b-4ba698f5135d');
   </script>
+  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
 </head>
 <body>
 
@@ -480,6 +527,25 @@
 </div>
 
 <!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="aprobarModal" onclick="if(event.target===this)cerrarAprobarModal()">
+  <div class="modal-card">
+    <div class="modal-icon green"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="22" height="22"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
+    <h3 class="modal-title">Confirmar aprobación</h3>
+    <p class="modal-sub">Estás a punto de aprobar el siguiente reporte. Verifica que la información sea correcta antes de continuar.</p>
+    <div class="modal-summary" id="aprobarSummary"></div>
+    <div class="modal-warning">
+      <p>Esta acción cambiará el estado del indicador a <strong>Aprobado</strong> y notificará al Enlace. No puede deshacerse desde esta vista.</p>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-modal cancel" onclick="cerrarAprobarModal()">Cancelar</button>
+      <button class="btn-modal confirm-green" onclick="confirmarAprobacion()">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="14" height="14" style="margin-right:4px"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        Aprobar reporte
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="confirmModal">
   <div class="modal-card">
     <div class="modal-icon green"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="22" height="22"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
@@ -503,9 +569,20 @@
 
 <script>
   // ── State ─────────────────────────────────────────────────────────────────
-  const isRevisor   = new URLSearchParams(location.search).get('rol') === 'revisor';
+  (function() {
+    try {
+      var s = JSON.parse(localStorage.getItem('comapa_mir_session') || 'null');
+      if (s && s.rol === 'Revisor') {
+        var home = document.querySelector('.sidebar-nav a[title="Inicio"]');
+        if (home) home.href = 'dashboard-revisor.html';
+      }
+    } catch(e) {}
+  })();
+  const isRevisor   = new URLSearchParams(location.search).get('rol') === 'revisor'
+    || (function(){ try { var s = JSON.parse(localStorage.getItem('comapa_mir_session')||'null'); return s && s.rol === 'Revisor'; } catch(e){ return false; } })();
   let actividad     = null;
   let obsRevisorText = '';
+  let obsCategoria   = '';
   let obsOpen        = false;
   let uploadLoading = false;
   let uploadError   = null;   // { name, msg }
@@ -912,8 +989,61 @@
   }
   // ── Análisis del reporte ──────────────────────────────────────────────────
   function toggleObs() { obsOpen = !obsOpen; renderPage(); }
-  function onObsInput(v) { obsRevisorText = v; }
+  function onObsInput(v) {
+    obsRevisorText = v;
+    var btn = document.querySelector('.obs-ta + button.btn-full.warning');
+    if (btn) btn.disabled = v.trim().length === 0;
+  }
+  function onObsCategoria(v) { obsCategoria = v; }
+  function toggleObsCat(e) {
+    e.stopPropagation();
+    var dd = document.getElementById('obsCatDropdown');
+    if (dd) dd.classList.toggle('open');
+  }
+  function selectObsCat(value, label) {
+    onObsCategoria(value);
+    var lbl = document.getElementById('obsCatLabel');
+    if (lbl) lbl.textContent = label;
+    var dd = document.getElementById('obsCatDropdown');
+    if (dd) {
+      dd.classList.remove('open');
+      dd.querySelectorAll('.obs-cat-option').forEach(function(opt) {
+        opt.classList.toggle('selected', opt.textContent.trim() === label);
+        var chk = opt.querySelector('.opt-check');
+        if (chk) chk.style.visibility = opt.classList.contains('selected') ? 'visible' : 'hidden';
+      });
+    }
+  }
+  document.addEventListener('click', function(e) {
+    var dd = document.getElementById('obsCatDropdown');
+    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+  });
   function aprobarIndicador() {
+    var act = actividad;
+    var nArchivos = act.archivosEvidencia ? act.archivosEvidencia.length : 0;
+    var avanceLabel = avanceValue && avanceValue.trim() ? avanceValue : '—';
+    var rows = [
+      { l: 'Indicador', v: act.id, accent: true },
+      { l: 'Nombre', v: act.nombreIndicador },
+      { l: 'Unidad', v: act.unidadResponsable || '—' },
+      { l: 'Período', v: act.periodo || '—' },
+      { l: 'Avance reportado', v: avanceLabel },
+      { l: 'Evidencia', v: nArchivos + ' archivo' + (nArchivos !== 1 ? 's' : '') + ' adjunto' + (nArchivos !== 1 ? 's' : '') },
+      { l: 'Enlace', v: act.responsableEnlace || '—' },
+    ];
+    document.getElementById('aprobarSummary').innerHTML = rows.map(function(r) {
+      return '<div class="modal-summary-row">' +
+        '<span class="modal-summary-lbl">' + r.l + '</span>' +
+        '<span class="modal-summary-val' + (r.accent ? ' accent' : '') + '">' + r.v + '</span>' +
+      '</div>';
+    }).join('');
+    document.getElementById('aprobarModal').classList.add('open');
+  }
+  function cerrarAprobarModal() {
+    document.getElementById('aprobarModal').classList.remove('open');
+  }
+  function confirmarAprobacion() {
+    cerrarAprobarModal();
     actividad.estado = 'aprobado_revisor';
     actividad.historial.push({ fecha: nowStr(), hora: nowTime(), usuario: 'Carlos Mendoza', rol: 'Revisor',
       accion: 'Reporte aprobado por el Revisor', estadoAnterior: 'enviado_revision', estadoNuevo: 'aprobado_revisor' });
@@ -925,10 +1055,10 @@
     if (!obsRevisorText.trim()) return;
     actividad.estado = 'observado';
     actividad.observaciones = actividad.observaciones || [];
-    actividad.observaciones.push({ fecha: nowStr(), hora: nowTime(), autor: 'Carlos Mendoza', texto: obsRevisorText });
+    actividad.observaciones.push({ fecha: nowStr(), hora: nowTime(), autor: 'Carlos Mendoza', rolAutor: 'Revisor', texto: obsRevisorText, categoria: obsCategoria || null });
     actividad.historial.push({ fecha: nowStr(), hora: nowTime(), usuario: 'Carlos Mendoza', rol: 'Revisor',
-      accion: 'Observación enviada al Enlace', estadoAnterior: 'enviado_revision', estadoNuevo: 'observado' });
-    obsOpen = false; obsRevisorText = '';
+      accion: 'Observación enviada al Enlace' + (obsCategoria ? ' — ' + obsCategoria : ''), estadoAnterior: 'enviado_revision', estadoNuevo: 'observado' });
+    obsOpen = false; obsRevisorText = ''; obsCategoria = '';
     renderPage();
     showToast('Observación enviada. El Enlace será notificado.');
   }
@@ -1377,6 +1507,7 @@
             </div>
             <div class="file-actions">
               <span class="file-estado ${fSt}">${fLbl}</span>
+              <button class="file-btn" onclick="openFileViewer('${f.id}')" title="Ver archivo"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg></button>
               ${isRep ? `<button class="file-btn" onclick="replaceFile('${f.id}')" title="Reemplazar archivo"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg></button>` : ''}
               ${isDel ? `<button class="file-btn del" onclick="deleteFile('${f.id}')" title="Eliminar"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg></button>` : ''}
             </div>
@@ -1600,7 +1731,7 @@
     ];
 
     document.getElementById('actionPanel').innerHTML = `
-      <a class="ap-back" href="historial-revisor.html"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>Mis indicadores</a>
+      <a class="ap-back" href="bandeja-revision.html"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>Bandeja de revisión</a>
       <div class="ap-divider"></div>
 
       <p class="ap-title">Estado del reporte</p>
@@ -1625,6 +1756,20 @@
         </button>
         ${obsOpen ? `
           <div class="revisor-obs-wrap">
+            <span class="revisor-obs-label">Tipo de observación</span>
+            <div class="obs-cat-dropdown" id="obsCatDropdown">
+              <button type="button" class="obs-cat-trigger" onclick="toggleObsCat(event)">
+                <span id="obsCatLabel">Sin categoría específica</span>
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+              </button>
+              <div class="obs-cat-menu" id="obsCatMenu">
+                ${[['','Sin categoría específica'],['Archivo incorrecto','Archivo incorrecto'],['Evidencia incompleta','Evidencia incompleta'],['Medio de verificación no corresponde','Medio de verificación no corresponde'],['Formato inválido','Formato inválido'],['Información ilegible','Información ilegible'],['Justificación insuficiente','Justificación insuficiente'],['Otro','Otro']].map(([v,l])=>`
+                  <div class="obs-cat-option${obsCategoria===v?' selected':''}" onclick="selectObsCat('${v.replace(/'/g,"\\'")}','${l.replace(/'/g,"\\'")}')">
+                    <svg class="opt-check" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+                    ${l}
+                  </div>`).join('')}
+              </div>
+            </div>
             <span class="revisor-obs-label">Observación al enlace</span>
             <textarea class="obs-ta" placeholder="Describe qué debe corregir o complementar el enlace en su reporte…" oninput="onObsInput(this.value)">${obsRevisorText}</textarea>
             <button class="btn-full warning" onclick="enviarObservacion()" style="margin-top:8px" ${obsRevisorText.trim() ? '' : 'disabled'}>
@@ -1772,7 +1917,7 @@
 
   // ── Init ──────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
-    const id = getParam('id') || 'PLA-ACT-1-1';
+    const id = getParam('id') || 'PLA-ACT-4';
     actividad = getActividad(id);
     // Para el enlace, todos los indicadores están pendientes de carga
     if (actividad && !isRevisor) {
@@ -1810,6 +1955,60 @@
   });
 
   document.getElementById('confirmModal').addEventListener('click', e => { if (e.target === document.getElementById('confirmModal')) closeModal(); });
+
+  // ── File viewer ───────────────────────────────────────────────────────────
+  function openFileViewer(fileId) {
+    var f = (actividad.archivosEvidencia || []).find(function(x) { return x.id === fileId; });
+    if (!f) return;
+    document.getElementById('fvName').textContent = f.nombre;
+    document.getElementById('fvMeta').textContent = f.tipo + ' · ' + f.tamanio + ' · ' + f.fechaCarga;
+    document.getElementById('fvTypeBadge').textContent = f.tipo;
+    var isImg = f.preview && typeof f.preview === 'string' && f.preview.startsWith('data:image');
+    var content;
+    if (isImg) {
+      content = '<img class="fv-img" src="' + f.preview + '" alt="' + f.nombre + '">';
+    } else {
+      content =
+        '<div class="fv-placeholder">' +
+          '<div class="fv-placeholder-icon">' + fileIconLbl(f.tipo) + '</div>' +
+          '<p class="fv-placeholder-name">' + f.nombre + '</p>' +
+          '<p class="fv-placeholder-sub">Vista previa no disponible para archivos ' + f.tipo + '.<br>Descarga el archivo para visualizarlo.</p>' +
+        '</div>';
+    }
+    document.getElementById('fvContent').innerHTML = content;
+    window._fvFile = f;
+    document.getElementById('fileViewerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFileViewer() {
+    document.getElementById('fileViewerOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeFileViewer(); });
 </script>
+
+<!-- FILE VIEWER OVERLAY -->
+<div class="file-viewer-overlay" id="fileViewerOverlay">
+  <div class="file-viewer-bar">
+    <div class="fv-info">
+      <span class="fv-type-badge" id="fvTypeBadge">PDF</span>
+      <div>
+        <p class="fv-name" id="fvName"></p>
+        <p class="fv-meta" id="fvMeta"></p>
+      </div>
+    </div>
+    <div class="fv-actions">
+      <button class="fv-btn" onclick="showToast('Descarga simulada: ' + (window._fvFile ? window._fvFile.nombre : ''))">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+        Descargar
+      </button>
+      <button class="fv-close" onclick="closeFileViewer()" title="Cerrar (Esc)">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="fv-content" id="fvContent"></div>
+</div>
+
 </body>
 </html>

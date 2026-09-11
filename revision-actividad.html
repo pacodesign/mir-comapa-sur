@@ -297,6 +297,7 @@
     m.mazeUniversalSnippetApiKey = e;
   })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '9da16a9c-d16b-42b8-837b-4ba698f5135d');
   </script>
+  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
 </head>
 <body>
 
@@ -481,8 +482,8 @@
   function onObsInput() {
     const val = document.getElementById('obsTexto').value;
     document.getElementById('obsCharCount').textContent = val.length;
-    document.getElementById('btnConfirmObs').disabled = val.trim().length < 20;
-    if (val.trim().length >= 20) document.getElementById('obsTexto').classList.remove('error');
+    document.getElementById('btnConfirmObs').disabled = val.trim().length === 0;
+    if (val.trim().length > 0) document.getElementById('obsTexto').classList.remove('error');
   }
 
   function confirmarObservacion() {
@@ -583,11 +584,11 @@
     const roVal   = (val) => `<p style="font-size:13px;color:var(--color-text-primary);line-height:1.55;margin-bottom:12px">${val}</p>`;
 
     let narrativaHTML = '';
-    if (ar.comentario) {
+    if (ar && ar.comentario) {
       narrativaHTML += `<div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--color-border)">
         ${roLabel('Comentario del período')}${roVal(ar.comentario)}</div>`;
     }
-    if (ar.analisis && (ar.analisis.causas || ar.analisis.riesgos || ar.analisis.medidas)) {
+    if (ar && ar.analisis && (ar.analisis.causas || ar.analisis.riesgos || ar.analisis.medidas)) {
       narrativaHTML += `<div style="${ar.comentario ? '' : 'margin-top:16px;padding-top:16px;border-top:1px solid var(--color-border)'}">
         <p style="font-size:12px;font-weight:700;color:var(--color-text-primary);margin-bottom:10px">Análisis de resultados</p>
         ${ar.analisis.causas  ? roLabel('Causas del resultado')  + roVal(ar.analisis.causas)  : ''}
@@ -596,7 +597,7 @@
       </div>`;
     }
 
-    const hasNarrativa = !!(ar.comentario || (ar.analisis && (ar.analisis.causas || ar.analisis.riesgos || ar.analisis.medidas)));
+    const hasNarrativa = !!(ar && (ar.comentario || (ar.analisis && (ar.analisis.causas || ar.analisis.riesgos || ar.analisis.medidas))));
     const narrativaBadge = hasNarrativa
       ? `<span style="font-size:10px;font-weight:700;background:#E0F2FE;color:#0369A1;padding:2px 8px;border-radius:999px;margin-left:6px">Con narrativa</span>`
       : '';
@@ -672,7 +673,7 @@
             ${h.estadoAnterior?`<span>${ESTADO_CFG[h.estadoAnterior]?.label||h.estadoAnterior}</span><span style="color:#D1D5DB;">→</span>`:''}
             ${h.estadoNuevo?`<span>${ESTADO_CFG[h.estadoNuevo]?.label||h.estadoNuevo}</span>`:''}
           </p>` : ''}
-        <p class="tl-actor">${h.usuario} · ${h.rol}</p>
+        <p class="tl-actor">${h.usuario ? h.usuario + ' · ' : ''}${h.rol}</p>
       </div>`).join('');
 
     document.getElementById('mainContent').innerHTML = `
@@ -719,7 +720,7 @@
             <p>${act.medioVerificacion}</p>
             <span class="format-badge">Formato: ${act.medioVerificacion}</span>
           </div>
-          <div style="background:var(--color-surface);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--color-text-secondary);">${act.reglasExtra}</div>
+          ${act.reglasExtra ? `<div style="background:var(--color-surface);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--color-text-secondary);">${act.reglasExtra}</div>` : ''}
         </div>
       </div>
 
@@ -900,7 +901,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const id = getParam('id') || 'PLA-ACT-1-1';
+    const id = getParam('id') || 'PLA-ACT-4';
     actividad = getActividad(id);
     if (!actividad) {
       document.getElementById('mainContent').innerHTML = '<div style="text-align:center;padding:80px;"><h2>Actividad no encontrada</h2><p><a href="bandeja-revision.html">← Regresar a bandeja</a></p></div>';

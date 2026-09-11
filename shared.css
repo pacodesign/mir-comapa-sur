@@ -1,0 +1,760 @@
+/*
+ * shared.css — COMAPA Sur · Sistema MIR
+ * Design System canónico. Todos los archivos HTML deben importar este archivo.
+ * Fuente de verdad para tokens, layout, y componentes base.
+ *
+ * ÍNDICE
+ * 1. Tokens (variables CSS)
+ * 2. Reset base
+ * 3. Layout (sidebar + main-content)
+ * 4. Sidebar component
+ * 5. Page header
+ * 6. Buttons
+ * 7. Cards
+ * 8. Estado badges
+ * 9. Section label
+ * 10. Tables
+ * 11. Form inputs
+ * 12. Modals
+ * 13. Right panel
+ * 14. Utility classes
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   1. TOKENS
+   ───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --color-primary:        #8B1D3A;
+  --color-accent:         #8B1D3A;
+  --color-accent-dark:    #6B1630;
+
+  /* Semantic */
+  --color-danger:         #EF4444;
+  --color-warning:        #F59E0B;
+  --color-success:        #22C55E;
+  --color-info:           #3B82F6;
+
+  /* Tints (bg de badges / chips) */
+  --color-danger-tint:    #FEF2F2;
+  --color-warning-tint:   #FFFBEB;
+  --color-success-tint:   #F0FDF4;
+  --color-info-tint:      #EFF6FF;
+  --color-primary-tint:   #F5E8EC;
+
+  /* Neutral text */
+  --color-link:           #6B7280;
+  --color-text-primary:   #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-muted:     #9CA3AF;
+
+  /* Surface */
+  --color-bg:             #FFFFFF;
+  --color-surface:        #F7F7F7;
+  --color-border:         #E5E7EB;
+  --color-avatar-bg:      #9CA3AF;
+
+  /* Shape */
+  --radius-card:          16px;
+  --radius-btn:           999px;
+  --radius-input:         10px;
+  --radius-badge:         999px;
+  --radius-modal:         20px;
+
+  /* Spacing */
+  --pad-card:             20px;
+  --gap:                  16px;
+
+  /* Elevation */
+  --shadow-card:          0 1px 3px rgba(0,0,0,.06);
+  --shadow-card-hover:    0 4px 14px rgba(0,0,0,.10);
+  --shadow-modal:         0 8px 32px rgba(0,0,0,.18);
+
+  /* Typography */
+  --font-family:          'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   2. RESET BASE
+   ───────────────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  display: flex;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   3. LAYOUT
+   ───────────────────────────────────────────────────────────────────────────── */
+.app-wrapper {
+  display: flex;
+  flex: 1;
+  margin-left: 148px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px;
+  min-width: 0;
+}
+
+.main-content.with-panel {
+  margin-right: 240px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   4. SIDEBAR
+   ───────────────────────────────────────────────────────────────────────────── */
+.sidebar {
+  width: 148px;
+  background: var(--color-bg);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 16px 0;
+  gap: 4px;
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  width: 36px; height: 36px;
+  background: var(--color-primary);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+  flex-shrink: 0;
+}
+.sidebar-logo svg {
+  width: 18px; height: 18px;
+  stroke: white;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  align-items: stretch;
+  padding: 0 8px;
+}
+
+.nav-item {
+  width: 100%;
+  height: auto;
+  padding: 7px 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: background .15s, color .15s;
+  position: relative;
+  text-decoration: none;
+}
+.nav-item:hover { background: var(--color-surface); }
+
+/* Enlace / Administrador — acento primario (maroon) */
+.nav-item.active {
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+}
+
+/* Revisor — acento info (azul). Aplicar clase .sidebar--revisor al .sidebar */
+.sidebar--revisor .nav-item.active {
+  background: var(--color-info-tint);
+  color: var(--color-info);
+}
+
+.nav-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-item svg {
+  width: 18px; height: 18px;
+  flex-shrink: 0;
+}
+
+.nav-badge {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  border: 1.5px solid var(--color-bg);
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.avatar-xs {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--color-avatar-bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  color: white;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Avatar en páginas de Revisor */
+.sidebar--revisor .avatar-xs {
+  background: var(--color-info);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   5. PAGE HEADER
+   ───────────────────────────────────────────────────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: 3px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   6. BUTTONS
+   Jerarquía: primary > secondary > ghost > danger
+   Tamaños:   .btn-sm (12px) | default (13px) | .btn-lg (14px)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Base compartida */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 9px 18px;
+  transition: background .15s, opacity .15s, border-color .15s, color .15s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.btn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+/* Tamaños */
+.btn.btn-sm { padding: 7px 14px; font-size: 12px; }
+.btn.btn-lg { padding: 12px 24px; font-size: 14px; font-weight: 700; }
+
+/* Variantes */
+.btn-primary {
+  background: var(--color-accent);
+  color: white;
+}
+.btn-primary:hover:not(:disabled) { background: var(--color-accent-dark); }
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+.btn-secondary:hover:not(:disabled) { background: var(--color-border); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1.5px solid var(--color-border);
+}
+.btn-ghost:hover:not(:disabled) {
+  border-color: var(--color-text-muted);
+  color: var(--color-text-primary);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+}
+.btn-danger:hover:not(:disabled) { background: #DC2626; }
+
+/* Chip/badge-style (inline en tablas o listados) */
+.btn-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: background .15s;
+}
+.btn-chip:hover { background: #EED5DA; }
+.btn-chip.warning { background: var(--color-warning-tint); color: #92400E; }
+.btn-chip.warning:hover { background: #FDE68A; }
+.btn-chip.info { background: var(--color-info-tint); color: #1D4ED8; }
+.btn-chip.info:hover { background: #DBEAFE; }
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   7. CARDS
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Card base */
+.card {
+  background: var(--color-bg);
+  border-radius: var(--radius-card);
+  padding: var(--pad-card);
+  box-shadow: var(--shadow-card);
+}
+.card:hover { box-shadow: var(--shadow-card-hover); }
+
+/* KPI card */
+.kpi-card {
+  background: var(--color-bg);
+  border-radius: var(--radius-card);
+  padding: var(--pad-card);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow .2s, transform .2s;
+}
+.kpi-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+.kpi-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 6px;
+}
+.kpi-value {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+/* Section card (usado en revisores / admin) */
+.section-card {
+  background: var(--color-bg);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  transition: box-shadow .2s, transform .2s;
+}
+.section-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+.sc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px var(--pad-card);
+  border-bottom: 1px solid var(--color-border);
+}
+.sc-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sc-body {
+  padding: 16px var(--pad-card);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   8. ESTADO BADGES
+   Spec canónica: font-size 10px | font-weight 700 | padding 3px 9px
+   Dot: ::before 5×5px | border-radius 50%
+   ───────────────────────────────────────────────────────────────────────────── */
+.estado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: var(--radius-badge);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.estado-badge::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Estados del indicador */
+.estado-badge.borrador         { background: #F3F4F6; color: #374151; }
+.estado-badge.borrador::before { background: #9CA3AF; }
+
+.estado-badge.pendiente        { background: var(--color-warning-tint); color: #92400E; }
+.estado-badge.pendiente::before { background: var(--color-warning); }
+
+.estado-badge.enviado          { background: var(--color-info-tint); color: #1D4ED8; }
+.estado-badge.enviado::before  { background: var(--color-info); }
+
+.estado-badge.observado        { background: #FFF7ED; color: #C2410C; }
+.estado-badge.observado::before { background: #F97316; }
+
+.estado-badge.corregido        { background: #F5F3FF; color: #6D28D9; }
+.estado-badge.corregido::before { background: #7C3AED; }
+
+.estado-badge.listo            { background: var(--color-success-tint); color: #15803D; }
+.estado-badge.listo::before    { background: var(--color-success); }
+
+.estado-badge.cerrado          { background: #F0FDF4; color: #166534; }
+.estado-badge.cerrado::before  { background: #16A34A; }
+
+.estado-badge.vencido          { background: var(--color-danger-tint); color: #B91C1C; }
+.estado-badge.vencido::before  { background: var(--color-danger); }
+
+/* Niveles MIR */
+.nivel-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.nivel-badge.fin        { background: #FDF2F8; color: #9D174D; }
+.nivel-badge.proposito  { background: #EFF6FF; color: #1D4ED8; }
+.nivel-badge.componente { background: #F5F3FF; color: #5B21B6; }
+.nivel-badge.actividad  { background: #F0FDF4; color: #15803D; }
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   9. SECTION LABEL
+   ───────────────────────────────────────────────────────────────────────────── */
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 12px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   10. TABLES
+   ───────────────────────────────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table thead th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  padding: 11px 14px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.data-table tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover { background: #FAFAFA; }
+
+/* Table container with scroll */
+.table-wrap {
+  background: var(--color-bg);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   11. FORM INPUTS
+   ───────────────────────────────────────────────────────────────────────────── */
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.form-label .req { color: var(--color-danger); margin-left: 2px; }
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-input);
+  padding: 9px 12px;
+  font-family: var(--font-family);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  transition: border-color .15s, box-shadow .15s;
+  outline: none;
+}
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(139,29,58,.08);
+}
+.form-input.error,
+.form-textarea.error {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(239,68,68,.08);
+}
+.form-textarea { resize: vertical; min-height: 80px; }
+.form-hint {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+.form-error {
+  font-size: 11px;
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+/* Search input */
+.search-input {
+  width: 100%;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  padding: 8px 14px 8px 36px;
+  font-family: var(--font-family);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  outline: none;
+  transition: border-color .15s;
+}
+.search-input:focus { border-color: var(--color-primary); }
+.search-wrap { position: relative; }
+.search-wrap svg {
+  position: absolute; left: 11px; top: 50%;
+  transform: translateY(-50%);
+  width: 16px; height: 16px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+/* Filter chips */
+.chips-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px;
+  border-radius: var(--radius-btn);
+  font-size: 12px; font-weight: 600;
+  border: 1.5px solid var(--color-border);
+  color: var(--color-text-secondary);
+  background: var(--color-bg);
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  white-space: nowrap;
+  font-family: var(--font-family);
+}
+.chip:hover { background: var(--color-surface); border-color: var(--color-text-muted); }
+.chip.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   12. MODALS
+   ───────────────────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999;
+  padding: 24px;
+}
+.modal-card {
+  background: var(--color-bg);
+  border-radius: var(--radius-modal);
+  padding: 28px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: var(--shadow-modal);
+}
+.modal-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px;
+  margin-bottom: 20px;
+}
+.modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+.modal-close {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-surface);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.modal-close:hover { background: var(--color-border); }
+.modal-close svg { width: 14px; height: 14px; }
+.modal-footer {
+  display: flex; gap: 8px; justify-content: flex-end;
+  margin-top: 24px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   13. RIGHT PANEL
+   ───────────────────────────────────────────────────────────────────────────── */
+.right-panel {
+  width: 240px;
+  background: var(--color-bg);
+  border-left: 1px solid var(--color-border);
+  padding: 20px 16px;
+  position: fixed; right: 0; top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.right-panel.collapsed {
+  transform: translateX(240px);
+  opacity: 0;
+  pointer-events: none;
+}
+.rp-divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 14px 0;
+}
+.rp-section-title {
+  font-size: 10px; font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase; letter-spacing: .06em;
+  margin-bottom: 10px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   14. UTILITY CLASSES
+   ───────────────────────────────────────────────────────────────────────────── */
+.text-primary   { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted     { color: var(--color-text-muted); }
+.text-danger    { color: var(--color-danger); }
+.text-warning   { color: var(--color-warning); }
+.text-success   { color: var(--color-success); }
+.text-info      { color: var(--color-info); }
+.text-brand     { color: var(--color-primary); }
+
+.font-700 { font-weight: 700; }
+.font-600 { font-weight: 600; }
+
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 16px 0;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--color-text-secondary);
+}
+.empty-state-icon {
+  width: 40px; height: 40px;
+  margin: 0 auto 12px;
+  color: var(--color-text-muted);
+}
+.empty-state-title {
+  font-size: 14px; font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 6px;
+}
+.empty-state-body {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Pulse animation (badges de notificación) */
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .25; transform: scale(.6); }
+}
+.pulse-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  animation: badgePulse 1.2s ease-in-out infinite;
+}
+.pulse-dot.info    { background: var(--color-info); }
+.pulse-dot.warning { background: var(--color-warning); }
+.pulse-dot.danger  { background: var(--color-danger); }

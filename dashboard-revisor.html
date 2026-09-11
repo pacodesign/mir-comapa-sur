@@ -162,6 +162,10 @@
     .nivel-proposito{background:#DBEAFE;color:#1D4ED8;}
     .nivel-componente{background:#CCFBF1;color:#0F766E;}
     .nivel-actividad{background:#F3F4F6;color:#374151;}
+    @keyframes rvrPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .25; transform: scale(.6); }
+    }
   </style>
   <script>
   (function (m, a, z, e) {
@@ -184,6 +188,7 @@
     m.mazeUniversalSnippetApiKey = e;
   })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '9da16a9c-d16b-42b8-837b-4ba698f5135d');
   </script>
+  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
 </head>
 <body>
 
@@ -204,6 +209,8 @@
       <span class="nav-label">Ayuda</span></div>
     <a class="nav-item" href="planeacion-metas-revisor.html" title="Planeación" style="text-decoration:none"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
       <span class="nav-label">Planeación</span></a>
+    <a class="nav-item" href="reportes-revisor.html" title="Reportes"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"/></svg>
+      <span class="nav-label">Reportes</span></a>
   </div>
   <div class="sidebar-bottom">
     <div class="nav-item" title="Configuración"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
@@ -298,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <td>${diaChip(a)} <span style="font-size:11px;color:var(--color-text-secondary);">${formatFecha(a.fechaLimite)}</span></td>
           <td style="font-size:11px;color:var(--color-text-secondary);">${formatFecha(fechaEnvio(a))}</td>
           <td>
-            <a class="btn-revisar ${a.estado==='corregido'?'purple':'blue'}" href="revision-actividad.html?id=${a.id}">
+            <a class="btn-revisar ${a.estado==='corregido'?'purple':'blue'}" href="detalle-actividad.html?id=${a.id}&rol=revisor">
               ${a.estado==='corregido'?'Revisar corrección':'Revisar'}
               <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
             </a>
@@ -329,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="ui-meta">${d <= 0 ? '¡Vencida!' : `${d} día${d!==1?'s':''} restantes`} · ${formatFecha(a.fechaLimite)}</div>
             </div>
             <div class="ui-action">
-              <a class="btn-revisar blue" href="revision-actividad.html?id=${a.id}">Revisar<svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></a>
+              <a class="btn-revisar blue" href="detalle-actividad.html?id=${a.id}&rol=revisor">Revisar<svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></a>
             </div>
           </div>`;
       }).join('');
@@ -338,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="welcome-row">
       <div class="welcome-left">
         <h1>Bienvenido, Carlos Mendoza <span class="role-chip">Revisor</span></h1>
-        <p>Gerencia Técnica · COMAPA Sur · ${formatFecha('2026-06-09')}</p>
+        <p>${typeof getNombreGerenciaEnlace === 'function' ? getNombreGerenciaEnlace() : 'Gerencia Comercial'} · COMAPA Sur · ${formatFecha('2026-06-09')}</p>
       </div>
       <span class="welcome-date">Ciclo Q2-2026</span>
     </div>
@@ -412,6 +419,24 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
 
       <div style="display:flex;flex-direction:column;gap:16px;">
+        <a class="section-card" href="planeacion-metas-revisor.html" style="text-decoration:none;color:inherit;display:block;border:1.5px solid #DBEAFE;cursor:pointer;transition:box-shadow .15s,transform .1s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div class="sc-header" style="border-bottom:1px solid #DBEAFE;">
+            <div class="sc-title" style="color:#1D4ED8;gap:8px;">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#1D4ED8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+              Planeación MIR
+            </div>
+          </div>
+          <div class="sc-body">
+            <div style="display:flex;align-items:center;gap:10px;padding:4px 0 8px;">
+              <span style="display:inline-flex;align-items:center;gap:6px;background:#EFF6FF;color:#1D4ED8;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:700;">
+                <span style="width:7px;height:7px;border-radius:50%;background:#1D4ED8;flex-shrink:0;animation:rvrPulse 1.2s ease-in-out infinite;"></span>
+                Pendiente de revisar
+              </span>
+              <span style="font-size:12px;color:#6B7280;">1 indicador</span>
+            </div>
+            <p style="font-size:12px;color:#374151;line-height:1.5;">Un enlace ha configurado sus metas y espera tu aprobación para cerrar la planeación.</p>
+          </div>
+        </a>
         <div class="section-card">
           <div class="sc-header">
             <div class="sc-title">
@@ -434,6 +459,81 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
   `;
+  // ── Ciclo de planeación banner ──────────────────────────
+  (function() {
+    var CICLO_KEY = 'comapa-ciclo';
+    function cpParseDate(s) {
+      if (!s) return null;
+      var p=s.split('-'), d=new Date(+p[0],+p[1]-1,+p[2]); d.setHours(0,0,0,0); return d;
+    }
+    function cpGetEstado(c) {
+      if (!c||!c.faseCaptura||!c.faseRevision) return 'inactivo';
+      if (c.cerradoManualmente) return 'cerrado';
+      var h=new Date(); h.setHours(0,0,0,0);
+      var c0=cpParseDate(c.faseCaptura.inicio), c1=cpParseDate(c.faseCaptura.fin);
+      var r0=cpParseDate(c.faseRevision.inicio), r1=cpParseDate(c.faseRevision.fin);
+      if (!c0||!c1||!r0||!r1) return 'inactivo';
+      if (h<c0) return 'pendiente';
+      if (h>=c0&&h<=c1) return 'captura';
+      if (h>c1&&h<r0) return 'entre_fases';
+      if (h>=r0&&h<=r1) return 'revision';
+      return 'cerrado';
+    }
+    function cpFmt(s) {
+      if (!s) return '';
+      var p=s.split('-'), ms=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+      return +p[2]+' '+ms[+p[1]-1]+'. '+p[0];
+    }
+    function cpDias(d) {
+      var h=new Date(); h.setHours(0,0,0,0);
+      return Math.max(0,Math.round((d-h)/(1000*60*60*24)));
+    }
+    try {
+      var ciclo = JSON.parse(localStorage.getItem(CICLO_KEY));
+      var est = cpGetEstado(ciclo);
+      var banner = null;
+      if (est==='revision') {
+        var r1 = cpParseDate(ciclo.faseRevision.fin);
+        var dias = cpDias(r1);
+        banner = {
+          bg:'#EFF6FF', border:'#BFDBFE', dot:'#3B82F6',
+          title: 'Ciclo de planeación — Revisión de metas abierta',
+          detail: 'Tienes hasta el '+cpFmt(ciclo.faseRevision.fin)+' para revisar y aprobar las metas enviadas por los enlaces. '+
+                  (dias===0?'Vence hoy.': dias===1?'Queda 1 día.':'Quedan '+dias+' días.'),
+          href: 'planeacion-metas-revisor.html',
+          btn: 'Revisar metas',
+          pulse: '@keyframes cp-pulse-b{0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,.4);}50%{box-shadow:0 0 0 5px rgba(59,130,246,0);}}'
+        };
+      } else if (est==='captura'||est==='entre_fases') {
+        banner = {
+          bg:'#F5F3FF', border:'#DDD6FE', dot:'#8B5CF6',
+          title: 'Ciclo de planeación en curso — Fase de captura',
+          detail: est==='captura'
+            ? 'Los usuarios enlace están configurando metas. La fase de revisión abrirá el '+cpFmt(ciclo.faseRevision.inicio)+'.'
+            : 'La captura de metas cerró. La revisión de metas abrirá el '+cpFmt(ciclo.faseRevision.inicio)+'.',
+          href: null, btn: null, pulse: ''
+        };
+      }
+      if (!banner) return;
+      var styleEl = document.createElement('style');
+      styleEl.textContent = '.cp-banner{display:flex;align-items:center;gap:14px;border-radius:14px;padding:14px 18px;margin-bottom:20px;border:1.5px solid;}'
+        +'.cp-banner-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}'
+        +'.cp-banner-info{flex:1;}'
+        +'.cp-banner-title{font-size:13px;font-weight:700;color:#111827;}'
+        +'.cp-banner-detail{font-size:12px;color:#6B7280;margin-top:2px;line-height:1.4;}'
+        +'.cp-banner-btn{padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;border:1.5px solid #3B82F6;background:#fff;color:#1D4ED8;white-space:nowrap;transition:background .15s;}'
+        +'.cp-banner-btn:hover{background:#EFF6FF;}'+(banner.pulse||'');
+      document.head.appendChild(styleEl);
+      var el = document.createElement('div');
+      el.className = 'cp-banner';
+      el.style.cssText = 'background:'+banner.bg+';border-color:'+banner.border+';';
+      el.innerHTML = '<div class="cp-banner-dot" style="background:'+banner.dot+(est==='revision'?';animation:cp-pulse-b 2s infinite':'')+';"></div>'
+        +'<div class="cp-banner-info"><div class="cp-banner-title">'+banner.title+'</div><div class="cp-banner-detail">'+banner.detail+'</div></div>'
+        +(banner.btn?'<button class="cp-banner-btn" onclick="location.href=\''+banner.href+'\'">'+banner.btn+'</button>':'');
+      var main = document.getElementById('main');
+      if (main) main.insertAdjacentElement('afterbegin', el);
+    } catch(e) {}
+  })();
 });
 </script>
 </body>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba de usuario · COMAPA Sur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
+  <script>window._uxa = window._uxa || []; window._uxa.push(['forceRecord']);</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #fff;
+      color: #111827;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 32px;
+      border-bottom: 1px solid #F3F4F6;
+    }
+    .topbar-logo {
+      width: 32px; height: 32px;
+      background: #8B1D3A;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .topbar-logo svg { width: 16px; height: 16px; fill: white; }
+    .topbar-name {
+      font-size: 13px; font-weight: 700; color: #111827;
+      letter-spacing: -.01em;
+    }
+    .topbar-sep { color: #D1D5DB; margin: 0 2px; }
+    .topbar-sub { font-size: 13px; color: #6B7280; }
+    .topbar-badge {
+      margin-left: auto;
+      font-size: 11px; font-weight: 600;
+      background: #FEF3C7; color: #D97706;
+      border-radius: 999px; padding: 3px 10px;
+      letter-spacing: .01em;
+    }
+
+    /* ── Main ── */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    .card {
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #8B1D3A;
+      background: #F5E8EC;
+      border-radius: 999px;
+      padding: 4px 12px;
+      margin-bottom: 20px;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: #8B1D3A;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      color: #111827;
+      margin-bottom: 6px;
+    }
+    .user-name { color: #8B1D3A; }
+
+    .role-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      background: #F3F4F6;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-bottom: 28px;
+      margin-top: 10px;
+    }
+    .role-dot {
+      width: 7px; height: 7px;
+      background: #8B1D3A;
+      border-radius: 50%;
+    }
+
+    .divider {
+      height: 1px;
+      background: #F3F4F6;
+      margin-bottom: 24px;
+    }
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .info-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .info-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .info-icon svg { width: 15px; height: 15px; }
+    .info-text strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 2px;
+    }
+    .info-text p {
+      font-size: 13px;
+      color: #6B7280;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      background: #8B1D3A;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s, transform .1s;
+      width: 100%;
+    }
+    .btn-primary:hover { background: #7a1933; }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-primary svg { width: 16px; height: 16px; }
+
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 24px;
+      background: transparent;
+      color: #6B7280;
+      border: 1.5px solid #E5E7EB;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color .15s, color .15s;
+      width: 100%;
+    }
+    .btn-secondary:hover { border-color: #9CA3AF; color: #374151; }
+    .btn-secondary svg { width: 14px; height: 14px; }
+
+    /* ── Entrance animation ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .topbar  { animation: fadeIn .4s ease both; }
+    .eyebrow { animation: fadeUp .45s ease both .05s; }
+    h1       { animation: fadeUp .45s ease both .12s; }
+    .role-tag{ animation: fadeUp .45s ease both .18s; }
+    .divider { animation: fadeIn .4s ease both .22s; }
+    .info-item:nth-child(1) { animation: fadeUp .4s ease both .26s; }
+    .info-item:nth-child(2) { animation: fadeUp .4s ease both .34s; }
+    .actions { animation: fadeUp .4s ease both .42s; }
+    footer   { animation: fadeIn .4s ease both .5s; }
+
+    /* ── Footer ── */
+    footer {
+      padding: 16px 32px;
+      border-top: 1px solid #F3F4F6;
+      text-align: center;
+      font-size: 11px;
+      color: #9CA3AF;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-logo">
+      <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+    </div>
+    <span class="topbar-name">COMAPA Sur</span>
+    <span class="topbar-sep">·</span>
+    <span class="topbar-sub">Sistema MIR</span>
+    <span class="topbar-badge">Sesión de prueba</span>
+  </div>
+
+  <main class="main">
+    <div class="card">
+
+      <span class="eyebrow">Prueba de usuario</span>
+
+      <h1>Bienvenido/a,<br><span class="user-name">revisor</span></h1>
+
+      <div class="role-tag">
+        <span class="role-dot"></span>
+        Rol: Revisor
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="info-list">
+        <div class="info-item">
+          <div class="info-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="#374151" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/>
+            </svg>
+          </div>
+          <div class="info-text">
+            <strong>La información que verás es demo</strong>
+            <p>Los indicadores, avances y fechas son datos de ejemplo para fines de esta prueba. No reflejan información real de la organización.</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="#374151" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21 12 3l8.25 18M5.25 17.25h13.5"/>
+            </svg>
+          </div>
+          <div class="info-text">
+            <strong>Tu gerencia asignada es aleatoria</strong>
+            <p>Para esta prueba quedaste asignado/a a la <strong>Gerencia Técnica</strong>. Esto no representa tu asignación real una vez que la plataforma sea implementada y desplegada.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" onclick="iniciar()">
+          Comenzar prueba
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+          </svg>
+        </button>
+        <a class="btn-secondary" href="https://form.typeform.com/to/KamuI6Ps" target="_blank">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
+          </svg>
+          Regresar al formulario
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>COMAPA Sur · Sistema MIR · Prototipo de prueba</footer>
+
+  <script>
+    function iniciar() {
+      var user = {
+        id: 'rev-001',
+        email: 'revisor@comapa.mx',
+        nombre: 'Carlos Mendoza',
+        iniciales: 'CM',
+        rol: 'Revisor',
+        gerencia: 'Gerencia Técnica',
+        redirect: 'dashboard-revisor.html'
+      };
+      try {
+        localStorage.setItem('comapa_mir_session', JSON.stringify(user));
+        localStorage.setItem('userGerencia', user.gerencia);
+        localStorage.removeItem('userUnidad');
+        localStorage.removeItem('comapa-ciclo');
+      } catch (e) {}
+      window.location.href = 'dashboard-revisor.html';
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planeación de Indicadores — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mir-gerencias-data.js"></script>
+  <style>
+    :root{--color-primary:#8B1D3A;--color-accent-dark:#6B1630;--color-bg:#FFFFFF;--color-surface:#F7F7F7;--color-border:#E5E7EB;--color-text-primary:#111827;--color-text-secondary:#6B7280;--radius-card:16px;--radius-btn:999px;--pad-card:20px;--gap:16px;
+      --color-danger:          #EF4444;
+      --color-warning:         #F59E0B;
+      --color-success:         #22C55E;
+      --color-info:            #3B82F6;
+      --color-link:            #6B7280;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
+
+    /* ── Sidebar ── */
+    .sidebar{width:148px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:stretch;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
+    .sidebar-logo{width:36px;height:36px;background:var(--color-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+    .sidebar-logo svg{width:18px;height:18px;stroke:white;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;align-items:stretch;padding:0 8px;}
+    .nav-item{width:100%;height:auto;padding:7px 10px;border-radius:12px;display:flex;align-items:center;justify-content:flex-start;flex-direction:row;gap:8px;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s;text-decoration:none;}
+    .nav-item:hover{background:var(--color-surface);}
+    .nav-item.active{background:#F5E8EC;color:var(--color-primary);}
+    .nav-item svg{width:18px;height:18px;}
+    .nav-label{font-size:11px;font-weight:600;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .sidebar-bottom{display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 8px;}
+    .avatar-xs{width:32px;height:32px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;cursor:pointer;}
+
+    /* ── Layout ── */
+    .app-wrapper{display:flex;flex:1;margin-left:148px;}
+    .main-content{flex:1;padding:24px;min-width:0;}
+    .ger-card{background:var(--color-bg);border-radius:var(--radius-card);padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);grid-column:1/-1;}
+    .ger-card-title{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
+    .rp-user{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+    .rp-avatar{width:40px;height:40px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;}
+    .rp-name{font-size:13px;font-weight:700;}
+    .rp-role{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+    .rp-divider{height:1px;background:var(--color-border);margin:14px 0;}
+    .rp-section-title{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+    .rp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+    .rp-label{font-size:12px;color:var(--color-text-secondary);}
+    .rp-val{font-size:12px;font-weight:700;color:var(--color-text-primary);}
+    .rp-gerencia-item{margin-bottom:10px;}
+    .rp-ger-name{font-size:11px;font-weight:600;margin-bottom:4px;}
+    .rp-bar{height:5px;background:var(--color-border);border-radius:3px;overflow:hidden;}
+    .rp-bar-fill{height:100%;border-radius:3px;}
+    .rp-ger-stat{display:flex;justify-content:space-between;font-size:10px;color:var(--color-text-secondary);margin-top:3px;}
+
+    /* ── Page header ── */
+    .page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;}
+    .page-title{font-size:22px;font-weight:700;line-height:1.3;}
+    .page-subtitle{font-size:13px;color:var(--color-text-secondary);margin-top:3px;}
+    .header-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+
+    /* ── Buttons ── */
+    .btn-primary{background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
+    .btn-primary:hover{background:var(--color-accent-dark);}
+    .btn-primary:disabled{background:#D1D5DB;cursor:not-allowed;}
+    .btn-primary.sm{padding:7px 14px;font-size:12px;}
+    .btn-secondary{background:var(--color-surface);color:var(--color-text-primary);border:1px solid var(--color-border);border-radius:var(--radius-btn);padding:8px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
+    .btn-secondary:hover{background:var(--color-border);}
+    .btn-danger-soft{background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;border-radius:var(--radius-btn);padding:8px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s;}
+    .btn-danger-soft:hover{background:#FEE2E2;}
+    .btn-success-soft{background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;border-radius:var(--radius-btn);padding:8px 16px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s;}
+    .btn-success-soft:hover{background:#DCFCE7;}
+
+    /* ── Body split layout ── */
+    .body-split{display:flex;gap:16px;align-items:flex-start;}
+    .kpi-column{width:478px;flex-shrink:0;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;align-content:start;}
+    .content-col{flex:1;min-width:0;}
+    .kpi-card{background:var(--color-bg);border-radius:var(--radius-card);padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer;transition:box-shadow .15s,transform .15s;border:2px solid transparent;}
+    .kpi-card:hover{box-shadow:0 3px 8px rgba(0,0,0,.1);}
+    .kpi-card.active-filter{border-color:var(--color-primary);}
+    .kpi-label{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+    .kpi-value{font-size:26px;font-weight:700;line-height:1;margin-bottom:2px;}
+    .kpi-sub{font-size:10px;color:var(--color-text-secondary);}
+
+    /* ── Sub-tabs ── */
+    .sub-nav{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid var(--color-border);}
+    .sub-tab{font-size:13px;font-weight:600;padding:10px 18px;border:none;background:none;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;transition:color .1s,border-color .1s;display:flex;align-items:center;gap:7px;}
+    .sub-tab.active{color:var(--color-primary);border-bottom-color:var(--color-primary);}
+    .sub-tab:hover:not(.active){color:#374151;}
+    .tab-count{font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--radius-btn);background:#F3F4F6;color:#6B7280;}
+    .sub-tab.active .tab-count{background:#FDF5F7;color:var(--color-primary);}
+    .tab-panel{display:none;}
+    .tab-panel.active{display:block;}
+
+    /* ── Filter bar ── */
+    .filter-bar{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
+    .search-wrap{position:relative;flex:1;min-width:180px;}
+    .filter-search{width:100%;padding:8px 14px 8px 36px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:var(--radius-btn);background:white;outline:none;transition:border-color .15s;}
+    .filter-search:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
+    .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9CA3AF;pointer-events:none;}
+    .filter-select{padding:8px 12px;font-size:12px;font-family:inherit;border:1px solid var(--color-border);border-radius:var(--radius-btn);background:white;outline:none;cursor:pointer;color:var(--color-text-primary);}
+    .filter-select:focus{border-color:var(--color-primary);}
+    .filter-clear{font-size:11px;font-weight:600;color:var(--color-text-secondary);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:var(--radius-btn);}
+    .filter-clear:hover{background:var(--color-surface);color:var(--color-text-primary);}
+
+    /* ── Table (solicitudes panel) ── */
+    .table-wrap{background:white;border-radius:var(--radius-card);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:12px;}
+    table{width:100%;border-collapse:collapse;}
+    thead th{background:#FAFAFA;border-bottom:1px solid var(--color-border);padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+    tbody tr{border-bottom:1px solid #F3F4F6;transition:background .1s;}
+    tbody tr:last-child{border-bottom:none;}
+    tbody tr:hover{background:#FAFAFA;}
+    td{padding:10px 14px;vertical-align:middle;}
+    .td-id{font-family:monospace;font-size:11px;font-weight:700;color:var(--color-text-secondary);white-space:nowrap;}
+    .td-nombre{font-size:13px;font-weight:600;color:var(--color-text-primary);max-width:240px;}
+    .td-nombre-sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+    .td-date{font-size:11px;color:var(--color-text-secondary);white-space:nowrap;}
+
+    /* ── Indicator card grid ── */
+    .ind-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px;}
+    .ind-card{background:white;border-radius:var(--radius-card);border:1px solid var(--color-border);padding:16px;display:flex;flex-direction:column;gap:11px;cursor:pointer;transition:box-shadow .15s,border-color .15s;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+    .ind-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.09);border-color:rgba(139,29,58,.18);}
+    .ind-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+    .ind-card-id{font-family:monospace;font-size:10px;font-weight:700;color:var(--color-text-secondary);padding-top:3px;letter-spacing:.03em;}
+    .ind-card-name{font-size:13px;font-weight:700;color:var(--color-text-primary);line-height:1.4;}
+    .ind-card-sub{font-size:11px;color:var(--color-text-secondary);margin-top:3px;}
+    .ind-card-pills{display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+    .tipo-pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:var(--radius-btn);background:#F3F4F6;color:#4B5563;}
+    .ind-card-meta-row{display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--color-surface);border-radius:9px;font-size:11px;}
+    .ind-card-meta-label{color:var(--color-text-secondary);font-weight:500;}
+    .ind-card-meta-val{font-weight:700;color:var(--color-text-primary);font-size:12px;}
+    .ind-card-meta-sep{color:var(--color-text-secondary);opacity:.5;margin:0 1px;}
+    .ind-card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px solid #F3F4F6;margin-top:auto;}
+
+    /* ── Solicitud meta comparison ── */
+    .sol-meta-compare{display:flex;align-items:center;gap:8px;}
+    .sol-meta-col{flex:1;min-width:0;}
+    .sol-meta-head{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-bottom:4px;}
+    .sol-meta-head-new{color:#1D4ED8;}
+    .sol-meta-arrow{font-size:16px;color:var(--color-text-secondary);opacity:.4;flex-shrink:0;}
+
+    /* ── Gerencia sections (collapsible) ── */
+    .ger-section{margin-bottom:10px;background:white;border-radius:var(--radius-card);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+    .ger-section:last-child{margin-bottom:0;}
+    .ger-section-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none;transition:background .15s;gap:12px;}
+    .ger-section-header:hover{background:var(--color-surface);}
+    .ger-header-left{display:flex;align-items:center;gap:10px;}
+    .ger-section-name{font-size:15px;font-weight:700;}
+    .ger-section-count{font-size:11px;color:var(--color-text-secondary);background:var(--color-surface);border-radius:var(--radius-btn);padding:2px 9px;flex-shrink:0;}
+    .ger-chevron{width:18px;height:18px;color:var(--color-text-secondary);transition:transform .25s ease;flex-shrink:0;}
+    .ger-section.collapsed .ger-chevron{transform:rotate(-90deg);}
+    .ger-body{padding:0 16px 16px;overflow:hidden;max-height:2000px;opacity:1;transition:max-height .35s ease,opacity .2s ease,padding .3s ease;}
+    .ger-section.collapsed .ger-body{max-height:0;opacity:0;padding-bottom:0;}
+
+    /* ── Person chip ── */
+    .person-chip{display:inline-flex;align-items:center;gap:6px;}
+    .person-avatar{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;flex-shrink:0;}
+    .person-name{font-size:12px;font-weight:500;color:var(--color-text-primary);}
+    .person-role{font-size:10px;color:var(--color-text-secondary);}
+
+    /* ── Gerencia pill ── */
+    .ger-pill{font-size:10px;font-weight:700;padding:2px 9px;border-radius:var(--radius-btn);white-space:nowrap;}
+
+    /* ── Estado badge ── */
+    .estado-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:var(--radius-btn);white-space:nowrap;display:inline-block;}
+    .estado-badge.pendiente{background:#F3F4F6;color:#4B5563;}
+    .estado-badge.meta_configurada{background:#EFF6FF;color:#1D4ED8;}
+    .estado-badge.en_revision{background:#FEF3C7;color:#92400E;}
+    .estado-badge.validado{background:#F0FDF4;color:#15803D;}
+    .estado-badge.rechazado{background:#FEF2F2;color:#DC2626;}
+    .estado-badge.pendiente_admin{background:#FEF3C7;color:#92400E;}
+    .estado-badge.aprobada{background:#F0FDF4;color:#15803D;}
+    .estado-badge.rechazada{background:#FEF2F2;color:#DC2626;}
+
+    /* ── Row actions ── */
+    .row-actions{display:flex;gap:4px;}
+    .action-btn{height:30px;padding:0 10px;border-radius:8px;border:1px solid var(--color-border);background:white;display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:11px;font-weight:600;color:var(--color-text-secondary);transition:all .1s;font-family:inherit;white-space:nowrap;}
+    .action-btn:hover{background:var(--color-surface);color:var(--color-text-primary);}
+    .action-btn svg{width:13px;height:13px;flex-shrink:0;}
+    .action-btn.approve:hover{background:#F0FDF4;border-color:#BBF7D0;color:#15803D;}
+    .action-btn.reject:hover{background:#FEF2F2;border-color:#FECACA;color:#DC2626;}
+
+    /* ── Empty state ── */
+    .empty-state{padding:48px 24px;text-align:center;}
+    .empty-state svg{width:40px;height:40px;margin:0 auto 12px;opacity:.35;display:block;}
+    .empty-state p{font-size:13px;color:var(--color-text-secondary);}
+
+    /* ── Pagination ── */
+    .pagination-wrap{display:flex;align-items:center;justify-content:space-between;padding:0 4px 4px;}
+    .pagination-info{font-size:12px;color:var(--color-text-secondary);}
+    .pagination-btns{display:flex;gap:4px;}
+    .page-btn{min-width:30px;height:30px;padding:0 6px;border-radius:8px;border:1px solid var(--color-border);background:white;font-size:12px;font-weight:600;cursor:pointer;color:var(--color-text-primary);transition:all .1s;}
+    .page-btn:hover:not(:disabled){background:var(--color-surface);}
+    .page-btn.active{background:var(--color-primary);border-color:var(--color-primary);color:white;}
+    .page-btn:disabled{opacity:.35;cursor:not-allowed;}
+
+    /* ── MODAL ── */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+    .modal-overlay.open{display:flex;}
+    .modal-card{background:white;border-radius:20px;width:100%;max-width:660px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+    .modal-card.wide{max-width:860px;}
+    .modal-header{padding:20px 24px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+    .modal-title{font-size:17px;font-weight:700;}
+    .modal-subtitle{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
+    .modal-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--color-border);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;color:var(--color-text-secondary);transition:all .1s;}
+    .modal-close:hover{background:var(--color-surface);}
+    .modal-close svg{width:14px;height:14px;}
+    .modal-tabs{display:flex;gap:0;margin:16px 24px 0;border-bottom:1px solid var(--color-border);}
+    .modal-tab{font-size:12px;font-weight:600;padding:9px 16px;border:none;background:none;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;transition:color .1s,border-color .1s;}
+    .modal-tab.active{color:var(--color-primary);border-bottom-color:var(--color-primary);}
+    .modal-body{flex:1;overflow-y:auto;padding:20px 24px;}
+    .modal-footer{padding:16px 24px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:flex-end;gap:8px;}
+
+    /* ── Form ── */
+    .form-group{margin-bottom:16px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .form-label{display:block;font-size:12px;font-weight:600;margin-bottom:5px;}
+    .req{color:var(--color-primary);}
+    .form-input,.form-select,.form-textarea{width:100%;padding:9px 12px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:10px;background:white;color:var(--color-text-primary);outline:none;transition:border-color .15s;}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
+    .form-textarea{resize:vertical;min-height:72px;line-height:1.5;}
+    .form-hint{font-size:11px;color:var(--color-text-secondary);margin-top:4px;}
+    .form-section-label{font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin:18px 0 12px;}
+
+    /* ── Step accordion ── */
+    .step-section{border:1.5px solid var(--color-border);border-radius:14px;overflow:hidden;margin-bottom:10px;position:relative;transition:box-shadow .25s,border-color .25s;}
+    .step-section:last-child{margin-bottom:0;}
+    .step-section:not(.collapsed){border-color:rgba(139,29,58,.30);box-shadow:0 8px 28px rgba(139,29,58,.09),0 2px 8px rgba(0,0,0,.05);z-index:1;}
+    .step-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;background:white;user-select:none;transition:background .15s;border-bottom:1px solid transparent;}
+    .step-section:not(.collapsed) .step-header{border-bottom-color:var(--color-border);background:#FDF5F7;}
+    .step-header:hover{background:var(--color-surface);}
+    .step-section:not(.collapsed) .step-header:hover{background:#FAE8ED;}
+    .step-header-left{display:flex;align-items:center;gap:10px;}
+    .step-num{width:24px;height:24px;border-radius:50%;background:var(--color-primary);color:white;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+    .step-num.inactive{background:#E5E7EB;color:#9CA3AF;}
+    .step-num.done{background:#22C55E;}
+    .step-title-text{font-size:14px;font-weight:600;color:var(--color-text-primary);transition:color .2s;}
+    .step-chevron{width:16px;height:16px;color:var(--color-text-secondary);transition:transform .2s;flex-shrink:0;}
+    .step-section.collapsed .step-chevron{transform:rotate(-90deg);}
+    .step-body{padding:16px 18px 18px;overflow:hidden;max-height:900px;transition:max-height .3s ease,padding .25s ease;}
+    .step-section.collapsed .step-body{max-height:0;padding-top:0;padding-bottom:0;}
+    /* Paso bloqueado */
+    .step-section.locked .step-header{cursor:default;opacity:.5;}
+    .step-section.locked .step-header:hover{background:white;}
+    .step-section.locked .step-chevron{display:none;}
+
+    /* ── File drop (paso Medio de verificación) ── */
+    .file-drop{border:1.5px dashed var(--color-border);border-radius:12px;padding:20px 16px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:var(--color-surface);}
+    .file-drop:hover,.file-drop.drag-over{border-color:var(--color-primary);background:#FDF5F7;}
+    .file-attached{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:10px;}
+
+    /* ── Nivel buttons ── */
+    .nivel-btns{display:flex;gap:6px;flex-wrap:wrap;}
+    .nivel-btn{height:34px;padding:0 14px;border-radius:var(--radius-btn);border:1px solid var(--color-border);background:white;font-size:12px;font-weight:600;cursor:pointer;color:var(--color-text-secondary);transition:all .15s;font-family:inherit;display:inline-flex;align-items:center;gap:5px;}
+    .nivel-btn:hover{background:var(--color-surface);}
+    .nivel-btn.active{background:var(--color-primary);border-color:var(--color-primary);color:white;}
+    .nivel-code{font-weight:700;opacity:.65;font-size:11px;}
+    .nivel-btn.active .nivel-code{opacity:.8;}
+
+    /* ── Toggle switch ── */
+    .toggle-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:12px 0;}
+    .toggle-row+.toggle-row{border-top:1px solid #F3F4F6;}
+    .toggle-info{flex:1;min-width:0;}
+    .toggle-label{font-size:13px;font-weight:600;color:var(--color-text-primary);margin-bottom:3px;}
+    .toggle-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.5;}
+    .toggle-sw{width:38px;height:22px;border-radius:11px;background:#E5E7EB;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;border:none;padding:0;outline:none;}
+    .toggle-sw.on{background:var(--color-primary);}
+    .toggle-knob{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:white;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);display:block;}
+    .toggle-sw.on .toggle-knob{left:19px;}
+
+    /* ── Radio group ── */
+    .radio-group{display:flex;gap:20px;align-items:center;margin-top:6px;}
+    .radio-opt{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:500;color:var(--color-text-primary);}
+    .radio-opt input{accent-color:var(--color-primary);width:15px;height:15px;cursor:pointer;margin:0;}
+
+    /* ── Detail sections ── */
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+    .detail-item{background:var(--color-surface);border-radius:10px;padding:12px;}
+    .detail-item.full{grid-column:1/-1;}
+    .detail-label{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+    .detail-val{font-size:13px;font-weight:600;color:var(--color-text-primary);}
+
+    /* ── Meta card ── */
+    .meta-card{border:1px solid var(--color-border);border-radius:14px;padding:16px;margin-bottom:14px;}
+    .meta-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+    .meta-title{font-size:14px;font-weight:700;}
+    .meta-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+    .meta-box{background:var(--color-surface);border-radius:10px;padding:12px;text-align:center;}
+    .meta-box-label{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+    .meta-box-val{font-size:22px;font-weight:700;color:var(--color-text-primary);}
+    .meta-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.6;background:var(--color-surface);border-radius:10px;padding:12px;}
+
+    /* ── Callout ── */
+    .callout{border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;margin-bottom:14px;}
+    .callout.info{background:#EFF6FF;border-left:3px solid #3B82F6;color:#1E40AF;}
+    .callout.warning{background:#FFF7ED;color:#9A3412;}
+    .callout.success{background:#F0FDF4;border-left:3px solid #22C55E;color:#15803D;}
+    .callout.error{background:#FEF2F2;border-left:3px solid #EF4444;color:#991B1B;}
+    .callout strong{font-weight:700;display:block;margin-bottom:3px;}
+
+    /* ── Timeline ── */
+    .timeline-list{display:flex;flex-direction:column;gap:0;}
+    .tl-item{display:flex;gap:14px;position:relative;}
+    .tl-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:32px;bottom:-4px;width:2px;background:var(--color-border);}
+    .tl-dot-wrap{flex-shrink:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+    .tl-dot-wrap.admin{background:#F5E8EC;color:var(--color-primary);}
+    .tl-dot-wrap.enlace{background:#EFF6FF;color:#1D4ED8;}
+    .tl-dot-wrap.revisor{background:#F0FDF4;color:#15803D;}
+    .tl-dot-wrap.sistema{background:#F3F4F6;color:#6B7280;}
+    .tl-dot-wrap svg{width:14px;height:14px;}
+    .tl-content{flex:1;padding-bottom:20px;}
+    .tl-content:last-child{padding-bottom:0;}
+    .tl-header{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:3px;}
+    .tl-actor{font-size:13px;font-weight:600;color:var(--color-text-primary);}
+    .tl-date{font-size:11px;color:var(--color-text-secondary);flex-shrink:0;}
+    .tl-accion{font-size:12px;color:var(--color-text-secondary);font-weight:500;}
+    .tl-comment{font-size:12px;color:var(--color-text-primary);background:var(--color-surface);border-radius:8px;padding:8px 10px;margin-top:6px;line-height:1.5;}
+
+    /* ── Comparison table for solicitud ── */
+    .comp-table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;border:1px solid var(--color-border);}
+    .comp-table th{background:#FAFAFA;padding:9px 14px;font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;text-align:left;}
+    .comp-table td{padding:10px 14px;font-size:13px;border-top:1px solid var(--color-border);}
+    .comp-table .old-val{color:var(--color-text-secondary);text-decoration:line-through;}
+    .comp-table .new-val{color:#15803D;font-weight:600;}
+
+    /* ── Comment textarea ── */
+    .comment-label{font-size:12px;font-weight:600;margin-bottom:6px;display:block;}
+    .comment-textarea{width:100%;min-height:80px;padding:10px 12px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:10px;resize:vertical;outline:none;line-height:1.5;}
+    .comment-textarea:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
+
+    /* ── Two-column drawer (solicitud detail) ── */
+    .drawer-body{display:flex;flex:1;min-height:0;overflow:hidden;}
+    .drawer-left{width:240px;flex-shrink:0;border-right:1px solid var(--color-border);overflow-y:auto;padding:18px 16px;background:var(--color-surface);}
+    .drawer-right{flex:1;overflow-y:auto;padding:20px;min-width:0;}
+    .info-label{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;}
+    .info-value{font-size:13px;font-weight:600;color:var(--color-text-primary);line-height:1.4;}
+    .info-divider{height:1px;background:var(--color-border);margin:12px 0;}
+
+    /* ── Unified action buttons ── */
+    .btn-action{border:none;border-radius:var(--radius-btn);padding:10px 18px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
+    .btn-action:disabled{opacity:.4;cursor:not-allowed;}
+    .btn-action.green{background:#D1FAE5;color:#065F46;}
+    .btn-action.red{background:#FEE2E2;color:#DC2626;}
+    .btn-action.purple{background:#EDE9FE;color:#6D28D9;}
+    .btn-action.blue{background:#EFF6FF;color:#1D4ED8;}
+
+    /* ── Meta comparison boxes ── */
+    .meta-cmp-grid{display:grid;grid-template-columns:1fr 32px 1fr;gap:8px;align-items:center;margin-bottom:16px;}
+    .meta-cmp-box{background:var(--color-surface);border-radius:10px;padding:12px;display:flex;gap:14px;align-items:center;justify-content:center;}
+    .meta-cmp-box.new-box{background:#EFF6FF;}
+    .meta-cmp-col{text-align:center;}
+    .meta-cmp-lbl{font-size:9px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;}
+    .meta-cmp-lbl.blue{color:#1D4ED8;}
+    .meta-cmp-val{font-size:20px;font-weight:700;color:var(--color-text-secondary);}
+    .meta-cmp-val.strikethrough{text-decoration:line-through;}
+    .meta-cmp-val.blue{color:#1D4ED8;text-decoration:none;}
+    .meta-cmp-arrow{text-align:center;font-size:18px;color:var(--color-text-secondary);opacity:.35;}
+
+    /* ── Toast ── */
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:#1F2937;color:white;font-size:13px;font-weight:500;padding:10px 20px;border-radius:var(--radius-btn);opacity:0;transition:all .25s;z-index:2000;pointer-events:none;white-space:nowrap;}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .toast.success{background:#065F46;}
+  </style>
+  <script>
+  (function(m,a,z,e){var s,t,u,v;try{t=m.sessionStorage.getItem('maze-us');}catch(err){}if(!t){t=new Date().getTime();try{m.sessionStorage.setItem('maze-us',t);}catch(err){}}u=document.currentScript||(function(){var w=document.getElementsByTagName('script');return w[w.length-1];})();v=u&&u.nonce;s=a.createElement('script');s.src=z+'?apiKey='+e;s.async=true;if(v)s.setAttribute('nonce',v);a.getElementsByTagName('head')[0].appendChild(s);m.mazeUniversalSnippetApiKey=e;})(window,document,'https://snippet.maze.co/maze-universal-loader.js','9da16a9c-d16b-42b8-837b-4ba698f5135d');
+  </script>
+  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="dashboard-inicio.html" title="Inicio">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
+      <span class="nav-label">Inicio</span>
+    </a>
+    <a class="nav-item" href="consulta-mir.html" title="MIR por gerencia">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0c-.621 0-1.125.504-1.125 1.125V9M12 6.75h.008v.008H12V6.75Z"/></svg>
+      <span class="nav-label">MIR por gerencia</span>
+    </a>
+    <a class="nav-item active" href="planeacion-indicadores.html" title="Planeación de indicadores">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
+      <span class="nav-label">Planeación de indicadores</span>
+    </a>
+    <a class="nav-item" href="validacion-reportes.html" title="Validación de reportes">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.746 3.746 0 0 1-3.296 1.043 3.745 3.745 0 0 1-3.068 1.593 3.745 3.745 0 0 1-3.068-1.593 3.746 3.746 0 0 1-3.296-1.043 3.746 3.746 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.746 3.746 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.745 3.745 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"/></svg>
+      <span class="nav-label">Validación de reportes</span>
+    </a>
+    <a class="nav-item" href="validacion-admin-dashboard.html" title="Validación de avance">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+      <span class="nav-label">Validación</span>
+    </a>
+    <div class="nav-item" title="Guía MIR">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
+      <span class="nav-label">Guía MIR</span>
+    </div>
+      <a class="nav-item" href="reportes.html" title="Reportes">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"/>
+      </svg>
+      <span class="nav-label">Reportes</span>
+    </a>
+</div>
+  <div class="sidebar-bottom">
+    <a class="nav-item" href="configuracion.html" title="Configuración">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+      <span class="nav-label">Configuración</span>
+    </a>
+    <div class="avatar-xs" id="avatarEl" onclick="window.location.href='dashboard-inicio.html'">LS</div>
+  </div>
+</nav>
+
+<div class="app-wrapper">
+  <main class="main-content">
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Planeación de indicadores</h1>
+        <p class="page-subtitle">Control del ciclo de vida de configuración de metas — Ejercicio 2026</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-primary" onclick="openNuevo()">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Nuevo indicador
+        </button>
+      </div>
+    </div>
+
+    <div class="body-split">
+    <!-- KPI column -->
+    <div class="kpi-column" id="kpiStrip">
+      <div class="kpi-card" onclick="filterByEstado('')" id="kpiTotal">
+        <p class="kpi-label">Total</p>
+        <p class="kpi-value" id="kvTotal">—</p>
+        <p class="kpi-sub">indicadores</p>
+      </div>
+      <div class="kpi-card" onclick="filterByEstado('pendiente')" id="kpiPendiente">
+        <p class="kpi-label">Pendientes</p>
+        <p class="kpi-value" style="color:#4B5563" id="kvPendiente">—</p>
+        <p class="kpi-sub">sin meta configurada</p>
+      </div>
+      <div class="kpi-card" onclick="filterByEstado('meta_configurada')" id="kpiConfigurada">
+        <p class="kpi-label">Meta configurada</p>
+        <p class="kpi-value" style="color:#1D4ED8" id="kvConfigurada">—</p>
+        <p class="kpi-sub">esperando revisión</p>
+      </div>
+      <div class="kpi-card" onclick="filterByEstado('en_revision')" id="kpiRevision">
+        <p class="kpi-label">En revisión</p>
+        <p class="kpi-value" style="color:#92400E" id="kvRevision">—</p>
+        <p class="kpi-sub">con el revisor</p>
+      </div>
+      <div class="kpi-card" onclick="filterByEstado('validado')" id="kpiValidado">
+        <p class="kpi-label">Validados</p>
+        <p class="kpi-value" style="color:#15803D" id="kvValidado">—</p>
+        <p class="kpi-sub">planeación cerrada</p>
+      </div>
+      <div class="kpi-card" onclick="filterByEstado('rechazado')" id="kpiRechazado">
+        <p class="kpi-label">Rechazados</p>
+        <p class="kpi-value" style="color:#DC2626" id="kvRechazado">—</p>
+        <p class="kpi-sub">requieren corrección</p>
+      </div>
+      <div class="ger-card">
+        <p class="ger-card-title">Avance por gerencia</p>
+        <div id="rpGerencias"></div>
+      </div>
+    </div>
+
+    <div class="content-col">
+    <!-- Sub-tabs -->
+    <div class="sub-nav">
+      <button class="sub-tab active" id="tabIndicadores" onclick="switchTab('indicadores')">
+        Indicadores <span class="tab-count" id="cntIndicadores">0</span>
+      </button>
+      <button class="sub-tab" id="tabSolicitudes" onclick="switchTab('solicitudes')">
+        Solicitudes de cambio <span class="tab-count" id="cntSolicitudes">0</span>
+      </button>
+    </div>
+
+    <!-- Panel: Indicadores -->
+    <div class="tab-panel active" id="panelIndicadores">
+      <div class="filter-bar">
+        <div class="search-wrap">
+          <span class="search-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg></span>
+          <input class="filter-search" id="searchInd" type="text" placeholder="Buscar indicador…" oninput="renderIndicadores()">
+        </div>
+        <select class="filter-select" id="filterGer" onchange="renderIndicadores()">
+          <option value="">Todas las gerencias</option>
+          <option value="Gerencia Técnica">Gerencia Técnica</option>
+          <option value="Gerencia Comercial">Gerencia Comercial</option>
+          <option value="Gerencia Administrativa">Gerencia Administrativa</option>
+          <option value="Gerencia de Planeación">Gerencia de Planeación</option>
+        </select>
+        <select class="filter-select" id="filterEst" onchange="renderIndicadores()">
+          <option value="">Todos los estados</option>
+          <option value="pendiente">Pendiente de configuración</option>
+          <option value="meta_configurada">Meta configurada</option>
+          <option value="en_revision">En revisión</option>
+          <option value="validado">Meta validada</option>
+          <option value="rechazado">Meta rechazada</option>
+        </select>
+        <button class="filter-clear" onclick="clearFiltersInd()">Limpiar</button>
+      </div>
+      <div id="indContainer"></div>
+      <div id="emptyInd" class="empty-state" style="display:none">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
+        <p>No hay indicadores con esos filtros</p>
+      </div>
+    </div>
+
+    <!-- Panel: Solicitudes -->
+    <div class="tab-panel" id="panelSolicitudes">
+      <div class="filter-bar">
+        <div class="search-wrap">
+          <span class="search-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg></span>
+          <input class="filter-search" id="searchSol" type="text" placeholder="Buscar solicitud…" oninput="renderSolicitudes()">
+        </div>
+        <select class="filter-select" id="filterSolEst" onchange="renderSolicitudes()">
+          <option value="">Todos los estados</option>
+          <option value="pendiente_admin">Pendiente de resolución</option>
+          <option value="aprobada">Aprobada</option>
+          <option value="rechazada">Rechazada</option>
+        </select>
+        <button class="filter-clear" onclick="clearFiltersSol()">Limpiar</button>
+      </div>
+      <div id="solContainer"></div>
+      <div id="emptySol" class="empty-state" style="display:none">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m0-3-3-3m0 0-3 3m3-3v11.25m6-2.25h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75"/></svg>
+        <p>No hay solicitudes con esos filtros</p>
+      </div>
+      </div>
+    </div>
+    </div><!-- /content-col -->
+    </div><!-- /body-split -->
+
+  </main>
+
+</div>
+
+<!-- ══ MODAL: Nuevo indicador ══ -->
+<div class="modal-overlay" id="modalNuevo" onclick="overlayClick(event,'modalNuevo')">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <p class="modal-title">Nuevo indicador</p>
+        <p class="modal-subtitle">Completa los tres pasos para registrar el indicador</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modalNuevo')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <!-- ① Datos generales -->
+      <div class="step-section" id="step1Sec">
+        <div class="step-header" onclick="toggleStep(1)">
+          <div class="step-header-left">
+            <span class="step-num" id="stepNum1">1</span>
+            <span class="step-title-text">Datos generales</span>
+          </div>
+          <svg class="step-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+        </div>
+        <div class="step-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Gerencia <span class="req">*</span></label>
+              <select class="form-select" id="fGerencia" onchange="onGerenciaChangeNuevo()">
+                <option value="">Seleccionar…</option>
+                <option value="Gerencia Técnica">Gerencia Técnica</option>
+                <option value="Gerencia Comercial">Gerencia Comercial</option>
+                <option value="Gerencia Administrativa">Gerencia Administrativa</option>
+                <option value="Gerencia de Planeación">Gerencia de Planeación Estratégica</option>
+              </select>
+            </div>
+            <div class="form-group" id="fAreaGroup" style="display:none">
+              <label class="form-label">Área responsable <span class="req">*</span></label>
+              <select class="form-select" id="fArea">
+                <option value="">Selecciona un área…</option>
+              </select>
+            </div>
+            <input type="hidden" id="fClave">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nivel del indicador <span class="req">*</span></label>
+            <div class="nivel-btns">
+              <button class="nivel-btn" data-nivel="Fin" onclick="setNivel('Fin')"><span class="nivel-code">F</span>Fin</button>
+              <button class="nivel-btn" data-nivel="Propósito" onclick="setNivel('Propósito')"><span class="nivel-code">P</span>Propósito</button>
+              <button class="nivel-btn" data-nivel="Componente" onclick="setNivel('Componente')"><span class="nivel-code">C</span>Componente</button>
+              <button class="nivel-btn active" data-nivel="Actividad" onclick="setNivel('Actividad')"><span class="nivel-code">A</span>Actividad</button>
+            </div>
+            <div id="fClaveDisplay" style="display:none;margin-top:10px">
+              <p class="form-hint">Clave asignada: <strong id="fClaveText" style="font-family:monospace;color:var(--color-primary)">—</strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre del indicador <span class="req">*</span></label>
+            <input class="form-input" id="fNombre" type="text" placeholder="Ej. Porcentaje de medidores instalados en servicio activo">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Descripción del indicador</label>
+            <textarea class="form-textarea" id="fDesc" placeholder="Describe qué mide este indicador, su relevancia y cómo se interpreta el resultado…"></textarea>
+          </div>
+          <div style="text-align:right;margin-top:16px;">
+            <button class="btn-primary sm" onclick="continueStep(1)">Continuar →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ② Medio de verificación -->
+      <div class="step-section collapsed" id="step2Sec">
+        <div class="step-header" onclick="toggleStep(2)">
+          <div class="step-header-left">
+            <span class="step-num inactive" id="stepNum2">2</span>
+            <span class="step-title-text">Medio de verificación</span>
+          </div>
+          <svg class="step-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+        </div>
+        <div class="step-body">
+          <div class="form-group">
+            <label class="form-label">Nombre del medio <span class="req">*</span></label>
+            <input class="form-input" id="fMvNombre" type="text" placeholder="Ej. Reporte mensual de facturación">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tipo de verificación</label>
+            <div class="radio-group">
+              <label class="radio-opt"><input type="radio" name="fMedioVerif" value="Interno" checked>Interno</label>
+              <label class="radio-opt"><input type="radio" name="fMedioVerif" value="Externo">Externo</label>
+              <label class="radio-opt"><input type="radio" name="fMedioVerif" value="Mixto">Mixto</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Tipo <span class="req">*</span></label>
+              <select class="form-select" id="fMvTipo">
+                <option value="">Seleccionar…</option>
+                <option value="bitacora">Bitácora / Registro</option>
+                <option value="reporte">Reporte / Informe</option>
+                <option value="sistema">Sistema informático</option>
+                <option value="analisis">Análisis / Laboratorio</option>
+                <option value="documento">Documento oficial</option>
+                <option value="acta">Acta / Minuta</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Formato</label>
+              <select class="form-select" id="fMvFormato">
+                <option value="">Seleccionar…</option>
+                <option value="Excel">Excel</option>
+                <option value="PDF">PDF</option>
+                <option value="Físico">Físico</option>
+                <option value="Sistema">Sistema</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-textarea" id="fMvDesc" placeholder="Describe el propósito del medio de verificación y cómo se obtiene…" style="min-height:64px;"></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Archivo de referencia</label>
+            <div class="file-drop" id="mvFileDropZone"
+                 onclick="document.getElementById('fMvArchivo').click()"
+                 ondragover="event.preventDefault();this.classList.add('drag-over')"
+                 ondragleave="this.classList.remove('drag-over')"
+                 ondrop="event.preventDefault();this.classList.remove('drag-over');if(event.dataTransfer.files[0])onMvArchivoSeleccionado(event.dataTransfer.files[0])">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24" style="color:#9CA3AF;margin:0 auto 6px;display:block"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/></svg>
+              <p style="font-size:13px;font-weight:600;color:#374151;margin-bottom:2px;">Arrastra un archivo o haz clic</p>
+              <p style="font-size:11px;color:#9CA3AF;">PDF, Excel, imagen — máx. 10 MB</p>
+            </div>
+            <div class="file-attached" id="mvFileAttached" style="display:none">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20" style="color:#16A34A;flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"/></svg>
+              <div style="flex:1;min-width:0">
+                <p id="mvFileName" style="font-size:12px;font-weight:600;color:#111827;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></p>
+                <p id="mvFileSize" style="font-size:10px;color:#6B7280;margin-top:1px;"></p>
+              </div>
+              <button type="button" onclick="quitarMvArchivo()" style="background:none;border:none;cursor:pointer;padding:4px;border-radius:6px;color:#6B7280;flex-shrink:0;" title="Quitar archivo">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+            <input type="file" id="fMvArchivo" style="display:none" accept=".pdf,.xlsx,.xls,.png,.jpg,.jpeg,.doc,.docx"
+                   onchange="if(this.files[0])onMvArchivoSeleccionado(this.files[0])">
+          </div>
+          <div style="text-align:right;margin-top:16px;">
+            <button class="btn-primary sm" onclick="continueStep(2)">Continuar →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ Configuración de meta -->
+      <div class="step-section collapsed" id="step3Sec">
+        <div class="step-header" onclick="toggleStep(3)">
+          <div class="step-header-left">
+            <span class="step-num inactive" id="stepNum3">3</span>
+            <span class="step-title-text">Configuración de meta</span>
+          </div>
+          <svg class="step-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+        </div>
+        <div class="step-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Frecuencia de reporte <span class="req">*</span></label>
+              <select class="form-select" id="fFrecuencia">
+                <option value="">Seleccionar…</option>
+                <option value="Mensual">Mensual</option>
+                <option value="Trimestral">Trimestral</option>
+                <option value="Semestral">Semestral</option>
+                <option value="Anual">Anual</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Unidad de medida <span class="req">*</span></label>
+              <select class="form-select" id="fUnidad" onchange="onUnidadChange()">
+                <option value="">Seleccionar…</option>
+                <option value="Porcentaje (%)">Porcentaje (%)</option>
+                <option value="Metros cúbicos (m³)">Metros cúbicos (m³)</option>
+                <option value="Litros por segundo (L/s)">Litros por segundo (L/s)</option>
+                <option value="Conexiones">Conexiones</option>
+                <option value="Contratos">Contratos</option>
+                <option value="Días">Días</option>
+                <option value="Personas">Personas</option>
+                <option value="Número de acciones">Número de acciones</option>
+                <option value="Tasa">Tasa</option>
+                <option value="Índice">Índice</option>
+                <option value="Pesos ($)">Pesos ($)</option>
+                <option value="otro">Otro…</option>
+              </select>
+              <input class="form-input" id="fUnidadOtro" type="text" placeholder="Especifica la unidad de medida…" style="display:none;margin-top:8px">
+            </div>
+          </div>
+          <p class="form-section-label" style="margin-top:4px">Tipo de indicador</p>
+          <div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <p class="toggle-label">¿Indicador acumulable?</p>
+                <p class="toggle-desc">Los valores de cada período se suman para obtener el total del ejercicio (Ej. conexiones nuevas)</p>
+              </div>
+              <button class="toggle-sw" id="swAcumulable" onclick="flipToggle('swAcumulable')"><span class="toggle-knob"></span></button>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <p class="toggle-label">¿Indicador tipo fracción?</p>
+                <p class="toggle-desc">Se calcula como numerador / denominador (porcentaje o razón)</p>
+              </div>
+              <button class="toggle-sw" id="swFraccion" onclick="flipToggle('swFraccion')"><span class="toggle-knob"></span></button>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:14px;margin-bottom:0">
+            <label class="form-label">Fórmula de cálculo</label>
+            <input class="form-input" id="fFormula" type="text" placeholder="f = (Numerador / Denominador) × 100">
+            <p class="form-hint">Describe la expresión matemática para calcular el indicador. Ej: (Medidores activos / Total tomas) × 100</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modalNuevo')">Cancelar</button>
+      <button class="btn-primary" onclick="guardarNuevo()">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        Guardar indicador
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Detalle indicador ══ -->
+<div class="modal-overlay" id="modalDetalle" onclick="overlayClick(event,'modalDetalle')">
+  <div class="modal-card wide">
+    <div class="modal-header">
+      <div style="flex:1;min-width:0">
+        <p class="modal-title" id="mDetNombre">—</p>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+          <span class="estado-badge" id="mDetEstado"></span>
+          <span class="ger-pill" id="mDetGer" style="font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px;"></span>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modalDetalle')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="dtab0" onclick="switchDetTab(0)">Información base</button>
+      <button class="modal-tab" id="dtab1" onclick="switchDetTab(1)">Meta</button>
+      <button class="modal-tab" id="dtab2" onclick="switchDetTab(2)">Historial</button>
+    </div>
+    <div class="modal-body" id="mDetBody"></div>
+    <div class="modal-footer" id="mDetFooter"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Solicitud de cambio ══ -->
+<div class="modal-overlay" id="modalSolicitud" onclick="overlayClick(event,'modalSolicitud')">
+  <div class="modal-card wide">
+    <div class="modal-header">
+      <div style="flex:1;min-width:0">
+        <p class="modal-title" id="mSolTitulo">Solicitud de cambio de meta</p>
+        <p class="modal-subtitle" id="mSolSubtitulo"></p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modalSolicitud')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-left" id="mSolLeft"></div>
+      <div class="drawer-right" id="mSolRight"></div>
+    </div>
+    <div class="modal-footer" id="mSolFooter"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+var GER_COLORS = {
+  'Gerencia Técnica':      { bg:'#ECFEFF', color:'#0891B2', bar:'#0891B2' },
+  'Gerencia Comercial':    { bg:'#FDF5F7', color:'#8B1D3A', bar:'#8B1D3A' },
+  'Gerencia Administrativa':{ bg:'#F0FDF4', color:'#065F46', bar:'#065F46' },
+  'Gerencia de Planeación':{ bg:'#F5F3FF', color:'#7C3AED', bar:'#7C3AED' },
+};
+function gerStyle(g){ var c=GER_COLORS[g]||{bg:'#F3F4F6',color:'#374151'}; return 'background:'+c.bg+';color:'+c.color+';'; }
+
+var ESTADO_CFG = {
+  pendiente:        { label:'Pendiente de configuración', cls:'pendiente' },
+  meta_configurada: { label:'Meta configurada',           cls:'meta_configurada' },
+  en_revision:      { label:'En revisión',                cls:'en_revision' },
+  validado:         { label:'Meta validada',              cls:'validado' },
+  rechazado:        { label:'Meta rechazada',             cls:'rechazado' },
+};
+var SOL_CFG = {
+  pendiente_admin: { label:'Pendiente de resolución', cls:'pendiente_admin' },
+  aprobada:        { label:'Aprobada',                cls:'aprobada' },
+  rechazada:       { label:'Rechazada',               cls:'rechazada' },
+};
+
+var INDICADORES = [
+  { id:'IND-001', nombre:'Porcentaje de cobertura de agua potable', desc:'Proporción de la población que cuenta con acceso al servicio de agua potable en la zona de servicio.', gerencia:'Gerencia Técnica', unidad:'Porcentaje', frecuencia:'Trimestral', tipo:'Estratégico', responsable:{nombre:'Jorge Reyes',iniciales:'JR',color:'#0891B2'}, revisor:{nombre:'Miguel Ángel Pérez',iniciales:'MP',color:'#0369A1'}, estado:'pendiente', creado:'10 Jun 2026', actualizado:'10 Jun 2026', meta:null,
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'10 Jun 2026',comentario:''}] },
+  { id:'IND-002', nombre:'Índice de continuidad del servicio', desc:'Porcentaje promedio de horas del día en que el servicio de agua está disponible para los usuarios.', gerencia:'Gerencia Técnica', unidad:'Porcentaje', frecuencia:'Mensual', tipo:'Gestión', responsable:{nombre:'Jorge Reyes',iniciales:'JR',color:'#0891B2'}, revisor:{nombre:'Miguel Ángel Pérez',iniciales:'MP',color:'#0369A1'}, estado:'pendiente', creado:'10 Jun 2026', actualizado:'10 Jun 2026', meta:null,
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'10 Jun 2026',comentario:''}] },
+  { id:'IND-003', nombre:'Tasa de recuperación de cartera vencida', desc:'Porcentaje de la deuda vencida que fue recuperada en el período mediante gestión de cobranza.', gerencia:'Gerencia Comercial', unidad:'Porcentaje', frecuencia:'Mensual', tipo:'Resultado', responsable:{nombre:'Ana Torres',iniciales:'AT',color:'#8B1D3A'}, revisor:{nombre:'Carlos Mendoza',iniciales:'CM',color:'#6B1630'}, estado:'pendiente', creado:'12 Jun 2026', actualizado:'12 Jun 2026', meta:null,
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'12 Jun 2026',comentario:''}] },
+  { id:'IND-004', nombre:'Porcentaje de adquisiciones dentro de la norma', desc:'Proporción de compras y contrataciones realizadas cumpliendo la normatividad vigente en materia de adquisiciones.', gerencia:'Gerencia Administrativa', unidad:'Porcentaje', frecuencia:'Trimestral', tipo:'Gestión', responsable:{nombre:'María López',iniciales:'ML',color:'#065F46'}, revisor:{nombre:'Laura Vega',iniciales:'LV',color:'#047857'}, estado:'pendiente', creado:'14 Jun 2026', actualizado:'14 Jun 2026', meta:null,
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'14 Jun 2026',comentario:''}] },
+  { id:'IND-005', nombre:'Eficiencia física de la red de distribución', desc:'Relación entre el volumen de agua producida y el volumen efectivamente entregado a los usuarios, expresada como porcentaje.', gerencia:'Gerencia Técnica', unidad:'Porcentaje', frecuencia:'Semestral', tipo:'Estratégico', responsable:{nombre:'Jorge Reyes',iniciales:'JR',color:'#0891B2'}, revisor:{nombre:'Miguel Ángel Pérez',iniciales:'MP',color:'#0369A1'}, estado:'meta_configurada', creado:'08 Jun 2026', actualizado:'20 Jun 2026',
+    meta:{ linea:'72%', objetivo:'80%', descripcion:'Reducir las pérdidas físicas en la red mediante mantenimiento preventivo, sectorización hidráulica y detección temprana de fugas.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'08 Jun 2026',comentario:''},{usuario:'Jorge Reyes',rol:'Enlace',accion:'Meta configurada',fecha:'20 Jun 2026',comentario:'Línea base tomada del reporte de eficiencia del T1-2026.'}] },
+  { id:'IND-006', nombre:'Porcentaje de micromedición activa', desc:'Proporción de tomas de agua activas que cuentan con medidor en funcionamiento correcto.', gerencia:'Gerencia Comercial', unidad:'Porcentaje', frecuencia:'Trimestral', tipo:'Resultado', responsable:{nombre:'Ana Torres',iniciales:'AT',color:'#8B1D3A'}, revisor:{nombre:'Carlos Mendoza',iniciales:'CM',color:'#6B1630'}, estado:'meta_configurada', creado:'09 Jun 2026', actualizado:'21 Jun 2026',
+    meta:{ linea:'65%', objetivo:'78%', descripcion:'Incrementar la instalación y reposición de medidores en colonias prioritarias definidas en el PAT.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'09 Jun 2026',comentario:''},{usuario:'Ana Torres',rol:'Enlace',accion:'Meta configurada',fecha:'21 Jun 2026',comentario:'Datos de padrón al cierre de mayo 2026.'}] },
+  { id:'IND-007', nombre:'Porcentaje de personal capacitado', desc:'Proporción del personal que completó al menos un programa de capacitación formal reconocido por RH en el ejercicio anual.', gerencia:'Gerencia Administrativa', unidad:'Porcentaje', frecuencia:'Anual', tipo:'Gestión', responsable:{nombre:'María López',iniciales:'ML',color:'#065F46'}, revisor:{nombre:'Laura Vega',iniciales:'LV',color:'#047857'}, estado:'meta_configurada', creado:'10 Jun 2026', actualizado:'22 Jun 2026',
+    meta:{ linea:'55%', objetivo:'70%', descripcion:'Implementar el plan anual de capacitación enfocado en habilidades técnicas, normatividad y desarrollo institucional.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'10 Jun 2026',comentario:''},{usuario:'María López',rol:'Enlace',accion:'Meta configurada',fecha:'22 Jun 2026',comentario:''}] },
+  { id:'IND-008', nombre:'Índice de calidad del agua suministrada', desc:'Porcentaje de cumplimiento de los parámetros fisicoquímicos y bacteriológicos establecidos en la NOM-127 en puntos de muestreo de la red.', gerencia:'Gerencia Técnica', unidad:'Porcentaje', frecuencia:'Mensual', tipo:'Estratégico', responsable:{nombre:'Jorge Reyes',iniciales:'JR',color:'#0891B2'}, revisor:{nombre:'Miguel Ángel Pérez',iniciales:'MP',color:'#0369A1'}, estado:'en_revision', creado:'05 Jun 2026', actualizado:'25 Jun 2026',
+    meta:{ linea:'88%', objetivo:'95%', descripcion:'Lograr cumplimiento total de los parámetros NOM-127 en los 18 puntos de muestreo de la red de distribución.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'05 Jun 2026',comentario:''},{usuario:'Jorge Reyes',rol:'Enlace',accion:'Meta configurada',fecha:'18 Jun 2026',comentario:'Línea base promedio de los últimos 12 meses de muestreo mensual.'},{usuario:'Miguel Ángel Pérez',rol:'Revisor',accion:'Revisión iniciada',fecha:'25 Jun 2026',comentario:'Analizando coherencia de la línea base con los datos del laboratorio certificado.'}] },
+  { id:'IND-009', nombre:'Porcentaje de quejas de facturación resueltas en plazo', desc:'Proporción de quejas comerciales relacionadas con facturación que fueron resueltas dentro de los 5 días hábiles establecidos.', gerencia:'Gerencia Comercial', unidad:'Porcentaje', frecuencia:'Mensual', tipo:'Gestión', responsable:{nombre:'Ana Torres',iniciales:'AT',color:'#8B1D3A'}, revisor:{nombre:'Carlos Mendoza',iniciales:'CM',color:'#6B1630'}, estado:'validado', creado:'06 Jun 2026', actualizado:'05 Jul 2026',
+    meta:{ linea:'78%', objetivo:'92%', descripcion:'Resolver al menos el 92% de las quejas de facturación dentro del plazo de 5 días hábiles mediante mejora del proceso de atención.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'06 Jun 2026',comentario:''},{usuario:'Ana Torres',rol:'Enlace',accion:'Meta configurada',fecha:'19 Jun 2026',comentario:'Metas mensuales progresivas basadas en el histórico 2025. Se asume mejora gradual conforme se implementa el nuevo módulo de atención.'},{usuario:'Carlos Mendoza',rol:'Revisor',accion:'Meta validada',fecha:'05 Jul 2026',comentario:'Metodología de cálculo verificada contra el sistema SICAT. Meta anual alcanzable y distribución mensual coherente con la operación.'}] },
+  { id:'IND-010', nombre:'Índice de ejercicio presupuestal', desc:'Porcentaje del presupuesto aprobado que fue efectivamente ejercido al cierre del período de reporte.', gerencia:'Gerencia Administrativa', unidad:'Porcentaje', frecuencia:'Trimestral', tipo:'Resultado', responsable:{nombre:'María López',iniciales:'ML',color:'#065F46'}, revisor:{nombre:'Laura Vega',iniciales:'LV',color:'#047857'}, estado:'en_revision', creado:'07 Jun 2026', actualizado:'27 Jun 2026',
+    meta:{ linea:'81%', objetivo:'90%', descripcion:'Maximizar el ejercicio presupuestal evitando subejercicios al cierre de cada trimestre, con seguimiento quincenal.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'07 Jun 2026',comentario:''},{usuario:'María López',rol:'Enlace',accion:'Meta configurada',fecha:'20 Jun 2026',comentario:''},{usuario:'Laura Vega',rol:'Revisor',accion:'Revisión iniciada',fecha:'27 Jun 2026',comentario:''}] },
+  { id:'IND-011', nombre:'Fugas atendidas en el plazo establecido', desc:'Proporción de reportes de fuga en la red propia de COMAPA que fueron atendidos dentro de las primeras 24 horas de reporte.', gerencia:'Gerencia Técnica', unidad:'Porcentaje', frecuencia:'Mensual', tipo:'Gestión', responsable:{nombre:'Jorge Reyes',iniciales:'JR',color:'#0891B2'}, revisor:{nombre:'Miguel Ángel Pérez',iniciales:'MP',color:'#0369A1'}, estado:'validado', creado:'20 May 2026', actualizado:'15 Jun 2026',
+    meta:{ linea:'68%', objetivo:'85%', descripcion:'Atender al menos el 85% de los reportes de fuga en la red propia en menos de 24 horas mediante cuadrillas de guardia permanente.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'20 May 2026',comentario:''},{usuario:'Jorge Reyes',rol:'Enlace',accion:'Meta configurada',fecha:'28 May 2026',comentario:''},{usuario:'Miguel Ángel Pérez',rol:'Revisor',accion:'Meta validada',fecha:'15 Jun 2026',comentario:'Meta y línea base documentadas y verificables. Procede.'}] },
+  { id:'IND-012', nombre:'Contratos regularizados de usuarios irregulares', desc:'Número de tomas en condición irregular que firmaron un contrato de servicio en el período mediante operativos de regularización.', gerencia:'Gerencia Comercial', unidad:'Contratos', frecuencia:'Trimestral', tipo:'Resultado', responsable:{nombre:'Ana Torres',iniciales:'AT',color:'#8B1D3A'}, revisor:{nombre:'Carlos Mendoza',iniciales:'CM',color:'#6B1630'}, estado:'validado', creado:'21 May 2026', actualizado:'10 Jun 2026',
+    meta:{ linea:'12', objetivo:'30', descripcion:'Regularizar al menos 30 contratos por trimestre mediante operativos programados en las colonias con mayor índice de irregularidad.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'21 May 2026',comentario:''},{usuario:'Ana Torres',rol:'Enlace',accion:'Meta configurada',fecha:'30 May 2026',comentario:''},{usuario:'Carlos Mendoza',rol:'Revisor',accion:'Meta validada',fecha:'10 Jun 2026',comentario:'Objetivos realistas con base en desempeño histórico de los últimos 4 trimestres.'}] },
+  { id:'IND-013', nombre:'Tasa de ausentismo del personal', desc:'Proporción de días laborales perdidos por ausentismo no justificado respecto al total de días laborados esperados en el período.', gerencia:'Gerencia Administrativa', unidad:'Tasa', frecuencia:'Mensual', tipo:'Gestión', responsable:{nombre:'María López',iniciales:'ML',color:'#065F46'}, revisor:{nombre:'Laura Vega',iniciales:'LV',color:'#047857'}, estado:'validado', creado:'22 May 2026', actualizado:'12 Jun 2026',
+    meta:{ linea:'4.2%', objetivo:'2.5%', descripcion:'Reducir el ausentismo mediante seguimiento mensual individualizado y programa de bienestar laboral.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'22 May 2026',comentario:''},{usuario:'María López',rol:'Enlace',accion:'Meta configurada',fecha:'01 Jun 2026',comentario:''},{usuario:'Laura Vega',rol:'Revisor',accion:'Meta validada',fecha:'12 Jun 2026',comentario:''}] },
+  { id:'IND-014', nombre:'Porcentaje de avance en proyectos estratégicos', desc:'Proporción de hitos del Plan Anual Estratégico (PAE) alcanzados respecto al total programado para el período de reporte.', gerencia:'Gerencia de Planeación', unidad:'Porcentaje', frecuencia:'Trimestral', tipo:'Estratégico', responsable:{nombre:'Ana Torres',iniciales:'AT',color:'#7C3AED'}, revisor:{nombre:'Carlos Mendoza',iniciales:'CM',color:'#6D28D9'}, estado:'validado', creado:'23 May 2026', actualizado:'14 Jun 2026',
+    meta:{ linea:'60%', objetivo:'80%', descripcion:'Alcanzar al menos el 80% de los hitos del PAE al cierre del ejercicio mediante seguimiento trimestral con gerentes responsables.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'23 May 2026',comentario:''},{usuario:'Ana Torres',rol:'Enlace',accion:'Meta configurada',fecha:'02 Jun 2026',comentario:''},{usuario:'Carlos Mendoza',rol:'Revisor',accion:'Meta validada',fecha:'14 Jun 2026',comentario:''}] },
+  { id:'IND-015', nombre:'Porcentaje de mantenimiento preventivo realizado', desc:'Proporción del equipo electromecánico del organismo que recibió mantenimiento preventivo programado en el período.', gerencia:'Gerencia Técnica', unidad:'Porcentaje', frecuencia:'Semestral', tipo:'Gestión', responsable:{nombre:'Jorge Reyes',iniciales:'JR',color:'#0891B2'}, revisor:{nombre:'Miguel Ángel Pérez',iniciales:'MP',color:'#0369A1'}, estado:'rechazado', creado:'25 May 2026', actualizado:'18 Jun 2026',
+    meta:{ linea:'40%', objetivo:'90%', descripcion:'Cumplir el programa de mantenimiento preventivo semestral de todo el parque electromecánico.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'25 May 2026',comentario:''},{usuario:'Jorge Reyes',rol:'Enlace',accion:'Meta configurada',fecha:'05 Jun 2026',comentario:''},{usuario:'Miguel Ángel Pérez',rol:'Revisor',accion:'Meta rechazada',fecha:'18 Jun 2026',comentario:'La brecha entre línea base (40%) y meta (90%) es demasiado amplia para un período semestral. Solicito revisar la línea base con datos más recientes y ajustar la meta a un rango alcanzable.'}] },
+  { id:'IND-016', nombre:'Porcentaje del parque vehicular en condición operativa', desc:'Proporción de vehículos del organismo que se encuentran en condiciones óptimas de operación al momento del inventario.', gerencia:'Gerencia Administrativa', unidad:'Porcentaje', frecuencia:'Mensual', tipo:'Gestión', responsable:{nombre:'María López',iniciales:'ML',color:'#065F46'}, revisor:{nombre:'Laura Vega',iniciales:'LV',color:'#047857'}, estado:'rechazado', creado:'26 May 2026', actualizado:'19 Jun 2026',
+    meta:{ linea:'50%', objetivo:'95%', descripcion:'Mantener el parque vehicular operativo mediante programa de mantenimiento preventivo y plan de reposición.' },
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:'26 May 2026',comentario:''},{usuario:'María López',rol:'Enlace',accion:'Meta configurada',fecha:'07 Jun 2026',comentario:''},{usuario:'Laura Vega',rol:'Revisor',accion:'Meta rechazada',fecha:'19 Jun 2026',comentario:'Línea base de 50% no está documentada con inventario formal. Se requiere fuente de datos verificable antes de aprobar la meta.'}] },
+];
+
+var SOLICITUDES = [
+  { id:'SOL-001', indicadorId:'IND-011', indicadorNombre:'Fugas atendidas en el plazo establecido', gerencia:'Gerencia Técnica', frecuencia:'Mensual',
+    solicitante:{nombre:'Jorge Reyes',iniciales:'JR',color:'#0891B2'}, revisorAutorizo:{nombre:'Miguel Ángel Pérez',iniciales:'MP',color:'#0369A1'},
+    fecha:'05 Jul 2026', motivo:'Cambio en metodología de conteo',
+    descripcion:'Se identificó que la metodología anterior incluía fugas de redes de terceros (COMAPA Huixtla, CESOL). Se propone ajustar el universo a solo fugas propias de la red COMAPA Sur. Esto eleva la línea base real y permite fijar metas mensuales más exigentes desde el inicio del ejercicio.',
+    metaActual:{linea:'68%', objetivo:'85%'}, nuevaMeta:{linea:'72%', objetivo:'88%'},
+    metasMensualesActuales:[70,71,72,73,74,75,76,78,80,82,84,85],
+    metasMensualesNuevas:  [73,74,75,76,77,78,79,81,83,85,87,88],
+    estado:'pendiente_admin' },
+  { id:'SOL-002', indicadorId:'IND-009', indicadorNombre:'Porcentaje de quejas de facturación resueltas en plazo', gerencia:'Gerencia Comercial', frecuencia:'Mensual',
+    solicitante:{nombre:'Ana Torres',iniciales:'AT',color:'#8B1D3A'}, revisorAutorizo:{nombre:'Carlos Mendoza',iniciales:'CM',color:'#6B1630'},
+    fecha:'14 Jul 2026', motivo:'Redistribución mensual por estacionalidad de quejas',
+    descripcion:'El análisis de los últimos 3 años muestra que los meses con cierre bimestral de facturación (ene, mar, may, jul, sep, nov) concentran hasta el 70% del volumen de quejas. Las metas uniformes hacen que el equipo quede sobreexigido esos meses y subutilizado en los alternos. Se propone redistribuir conservando el objetivo anual de 92%.',
+    metaActual:{linea:'78%', objetivo:'92%'}, nuevaMeta:{linea:'78%', objetivo:'92%'},
+    metasMensualesActuales:[81,82,83,84,85,86,87,88,89,90,91,92],
+    metasMensualesNuevas:  [79,84,80,85,81,86,83,88,90,91,91,92],
+    estado:'pendiente_admin' },
+  { id:'SOL-003', indicadorId:'IND-013', indicadorNombre:'Tasa de ausentismo del personal', gerencia:'Gerencia Administrativa', solicitante:{nombre:'María López',iniciales:'ML',color:'#065F46'}, revisorAutorizo:{nombre:'Laura Vega',iniciales:'LV',color:'#047857'}, fecha:'28 Jun 2026', motivo:'Corrección de línea base', descripcion:'La línea base de 4.2% fue calculada con registros del sistema anterior (SIGRH) que incluían ausencias por incapacidades médicas validadas. El SIAT no las considera ausentismo. Se solicita corregir.', metaActual:{linea:'4.2%',objetivo:'2.5%'}, nuevaMeta:{linea:'3.8%',objetivo:'2.5%'}, estado:'aprobada', comentarioAdmin:'Procede. La corrección de línea base es consistente con los criterios del SIAT y la auditoría interna de RH 2025.', fechaResolucion:'10 Jul 2026' },
+  { id:'SOL-004', indicadorId:'IND-014', indicadorNombre:'Porcentaje de avance en proyectos estratégicos', gerencia:'Gerencia de Planeación', solicitante:{nombre:'Ana Torres',iniciales:'AT',color:'#7C3AED'}, revisorAutorizo:{nombre:'Carlos Mendoza',iniciales:'CM',color:'#6D28D9'}, fecha:'01 Jul 2026', motivo:'Reasignación de recursos del PAE', descripcion:'La reasignación presupuestal del Q2 impactó directamente tres proyectos del PAE con hitos en el segundo semestre. Se solicita ajustar la meta al 70% para reflejar el nuevo alcance institucional aprobado.', metaActual:{linea:'60%',objetivo:'80%'}, nuevaMeta:{linea:'60%',objetivo:'70%'}, estado:'rechazada', comentarioAdmin:'No procede. Las modificaciones al PAE requieren autorización explícita del Consejo Directivo antes de que este módulo pueda reflejar un ajuste de meta. Solicitar primero el acuerdo de sesión correspondiente.', fechaResolucion:'03 Jul 2026' },
+];
+
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+var activeTab = 'indicadores';
+var kpiFilter = '';
+var activeIndicadorId = null;
+var activeDetTab = 0;
+var activeSolicitudId = null;
+
+// ════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════
+(function(){
+  try{
+    var s = Session ? Session.get() : null;
+    if(!s||s.rol!=='Administrador'){window.location.href='login.html';return;}
+    var init=(s.nombre||'LS').split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+    document.getElementById('avatarEl').textContent=init;
+  }catch(e){
+    // dev fallback
+    document.getElementById('avatarEl').textContent='LS';
+  }
+})();
+
+// ════════════════════════════════════════
+// KPIs
+// ════════════════════════════════════════
+function calcKPIs(){
+  var total=INDICADORES.length;
+  var counts={pendiente:0,meta_configurada:0,en_revision:0,validado:0,rechazado:0};
+  INDICADORES.forEach(function(i){counts[i.estado]=(counts[i.estado]||0)+1;});
+  var solPend=SOLICITUDES.filter(function(s){return s.estado==='pendiente_admin';}).length;
+  document.getElementById('kvTotal').textContent=total;
+  document.getElementById('kvPendiente').textContent=counts.pendiente;
+  document.getElementById('kvConfigurada').textContent=counts.meta_configurada;
+  document.getElementById('kvRevision').textContent=counts.en_revision;
+  document.getElementById('kvValidado').textContent=counts.validado;
+  document.getElementById('kvRechazado').textContent=counts.rechazado;
+  document.getElementById('cntIndicadores').textContent=total;
+  document.getElementById('cntSolicitudes').textContent=SOLICITUDES.length;
+
+  // Right panel gerencia bars
+  var gers=['Gerencia Técnica','Gerencia Comercial','Gerencia Administrativa','Gerencia de Planeación'];
+  var rpHtml='';
+  gers.forEach(function(g){
+    var inds=INDICADORES.filter(function(i){return i.gerencia===g;});
+    var total=inds.length;
+    var val=inds.filter(function(i){return i.estado==='validado';}).length;
+    var pct=total?Math.round(val/total*100):0;
+    var c=GER_COLORS[g]||{bar:'#9CA3AF'};
+    rpHtml+='<div class="rp-gerencia-item">';
+    rpHtml+='<div class="rp-ger-name">'+g.replace('Gerencia ','')+'</div>';
+    rpHtml+='<div class="rp-bar"><div class="rp-bar-fill" style="width:'+pct+'%;background:'+c.bar+'"></div></div>';
+    rpHtml+='<div class="rp-ger-stat"><span>'+val+'/'+total+' validados</span><span>'+pct+'%</span></div>';
+    rpHtml+='</div>';
+  });
+  document.getElementById('rpGerencias').innerHTML=rpHtml;
+}
+
+// ════════════════════════════════════════
+// TAB SWITCHING
+// ════════════════════════════════════════
+function switchTab(tab){
+  activeTab=tab;
+  document.getElementById('tabIndicadores').classList.toggle('active',tab==='indicadores');
+  document.getElementById('tabSolicitudes').classList.toggle('active',tab==='solicitudes');
+  document.getElementById('panelIndicadores').classList.toggle('active',tab==='indicadores');
+  document.getElementById('panelSolicitudes').classList.toggle('active',tab==='solicitudes');
+  if(tab==='indicadores') renderIndicadores();
+  else renderSolicitudes();
+}
+
+// ════════════════════════════════════════
+// KPI FILTER
+// ════════════════════════════════════════
+function filterByEstado(estado){
+  switchTab('indicadores');
+  kpiFilter=estado;
+  document.getElementById('filterEst').value=estado;
+  document.querySelectorAll('.kpi-card').forEach(function(c){c.classList.remove('active-filter');});
+  if(estado){
+    var map={pendiente:'kpiPendiente',meta_configurada:'kpiConfigurada',en_revision:'kpiRevision',validado:'kpiValidado',rechazado:'kpiRechazado'};
+    if(map[estado]) document.getElementById(map[estado]).classList.add('active-filter');
+  } else {
+    document.getElementById('kpiTotal').classList.add('active-filter');
+  }
+  renderIndicadores();
+}
+
+// ════════════════════════════════════════
+// INDICADORES TABLE
+// ════════════════════════════════════════
+function filteredIndicadores(){
+  var q=(document.getElementById('searchInd').value||'').toLowerCase();
+  var ger=(document.getElementById('filterGer').value||'');
+  var est=kpiFilter||(document.getElementById('filterEst').value||'');
+  return INDICADORES.filter(function(i){
+    if(ger && i.gerencia!==ger) return false;
+    if(est && i.estado!==est) return false;
+    if(q && i.nombre.toLowerCase().indexOf(q)<0 && i.id.toLowerCase().indexOf(q)<0) return false;
+    return true;
+  });
+}
+
+function buildIndCard(ind){
+  var cfg=ESTADO_CFG;
+  var eyeSvg='<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>';
+  var est=cfg[ind.estado]||{label:ind.estado,cls:'pendiente'};
+  var gc=GER_COLORS[ind.gerencia]||{bg:'#F3F4F6',color:'#374151'};
+  var h='<div class="ind-card" onclick="openDetalle(\''+ind.id+'\')">';
+  h+='<div class="ind-card-top"><span class="ind-card-id">'+ind.id+'</span><span class="estado-badge '+est.cls+'">'+est.label+'</span></div>';
+  h+='<div><div class="ind-card-name">'+ind.nombre+'</div><div class="ind-card-sub">'+ind.unidad+' · '+ind.frecuencia+'</div></div>';
+  h+='<div class="ind-card-pills"><span class="tipo-pill">'+ind.tipo+'</span></div>';
+  if(ind.meta){
+    h+='<div class="ind-card-meta-row"><span class="ind-card-meta-label">Línea base</span><span class="ind-card-meta-val">'+ind.meta.linea+'</span><span class="ind-card-meta-sep">→</span><span class="ind-card-meta-label">Objetivo</span><span class="ind-card-meta-val">'+ind.meta.objetivo+'</span></div>';
+  }
+  h+='<div class="ind-card-footer"><div class="person-chip"><div class="person-avatar" style="background:'+ind.responsable.color+'">'+ind.responsable.iniciales+'</div><span class="person-name">'+ind.responsable.nombre+'</span></div>';
+  h+='<button class="action-btn" onclick="event.stopPropagation();openDetalle(\''+ind.id+'\')">'+eyeSvg+'Ver detalle</button></div>';
+  h+='</div>';
+  return h;
+}
+
+var GER_SLUG={'Gerencia Técnica':'TEC','Gerencia Comercial':'COM','Gerencia Administrativa':'ADM','Gerencia de Planeación':'PLA'};
+var chevronSvg='<svg class="ger-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>';
+
+function toggleGer(slug){
+  var sec=document.getElementById('gerSec_'+slug);
+  if(sec) sec.classList.toggle('collapsed');
+}
+
+function renderIndicadores(){
+  var data=filteredIndicadores();
+  var container=document.getElementById('indContainer');
+  var empty=document.getElementById('emptyInd');
+  if(!data.length){container.innerHTML='';empty.style.display='';return;}
+  empty.style.display='none';
+  var gerOrder=['Gerencia Técnica','Gerencia Comercial','Gerencia Administrativa','Gerencia de Planeación'];
+  var groups={};
+  gerOrder.forEach(function(g){groups[g]=[];});
+  data.forEach(function(ind){
+    if(!groups[ind.gerencia]) groups[ind.gerencia]=[];
+    groups[ind.gerencia].push(ind);
+  });
+  var html='';
+  gerOrder.forEach(function(ger){
+    var inds=groups[ger];
+    if(!inds||!inds.length) return;
+    var gc=GER_COLORS[ger]||{bg:'#F3F4F6',color:'#374151'};
+    var slug=GER_SLUG[ger]||ger.replace(/\s+/g,'_');
+    html+='<div class="ger-section" id="gerSec_'+slug+'">';
+    html+='<div class="ger-section-header" onclick="toggleGer(\''+slug+'\')">';
+    html+='<div class="ger-header-left">';
+    html+='<span class="ger-section-name" style="color:'+gc.color+'">'+ger+'</span>';
+    html+='<span class="ger-section-count">'+inds.length+' indicador'+(inds.length===1?'':'es')+'</span>';
+    html+='</div>';
+    html+=chevronSvg;
+    html+='</div>';
+    html+='<div class="ger-body"><div class="ind-grid">';
+    inds.forEach(function(ind){html+=buildIndCard(ind);});
+    html+='</div></div>';
+    html+='</div>';
+  });
+  container.innerHTML=html;
+}
+
+function clearFiltersInd(){
+  document.getElementById('searchInd').value='';
+  document.getElementById('filterGer').value='';
+  document.getElementById('filterEst').value='';
+  kpiFilter='';
+  document.querySelectorAll('.kpi-card').forEach(function(c){c.classList.remove('active-filter');});
+  renderIndicadores();
+}
+
+// ════════════════════════════════════════
+// SOLICITUDES TABLE
+// ════════════════════════════════════════
+function filteredSolicitudes(){
+  var q=(document.getElementById('searchSol').value||'').toLowerCase();
+  var est=(document.getElementById('filterSolEst').value||'');
+  return SOLICITUDES.filter(function(s){
+    if(est && s.estado!==est) return false;
+    if(q && s.indicadorNombre.toLowerCase().indexOf(q)<0 && s.gerencia.toLowerCase().indexOf(q)<0) return false;
+    return true;
+  });
+}
+
+function buildSolCard(sol){
+  var sc=SOL_CFG[sol.estado]||{label:sol.estado,cls:'pendiente_admin'};
+  var eyeSvg='<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>';
+  var isPending=sol.estado==='pendiente_admin';
+  var h='<div class="ind-card" onclick="openSolicitud(\''+sol.id+'\')">';
+  // Top: ID + estado
+  h+='<div class="ind-card-top"><span class="ind-card-id">'+sol.id+'</span><span class="estado-badge '+sc.cls+'">'+sc.label+'</span></div>';
+  // Indicator name + motivo
+  h+='<div><div class="ind-card-name">'+sol.indicadorNombre+'</div><div class="ind-card-sub">'+sol.motivo+'</div></div>';
+  // Meta comparison
+  h+='<div class="sol-meta-compare">';
+  h+='<div class="sol-meta-col"><div class="sol-meta-head">Meta actual</div>';
+  h+='<div class="ind-card-meta-row"><span class="ind-card-meta-label">LB</span><span class="ind-card-meta-val">'+sol.metaActual.linea+'</span><span class="ind-card-meta-sep">→</span><span class="ind-card-meta-label">Obj</span><span class="ind-card-meta-val">'+sol.metaActual.objetivo+'</span></div></div>';
+  h+='<div class="sol-meta-arrow">→</div>';
+  h+='<div class="sol-meta-col"><div class="sol-meta-head sol-meta-head-new">Nueva propuesta</div>';
+  h+='<div class="ind-card-meta-row"><span class="ind-card-meta-label">LB</span><span class="ind-card-meta-val">'+sol.nuevaMeta.linea+'</span><span class="ind-card-meta-sep">→</span><span class="ind-card-meta-label">Obj</span><span class="ind-card-meta-val">'+sol.nuevaMeta.objetivo+'</span></div></div>';
+  h+='</div>';
+  // Footer: solicitante + action
+  h+='<div class="ind-card-footer">';
+  h+='<div class="person-chip"><div class="person-avatar" style="background:'+sol.solicitante.color+'">'+sol.solicitante.iniciales+'</div><span class="person-name">'+sol.solicitante.nombre+'</span></div>';
+  var btnCls=isPending?'action-btn approve':'action-btn';
+  var btnLabel=isPending?'Resolver':'Ver detalle';
+  h+='<button class="'+btnCls+'" onclick="event.stopPropagation();openSolicitud(\''+sol.id+'\')">'+eyeSvg+btnLabel+'</button>';
+  h+='</div>';
+  h+='</div>';
+  return h;
+}
+
+function toggleSolGer(slug){
+  var sec=document.getElementById('solGerSec_'+slug);
+  if(sec) sec.classList.toggle('collapsed');
+}
+
+function renderSolicitudes(){
+  var data=filteredSolicitudes();
+  var container=document.getElementById('solContainer');
+  var empty=document.getElementById('emptySol');
+  if(!data.length){container.innerHTML='';empty.style.display='';return;}
+  empty.style.display='none';
+  var gerOrder=['Gerencia Técnica','Gerencia Comercial','Gerencia Administrativa','Gerencia de Planeación'];
+  var groups={};
+  gerOrder.forEach(function(g){groups[g]=[];});
+  data.forEach(function(sol){
+    if(!groups[sol.gerencia]) groups[sol.gerencia]=[];
+    groups[sol.gerencia].push(sol);
+  });
+  var html='';
+  gerOrder.forEach(function(ger){
+    var sols=groups[ger];
+    if(!sols||!sols.length) return;
+    var gc=GER_COLORS[ger]||{bg:'#F3F4F6',color:'#374151'};
+    var slug=GER_SLUG[ger]||ger.replace(/\s+/g,'_');
+    html+='<div class="ger-section" id="solGerSec_'+slug+'">';
+    html+='<div class="ger-section-header" onclick="toggleSolGer(\''+slug+'\')">';
+    html+='<div class="ger-header-left"><span class="ger-section-name" style="color:'+gc.color+'">'+ger+'</span>';
+    html+='<span class="ger-section-count">'+sols.length+' solicitud'+(sols.length===1?'':'es')+'</span></div>';
+    html+=chevronSvg;
+    html+='</div>';
+    html+='<div class="ger-body"><div class="ind-grid">';
+    sols.forEach(function(sol){html+=buildSolCard(sol);});
+    html+='</div></div></div>';
+  });
+  container.innerHTML=html;
+}
+
+function clearFiltersSol(){
+  document.getElementById('searchSol').value='';
+  document.getElementById('filterSolEst').value='';
+  renderSolicitudes();
+}
+
+// ════════════════════════════════════════
+// DETALLE INDICADOR
+// ════════════════════════════════════════
+function openDetalle(id){
+  var ind=INDICADORES.find(function(i){return i.id===id;});
+  if(!ind) return;
+  activeIndicadorId=id;
+  activeDetTab=0;
+  var est=ESTADO_CFG[ind.estado]||{label:ind.estado,cls:'pendiente'};
+  var gc=GER_COLORS[ind.gerencia]||{bg:'#F3F4F6',color:'#374151'};
+  document.getElementById('mDetNombre').textContent=ind.nombre;
+  document.getElementById('mDetEstado').textContent=est.label;
+  document.getElementById('mDetEstado').className='estado-badge '+est.cls;
+  document.getElementById('mDetGer').textContent=ind.gerencia;
+  document.getElementById('mDetGer').style.cssText='background:'+gc.bg+';color:'+gc.color+';font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px;';
+  renderDetTab(0,ind);
+  document.getElementById('mDetFooter').innerHTML='<button class="btn-secondary" onclick="closeModal(\'modalDetalle\')">Cerrar</button>';
+  document.getElementById('modalDetalle').classList.add('open');
+}
+
+function switchDetTab(n){
+  activeDetTab=n;
+  for(var i=0;i<3;i++) document.getElementById('dtab'+i).classList.toggle('active',i===n);
+  var ind=INDICADORES.find(function(i){return i.id===activeIndicadorId;});
+  if(ind) renderDetTab(n,ind);
+}
+
+function renderDetTab(n,ind){
+  var body=document.getElementById('mDetBody');
+  if(n===0){
+    body.innerHTML='<div class="detail-grid">'+
+      '<div class="detail-item full"><p class="detail-label">Descripción</p><p class="detail-val" style="font-weight:400;font-size:13px;line-height:1.6">'+ind.desc+'</p></div>'+
+      '<div class="detail-item"><p class="detail-label">Tipo de indicador</p><p class="detail-val">'+ind.tipo+'</p></div>'+
+      '<div class="detail-item"><p class="detail-label">Unidad de medida</p><p class="detail-val">'+ind.unidad+'</p></div>'+
+      '<div class="detail-item"><p class="detail-label">Frecuencia</p><p class="detail-val">'+ind.frecuencia+'</p></div>'+
+      '<div class="detail-item"><p class="detail-label">Gerencia</p><p class="detail-val">'+ind.gerencia+'</p></div>'+
+      '<div class="detail-item"><p class="detail-label">Enlace responsable</p><p class="detail-val">'+ind.responsable.nombre+'</p></div>'+
+      '<div class="detail-item"><p class="detail-label">Revisor asignado</p><p class="detail-val">'+ind.revisor.nombre+'</p></div>'+
+      '<div class="detail-item"><p class="detail-label">Fecha de creación</p><p class="detail-val">'+ind.creado+'</p></div>'+
+      '<div class="detail-item"><p class="detail-label">Última actualización</p><p class="detail-val">'+ind.actualizado+'</p></div>'+
+    '</div>';
+  } else if(n===1){
+    var estados_sin_meta=['pendiente'];
+    if(!ind.meta || estados_sin_meta.indexOf(ind.estado)>=0){
+      var txt=ind.estado==='pendiente'?'El Enlace aún no ha configurado la meta para este indicador.':'Meta no disponible.';
+      body.innerHTML='<div class="callout info"><strong>Meta no configurada</strong>'+txt+'</div>';
+    } else {
+      var rec='';
+      if(ind.estado==='rechazado'){
+        var lastRej=ind.historial.filter(function(h){return h.accion.toLowerCase().indexOf('rechaz')>=0;}).pop();
+        if(lastRej&&lastRej.comentario) rec='<div class="callout error" style="margin-bottom:14px"><strong>Motivo del rechazo</strong>'+lastRej.comentario+'</div>';
+      }
+      body.innerHTML=rec+
+        '<div class="meta-card">'+
+        '<div class="meta-header"><p class="meta-title">Meta 2026</p></div>'+
+        '<div class="meta-row">'+
+        '<div class="meta-box"><p class="meta-box-label">Línea base</p><p class="meta-box-val">'+ind.meta.linea+'</p></div>'+
+        '<div class="meta-box"><p class="meta-box-label">Objetivo 2026</p><p class="meta-box-val" style="color:var(--color-primary)">'+ind.meta.objetivo+'</p></div>'+
+        '</div>'+
+        '<p class="meta-desc">'+ind.meta.descripcion+'</p>'+
+        '</div>';
+    }
+  } else {
+    var rolColors={Administrador:'admin',Enlace:'enlace',Revisor:'revisor'};
+    var icons={
+      Administrador:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>',
+      Enlace:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>',
+      Revisor:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>',
+    };
+    var html='<div class="timeline-list">';
+    ind.historial.forEach(function(h){
+      var rc=rolColors[h.rol]||'sistema';
+      var icon=icons[h.rol]||icons['Enlace'];
+      html+='<div class="tl-item">';
+      html+='<div class="tl-dot-wrap '+rc+'">'+icon+'</div>';
+      html+='<div class="tl-content">';
+      html+='<div class="tl-header"><span class="tl-actor">'+h.usuario+'</span><span class="tl-date">'+h.fecha+'</span></div>';
+      html+='<div class="tl-accion">'+h.accion+' · '+h.rol+'</div>';
+      if(h.comentario) html+='<div class="tl-comment">'+h.comentario+'</div>';
+      html+='</div></div>';
+    });
+    html+='</div>';
+    body.innerHTML=html;
+  }
+}
+
+// ════════════════════════════════════════
+// SOLICITUD MODAL
+// ════════════════════════════════════════
+var MES_LABELS=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+function buildSolPeriodGrid(sol){
+  var cur=sol.metasMensualesActuales;
+  var nue=sol.metasMensualesNuevas;
+  if(!cur||!nue||sol.frecuencia!=='Mensual') return '';
+
+  var html='<p style="font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Distribución mensual</p>';
+  // Legend
+  html+='<div style="display:flex;align-items:center;gap:14px;margin-bottom:10px;font-size:10px;color:var(--color-text-secondary)">';
+  html+='<div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--color-surface);border:1px solid var(--color-border)"></div>Meta actual</div>';
+  html+='<div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:#EFF6FF"></div>Nueva propuesta</div>';
+  html+='<div style="display:flex;align-items:center;gap:5px"><span style="color:#DC2626;font-size:11px">↕</span>Mes modificado</div>';
+  html+='</div>';
+  // Grid 6 × 2
+  html+='<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:16px">';
+  for(var i=0;i<12;i++){
+    var c=cur[i], n=nue[i], changed=(c!==n);
+    html+='<div style="text-align:center">';
+    html+='<p style="font-size:9px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px">'+MES_LABELS[i]+'</p>';
+    // Current
+    html+='<div style="background:var(--color-surface);border-radius:6px;padding:5px 3px;margin-bottom:3px">';
+    html+='<p style="font-size:11px;font-weight:600;color:var(--color-text-secondary);'+(changed?'text-decoration:line-through;opacity:.6':'')+'">'+c+'</p>';
+    html+='</div>';
+    // New
+    html+='<div style="background:'+(changed?'#EFF6FF':'var(--color-surface)')+';border-radius:6px;padding:5px 3px;'+(changed?'outline:1px solid #BFDBFE':'')+';">';
+    html+='<p style="font-size:11px;font-weight:700;color:'+(changed?'#1D4ED8':'var(--color-text-secondary)')+'">'+n+'</p>';
+    html+='</div>';
+    html+='</div>';
+  }
+  html+='</div>';
+  return html;
+}
+
+function openSolicitud(id){
+  var sol=SOLICITUDES.find(function(s){return s.id===id;});
+  if(!sol) return;
+  activeSolicitudId=id;
+  document.getElementById('mSolTitulo').textContent='Solicitud '+sol.id;
+  document.getElementById('mSolSubtitulo').textContent=sol.indicadorNombre;
+
+  var solCfg=SOL_CFG[sol.estado]||{label:sol.estado,cls:'pendiente_admin'};
+  var gc=GER_COLORS[sol.gerencia]||{bg:'#F3F4F6',color:'#374151'};
+
+  // ── Panel izquierdo ──────────────────────────────────────────────────
+  var left='';
+  left+='<div style="margin-bottom:14px">';
+  left+='<p style="font-family:monospace;font-size:10px;font-weight:700;color:var(--color-text-secondary);letter-spacing:.03em;margin-bottom:5px">'+sol.indicadorId+'</p>';
+  left+='<p style="font-size:13px;font-weight:700;color:var(--color-text-primary);line-height:1.45;margin-bottom:8px">'+sol.indicadorNombre+'</p>';
+  left+='<span class="estado-badge '+solCfg.cls+'">'+solCfg.label+'</span>';
+  left+='</div>';
+  left+='<div class="info-divider"></div>';
+  left+='<div style="margin-bottom:12px"><span style="display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px;background:'+gc.bg+';color:'+gc.color+'">'+sol.gerencia+'</span></div>';
+  left+='<div class="info-divider"></div>';
+  left+='<div style="margin-bottom:11px"><p class="info-label">Enlace solicitante</p>';
+  left+='<div class="person-chip" style="margin-top:4px"><div class="person-avatar" style="background:'+sol.solicitante.color+'">'+sol.solicitante.iniciales+'</div><span class="person-name">'+sol.solicitante.nombre+'</span></div></div>';
+  left+='<div style="margin-bottom:11px"><p class="info-label">Revisor que autorizó</p>';
+  left+='<div class="person-chip" style="margin-top:4px"><div class="person-avatar" style="background:'+sol.revisorAutorizo.color+'">'+sol.revisorAutorizo.iniciales+'</div><span class="person-name">'+sol.revisorAutorizo.nombre+'</span></div></div>';
+  left+='<div class="info-divider"></div>';
+  left+='<div style="margin-bottom:11px"><p class="info-label">Fecha de solicitud</p><p class="info-value" style="margin-top:3px">'+sol.fecha+'</p></div>';
+  left+='<div><p class="info-label">Motivo</p><p style="font-size:12px;color:var(--color-text-primary);line-height:1.5;margin-top:3px">'+sol.motivo+'</p></div>';
+
+  // ── Panel derecho ────────────────────────────────────────────────────
+  var right='';
+  // Justificación
+  right+='<p style="font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Justificación del cambio</p>';
+  right+='<p style="font-size:13px;color:var(--color-text-primary);line-height:1.6;background:var(--color-surface);border-radius:10px;padding:12px;margin-bottom:18px">'+sol.descripcion+'</p>';
+
+  // Comparación visual de metas
+  right+='<p style="font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Cambio propuesto</p>';
+  right+='<div class="meta-cmp-grid">';
+  // Meta actual
+  right+='<div>';
+  right+='<p style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-bottom:6px">Meta actual</p>';
+  right+='<div class="meta-cmp-box">';
+  right+='<div class="meta-cmp-col"><p class="meta-cmp-lbl">Línea base</p><p class="meta-cmp-val strikethrough">'+sol.metaActual.linea+'</p></div>';
+  right+='<span style="color:var(--color-text-secondary);opacity:.3;font-size:16px;padding:0 2px">→</span>';
+  right+='<div class="meta-cmp-col"><p class="meta-cmp-lbl">Objetivo</p><p class="meta-cmp-val strikethrough">'+sol.metaActual.objetivo+'</p></div>';
+  right+='</div></div>';
+  // Flecha central
+  right+='<div class="meta-cmp-arrow">→</div>';
+  // Nueva meta
+  right+='<div>';
+  right+='<p style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#1D4ED8;margin-bottom:6px">Nueva propuesta</p>';
+  right+='<div class="meta-cmp-box new-box">';
+  right+='<div class="meta-cmp-col"><p class="meta-cmp-lbl blue">Línea base</p><p class="meta-cmp-val blue">'+sol.nuevaMeta.linea+'</p></div>';
+  right+='<span style="color:#1D4ED8;opacity:.4;font-size:16px;padding:0 2px">→</span>';
+  right+='<div class="meta-cmp-col"><p class="meta-cmp-lbl blue">Objetivo</p><p class="meta-cmp-val blue">'+sol.nuevaMeta.objetivo+'</p></div>';
+  right+='</div></div>';
+  right+='</div>'; // end .meta-cmp-grid
+
+  // Cuadrícula mensual (solo si aplica)
+  right+=buildSolPeriodGrid(sol);
+
+  // Contenido según estado
+  var footer='';
+  if(sol.estado==='pendiente_admin'){
+    right+='<div class="callout warning" style="margin-bottom:14px"><strong>Acción requerida</strong>Aprueba o rechaza el cambio. Esta decisión es final y no puede modificarse.</div>';
+    right+='<div class="form-group"><label class="comment-label">Comentario <span class="req">*</span><span style="font-weight:400;color:var(--color-text-secondary)"> — obligatorio al rechazar</span></label>';
+    right+='<textarea class="comment-textarea" id="solComment" placeholder="Escribe el motivo de tu decisión…"></textarea></div>';
+    footer='<button class="btn-secondary" onclick="closeModal(\'modalSolicitud\')">Cancelar</button>'+
+           '<button class="btn-action red" onclick="resolverSolicitud(\'rechazada\')">Rechazar solicitud</button>'+
+           '<button class="btn-action green" onclick="resolverSolicitud(\'aprobada\')">Aprobar solicitud</button>';
+  } else if(sol.estado==='aprobada'){
+    right+='<div class="callout success"><strong>Solicitud aprobada — '+sol.fechaResolucion+'</strong>'+sol.comentarioAdmin+'</div>';
+    footer='<button class="btn-secondary" onclick="closeModal(\'modalSolicitud\')">Cerrar</button>';
+  } else {
+    right+='<div class="callout error"><strong>Solicitud rechazada — '+sol.fechaResolucion+'</strong>'+sol.comentarioAdmin+'</div>';
+    footer='<button class="btn-secondary" onclick="closeModal(\'modalSolicitud\')">Cerrar</button>';
+  }
+
+  document.getElementById('mSolLeft').innerHTML=left;
+  document.getElementById('mSolRight').innerHTML=right;
+  document.getElementById('mSolFooter').innerHTML=footer;
+  document.getElementById('modalSolicitud').classList.add('open');
+}
+
+function resolverSolicitud(decision){
+  var sol=SOLICITUDES.find(function(s){return s.id===activeSolicitudId;});
+  if(!sol) return;
+  var comentario=(document.getElementById('solComment')||{}).value||'';
+  if(decision==='rechazada' && !comentario.trim()){
+    alert('El comentario es obligatorio para rechazar la solicitud.');
+    document.getElementById('solComment').focus();
+    return;
+  }
+  var hoy='27 Jul 2026';
+  sol.estado=decision;
+  sol.comentarioAdmin=comentario;
+  sol.fechaResolucion=hoy;
+
+  if(decision==='aprobada'){
+    var ind=INDICADORES.find(function(i){return i.id===sol.indicadorId;});
+    if(ind && ind.meta){
+      ind.meta.linea=sol.nuevaMeta.linea;
+      ind.meta.objetivo=sol.nuevaMeta.objetivo;
+      ind.historial.push({usuario:'Leticia Solís',rol:'Administrador',accion:'Solicitud de cambio aprobada',fecha:hoy,comentario:comentario});
+      ind.actualizado=hoy;
+    }
+    showToast('Solicitud aprobada. La meta fue actualizada.','success');
+  } else {
+    var ind2=INDICADORES.find(function(i){return i.id===sol.indicadorId;});
+    if(ind2) ind2.historial.push({usuario:'Leticia Solís',rol:'Administrador',accion:'Solicitud de cambio rechazada',fecha:hoy,comentario:comentario});
+    showToast('Solicitud rechazada.');
+  }
+  closeModal('modalSolicitud');
+  calcKPIs();
+  renderSolicitudes();
+}
+
+// ════════════════════════════════════════
+// NUEVO INDICADOR
+// ════════════════════════════════════════
+var nuevoNivel='Actividad';
+
+function setNivel(nivel){
+  nuevoNivel=nivel;
+  document.querySelectorAll('.nivel-btn').forEach(function(btn){
+    btn.classList.toggle('active', btn.dataset.nivel===nivel);
+  });
+  updateClave();
+}
+
+function updateClave(){
+  var ger=(document.getElementById('fGerencia')||{}).value||'';
+  var claveEl=document.getElementById('fClave');
+  var displayEl=document.getElementById('fClaveText');
+  var displayWrap=document.getElementById('fClaveDisplay');
+  if(!claveEl) return;
+  if(!ger){
+    claveEl.value='';
+    if(displayEl) displayEl.textContent='—';
+    if(displayWrap) displayWrap.style.display='none';
+    return;
+  }
+  var gm={'Gerencia Técnica':'TEC','Gerencia Comercial':'COM','Gerencia Administrativa':'ADM','Gerencia de Planeación Estratégica':'PLA','Gerencia de Planeación':'PLA'};
+  var nm={'Fin':'FIN','Propósito':'PROP','Componente':'COMP','Actividad':'ACT'};
+  var prefix=(gm[ger]||'IND')+'-'+(nm[nuevoNivel]||'ACT');
+  var n=INDICADORES.filter(function(i){return i.clave&&i.clave.indexOf(prefix+'-')===0;}).length+1;
+  var clave=prefix+'-'+n;
+  claveEl.value=clave;
+  if(displayEl) displayEl.textContent=clave;
+  if(displayWrap) displayWrap.style.display='';
+}
+
+var GER_UNITS={
+  'Gerencia Técnica':['Coordinación General Técnica','Coordinación de Distribución y Mantenimiento de Redes','Coordinación de Plantas Potabilizadoras y Cárcamos','Coordinación de Proyectos Especiales','Coordinación de Proyectos y Construcción','Gerencia Técnica'],
+  'Gerencia Comercial':['Coordinación General Comercial','Coordinación Módulo de Atención Accesible','Coordinación de Atención a Usuarios','Coordinación de Atención a la Industria y Comercio','Coordinación de Control de Rezago','Coordinación de Facturación y Medición','Coordinación de Padrón y Censo','Gerencia Comercial'],
+  'Gerencia Administrativa':['Coordinación General Administrativa','Coordinación Jurídica','Coordinación de Adquisiciones','Coordinación de Contabilidad','Coordinación de Finanzas','Coordinación de Informática','Coordinación de Política de Ingresos','Coordinación de Recursos Humanos','Coordinación de Seguridad, Salud e Higiene','Coordinación de Servicios Generales','Gerencia Administrativa'],
+  'Gerencia de Planeación Estratégica':['Coordinación General de Planeación Estratégica','Coordinación de Proyectos Estratégicos','Coordinación de Seguimiento a Plantas de Tratamiento','Gerencia de Planeación Estratégica'],
+  'Gerencia de Planeación':['Coordinación General de Planeación Estratégica','Coordinación de Proyectos Estratégicos','Coordinación de Seguimiento a Plantas de Tratamiento','Gerencia de Planeación Estratégica'],
+};
+
+function onUnidadChange(){
+  var val=(document.getElementById('fUnidad')||{}).value||'';
+  var otro=document.getElementById('fUnidadOtro');
+  if(!otro) return;
+  otro.style.display=val==='otro'?'':'none';
+  if(val!=='otro') otro.value='';
+}
+
+function onGerenciaChangeNuevo(){
+  var ger=document.getElementById('fGerencia').value;
+  var grp=document.getElementById('fAreaGroup');
+  var sel=document.getElementById('fArea');
+  if(!ger){
+    grp.style.display='none';
+    sel.innerHTML='<option value="">Selecciona un área…</option>';
+  } else {
+    var units=GER_UNITS[ger]||[];
+    sel.innerHTML='<option value="">Selecciona un área…</option>'+
+      units.map(function(u){return '<option value="'+u+'">'+u+'</option>';}).join('');
+    grp.style.display='';
+  }
+  updateClave();
+}
+
+function toggleStep(n){
+  var sec=document.getElementById('step'+n+'Sec');
+  if(!sec||sec.classList.contains('locked')) return;
+  sec.classList.toggle('collapsed');
+}
+
+function continueStep(n){
+  if(n===1){
+    var ger=(document.getElementById('fGerencia')||{}).value||'';
+    var nom=((document.getElementById('fNombre')||{}).value||'').trim();
+    var area=(document.getElementById('fArea')||{}).value||'';
+    if(!ger||!area||!nom){showToast('Completa gerencia, área responsable y nombre del indicador para continuar.','error');return;}
+    document.getElementById('step1Sec').classList.add('collapsed');
+    document.getElementById('step2Sec').classList.remove('collapsed','locked');
+    document.getElementById('stepNum1').classList.add('done');
+    document.getElementById('stepNum2').classList.remove('inactive');
+  } else if(n===2){
+    var mvNom=((document.getElementById('fMvNombre')||{}).value||'').trim();
+    var mvTipo=(document.getElementById('fMvTipo')||{}).value||'';
+    if(!mvNom||!mvTipo){showToast('Completa nombre y tipo del medio de verificación.','error');return;}
+    document.getElementById('step2Sec').classList.add('collapsed');
+    document.getElementById('step3Sec').classList.remove('collapsed','locked');
+    document.getElementById('stepNum2').classList.add('done');
+    document.getElementById('stepNum3').classList.remove('inactive');
+  }
+}
+
+var _mvArchivoData=null;
+function onMvArchivoSeleccionado(file){
+  if(file.size>10*1024*1024){showToast('El archivo supera 10 MB.','error');return;}
+  _mvArchivoData={nombre:file.name,tamano:file.size};
+  document.getElementById('mvFileName').textContent=file.name;
+  document.getElementById('mvFileSize').textContent=mvFormatSize(file.size);
+  document.getElementById('mvFileDropZone').style.display='none';
+  document.getElementById('mvFileAttached').style.display='flex';
+}
+function quitarMvArchivo(){
+  _mvArchivoData=null;
+  var fi=document.getElementById('fMvArchivo');
+  if(fi) fi.value='';
+  document.getElementById('mvFileDropZone').style.display='block';
+  document.getElementById('mvFileAttached').style.display='none';
+}
+function mvFormatSize(b){
+  if(b<1024) return b+' B';
+  if(b<1024*1024) return (b/1024).toFixed(1)+' KB';
+  return (b/(1024*1024)).toFixed(1)+' MB';
+}
+
+function flipToggle(id){
+  var el=document.getElementById(id);
+  if(el) el.classList.toggle('on');
+}
+
+function openNuevo(){
+  ['fGerencia','fClave','fArea','fNombre','fDesc','fFrecuencia','fUnidad','fFormula',
+   'fMvNombre','fMvDesc'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.value='';
+  });
+  var fAreaGrp=document.getElementById('fAreaGroup');
+  if(fAreaGrp) fAreaGrp.style.display='none';
+  var fAreaSel=document.getElementById('fArea');
+  if(fAreaSel) fAreaSel.innerHTML='<option value="">Selecciona un área…</option>';
+  var fClaveDisp=document.getElementById('fClaveDisplay');
+  if(fClaveDisp) fClaveDisp.style.display='none';
+  var fClaveText=document.getElementById('fClaveText');
+  if(fClaveText) fClaveText.textContent='—';
+  var fUnidadOtro=document.getElementById('fUnidadOtro');
+  if(fUnidadOtro){fUnidadOtro.value='';fUnidadOtro.style.display='none';}
+  ['fMvTipo','fMvFormato'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.value='';
+  });
+  nuevoNivel='Actividad';
+  document.querySelectorAll('.nivel-btn').forEach(function(btn){
+    btn.classList.toggle('active', btn.dataset.nivel==='Actividad');
+  });
+  document.querySelectorAll('input[name="fMedioVerif"]').forEach(function(r){r.checked=r.value==='Interno';});
+  ['swAcumulable','swFraccion'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.classList.remove('on');
+  });
+  quitarMvArchivo();
+  document.getElementById('step1Sec').classList.remove('collapsed','locked');
+  document.getElementById('step2Sec').classList.add('collapsed','locked');
+  document.getElementById('step3Sec').classList.add('collapsed','locked');
+  document.getElementById('stepNum1').classList.remove('done');
+  document.getElementById('stepNum2').classList.add('inactive');
+  document.getElementById('stepNum3').classList.add('inactive');
+  document.getElementById('modalNuevo').classList.add('open');
+}
+
+function guardarNuevo(){
+  var nom=((document.getElementById('fNombre')||{}).value||'').trim();
+  var ger=(document.getElementById('fGerencia')||{}).value||'';
+  var mvNom=((document.getElementById('fMvNombre')||{}).value||'').trim();
+  var mvTipo=(document.getElementById('fMvTipo')||{}).value||'';
+  var mvArea=(document.getElementById('fArea')||{}).value||'';
+  var _unidadRaw=(document.getElementById('fUnidad')||{}).value||'';
+  var unidad=_unidadRaw==='otro'?((document.getElementById('fUnidadOtro')||{}).value||'').trim():_unidadRaw;
+  var freq=(document.getElementById('fFrecuencia')||{}).value||'';
+  if(!nom||!ger||!mvArea||!mvNom||!mvTipo||!unidad||!freq){
+    showToast('Completa todos los campos obligatorios en los tres pasos.','error');
+    return;
+  }
+  var clave=document.getElementById('fClave').value||('IND-'+(INDICADORES.length+1));
+  var medioVerif='Interno';
+  document.querySelectorAll('input[name="fMedioVerif"]').forEach(function(r){if(r.checked) medioVerif=r.value;});
+  var acumulable=document.getElementById('swAcumulable').classList.contains('on');
+  var fraccion=document.getElementById('swFraccion').classList.contains('on');
+  var formula=((document.getElementById('fFormula')||{}).value||'').trim();
+  var mvFormato=(document.getElementById('fMvFormato')||{}).value||'';
+  var mvDesc=((document.getElementById('fMvDesc')||{}).value||'').trim();
+  var n=INDICADORES.length+1;
+  var id='IND-'+String(n).padStart(3,'0');
+  var hoy='27 Jul 2026';
+  var gerToEnlace={
+    'Gerencia Técnica':{nombre:'Jorge Reyes',iniciales:'JR',color:'#0891B2'},
+    'Gerencia Comercial':{nombre:'Ana Torres',iniciales:'AT',color:'#8B1D3A'},
+    'Gerencia Administrativa':{nombre:'María López',iniciales:'ML',color:'#065F46'},
+    'Gerencia de Planeación':{nombre:'Ana Torres',iniciales:'AT',color:'#7C3AED'},
+  };
+  var revMap={
+    'Gerencia Técnica':{nombre:'Miguel Ángel Pérez',iniciales:'MP',color:'#0369A1'},
+    'Gerencia Comercial':{nombre:'Carlos Mendoza',iniciales:'CM',color:'#6B1630'},
+    'Gerencia Administrativa':{nombre:'Laura Vega',iniciales:'LV',color:'#047857'},
+    'Gerencia de Planeación':{nombre:'Carlos Mendoza',iniciales:'CM',color:'#6D28D9'},
+  };
+  var enlace=gerToEnlace[ger]||{nombre:'Por asignar',iniciales:'??',color:'#6B7280'};
+  var rev=revMap[ger]||{nombre:'Por asignar',iniciales:'??',color:'#6B7280'};
+  INDICADORES.push({
+    id:id, clave:clave, nombre:nom,
+    desc:((document.getElementById('fDesc')||{}).value||'').trim(),
+    gerencia:ger, unidad:unidad, frecuencia:freq,
+    nivel:nuevoNivel, tipo:nuevoNivel,
+    medioVerif:medioVerif, acumulable:acumulable, fraccion:fraccion, formula:formula,
+    medioVerificacionData:{nombre:mvNom,tipo:mvTipo,formato:mvFormato,area:mvArea,descripcion:mvDesc,archivo:_mvArchivoData},
+    responsable:enlace, revisor:rev,
+    estado:'pendiente', creado:hoy, actualizado:hoy, meta:null,
+    historial:[{usuario:'Leticia Solís',rol:'Administrador',accion:'Indicador creado',fecha:hoy,comentario:''}]
+  });
+  closeModal('modalNuevo');
+  calcKPIs();
+  renderIndicadores();
+  showToast('Indicador '+id+' creado correctamente.','success');
+}
+
+// ════════════════════════════════════════
+// MODAL HELPERS
+// ════════════════════════════════════════
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+}
+function overlayClick(e,id){
+  if(e.target.id===id) closeModal(id);
+}
+
+// ════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast'+(type?' '+type:'');
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+calcKPIs();
+renderIndicadores();
+</script>
+</body>
+</html>

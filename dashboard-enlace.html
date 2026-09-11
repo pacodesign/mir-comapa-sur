@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="session.js"></script>
   <script src="mock-notifications.js"></script>
+  <script src="mir-actividades-data.js"></script>
   <script src="layout.js"></script>
   <style>
     :root {
@@ -460,6 +461,7 @@
     m.mazeUniversalSnippetApiKey = e;
   })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '9da16a9c-d16b-42b8-837b-4ba698f5135d');
   </script>
+  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
 </head>
 <body>
 
@@ -547,7 +549,7 @@
     <div class="page-header">
       <div>
         <h1 class="page-title">Mis indicadores</h1>
-        <p class="page-subtitle">Gerencia Comercial · Período Q2 2026 · COMAPA Sur</p>
+        <p class="page-subtitle" id="pageSubtitleDash">Gerencia Comercial · Período Q2 2026 · COMAPA Sur</p>
       </div>
       <button class="btn-primary" onclick="window.location.href='mis-actividades.html'">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14">
@@ -586,7 +588,7 @@
       <div class="kpi-card hl-default" onclick="window.location.href='mis-actividades.html'">
         <p class="kpi-label">Total asignadas</p>
         <p class="kpi-value">12</p>
-        <p class="kpi-sub">Gerencia Comercial · Q2 2026</p>
+        <p class="kpi-sub" id="kpiSubGer">Gerencia Comercial · Q2 2026</p>
         <span class="kpi-cta-hover">Ver todas <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span>
       </div>
 
@@ -657,29 +659,21 @@
           <div class="card-header">
             <div>
               <p class="card-title">Mi avance general</p>
-              <p class="card-subtitle">Período Q2 2026 · 12 indicadores asignados</p>
+              <p class="card-subtitle" id="avanceSubtitle">Período Q2 2026 · — indicadores asignados</p>
             </div>
-            <span style="font-size:13px;font-weight:700;color:#22C55E;">42%</span>
+            <span id="avancePctBadge" style="font-size:13px;font-weight:700;color:#22C55E;">—%</span>
           </div>
 
           <div class="avance-big">
-            <p class="avance-pct">42<span style="font-size:20px;color:#9CA3AF;font-weight:500;">%</span></p>
+            <p class="avance-pct" id="avancePctBig">—<span style="font-size:20px;color:#9CA3AF;font-weight:500;">%</span></p>
             <p class="avance-label">indicadores aprobados del total asignado</p>
           </div>
 
-          <div class="progress-track">
-            <div class="progress-seg seg-aprobada"  style="width:41.7%"></div>
-            <div class="progress-seg seg-enviada"    style="width:16.6%"></div>
-            <div class="progress-seg seg-observada"  style="width:8.4%"></div>
+          <div class="progress-track" id="progressTrack">
             <div class="progress-seg" style="background:#E5E7EB;flex:1;"></div>
           </div>
 
-          <div class="progress-legend">
-            <div class="legend-item"><span class="legend-dot aprobada"></span> Aprobadas (5)</div>
-            <div class="legend-item"><span class="legend-dot enviada"></span> Enviadas (2)</div>
-            <div class="legend-item"><span class="legend-dot observada"></span> Observadas (1)</div>
-            <div class="legend-item"><span class="legend-dot pendiente"></span> Pendientes (4)</div>
-          </div>
+          <div class="progress-legend" id="progressLegend"></div>
         </div>
 
         <!-- Próximas fechas límite -->
@@ -692,53 +686,7 @@
             <a class="card-link" href="mis-actividades.html">Ver todas</a>
           </div>
 
-          <div class="deadline-list">
-            <div class="deadline-item" style="cursor:pointer" onclick="window.location.href='detalle-actividad.html?id=COM-ACT-08'">
-              <div class="dl-urgency urgente"></div>
-              <div class="dl-info">
-                <p class="dl-id">COM-ACT-08</p>
-                <p class="dl-name">Gestión de deuda morosa</p>
-                <p class="dl-estado">Observada · requiere corrección</p>
-              </div>
-              <p class="dl-days urgente">8 días</p>
-            </div>
-            <div class="deadline-item">
-              <div class="dl-urgency proximo"></div>
-              <div class="dl-info">
-                <p class="dl-id">COM-ACT-03</p>
-                <p class="dl-name">Seguimiento de facturación mensual</p>
-                <p class="dl-estado">Pendiente de carga</p>
-              </div>
-              <p class="dl-days proximo">11 días</p>
-            </div>
-            <div class="deadline-item">
-              <div class="dl-urgency proximo"></div>
-              <div class="dl-info">
-                <p class="dl-id">COM-ACT-07</p>
-                <p class="dl-name">Medición de tomas activas por sector</p>
-                <p class="dl-estado">Pendiente de carga</p>
-              </div>
-              <p class="dl-days proximo">13 días</p>
-            </div>
-            <div class="deadline-item">
-              <div class="dl-urgency normal"></div>
-              <div class="dl-info">
-                <p class="dl-id">COM-ACT-11</p>
-                <p class="dl-name">Gestión de cobranza activa</p>
-                <p class="dl-estado">Pendiente de carga</p>
-              </div>
-              <p class="dl-days normal">16 días</p>
-            </div>
-            <div class="deadline-item">
-              <div class="dl-urgency info"></div>
-              <div class="dl-info">
-                <p class="dl-id">COM-ACT-01</p>
-                <p class="dl-name">Actualización padrón de usuarios</p>
-                <p class="dl-estado">Enviada a revisión</p>
-              </div>
-              <p class="dl-days info">Ya enviada</p>
-            </div>
-          </div>
+          <div class="deadline-list" id="deadlineList"></div>
         </div>
 
       </div>
@@ -753,42 +701,10 @@
               <p class="card-title">Pendientes por cargar</p>
               <p class="card-subtitle">Indicadores sin evidencia asignada</p>
             </div>
-            <a class="card-link" href="mis-actividades.html?chip=pendiente">Ver todas (3)</a>
+            <a class="card-link" id="pendingLink" href="mis-actividades.html?chip=pendiente">Ver todas</a>
           </div>
 
-          <div class="act-list">
-
-            <div class="act-item">
-              <div class="act-info">
-                <p class="act-id">COM-ACT-03</p>
-                <p class="act-title">Seguimiento de facturación mensual</p>
-                <p class="act-vence">Vence: <span class="urgente">20 jun · en 11 días</span></p>
-              </div>
-              <span class="estado-badge pendiente_carga">Pendiente</span>
-              <button class="btn-xs" onclick="window.location.href='detalle-actividad.html?id=COM-ACT-03'">Cargar</button>
-            </div>
-
-            <div class="act-item">
-              <div class="act-info">
-                <p class="act-id">COM-ACT-07</p>
-                <p class="act-title">Medición de tomas activas por sector</p>
-                <p class="act-vence">Vence: <span>22 jun · en 13 días</span></p>
-              </div>
-              <span class="estado-badge pendiente_carga">Pendiente</span>
-              <button class="btn-xs" onclick="window.location.href='detalle-actividad.html?id=COM-ACT-07'">Cargar</button>
-            </div>
-
-            <div class="act-item">
-              <div class="act-info">
-                <p class="act-id">COM-ACT-11</p>
-                <p class="act-title">Gestión de cobranza activa</p>
-                <p class="act-vence">Vence: <span>25 jun · en 16 días</span></p>
-              </div>
-              <span class="estado-badge pendiente_carga">Pendiente</span>
-              <button class="btn-xs" onclick="window.location.href='detalle-actividad.html?id=COM-ACT-11'">Cargar</button>
-            </div>
-
-          </div>
+          <div class="act-list" id="pendingList"></div>
         </div>
 
         <!-- Observaciones por atender -->
@@ -884,74 +800,193 @@
 
   </main>
 
-  <!-- TOGGLE BUTTON -->
-  <button class="rp-toggle" id="rpToggle" title="Mostrar / ocultar panel">
-    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-    </svg>
-  </button>
-
-  <!-- ═══ RIGHT PANEL ═══ -->
-  <aside class="right-panel" id="rightPanel">
-    <div class="rp-user">
-      <div class="rp-avatar">AT</div>
-      <div>
-        <p class="rp-name">Ana Torres</p>
-        <p class="rp-role">Enlace · Comercial</p>
-      </div>
-    </div>
-
-    <div class="rp-divider"></div>
-
-    <p class="rp-section-title">Mi avance Q2 2026</p>
-    <div class="rp-stat">
-      <div class="rp-bar b-success"></div>
-      <div><p class="rp-stat-val">5</p><p class="rp-stat-lbl">Aprobadas</p></div>
-    </div>
-    <div class="rp-stat">
-      <div class="rp-bar b-info"></div>
-      <div><p class="rp-stat-val">2</p><p class="rp-stat-lbl">Enviadas</p></div>
-    </div>
-    <div class="rp-stat">
-      <div class="rp-bar b-warning"></div>
-      <div><p class="rp-stat-val">1</p><p class="rp-stat-lbl">Observada</p></div>
-    </div>
-    <div class="rp-stat">
-      <div class="rp-bar b-gray"></div>
-      <div><p class="rp-stat-val">4</p><p class="rp-stat-lbl">Pendientes</p></div>
-    </div>
-
-    <div class="rp-divider"></div>
-
-    <p class="rp-section-title">Total asignadas</p>
-    <div class="rp-total-big">
-      <p class="num">12</p>
-      <p class="sub">indicadores · Gerencia Comercial</p>
-    </div>
-
-    <div class="rp-divider"></div>
-
-    <p class="rp-section-title">Próximo vencimiento</p>
-    <div class="rp-next-deadline">
-      <p class="rp-dl-label">Más urgente con acción requerida</p>
-      <p class="rp-dl-id">COM-ACT-08</p>
-      <p class="rp-dl-title">Gestión de deuda morosa</p>
-      <p class="rp-dl-date">17 jun · en 8 días</p>
-    </div>
-
-  </aside>
-</div>
+  </div>
 
 <script>
-  const panel  = document.getElementById('rightPanel');
-  const toggle = document.getElementById('rpToggle');
-  const main   = document.querySelector('.main-content');
+  // Dynamic gerencia context
+  (function() {
+    if (typeof getActividadesEnlace !== 'function') return;
 
-  toggle.addEventListener('click', () => {
-    const isCollapsed = panel.classList.toggle('collapsed');
-    toggle.classList.toggle('collapsed', isCollapsed);
-    main.classList.toggle('expanded', isCollapsed);
-  });
+    var ger     = getNombreGerenciaEnlace();
+    var gerCorto= getNombreCortoGerenciaEnlace();
+    var inds    = getActividadesEnlace();
+    var total   = inds.length;
+
+    var s = function(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+
+    // ── Textos de gerencia ──────────────────────────────────────────────────
+    s('pageSubtitleDash', ger + ' · Período Q2 2026 · COMAPA Sur');
+    s('kpiSubGer', ger + ' · Q2 2026');
+
+    // ── KPI grid ────────────────────────────────────────────────────────────
+    var pend = inds.filter(function(a){ return ['pendiente_carga','incompleto','borrador'].includes(a.estado); }).length;
+    var env  = inds.filter(function(a){ return ['enviado_revision','corregido'].includes(a.estado); }).length;
+    var obs  = inds.filter(function(a){ return a.estado === 'observado'; }).length;
+    var apr  = inds.filter(function(a){ return ['listo_validar','cerrado'].includes(a.estado); }).length;
+
+    var hoy = new Date(); hoy.setHours(0,0,0,0);
+    var venc = inds.filter(function(a){
+      return ['pendiente_carga','incompleto','borrador'].includes(a.estado) &&
+             a.fechaLimite && new Date(a.fechaLimite) < hoy;
+    }).length;
+    var bor = inds.filter(function(a){ return a.estado === 'borrador'; }).length;
+
+    var kpiCards = document.querySelectorAll('.kpi-card .kpi-value');
+    if (kpiCards[0]) kpiCards[0].textContent = total;
+    if (kpiCards[1]) kpiCards[1].textContent = pend;
+    if (kpiCards[2]) kpiCards[2].textContent = obs;
+    if (kpiCards[3]) kpiCards[3].textContent = apr;
+    if (kpiCards[4]) kpiCards[4].textContent = bor;
+    if (kpiCards[5]) kpiCards[5].textContent = env;
+    if (kpiCards[6]) kpiCards[6].textContent = venc;
+
+    // ── Avance general ──────────────────────────────────────────────────────
+    var pct = total > 0 ? Math.round((apr / total) * 100) : 0;
+    s('avanceSubtitle', 'Período Q2 2026 · ' + total + ' indicadores asignados');
+    s('avancePctBadge', pct + '%');
+
+    var bigEl = document.getElementById('avancePctBig');
+    if (bigEl) bigEl.innerHTML = pct + '<span style="font-size:20px;color:#9CA3AF;font-weight:500;">%</span>';
+
+    var pctApr = total > 0 ? (apr / total * 100).toFixed(1) : 0;
+    var pctEnv = total > 0 ? (env / total * 100).toFixed(1) : 0;
+    var pctObs = total > 0 ? (obs / total * 100).toFixed(1) : 0;
+    var track  = document.getElementById('progressTrack');
+    if (track) track.innerHTML =
+      '<div class="progress-seg seg-aprobada"  style="width:' + pctApr + '%"></div>' +
+      '<div class="progress-seg seg-enviada"   style="width:' + pctEnv + '%"></div>' +
+      '<div class="progress-seg seg-observada" style="width:' + pctObs + '%"></div>' +
+      '<div class="progress-seg" style="background:#E5E7EB;flex:1;"></div>';
+
+    var legend = document.getElementById('progressLegend');
+    if (legend) legend.innerHTML =
+      '<div class="legend-item"><span class="legend-dot aprobada"></span> Aprobadas (' + apr + ')</div>' +
+      '<div class="legend-item"><span class="legend-dot enviada"></span> Enviadas (' + env + ')</div>' +
+      '<div class="legend-item"><span class="legend-dot observada"></span> Observadas (' + obs + ')</div>' +
+      '<div class="legend-item"><span class="legend-dot pendiente"></span> Pendientes (' + pend + ')</div>';
+
+    // ── Próximas fechas límite ───────────────────────────────────────────────
+    var sorted = inds.slice().sort(function(a, b){ return a.fechaLimite.localeCompare(b.fechaLimite); });
+    var top4   = sorted.slice(0, 4);
+    var dl     = document.getElementById('deadlineList');
+    if (dl) dl.innerHTML = top4.map(function(a) {
+      var d    = diasRestantes(a.fechaLimite);
+      var cls  = d < 0 ? 'urgente' : d <= 7 ? 'urgente' : d <= 14 ? 'proximo' : 'normal';
+      var lbl  = d < 0 ? 'Vencida' : d === 0 ? 'Hoy' : d + ' días';
+      var estadoLbl = {
+        pendiente_carga:'Pendiente de carga', enviado_revision:'En revisión',
+        observado:'Observada · requiere corrección', corregido:'Corregida · en espera',
+        listo_validar:'Lista para validar', cerrado:'Cerrada'
+      }[a.estado] || a.estado;
+      return '<div class="deadline-item" style="cursor:pointer" onclick="window.location.href=\'detalle-actividad.html?id=' + a.id + '\'">' +
+        '<div class="dl-urgency ' + cls + '"></div>' +
+        '<div class="dl-info">' +
+          '<p class="dl-id">' + a.id + '</p>' +
+          '<p class="dl-name">' + a.nombreIndicador + '</p>' +
+          '<p class="dl-estado">' + estadoLbl + '</p>' +
+        '</div>' +
+        '<p class="dl-days ' + cls + '">' + lbl + '</p>' +
+      '</div>';
+    }).join('');
+
+    // ── Pendientes por cargar ────────────────────────────────────────────────
+    var pendList = inds.filter(function(a){ return ['pendiente_carga','incompleto','borrador'].includes(a.estado); });
+    var top3pend = pendList.slice(0, 3);
+    var pl = document.getElementById('pendingList');
+    if (pl) pl.innerHTML = top3pend.length ? top3pend.map(function(a) {
+      return '<div class="act-item">' +
+        '<div class="act-info">' +
+          '<p class="act-id">' + a.id + '</p>' +
+          '<p class="act-title">' + a.nombreIndicador + '</p>' +
+          '<p class="act-vence">Vence: <span>' + formatFecha(a.fechaLimite) + '</span></p>' +
+        '</div>' +
+        '<span class="estado-badge pendiente_carga">Pendiente</span>' +
+        '<button class="btn-xs" onclick="window.location.href=\'detalle-actividad.html?id=' + a.id + '\'">Cargar</button>' +
+      '</div>';
+    }).join('') : '<p style="font-size:12px;color:#9CA3AF;padding:12px 0;">Sin pendientes · todos los indicadores tienen avance registrado.</p>';
+
+    var pl2 = document.getElementById('pendingLink');
+    if (pl2) pl2.textContent = 'Ver todas (' + pendList.length + ')';
+
+  })();
+
+  // ── Ciclo de planeación banner ──────────────────────────
+  (function() {
+    var CICLO_KEY = 'comapa-ciclo';
+    function cpParseDate(s) {
+      if (!s) return null;
+      var p = s.split('-');
+      var d = new Date(+p[0], +p[1]-1, +p[2]); d.setHours(0,0,0,0); return d;
+    }
+    function cpGetEstado(c) {
+      if (!c||!c.faseCaptura||!c.faseRevision) return 'inactivo';
+      if (c.cerradoManualmente) return 'cerrado';
+      var h = new Date(); h.setHours(0,0,0,0);
+      var c0=cpParseDate(c.faseCaptura.inicio), c1=cpParseDate(c.faseCaptura.fin);
+      var r0=cpParseDate(c.faseRevision.inicio), r1=cpParseDate(c.faseRevision.fin);
+      if (!c0||!c1||!r0||!r1) return 'inactivo';
+      if (h<c0) return 'pendiente';
+      if (h>=c0&&h<=c1) return 'captura';
+      if (h>c1&&h<r0) return 'entre_fases';
+      if (h>=r0&&h<=r1) return 'revision';
+      return 'cerrado';
+    }
+    function cpFmt(s) {
+      if (!s) return '';
+      var p=s.split('-'), ms=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+      return +p[2]+' '+ms[+p[1]-1]+'. '+p[0];
+    }
+    function cpDias(d) {
+      var h=new Date(); h.setHours(0,0,0,0);
+      return Math.max(0,Math.round((d-h)/(1000*60*60*24)));
+    }
+    try {
+      var ciclo = JSON.parse(localStorage.getItem(CICLO_KEY));
+      var est = cpGetEstado(ciclo);
+      var banner = null;
+      if (est==='captura') {
+        var c1 = cpParseDate(ciclo.faseCaptura.fin);
+        var dias = cpDias(c1);
+        banner = {
+          bg:'#ECFDF5', border:'#BBF7D0', dot:'#10B981',
+          title: 'Ciclo de planeación abierto — Configura tus metas',
+          detail: 'Tienes hasta el '+cpFmt(ciclo.faseCaptura.fin)+' para configurar y enviar las metas de tus indicadores. '+
+                  (dias===0?'Vence hoy.': dias===1?'Queda 1 día.':'Quedan '+dias+' días.'),
+          href: 'planeacion-metas-enlace.html',
+          btn: 'Ir a mis metas'
+        };
+      } else if (est==='pendiente') {
+        var c0 = cpParseDate(ciclo.faseCaptura.inicio);
+        banner = {
+          bg:'#FFF7ED', border:'#FED7AA', dot:'#F97316',
+          title: 'Ciclo de planeación próximo',
+          detail: 'El período de captura de metas abrirá el '+cpFmt(ciclo.faseCaptura.inicio)+'. Se avisará cuando esté disponible.',
+          href: null, btn: null
+        };
+      }
+      if (!banner) return;
+      var s = document.createElement('style');
+      s.textContent = '.cp-banner{display:flex;align-items:center;gap:14px;border-radius:14px;padding:14px 18px;margin-bottom:20px;border:1.5px solid;}'
+        +'.cp-banner-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}'
+        +'.cp-banner-info{flex:1;}'
+        +'.cp-banner-title{font-size:13px;font-weight:700;color:#111827;}'
+        +'.cp-banner-detail{font-size:12px;color:#6B7280;margin-top:2px;line-height:1.4;}'
+        +'.cp-banner-btn{padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;border:1.5px solid #10B981;background:#fff;color:#065F46;white-space:nowrap;transition:background .15s;}'
+        +'.cp-banner-btn:hover{background:#ECFDF5;}';
+      document.head.appendChild(s);
+      var el = document.createElement('div');
+      el.className = 'cp-banner';
+      el.style.cssText = 'background:'+banner.bg+';border-color:'+banner.border+';';
+      el.innerHTML = '<div class="cp-banner-dot" style="background:'+banner.dot+(est==='captura'?';animation:cp-pulse-g 2s infinite':'')+';"></div>'
+        +'<div class="cp-banner-info"><div class="cp-banner-title">'+banner.title+'</div><div class="cp-banner-detail">'+banner.detail+'</div></div>'
+        +(banner.btn?'<button class="cp-banner-btn" onclick="location.href=\''+banner.href+'\'">'+banner.btn+'</button>':'');
+      var ks = document.createElement('style');
+      ks.textContent = '@keyframes cp-pulse-g{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4);}50%{box-shadow:0 0 0 5px rgba(16,185,129,0);}}';
+      document.head.appendChild(ks);
+      var ph = document.querySelector('.page-header');
+      if (ph) ph.parentNode.insertBefore(el, ph);
+    } catch(e) {}
+  })();
 </script>
 </body>
 </html>

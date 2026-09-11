@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración — COMAPA Sur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <style>
+    :root{
+      --color-primary:#8B1D3A; --color-accent-dark:#6B1630;
+      --color-bg:#FFFFFF; --color-surface:#F7F7F7;
+      --color-border:#E5E7EB; --color-text-primary:#111827;
+      --color-text-secondary:#6B7280; --color-avatar-bg:#8B1D3A;
+      --radius-card:16px; --radius-btn:999px;
+      --color-danger:          #EF4444;
+      --color-warning:         #F59E0B;
+      --color-success:         #22C55E;
+      --color-info:            #3B82F6;
+      --color-link:            #6B7280;
+      --pad-card:              20px;
+      --gap:                   16px;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
+
+    /* ── App sidebar ── */
+    .sidebar{width:148px;background:var(--color-bg);border-right:1px solid var(--color-border);display:flex;flex-direction:column;align-items:stretch;padding:16px 0;gap:4px;position:fixed;top:0;left:0;height:100vh;z-index:100;}
+    .sidebar-logo{width:36px;height:36px;background:var(--color-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+    .sidebar-logo svg{width:18px;height:18px;stroke:white;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;align-items:stretch;padding:0 8px;}
+    .nav-item{width:100%;height:auto;padding:7px 10px;border-radius:12px;display:flex;align-items:center;flex-direction:row;gap:8px;cursor:pointer;color:var(--color-text-secondary);transition:background .15s,color .15s;text-decoration:none;}
+    .nav-item:hover{background:var(--color-surface);}
+    .nav-item.active{background:#F5E8EC;color:var(--color-primary);}
+    .nav-item svg{width:18px;height:18px;flex-shrink:0;}
+    .nav-label{font-size:11px;font-weight:600;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .sidebar-bottom{display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 8px;}
+    .avatar-xs{width:32px;height:32px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;cursor:pointer;}
+
+    /* ── App wrapper ── */
+    .app-wrapper{display:flex;flex:1;margin-left:148px;}
+
+    /* ── Config secondary nav ── */
+    .config-nav{width:220px;flex-shrink:0;background:var(--color-bg);border-right:1px solid var(--color-border);padding:24px 12px;display:flex;flex-direction:column;gap:0;min-height:100vh;}
+    .config-nav-title{font-size:11px;font-weight:700;color:var(--color-primary);text-transform:uppercase;letter-spacing:.08em;padding:0 8px;margin-bottom:16px;}
+    .config-nav-group{margin-bottom:20px;}
+    .config-nav-group-label{font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.07em;padding:0 8px 6px;}
+    .config-nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;color:var(--color-text-secondary);font-size:13px;font-weight:500;transition:background .12s,color .12s;text-decoration:none;border:none;background:none;width:100%;font-family:inherit;text-align:left;}
+    .config-nav-item:hover{background:var(--color-surface);}
+    .config-nav-item.active{background:#F5E8EC;color:var(--color-primary);font-weight:700;}
+    .config-nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.7;}
+    .config-nav-item.active svg{opacity:1;}
+    .config-nav-soon{font-size:9px;font-weight:600;padding:2px 6px;border-radius:999px;background:#F3F4F6;color:#9CA3AF;margin-left:auto;flex-shrink:0;}
+
+    /* ── Main content ── */
+    .main-content{flex:1;padding:28px 28px;min-width:0;}
+
+    /* ── Page header ── */
+    .page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px;}
+    .page-title{font-size:22px;font-weight:700;}
+    .page-subtitle{font-size:13px;color:var(--color-text-secondary);margin-top:3px;}
+
+    /* ── Stat chips ── */
+    .stat-row{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
+    .stat-chip{background:var(--color-bg);border:1px solid var(--color-border);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;min-width:130px;}
+    .stat-chip-num{font-size:22px;font-weight:700;line-height:1;}
+    .stat-chip-lbl{font-size:11px;color:var(--color-text-secondary);font-weight:500;margin-top:2px;}
+    .stat-chip-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .stat-chip-icon svg{width:16px;height:16px;}
+
+    /* ── Filter bar ── */
+    .filter-bar{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+    .search-wrap{position:relative;flex:1;min-width:200px;}
+    .filter-search{width:100%;padding:8px 14px 8px 36px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:var(--radius-btn);background:white;outline:none;transition:border-color .15s;}
+    .filter-search:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
+    .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9CA3AF;pointer-events:none;}
+    .filter-select{padding:8px 12px;font-size:12px;font-family:inherit;border:1px solid var(--color-border);border-radius:var(--radius-btn);background:white;outline:none;cursor:pointer;color:var(--color-text-primary);}
+    .filter-select:focus{border-color:var(--color-primary);}
+    .filter-clear{font-size:11px;font-weight:600;color:var(--color-text-secondary);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:var(--radius-btn);}
+    .filter-clear:hover{background:var(--color-surface);}
+
+    /* ── Users table ── */
+    .table-card{background:var(--color-bg);border-radius:var(--radius-card);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+    table{width:100%;border-collapse:collapse;}
+    thead th{background:#FAFAFA;border-bottom:1px solid var(--color-border);padding:10px 16px;text-align:left;font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+    tbody tr{border-bottom:1px solid #F3F4F6;transition:background .1s;}
+    tbody tr:last-child{border-bottom:none;}
+    tbody tr:hover{background:#FAFAFA;}
+    td{padding:12px 16px;vertical-align:middle;}
+
+    /* ── User cell ── */
+    .user-cell{display:flex;align-items:center;gap:10px;}
+    .user-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0;}
+    .user-name{font-size:13px;font-weight:600;color:var(--color-text-primary);}
+    .user-email{font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+
+    /* ── Role badge ── */
+    .rol-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:var(--radius-btn);display:inline-block;white-space:nowrap;}
+    .rol-badge.admin{background:#F5E8EC;color:#8B1D3A;}
+    .rol-badge.revisor{background:#F0FDF4;color:#15803D;}
+    .rol-badge.enlace{background:#EFF6FF;color:#1D4ED8;}
+    .rol-badge.lectura{background:#F3F4F6;color:#6B7280;}
+
+    /* ── Estado badge ── */
+    .estado-dot{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;}
+    .estado-dot::before{content:'';width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+    .estado-dot.activo{color:#15803D;}
+    .estado-dot.activo::before{background:#22C55E;}
+    .estado-dot.inactivo{color:#6B7280;}
+    .estado-dot.inactivo::before{background:#D1D5DB;}
+
+    /* ── Ger pills ── */
+    .ger-pills{display:flex;flex-wrap:wrap;gap:4px;}
+    .ger-pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:var(--radius-btn);white-space:nowrap;}
+
+    /* ── Row action button ── */
+    .btn-row{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--radius-btn);border:1px solid var(--color-border);background:white;font-size:11px;font-weight:600;color:var(--color-text-secondary);cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s;white-space:nowrap;}
+    .btn-row:hover{background:var(--color-surface);border-color:#D1D5DB;}
+    .btn-row svg{width:12px;height:12px;}
+    .btn-row.danger:hover{background:#FEF2F2;border-color:#FECACA;color:#DC2626;}
+
+    /* ── Buttons ── */
+    .btn-primary{background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
+    .btn-primary:hover{background:var(--color-accent-dark);}
+    .btn-secondary{background:var(--color-surface);color:var(--color-text-primary);border:1px solid var(--color-border);border-radius:var(--radius-btn);padding:8px 16px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
+    .btn-secondary:hover{background:var(--color-border);}
+    .btn-ghost{background:none;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;color:var(--color-text-secondary);font-size:12px;font-weight:600;font-family:inherit;transition:background .12s;}
+    .btn-ghost:hover{background:var(--color-surface);}
+
+    /* ── Empty state ── */
+    .empty-state{padding:56px 24px;text-align:center;}
+    .empty-state svg{width:40px;height:40px;margin:0 auto 12px;opacity:.3;display:block;}
+    .empty-state p{font-size:13px;color:var(--color-text-secondary);}
+
+    /* ── Modal ── */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+    .modal-overlay.open{display:flex;}
+    .modal-card{background:white;border-radius:20px;width:100%;max-width:600px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.18);}
+    .modal-header{padding:22px 24px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+    .modal-title{font-size:17px;font-weight:700;}
+    .modal-subtitle{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
+    .modal-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--color-border);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;color:var(--color-text-secondary);}
+    .modal-close:hover{background:var(--color-surface);}
+    .modal-close svg{width:14px;height:14px;}
+    .modal-body{flex:1;overflow-y:auto;padding:20px 24px;}
+    .modal-footer{padding:16px 24px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+    .modal-footer-right{display:flex;gap:8px;}
+
+    /* ── Form ── */
+    .form-group{margin-bottom:16px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .form-label{display:block;font-size:12px;font-weight:600;margin-bottom:5px;color:var(--color-text-primary);}
+    .form-label .req{color:var(--color-primary);}
+    .form-hint{font-size:11px;color:var(--color-text-secondary);margin-top:4px;}
+    .form-input,.form-select{width:100%;padding:9px 12px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:10px;background:white;color:var(--color-text-primary);outline:none;transition:border-color .15s;}
+    .form-input:focus,.form-select:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
+    .form-section{font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin:20px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--color-border);}
+
+    /* ── Role selector ── */
+    .rol-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;}
+    .rol-opt{border:2px solid var(--color-border);border-radius:12px;padding:10px 12px;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;}
+    .rol-opt:hover{border-color:#D1D5DB;background:var(--color-surface);}
+    .rol-opt.selected{border-color:var(--color-primary);background:#FDF5F7;}
+    .rol-opt-name{font-size:13px;font-weight:700;color:var(--color-text-primary);margin-bottom:2px;}
+    .rol-opt-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.4;}
+    .rol-opt.selected .rol-opt-name{color:var(--color-primary);}
+
+    /* ── Contraseña generada ── */
+    .file-drop{border:1.5px dashed var(--color-border);border-radius:12px;padding:20px 16px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;background:var(--color-surface);}
+    .file-drop:hover,.file-drop.drag-over{border-color:var(--color-primary);background:#FDF5F7;}
+    .file-drop svg{width:22px;height:22px;color:#9CA3AF;margin:0 auto 6px;}
+    .file-drop-label{font-size:12px;font-weight:600;color:var(--color-text-secondary);}
+    .file-drop-sub{font-size:11px;color:#9CA3AF;margin-top:2px;}
+    .file-attached{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:10px;}
+    .file-attached-icon{width:32px;height:32px;border-radius:8px;background:#DCFCE7;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .file-attached-icon svg{width:16px;height:16px;color:#15803D;}
+    .file-attached-name{font-size:12px;font-weight:600;color:#15803D;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .file-attached-size{font-size:11px;color:#6B7280;flex-shrink:0;}
+    .file-attached-remove{background:none;border:none;cursor:pointer;padding:4px;border-radius:6px;color:#6B7280;display:flex;align-items:center;flex-shrink:0;}
+    .file-attached-remove:hover{background:#FEE2E2;color:#DC2626;}
+    .file-attached-remove svg{width:14px;height:14px;}
+    .pwd-wrap{display:flex;gap:6px;align-items:stretch;}
+    .pwd-input{flex:1;font-family:monospace;font-size:13px;letter-spacing:.05em;background:#F8FAFC;color:#1E293B;cursor:default;border-color:var(--color-border);}
+    .btn-pwd{flex-shrink:0;display:inline-flex;align-items:center;gap:5px;padding:9px 12px;border:1px solid var(--color-border);border-radius:10px;background:white;font-size:12px;font-weight:600;color:var(--color-text-secondary);cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;}
+    .btn-pwd:hover{background:var(--color-surface);border-color:#D1D5DB;}
+    .btn-pwd.copied{background:#F0FDF4;border-color:#86EFAC;color:#15803D;}
+    .btn-pwd svg{width:13px;height:13px;flex-shrink:0;}
+
+    /* ── Gerencias checkboxes ── */
+    .ger-checks{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+    .ger-check{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--color-border);border-radius:10px;cursor:pointer;transition:border-color .12s,background .12s;}
+    .ger-check:hover{background:var(--color-surface);}
+    .ger-check input{accent-color:var(--color-primary);width:14px;height:14px;cursor:pointer;flex-shrink:0;}
+    .ger-check-label{font-size:12px;font-weight:500;cursor:pointer;}
+    .ger-check.checked{border-color:var(--color-primary);background:#FDF5F7;}
+
+    /* ── Toggle switch ── */
+    .toggle-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0;}
+    .toggle-info .toggle-label{font-size:13px;font-weight:600;color:var(--color-text-primary);}
+    .toggle-info .toggle-desc{font-size:11px;color:var(--color-text-secondary);margin-top:2px;line-height:1.5;}
+    .toggle-sw{width:38px;height:22px;border-radius:11px;background:#E5E7EB;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;border:none;padding:0;outline:none;}
+    .toggle-sw.on{background:var(--color-primary);}
+    .toggle-knob{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:white;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+    .toggle-sw.on .toggle-knob{left:19px;}
+
+    /* ── Confirm modal ── */
+    .confirm-card{background:white;border-radius:16px;width:100%;max-width:420px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.18);}
+    .confirm-title{font-size:16px;font-weight:700;margin-bottom:8px;}
+    .confirm-body{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:20px;}
+    .confirm-actions{display:flex;justify-content:flex-end;gap:8px;}
+    .btn-danger{background:#DC2626;color:white;border:none;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;}
+    .btn-danger:hover{background:#B91C1C;}
+
+    /* ── Placeholder sections ── */
+    .section{display:none;}
+    .section.active{display:block;}
+    .placeholder-banner{background:var(--color-surface);border:1px dashed var(--color-border);border-radius:var(--radius-card);padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--color-text-secondary);}
+    .placeholder-banner svg{width:16px;height:16px;flex-shrink:0;opacity:.5;}
+    .placeholder-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+    .placeholder-card{background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-card);padding:20px;position:relative;overflow:hidden;}
+    .placeholder-card::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent,transparent 10px,rgba(0,0,0,.015) 10px,rgba(0,0,0,.015) 20px);pointer-events:none;}
+    .placeholder-card-title{font-size:13px;font-weight:700;margin-bottom:6px;}
+    .placeholder-card-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6;}
+    .placeholder-card-fields{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+    .placeholder-field{height:34px;background:var(--color-surface);border-radius:8px;border:1px solid var(--color-border);}
+    .placeholder-field.short{width:60%;}
+    .placeholder-field.tag{height:26px;width:80px;border-radius:var(--radius-btn);}
+    .placeholder-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--color-border);}
+    .placeholder-toggle-row:last-child{border-bottom:none;}
+    .placeholder-toggle-lbl{height:14px;background:var(--color-surface);border-radius:4px;width:50%;}
+    .placeholder-toggle{width:38px;height:22px;border-radius:11px;background:#E5E7EB;flex-shrink:0;}
+
+    /* ── Toast ── */
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:#1F2937;color:white;font-size:13px;font-weight:500;padding:10px 20px;border-radius:var(--radius-btn);opacity:0;transition:all .25s;z-index:2000;pointer-events:none;white-space:nowrap;}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .toast.success{background:#065F46;}
+    .toast.error{background:#991B1B;}
+
+    /* ── Ciclo de planeación ── */
+    .config-card{background:var(--color-bg);border-radius:var(--radius-card);padding:22px 24px;margin-bottom:16px;}
+    .config-card-title{font-size:14px;font-weight:700;color:var(--color-text-primary);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+    .config-card-title svg{width:16px;height:16px;flex-shrink:0;opacity:.7;}
+    .config-card-subtitle{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:18px;}
+    .config-form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:start;}
+    .config-form-row.two{grid-template-columns:1fr 1fr;}
+    .config-form-field{display:flex;flex-direction:column;gap:5px;}
+    .config-form-label{font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;}
+    .config-form-input{padding:9px 12px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:10px;background:white;outline:none;transition:border-color .15s,box-shadow .15s;color:var(--color-text-primary);width:100%;}
+    .config-form-input:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
+    .config-dur-badge{display:flex;align-items:center;justify-content:center;background:var(--color-surface);border:1px solid var(--color-border);border-radius:10px;padding:9px 12px;font-size:13px;font-weight:600;color:var(--color-text-secondary);}
+    .ciclo-status-card{border-radius:var(--radius-card);padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;gap:16px;border:1.5px solid;}
+    .ciclo-status-card.inactivo{background:#fff;border-color:var(--color-border);}
+    .ciclo-status-card.pendiente{background:#fff;border-color:transparent;}
+    .ciclo-status-card.captura{background:#fff;border-color:transparent;}
+    .ciclo-status-card.entre_fases{background:#fff;border-color:transparent;}
+    .ciclo-status-card.revision{background:#fff;border-color:transparent;}
+    .ciclo-status-card.cerrado{background:#fff;border-color:transparent;}
+    .ciclo-estado-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+    .ciclo-status-card.inactivo .ciclo-estado-dot{background:#9CA3AF;}
+    .ciclo-status-card.pendiente .ciclo-estado-dot{background:#F97316;}
+    .ciclo-status-card.captura .ciclo-estado-dot{background:#10B981;animation:cp-pulse-g 2s infinite;}
+    .ciclo-status-card.entre_fases .ciclo-estado-dot{background:#8B5CF6;}
+    .ciclo-status-card.revision .ciclo-estado-dot{background:#3B82F6;animation:cp-pulse-b 2s infinite;}
+    .ciclo-status-card.cerrado .ciclo-estado-dot{background:#EF4444;}
+    @keyframes cp-pulse-g{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4);}50%{box-shadow:0 0 0 5px rgba(16,185,129,0);}}
+    @keyframes cp-pulse-b{0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,.4);}50%{box-shadow:0 0 0 5px rgba(59,130,246,0);}}
+    .ciclo-status-info{flex:1;}
+    .ciclo-status-label{font-size:13px;font-weight:700;color:var(--color-text-primary);}
+    .ciclo-status-detail{font-size:12px;color:var(--color-text-secondary);margin-top:3px;line-height:1.5;}
+    .ciclo-actions{display:flex;gap:10px;margin-top:4px;}
+    .btn-save{background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:10px 22px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s;}
+    .btn-save:hover{background:var(--color-accent-dark);}
+    .btn-ciclo-close{background:white;color:#DC2626;border:1.5px solid transparent;border-radius:var(--radius-btn);padding:10px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .15s;}
+    .btn-ciclo-close:hover{background:#FEF2F2;}
+    .phase-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:4px;}
+    .phase-badge.activa{background:#DCFCE7;color:#15803D;}
+    .phase-badge.pendiente-p{background:#FEF9C3;color:#A16207;}
+    .phase-badge.cerrada{background:#F3F4F6;color:#6B7280;}
+
+    /* ── Custom date picker ── */
+    .cp-datepicker{position:relative;}
+    .cp-dp-trigger{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid var(--color-border);border-radius:10px;background:white;cursor:pointer;transition:border-color .15s,box-shadow .15s;user-select:none;}
+    .cp-dp-trigger:hover{border-color:#9CA3AF;}
+    .cp-dp-trigger.open{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
+    .cp-dp-text{flex:1;font-size:13px;color:var(--color-text-primary);}
+    .cp-dp-text.placeholder{color:#9CA3AF;}
+    .cp-dp-icon{width:15px;height:15px;flex-shrink:0;color:#9CA3AF;transition:color .15s;}
+    .cp-dp-trigger.open .cp-dp-icon{color:var(--color-primary);}
+    .cp-dp-dropdown{position:absolute;top:calc(100% + 6px);left:0;z-index:600;background:white;border:1px solid var(--color-border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.12);padding:16px;width:268px;}
+    .cp-dp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .cp-dp-month-label{font-size:13px;font-weight:700;color:var(--color-text-primary);}
+    .cp-dp-nav{width:28px;height:28px;border:none;background:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);transition:background .1s;}
+    .cp-dp-nav:hover{background:var(--color-surface);}
+    .cp-dp-weekdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px;}
+    .cp-dp-wd{text-align:center;font-size:10px;font-weight:700;color:var(--color-text-secondary);padding:4px 0;text-transform:uppercase;letter-spacing:.04em;}
+    .cp-dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+    .cp-dp-day{text-align:center;font-size:12px;padding:7px 2px;border-radius:8px;cursor:pointer;color:var(--color-text-primary);border:none;background:none;font-family:inherit;font-weight:400;transition:background .1s,color .1s;width:100%;}
+    .cp-dp-day:hover{background:var(--color-surface);}
+    .cp-dp-day.other-month{color:transparent;pointer-events:none;cursor:default;}
+    .cp-dp-day.today{font-weight:700;color:var(--color-primary);}
+    .cp-dp-day.selected{background:var(--color-primary)!important;color:white!important;font-weight:700;}
+  </style>
+  <script>
+  (function(m,a,z,e){var s,t,u,v;try{t=m.sessionStorage.getItem('maze-us');}catch(err){}if(!t){t=new Date().getTime();try{m.sessionStorage.setItem('maze-us',t);}catch(err){}}u=document.currentScript||(function(){var w=document.getElementsByTagName('script');return w[w.length-1];})();v=u&&u.nonce;s=a.createElement('script');s.src=z+'?apiKey='+e;s.async=true;if(v)s.setAttribute('nonce',v);a.getElementsByTagName('head')[0].appendChild(s);m.mazeUniversalSnippetApiKey=e;})(window,document,'https://snippet.maze.co/maze-universal-loader.js','9da16a9c-d16b-42b8-837b-4ba698f5135d');
+  </script>
+  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
+</head>
+<body>
+
+<!-- ══ App Sidebar ══ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="dashboard-inicio.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
+      <span class="nav-label">Inicio</span>
+    </a>
+    <a class="nav-item" href="consulta-mir.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0c-.621 0-1.125.504-1.125 1.125V9M12 6.75h.008v.008H12V6.75Z"/></svg>
+      <span class="nav-label">MIR por gerencia</span>
+    </a>
+    <a class="nav-item" href="planeacion-indicadores.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
+      <span class="nav-label">Planeación</span>
+    </a>
+    <a class="nav-item" href="validacion-reportes.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.746 3.746 0 0 1-3.296 1.043 3.745 3.745 0 0 1-3.068 1.593 3.745 3.745 0 0 1-3.068-1.593 3.746 3.746 0 0 1-3.296-1.043 3.746 3.746 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.746 3.746 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.745 3.745 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"/></svg>
+      <span class="nav-label">Validación</span>
+    </a>
+    <a class="nav-item" href="reportes.html" title="Reportes">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"/>
+      </svg>
+      <span class="nav-label">Reportes</span>
+    </a>
+    <a class="nav-item active" href="configuracion.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+      <span class="nav-label">Configuración</span>
+    </a>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="avatar-xs" id="avatarEl" onclick="window.location.href='dashboard-inicio.html'">LS</div>
+  </div>
+</nav>
+
+<div class="app-wrapper">
+
+  <!-- ══ Config secondary nav ══ -->
+  <aside class="config-nav">
+    <p class="config-nav-title">Configuración</p>
+
+    <div class="config-nav-group">
+      <p class="config-nav-group-label">Administración</p>
+      <button class="config-nav-item active" id="cnav-usuarios" onclick="switchSection('usuarios')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>
+        Usuarios del sistema
+      </button>
+    </div>
+
+    <div class="config-nav-group">
+      <p class="config-nav-group-label">Proceso</p>
+      <button class="config-nav-item" id="cnav-ciclo" onclick="switchSection('ciclo')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+        Ciclo de planeación
+      </button>
+      <button class="config-nav-item" id="cnav-notificaciones" onclick="switchSection('notificaciones')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg>
+        Notificaciones
+        <span class="config-nav-soon">Pronto</span>
+      </button>
+    </div>
+
+    <div class="config-nav-group">
+      <p class="config-nav-group-label">Datos</p>
+      <button class="config-nav-item" id="cnav-medios" onclick="switchSection('medios')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+        Medios de verificación
+      </button>
+      <button class="config-nav-item" id="cnav-reportes" onclick="switchSection('reportes')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+        Reportes y exportación
+        <span class="config-nav-soon">Pronto</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ══ Main content ══ -->
+  <main class="main-content">
+
+    <!-- ─── SECCIÓN: USUARIOS ─────────────────────────────────────── -->
+    <div class="section active" id="secUsuarios">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Usuarios del sistema</h1>
+          <p class="page-subtitle">Gestiona accesos, roles y gerencias asignadas</p>
+        </div>
+        <button class="btn-primary" onclick="openNuevoUsuario()">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Nuevo usuario
+        </button>
+      </div>
+
+      <!-- KPIs -->
+      <div class="stat-row" id="statsUsuarios"></div>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <div class="search-wrap">
+          <span class="search-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg></span>
+          <input class="filter-search" id="searchUsr" type="text" placeholder="Buscar por nombre o correo…" oninput="renderTabla()">
+        </div>
+        <select class="filter-select" id="filterRol" onchange="renderTabla()">
+          <option value="">Todos los roles</option>
+          <option value="admin">Administrador</option>
+          <option value="revisor">Revisor</option>
+          <option value="enlace">Enlace</option>
+          <option value="lectura">Solo lectura</option>
+        </select>
+        <select class="filter-select" id="filterGer" onchange="renderTabla()">
+          <option value="">Todas las gerencias</option>
+          <option value="Gerencia Técnica">Gerencia Técnica</option>
+          <option value="Gerencia Comercial">Gerencia Comercial</option>
+          <option value="Gerencia Administrativa">Gerencia Administrativa</option>
+          <option value="Gerencia de Planeación">Gerencia de Planeación</option>
+        </select>
+        <select class="filter-select" id="filterEstado" onchange="renderTabla()">
+          <option value="">Activos e inactivos</option>
+          <option value="activo">Solo activos</option>
+          <option value="inactivo">Solo inactivos</option>
+        </select>
+        <button class="filter-clear" onclick="clearFilters()">Limpiar</button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <table id="tablaUsuarios">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Rol</th>
+              <th>Gerencia(s)</th>
+              <th>Último acceso</th>
+              <th>Estado</th>
+              <th style="text-align:right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyUsuarios"></tbody>
+        </table>
+        <div id="emptyUsuarios" class="empty-state" style="display:none">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+          <p>No hay usuarios con esos filtros</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECCIÓN: MEDIOS DE VERIFICACIÓN ─────────────────────── -->
+    <div class="section" id="secMedios">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Medios de verificación</h1>
+          <p class="page-subtitle">Catálogo oficial de fuentes de evidencia utilizadas en los indicadores del MIR</p>
+        </div>
+        <button class="btn-primary" onclick="openNuevoMedio()">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Nuevo medio
+        </button>
+      </div>
+
+      <div class="stat-row" id="statsMedios"></div>
+
+      <div class="filter-bar">
+        <div class="search-wrap">
+          <span class="search-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg></span>
+          <input class="filter-search" id="searchMedio" type="text" placeholder="Buscar por nombre…" oninput="renderMedios()">
+        </div>
+        <select class="filter-select" id="filterTipoMedio" onchange="renderMedios()">
+          <option value="">Todos los tipos</option>
+          <option value="bitacora">Bitácora / Registro</option>
+          <option value="reporte">Reporte / Informe</option>
+          <option value="sistema">Sistema informático</option>
+          <option value="analisis">Análisis / Laboratorio</option>
+          <option value="documento">Documento oficial</option>
+          <option value="acta">Acta / Minuta</option>
+        </select>
+        <select class="filter-select" id="filterAreaMedio" onchange="renderMedios()">
+          <option value="">Todas las áreas</option>
+          <option value="Gerencia Técnica">Gerencia Técnica</option>
+          <option value="Gerencia Comercial">Gerencia Comercial</option>
+          <option value="Gerencia Administrativa">Gerencia Administrativa</option>
+          <option value="Gerencia de Planeación">Gerencia de Planeación</option>
+          <option value="Transversal">Transversal</option>
+        </select>
+        <button class="filter-clear" onclick="clearFiltrosMedios()">Limpiar</button>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="font-size:12px;color:var(--color-text-secondary)">Vista:</span>
+        <div style="display:flex;background:var(--color-surface);border:1px solid var(--color-border);border-radius:8px;overflow:hidden">
+          <button id="mvBtnList" onclick="setViewMedios('list')" title="Lista" style="background:var(--color-primary);color:#fff;border:none;padding:6px 11px;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;font-family:inherit;transition:.15s">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></svg>
+            Lista
+          </button>
+          <button id="mvBtnGrid" onclick="setViewMedios('grid')" title="Carpetas" style="background:none;color:var(--color-text-secondary);border:none;padding:6px 11px;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;font-family:inherit;transition:.15s">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v8.25"/></svg>
+            Carpetas
+          </button>
+        </div>
+      </div>
+
+      <div id="tablaMediosWrap" class="table-card">
+        <table id="tablaMedios">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Tipo</th>
+              <th>Gerencia / Unidad</th>
+              <th>Formato</th>
+              <th style="text-align:right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyMedios"></tbody>
+        </table>
+        <div id="emptyMedios" class="empty-state" style="display:none">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+          <p>No hay medios de verificación con esos filtros</p>
+        </div>
+      </div>
+
+      <div id="gridMediosWrap" style="display:none"></div>
+
+      <style>
+        .mvf-ger{border:1px solid var(--color-border);border-radius:12px;overflow:hidden;margin-bottom:12px;background:var(--color-card,#fff)}
+        .mvf-ger-hd{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;user-select:none;border-bottom:1px solid var(--color-border)}
+        .mvf-ger-hd:hover{background:rgba(0,0,0,.02)}
+        .mvf-ger-bar{width:4px;height:22px;border-radius:2px;flex-shrink:0}
+        .mvf-ger-name{font-size:14px;font-weight:700;color:var(--color-text-primary);flex:1}
+        .mvf-count-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--color-surface);border:1px solid var(--color-border);color:var(--color-text-secondary)}
+        .mvf-chevron{width:15px;height:15px;color:var(--color-text-secondary);transition:transform .2s;flex-shrink:0}
+        .mvf-ger.collapsed .mvf-chevron{transform:rotate(-90deg)}
+        .mvf-ger.collapsed .mvf-ger-body{display:none}
+        .mvf-ger-body{padding:12px 14px}
+        .mvf-unit{margin-bottom:10px}
+        .mvf-unit:last-child{margin-bottom:0}
+        .mvf-unit-hd{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;border-radius:8px;user-select:none;background:var(--color-surface);border:1px solid var(--color-border);transition:.15s}
+        .mvf-unit-hd:hover{border-color:var(--color-primary,#7C3AED)}
+        .mvf-unit-name{font-size:12px;font-weight:600;color:var(--color-text-primary);flex:1}
+        .mvf-unit.collapsed .mvf-chevron{transform:rotate(-90deg)}
+        .mvf-unit.collapsed .mvf-unit-body{display:none}
+        .mvf-unit-body{padding:10px 4px 2px}
+        .mvf-items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px}
+        .mvf-card{border:1px solid var(--color-border);border-radius:10px;padding:12px;cursor:pointer;background:var(--color-card,#fff);transition:.15s;display:flex;flex-direction:column;gap:7px}
+        .mvf-card:hover{border-color:var(--color-primary,#7C3AED);box-shadow:0 2px 10px rgba(0,0,0,.08);transform:translateY(-1px)}
+        .mvf-card-iconwrap{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .mvf-card-name{font-size:12px;font-weight:600;color:var(--color-text-primary);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .mvf-card-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:auto}
+        .mvf-tipo-pill{font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px}
+        .mvf-fmt{font-size:10px;color:var(--color-text-secondary)}
+        #gridMediosWrap .empty-state{padding:40px 0}
+      </style>
+    </div>
+
+    <!-- ─── SECCIÓN: CICLO DE PLANEACIÓN ─────────────────────────── -->
+    <div class="section" id="secCiclo">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Ciclo de planeación</h1>
+          <p class="page-subtitle">Define el período de captura y revisión de metas para el ejercicio fiscal</p>
+        </div>
+      </div>
+
+      <!-- Estado actual del ciclo -->
+      <div id="ciclo-status-card" class="ciclo-status-card inactivo">
+        <div class="ciclo-estado-dot"></div>
+        <div class="ciclo-status-info">
+          <div class="ciclo-status-label" id="ciclo-status-label">Sin ciclo configurado</div>
+          <div class="ciclo-status-detail" id="ciclo-status-detail">Define las fechas del ciclo y guarda la configuración para activarlo automáticamente.</div>
+        </div>
+        <button class="btn-ciclo-close" id="ciclo-close-btn" style="display:none" onclick="closeCicloManual()">Cerrar ciclo</button>
+      </div>
+
+      <!-- Fase 1: Captura -->
+      <div class="config-card">
+        <div class="config-card-title">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/></svg>
+          Fase 1 — Captura de metas
+          <span id="ciclo-c-phase-badge" style="display:none"></span>
+        </div>
+        <p class="config-card-subtitle">Período durante el cual los usuarios enlace pueden configurar y enviar las metas de sus indicadores asignados.</p>
+        <div class="config-form-row">
+          <div class="config-form-field">
+            <label class="config-form-label">Fecha de apertura</label>
+            <div class="cp-datepicker">
+              <div class="cp-dp-trigger" id="dp-trg-ciclo-c-inicio" onclick="cpToggle('ciclo-c-inicio')">
+                <span class="cp-dp-text placeholder" id="dp-text-ciclo-c-inicio">Seleccionar fecha</span>
+                <svg class="cp-dp-icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+              </div>
+              <div class="cp-dp-dropdown" id="dp-drop-ciclo-c-inicio" style="display:none">
+                <div class="cp-dp-header">
+                  <button class="cp-dp-nav" onclick="cpNav('ciclo-c-inicio',-1)" type="button"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
+                  <span class="cp-dp-month-label" id="dp-hdr-ciclo-c-inicio"></span>
+                  <button class="cp-dp-nav" onclick="cpNav('ciclo-c-inicio',1)" type="button"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>
+                </div>
+                <div class="cp-dp-weekdays"><div class="cp-dp-wd">Lun</div><div class="cp-dp-wd">Mar</div><div class="cp-dp-wd">Mié</div><div class="cp-dp-wd">Jue</div><div class="cp-dp-wd">Vie</div><div class="cp-dp-wd">Sáb</div><div class="cp-dp-wd">Dom</div></div>
+                <div class="cp-dp-grid" id="dp-grid-ciclo-c-inicio"></div>
+              </div>
+            </div>
+          </div>
+          <div class="config-form-field">
+            <label class="config-form-label">Fecha de cierre</label>
+            <div class="cp-datepicker">
+              <div class="cp-dp-trigger" id="dp-trg-ciclo-c-fin" onclick="cpToggle('ciclo-c-fin')">
+                <span class="cp-dp-text placeholder" id="dp-text-ciclo-c-fin">Seleccionar fecha</span>
+                <svg class="cp-dp-icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+              </div>
+              <div class="cp-dp-dropdown" id="dp-drop-ciclo-c-fin" style="display:none">
+                <div class="cp-dp-header">
+                  <button class="cp-dp-nav" onclick="cpNav('ciclo-c-fin',-1)" type="button"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
+                  <span class="cp-dp-month-label" id="dp-hdr-ciclo-c-fin"></span>
+                  <button class="cp-dp-nav" onclick="cpNav('ciclo-c-fin',1)" type="button"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>
+                </div>
+                <div class="cp-dp-weekdays"><div class="cp-dp-wd">Lun</div><div class="cp-dp-wd">Mar</div><div class="cp-dp-wd">Mié</div><div class="cp-dp-wd">Jue</div><div class="cp-dp-wd">Vie</div><div class="cp-dp-wd">Sáb</div><div class="cp-dp-wd">Dom</div></div>
+                <div class="cp-dp-grid" id="dp-grid-ciclo-c-fin"></div>
+              </div>
+            </div>
+          </div>
+          <div class="config-form-field">
+            <label class="config-form-label">Duración</label>
+            <div class="config-dur-badge" id="ciclo-c-dur">— días</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fase 2: Revisión -->
+      <div class="config-card">
+        <div class="config-card-title">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.746 3.746 0 0 1-3.296 1.043 3.745 3.745 0 0 1-3.068 1.593 3.745 3.745 0 0 1-3.068-1.593 3.746 3.746 0 0 1-3.296-1.043 3.746 3.746 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.746 3.746 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.745 3.745 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"/></svg>
+          Fase 2 — Revisión de metas
+          <span id="ciclo-r-phase-badge" style="display:none"></span>
+        </div>
+        <p class="config-card-subtitle">Período durante el cual los usuarios revisor pueden validar y aprobar las metas enviadas por los enlaces.</p>
+        <div class="config-form-row">
+          <div class="config-form-field">
+            <label class="config-form-label">Fecha de apertura</label>
+            <div class="cp-datepicker">
+              <div class="cp-dp-trigger" id="dp-trg-ciclo-r-inicio" onclick="cpToggle('ciclo-r-inicio')">
+                <span class="cp-dp-text placeholder" id="dp-text-ciclo-r-inicio">Seleccionar fecha</span>
+                <svg class="cp-dp-icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+              </div>
+              <div class="cp-dp-dropdown" id="dp-drop-ciclo-r-inicio" style="display:none">
+                <div class="cp-dp-header">
+                  <button class="cp-dp-nav" onclick="cpNav('ciclo-r-inicio',-1)" type="button"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
+                  <span class="cp-dp-month-label" id="dp-hdr-ciclo-r-inicio"></span>
+                  <button class="cp-dp-nav" onclick="cpNav('ciclo-r-inicio',1)" type="button"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>
+                </div>
+                <div class="cp-dp-weekdays"><div class="cp-dp-wd">Lun</div><div class="cp-dp-wd">Mar</div><div class="cp-dp-wd">Mié</div><div class="cp-dp-wd">Jue</div><div class="cp-dp-wd">Vie</div><div class="cp-dp-wd">Sáb</div><div class="cp-dp-wd">Dom</div></div>
+                <div class="cp-dp-grid" id="dp-grid-ciclo-r-inicio"></div>
+              </div>
+            </div>
+          </div>
+          <div class="config-form-field">
+            <label class="config-form-label">Fecha de cierre</label>
+            <div class="cp-datepicker">
+              <div class="cp-dp-trigger" id="dp-trg-ciclo-r-fin" onclick="cpToggle('ciclo-r-fin')">
+                <span class="cp-dp-text placeholder" id="dp-text-ciclo-r-fin">Seleccionar fecha</span>
+                <svg class="cp-dp-icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+              </div>
+              <div class="cp-dp-dropdown" id="dp-drop-ciclo-r-fin" style="display:none">
+                <div class="cp-dp-header">
+                  <button class="cp-dp-nav" onclick="cpNav('ciclo-r-fin',-1)" type="button"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
+                  <span class="cp-dp-month-label" id="dp-hdr-ciclo-r-fin"></span>
+                  <button class="cp-dp-nav" onclick="cpNav('ciclo-r-fin',1)" type="button"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>
+                </div>
+                <div class="cp-dp-weekdays"><div class="cp-dp-wd">Lun</div><div class="cp-dp-wd">Mar</div><div class="cp-dp-wd">Mié</div><div class="cp-dp-wd">Jue</div><div class="cp-dp-wd">Vie</div><div class="cp-dp-wd">Sáb</div><div class="cp-dp-wd">Dom</div></div>
+                <div class="cp-dp-grid" id="dp-grid-ciclo-r-fin"></div>
+              </div>
+            </div>
+          </div>
+          <div class="config-form-field">
+            <label class="config-form-label">Duración</label>
+            <div class="config-dur-badge" id="ciclo-r-dur">— días</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="ciclo-actions">
+        <button class="btn-save" onclick="saveCiclo()">Guardar configuración</button>
+      </div>
+    </div>
+
+    <!-- ─── SECCIÓN: NOTIFICACIONES ───────────────────────────────── -->
+    <div class="section" id="secNotificaciones">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Notificaciones y alertas</h1>
+          <p class="page-subtitle">Configura qué eventos generan aviso y a quién se le notifica</p>
+        </div>
+      </div>
+      <div class="placeholder-banner">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>
+        Esta sección estará disponible próximamente. Previsualización del diseño planeado.
+      </div>
+      <div class="placeholder-grid">
+        <div class="placeholder-card" style="grid-column:1/-1">
+          <p class="placeholder-card-title">Eventos que generan notificación</p>
+          <p class="placeholder-card-body">Activa o desactiva el envío de correo para cada evento del proceso.</p>
+          <div style="margin-top:12px">
+            <div class="placeholder-toggle-row"><div class="placeholder-toggle-lbl" style="width:55%"></div><div class="placeholder-toggle" style="background:#22C55E"></div></div>
+            <div class="placeholder-toggle-row"><div class="placeholder-toggle-lbl" style="width:48%"></div><div class="placeholder-toggle" style="background:#22C55E"></div></div>
+            <div class="placeholder-toggle-row"><div class="placeholder-toggle-lbl" style="width:62%"></div><div class="placeholder-toggle"></div></div>
+            <div class="placeholder-toggle-row"><div class="placeholder-toggle-lbl" style="width:44%"></div><div class="placeholder-toggle" style="background:#22C55E"></div></div>
+            <div class="placeholder-toggle-row"><div class="placeholder-toggle-lbl" style="width:50%"></div><div class="placeholder-toggle"></div></div>
+          </div>
+        </div>
+        <div class="placeholder-card">
+          <p class="placeholder-card-title">Días de anticipación</p>
+          <p class="placeholder-card-body">Recordatorios antes del cierre de cada etapa.</p>
+          <div class="placeholder-card-fields">
+            <div class="placeholder-field short"></div>
+            <div class="placeholder-field short"></div>
+          </div>
+        </div>
+        <div class="placeholder-card">
+          <p class="placeholder-card-title">Copia a administración</p>
+          <p class="placeholder-card-body">Recibe una copia de todas las notificaciones del sistema.</p>
+          <div class="placeholder-card-fields">
+            <div class="placeholder-field"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECCIÓN: REPORTES ─────────────────────────────────────── -->
+    <div class="section" id="secReportes">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Reportes y exportación</h1>
+          <p class="page-subtitle">Genera y descarga reportes del estado de la planeación y avances</p>
+        </div>
+      </div>
+      <div class="placeholder-banner">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>
+        Esta sección estará disponible próximamente. Previsualización del diseño planeado.
+      </div>
+      <div class="placeholder-grid">
+        <div class="placeholder-card">
+          <p class="placeholder-card-title">Matriz MIR completa</p>
+          <p class="placeholder-card-body">Exporta todos los indicadores con metas, avances y estados del ejercicio activo.</p>
+          <div class="placeholder-card-fields" style="flex-direction:row;align-items:center;gap:6px;margin-top:16px">
+            <div class="placeholder-field tag"></div>
+            <div class="placeholder-field tag"></div>
+          </div>
+        </div>
+        <div class="placeholder-card">
+          <p class="placeholder-card-title">Avance por gerencia</p>
+          <p class="placeholder-card-body">Reporte consolidado de avance de indicadores por gerencia y período.</p>
+          <div class="placeholder-card-fields" style="flex-direction:row;align-items:center;gap:6px;margin-top:16px">
+            <div class="placeholder-field tag"></div>
+            <div class="placeholder-field tag"></div>
+          </div>
+        </div>
+        <div class="placeholder-card">
+          <p class="placeholder-card-title">Historial de solicitudes de cambio</p>
+          <p class="placeholder-card-body">Todas las solicitudes de cambio de meta del ejercicio, con su resolución.</p>
+          <div class="placeholder-card-fields" style="flex-direction:row;align-items:center;gap:6px;margin-top:16px">
+            <div class="placeholder-field tag"></div>
+          </div>
+        </div>
+        <div class="placeholder-card">
+          <p class="placeholder-card-title">Bitácora de actividad</p>
+          <p class="placeholder-card-body">Log de acciones de todos los usuarios del sistema con marcas de tiempo.</p>
+          <div class="placeholder-card-fields" style="flex-direction:row;align-items:center;gap:6px;margin-top:16px">
+            <div class="placeholder-field tag"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══ MODAL: Nuevo / Editar usuario ══ -->
+<div class="modal-overlay" id="modalUsuario" onclick="overlayClickUsr(event)">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <p class="modal-title" id="modalUsrTitle">Nuevo usuario</p>
+        <p class="modal-subtitle" id="modalUsrSub">Completa los datos para dar de alta el acceso</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <p class="form-section">Datos personales</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre completo <span class="req">*</span></label>
+          <input class="form-input" id="fNombre" type="text" placeholder="Ej. Jorge Reyes Hernández">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Correo institucional <span class="req">*</span></label>
+          <input class="form-input" id="fEmail" type="email" placeholder="usuario@comapachiapas.gob.mx">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Gerencia <span class="req">*</span></label>
+        <select class="form-select" id="fGerencia" onchange="onGerenciaChange()">
+          <option value="">Selecciona una gerencia…</option>
+          <option value="Dirección General">Dirección General / Administración Central</option>
+          <option value="Gerencia Técnica">Gerencia Técnica</option>
+          <option value="Gerencia Comercial">Gerencia Comercial</option>
+          <option value="Gerencia Administrativa">Gerencia Administrativa</option>
+          <option value="Gerencia de Planeación">Gerencia de Planeación Estratégica</option>
+        </select>
+      </div>
+      <div class="form-group" id="fUnidadAdminGroup" style="display:none">
+        <label class="form-label">Unidad administrativa <span class="req">*</span></label>
+        <select class="form-select" id="fUnidadAdmin">
+          <option value="">Selecciona una unidad…</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="fPasswordGroup">
+        <label class="form-label">Contraseña temporal</label>
+        <div class="pwd-wrap">
+          <input class="form-input pwd-input" id="fPassword" type="text" readonly>
+          <button class="btn-pwd" type="button" onclick="regenerarPassword()" title="Generar nueva contraseña">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+            Regenerar
+          </button>
+          <button class="btn-pwd" type="button" id="btnCopyPwd" onclick="copiarPassword()">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
+            Copiar
+          </button>
+        </div>
+        <p class="form-hint">Generada automáticamente. El usuario deberá cambiarla en su primer inicio de sesión.</p>
+      </div>
+
+      <p class="form-section">Rol de acceso</p>
+      <div class="rol-grid" id="rolGrid">
+        <div class="rol-opt selected" data-rol="admin" onclick="selectRol('admin')">
+          <p class="rol-opt-name">Administrador</p>
+          <p class="rol-opt-desc">Acceso total al sistema. Puede gestionar usuarios, aprobar cambios y configurar el proceso.</p>
+        </div>
+        <div class="rol-opt" data-rol="revisor" onclick="selectRol('revisor')">
+          <p class="rol-opt-name">Revisor</p>
+          <p class="rol-opt-desc">Revisa y aprueba las metas configuradas por los enlaces de su gerencia.</p>
+        </div>
+        <div class="rol-opt" data-rol="enlace" onclick="selectRol('enlace')">
+          <p class="rol-opt-name">Enlace</p>
+          <p class="rol-opt-desc">Captura y envía las metas de los indicadores de su gerencia al revisor.</p>
+        </div>
+        <div class="rol-opt" data-rol="lectura" onclick="selectRol('lectura')">
+          <p class="rol-opt-name">Solo lectura</p>
+          <p class="rol-opt-desc">Puede consultar el MIR y reportes sin modificar ningún dato.</p>
+        </div>
+      </div>
+
+      <div id="gerenciasGroup" style="margin-top:4px">
+        <p class="form-section">Gerencia <span class="req" id="gerReqMark">*</span></p>
+        <div class="ger-checks" id="gerChecks">
+          <label class="ger-check">
+            <input type="checkbox" value="Gerencia Técnica" onchange="updateGerCheck(this)">
+            <span class="ger-check-label">Gerencia Técnica</span>
+          </label>
+          <label class="ger-check">
+            <input type="checkbox" value="Gerencia Comercial" onchange="updateGerCheck(this)">
+            <span class="ger-check-label">Gerencia Comercial</span>
+          </label>
+          <label class="ger-check">
+            <input type="checkbox" value="Gerencia Administrativa" onchange="updateGerCheck(this)">
+            <span class="ger-check-label">Gerencia Administrativa</span>
+          </label>
+          <label class="ger-check">
+            <input type="checkbox" value="Gerencia de Planeación" onchange="updateGerCheck(this)">
+            <span class="ger-check-label">Gerencia de Planeación</span>
+          </label>
+        </div>
+        <p class="form-hint" id="gerHint" style="margin-top:6px">Para enlace y revisor define el alcance de acceso. Puede asignarse más de una.</p>
+      </div>
+
+      <div id="estadoGroup" style="display:none;margin-top:4px">
+        <p class="form-section">Estado de la cuenta</p>
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <p class="toggle-label">Cuenta activa</p>
+            <p class="toggle-desc">Los usuarios inactivos no pueden iniciar sesión pero conservan su historial.</p>
+          </div>
+          <button class="toggle-sw on" id="swActivo" onclick="this.classList.toggle('on')"><span class="toggle-knob"></span></button>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <div id="modalFooterLeft"></div>
+      <div class="modal-footer-right">
+        <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+        <button class="btn-primary" id="btnGuardarUsr" onclick="guardarUsuario()">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          Guardar usuario
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Nuevo / Editar medio de verificación ══ -->
+<div class="modal-overlay" id="modalMedio" onclick="if(event.target===this)cerrarModalMedio()">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <p class="modal-title" id="modalMedioTitle">Nuevo medio de verificación</p>
+        <p class="modal-subtitle" id="modalMedioSub">Añade una fuente de evidencia al catálogo del MIR</p>
+      </div>
+      <button class="modal-close" onclick="cerrarModalMedio()">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Nombre <span class="req">*</span></label>
+        <input class="form-input" id="fMedioNombre" type="text" placeholder="Ej. Reporte mensual de facturación">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tipo <span class="req">*</span></label>
+          <select class="form-select" id="fMedioTipo">
+            <option value="">Selecciona un tipo…</option>
+            <option value="bitacora">Bitácora / Registro</option>
+            <option value="reporte">Reporte / Informe</option>
+            <option value="sistema">Sistema informático</option>
+            <option value="analisis">Análisis / Laboratorio</option>
+            <option value="documento">Documento oficial</option>
+            <option value="acta">Acta / Minuta</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Formato</label>
+          <select class="form-select" id="fMedioFormato">
+            <option value="PDF">PDF</option>
+            <option value="Excel">Excel</option>
+            <option value="Sistema">Sistema informático</option>
+            <option value="Físico">Físico / Papel</option>
+            <option value="Digital">Digital (otro)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Gerencia <span class="req">*</span></label>
+        <select class="form-select" id="fMedioGerencia" onchange="onMedioGerenciaChange()">
+          <option value="">Selecciona la gerencia…</option>
+          <option value="Gerencia Técnica">Gerencia Técnica</option>
+          <option value="Gerencia Comercial">Gerencia Comercial</option>
+          <option value="Gerencia Administrativa">Gerencia Administrativa</option>
+          <option value="Gerencia de Planeación">Gerencia de Planeación Estratégica</option>
+        </select>
+      </div>
+      <div class="form-group" id="fMedioUnidadGroup" style="display:none">
+        <label class="form-label">Coordinación / Unidad responsable <span class="req">*</span></label>
+        <select class="form-select" id="fMedioUnidad">
+          <option value="">Selecciona la unidad…</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-input" id="fMedioDesc" rows="3" style="resize:vertical;line-height:1.5" placeholder="Describe brevemente qué contiene y cómo se usa como evidencia…"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Archivo de referencia</label>
+        <input type="file" id="fMedioArchivo" style="display:none" accept=".pdf,.xlsx,.xls,.docx,.doc,.csv,.png,.jpg" onchange="onArchivoSeleccionado(this)">
+        <div id="fileDropZone" class="file-drop"
+          onclick="document.getElementById('fMedioArchivo').click()"
+          ondragover="event.preventDefault();this.classList.add('drag-over')"
+          ondragleave="this.classList.remove('drag-over')"
+          ondrop="event.preventDefault();this.classList.remove('drag-over');onArchivoSeleccionado(null,event.dataTransfer.files[0])">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"/></svg>
+          <p class="file-drop-label">Arrastra un archivo o <span style="color:var(--color-primary);text-decoration:underline">selecciona uno</span></p>
+          <p class="file-drop-sub">PDF, Excel, Word, CSV o imagen · Máx. 10 MB</p>
+        </div>
+        <div id="fileAttached" class="file-attached" style="display:none">
+          <div class="file-attached-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+          </div>
+          <span class="file-attached-name" id="fileAttachedName"></span>
+          <span class="file-attached-size" id="fileAttachedSize"></span>
+          <button class="file-attached-remove" onclick="quitarArchivo()" title="Quitar archivo">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <p class="form-hint" style="margin-top:6px">Plantilla, instructivo o ejemplo de llenado para este medio de verificación.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div id="modalMedioFooterLeft"></div>
+      <div class="modal-footer-right">
+        <button class="btn-secondary" onclick="cerrarModalMedio()">Cancelar</button>
+        <button class="btn-primary" id="btnGuardarMedio" onclick="guardarMedio()">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Confirmar desactivar ══ -->
+<div class="modal-overlay" id="modalConfirm" onclick="if(event.target.id==='modalConfirm')closeConfirm()">
+  <div class="confirm-card">
+    <p class="confirm-title" id="confirmTitle">¿Desactivar usuario?</p>
+    <p class="confirm-body" id="confirmBody">El usuario no podrá iniciar sesión. Puedes reactivar la cuenta en cualquier momento.</p>
+    <div class="confirm-actions">
+      <button class="btn-secondary" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn-danger" id="confirmBtn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+var GER_COLORS = {
+  'Gerencia Técnica':       { bg:'#ECFEFF', color:'#0891B2' },
+  'Gerencia Comercial':     { bg:'#FDF5F7', color:'#8B1D3A' },
+  'Gerencia Administrativa':{ bg:'#F0FDF4', color:'#065F46' },
+  'Gerencia de Planeación': { bg:'#F5F3FF', color:'#7C3AED' },
+};
+
+var ROL_CFG = {
+  admin:   { label:'Administrador', cls:'admin' },
+  revisor: { label:'Revisor',        cls:'revisor' },
+  enlace:  { label:'Enlace',         cls:'enlace' },
+  lectura: { label:'Solo lectura',   cls:'lectura' },
+};
+
+var USUARIOS = [
+  { id:'USR-001', nombre:'Leticia Solís',     iniciales:'LS', color:'#8B1D3A', email:'l.solis@comapachiapas.gob.mx',      rol:'admin',   gerencias:[],                                                        unidadAdministrativa:'Dirección General',                                         activo:true,  fechaAlta:'15 Ene 2026', ultimoAcceso:'Hoy, 09:14' },
+  { id:'USR-002', nombre:'Jorge Reyes',        iniciales:'JR', color:'#0891B2', email:'j.reyes@comapachiapas.gob.mx',       rol:'enlace',  gerencias:['Gerencia Técnica'],                                      unidadAdministrativa:'Coordinación General Técnica',                              activo:true,  fechaAlta:'20 Ene 2026', ultimoAcceso:'Ayer, 16:42' },
+  { id:'USR-003', nombre:'Ana Torres',         iniciales:'AT', color:'#8B1D3A', email:'a.torres@comapachiapas.gob.mx',      rol:'enlace',  gerencias:['Gerencia Comercial','Gerencia de Planeación'],            unidadAdministrativa:'Coordinación General Comercial',                            activo:true,  fechaAlta:'20 Ene 2026', ultimoAcceso:'25 Jul 2026' },
+  { id:'USR-004', nombre:'María López',        iniciales:'ML', color:'#065F46', email:'m.lopez@comapachiapas.gob.mx',       rol:'enlace',  gerencias:['Gerencia Administrativa'],                               unidadAdministrativa:'Coordinación General Administrativa',                       activo:true,  fechaAlta:'20 Ene 2026', ultimoAcceso:'22 Jul 2026' },
+  { id:'USR-005', nombre:'Miguel Ángel Pérez', iniciales:'MP', color:'#0369A1', email:'m.perez@comapachiapas.gob.mx',       rol:'revisor', gerencias:['Gerencia Técnica'],                                      unidadAdministrativa:'Coordinación de Distribución y Mantenimiento de Redes',     activo:true,  fechaAlta:'18 Ene 2026', ultimoAcceso:'29 Jul 2026' },
+  { id:'USR-006', nombre:'Carlos Mendoza',     iniciales:'CM', color:'#6B1630', email:'c.mendoza@comapachiapas.gob.mx',     rol:'revisor', gerencias:['Gerencia Comercial','Gerencia de Planeación'],            unidadAdministrativa:'Coordinación de Facturación y Medición',                    activo:true,  fechaAlta:'18 Ene 2026', ultimoAcceso:'27 Jul 2026' },
+  { id:'USR-007', nombre:'Laura Vega',         iniciales:'LV', color:'#047857', email:'l.vega@comapachiapas.gob.mx',        rol:'revisor', gerencias:['Gerencia Administrativa'],                               unidadAdministrativa:'Coordinación de Recursos Humanos',                          activo:true,  fechaAlta:'18 Ene 2026', ultimoAcceso:'20 Jul 2026' },
+  { id:'USR-008', nombre:'Marco Gutiérrez',    iniciales:'MG', color:'#7C3AED', email:'m.gutierrez@comapachiapas.gob.mx',   rol:'lectura', gerencias:['Gerencia de Planeación'],                                unidadAdministrativa:'Coordinación General de Planeación Estratégica',            activo:false, fechaAlta:'01 Feb 2026', ultimoAcceso:'10 Mar 2026' },
+];
+
+// ════════════════════════════════════════
+// SECTION NAVIGATION
+// ════════════════════════════════════════
+var SECTIONS = ['usuarios','medios','ciclo','notificaciones','reportes'];
+
+function switchSection(name){
+  SECTIONS.forEach(function(s){
+    document.getElementById('sec'+capitalize(s)).classList.toggle('active', s===name);
+    var nav=document.getElementById('cnav-'+s);
+    if(nav) nav.classList.toggle('active', s===name);
+  });
+  if (name === 'ciclo') { cicloPopulateForm(); cicloRenderStatus(); }
+}
+
+function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+// ════════════════════════════════════════
+// STATS
+// ════════════════════════════════════════
+function renderStats(){
+  var total=USUARIOS.length;
+  var activos=USUARIOS.filter(function(u){return u.activo;}).length;
+  var revisores=USUARIOS.filter(function(u){return u.rol==='revisor';}).length;
+  var enlaces=USUARIOS.filter(function(u){return u.rol==='enlace';}).length;
+
+  var chips=[
+    { num:total,    lbl:'Usuarios totales',  bg:'#F5E8EC', ic:'#8B1D3A', ico:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>' },
+    { num:activos,  lbl:'Cuentas activas',   bg:'#F0FDF4', ic:'#15803D', ico:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>' },
+    { num:revisores,lbl:'Revisores',          bg:'#F0FDF4', ic:'#059669', ico:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>' },
+    { num:enlaces,  lbl:'Enlaces',            bg:'#EFF6FF', ic:'#1D4ED8', ico:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>' },
+  ];
+
+  document.getElementById('statsUsuarios').innerHTML = chips.map(function(c){
+    return '<div class="stat-chip">'+
+      '<div class="stat-chip-icon" style="background:'+c.bg+';color:'+c.ic+'">'+c.ico+'</div>'+
+      '<div><p class="stat-chip-num" style="color:'+c.ic+'">'+c.num+'</p><p class="stat-chip-lbl">'+c.lbl+'</p></div>'+
+    '</div>';
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// TABLE
+// ════════════════════════════════════════
+function filteredUsuarios(){
+  var q=(document.getElementById('searchUsr').value||'').toLowerCase();
+  var rol=document.getElementById('filterRol').value||'';
+  var ger=document.getElementById('filterGer').value||'';
+  var est=document.getElementById('filterEstado').value||'';
+  return USUARIOS.filter(function(u){
+    if(rol && u.rol!==rol) return false;
+    if(ger && u.gerencias.indexOf(ger)<0) return false;
+    if(est==='activo' && !u.activo) return false;
+    if(est==='inactivo' && u.activo) return false;
+    if(q && u.nombre.toLowerCase().indexOf(q)<0 && u.email.toLowerCase().indexOf(q)<0) return false;
+    return true;
+  });
+}
+
+var editSvg='<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125"/></svg>';
+
+function renderTabla(){
+  var data=filteredUsuarios();
+  var tbody=document.getElementById('tbodyUsuarios');
+  var empty=document.getElementById('emptyUsuarios');
+  if(!data.length){ tbody.innerHTML=''; empty.style.display=''; return; }
+  empty.style.display='none';
+
+  tbody.innerHTML=data.map(function(u){
+    var rol=ROL_CFG[u.rol]||{label:u.rol,cls:'lectura'};
+    var gerPills=u.gerencias.length
+      ? u.gerencias.map(function(g){
+          var gc=GER_COLORS[g]||{bg:'#F3F4F6',color:'#374151'};
+          return '<span class="ger-pill" style="background:'+gc.bg+';color:'+gc.color+'">'+g.replace('Gerencia ','')+'</span>';
+        }).join('')
+      : '<span style="font-size:11px;color:var(--color-text-secondary)">Todas las gerencias</span>';
+    var estadoCls=u.activo?'activo':'inactivo';
+    var estadoLbl=u.activo?'Activo':'Inactivo';
+    var toggleLabel=u.activo?'Desactivar':'Activar';
+    return '<tr>'+
+      '<td><div class="user-cell">'+
+        '<div class="user-avatar" style="background:'+u.color+'">'+u.iniciales+'</div>'+
+        '<div><p class="user-name">'+u.nombre+'</p><p class="user-email">'+u.email+'</p></div>'+
+      '</div></td>'+
+      '<td><span class="rol-badge '+rol.cls+'">'+rol.label+'</span></td>'+
+      '<td><div class="ger-pills">'+gerPills+'</div></td>'+
+      '<td style="font-size:12px;color:var(--color-text-secondary);white-space:nowrap">'+u.ultimoAcceso+'</td>'+
+      '<td><span class="estado-dot '+estadoCls+'">'+estadoLbl+'</span></td>'+
+      '<td style="text-align:right"><div style="display:flex;gap:6px;justify-content:flex-end">'+
+        '<button class="btn-row" onclick="openEditarUsuario(\''+u.id+'\')">'+editSvg+' Editar</button>'+
+        '<button class="btn-row danger" onclick="confirmarToggle(\''+u.id+'\')">'+toggleLabel+'</button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join('');
+}
+
+function clearFilters(){
+  document.getElementById('searchUsr').value='';
+  document.getElementById('filterRol').value='';
+  document.getElementById('filterGer').value='';
+  document.getElementById('filterEstado').value='';
+  renderTabla();
+}
+
+// ════════════════════════════════════════
+// GERENCIAS Y UNIDADES RESPONSABLES
+// ════════════════════════════════════════
+var GER_UNITS = {
+  'Dirección General': [
+    'Dirección General',
+  ],
+  'Gerencia Técnica': [
+    'Coordinación General Técnica',
+    'Coordinación de Distribución y Mantenimiento de Redes',
+    'Coordinación de Plantas Potabilizadoras y Cárcamos',
+    'Coordinación de Proyectos Especiales',
+    'Coordinación de Proyectos y Construcción',
+    'Gerencia Técnica',
+  ],
+  'Gerencia Comercial': [
+    'Coordinación General Comercial',
+    'Coordinación Módulo de Atención Accesible',
+    'Coordinación de Atención a Usuarios',
+    'Coordinación de Atención a la Industria y Comercio',
+    'Coordinación de Control de Rezago',
+    'Coordinación de Facturación y Medición',
+    'Coordinación de Padrón y Censo',
+    'Gerencia Comercial',
+  ],
+  'Gerencia Administrativa': [
+    'Coordinación General Administrativa',
+    'Coordinación Jurídica',
+    'Coordinación de Adquisiciones',
+    'Coordinación de Contabilidad',
+    'Coordinación de Finanzas',
+    'Coordinación de Informática',
+    'Coordinación de Política de Ingresos',
+    'Coordinación de Recursos Humanos',
+    'Coordinación de Seguridad, Salud e Higiene',
+    'Coordinación de Servicios Generales',
+    'Gerencia Administrativa',
+  ],
+  'Gerencia de Planeación': [
+    'Coordinación General de Planeación Estratégica',
+    'Coordinación de Proyectos Estratégicos',
+    'Coordinación de Seguimiento a Plantas de Tratamiento',
+    'Gerencia de Planeación Estratégica',
+  ],
+};
+
+function onGerenciaChange() {
+  var ger = document.getElementById('fGerencia').value;
+  var grp = document.getElementById('fUnidadAdminGroup');
+  var sel = document.getElementById('fUnidadAdmin');
+  if (!ger) {
+    grp.style.display = 'none';
+    sel.innerHTML = '<option value="">Selecciona una unidad…</option>';
+    return;
+  }
+  var units = GER_UNITS[ger] || [];
+  sel.innerHTML = '<option value="">Selecciona la unidad…</option>' +
+    units.map(function(u) { return '<option value="'+u+'">'+u+'</option>'; }).join('');
+  grp.style.display = '';
+  // Auto-sync gerencias checkboxes
+  document.querySelectorAll('#gerChecks input').forEach(function(cb) {
+    var chk = cb.value === ger;
+    cb.checked = chk;
+    cb.closest('.ger-check').classList.toggle('checked', chk);
+  });
+}
+
+// PASSWORD GENERATOR
+// ════════════════════════════════════════
+function generatePassword(){
+  var upper  = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  var lower  = 'abcdefghjkmnpqrstuvwxyz';
+  var digits = '23456789';
+  var syms   = '!@#$%&*+?';
+  var all    = upper+lower+digits+syms;
+  var pwd=[
+    upper [Math.floor(Math.random()*upper.length)],
+    upper [Math.floor(Math.random()*upper.length)],
+    lower [Math.floor(Math.random()*lower.length)],
+    lower [Math.floor(Math.random()*lower.length)],
+    digits[Math.floor(Math.random()*digits.length)],
+    digits[Math.floor(Math.random()*digits.length)],
+    syms  [Math.floor(Math.random()*syms.length)],
+  ];
+  for(var i=7;i<14;i++) pwd.push(all[Math.floor(Math.random()*all.length)]);
+  for(var i=pwd.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1)), t=pwd[i]; pwd[i]=pwd[j]; pwd[j]=t;
+  }
+  return pwd.join('');
+}
+
+function regenerarPassword(){
+  document.getElementById('fPassword').value=generatePassword();
+  resetCopyBtn();
+}
+
+var copySvg='<svg fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>';
+var checkSvg='<svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>';
+
+function copiarPassword(){
+  var pwd=document.getElementById('fPassword').value;
+  if(!pwd) return;
+  var btn=document.getElementById('btnCopyPwd');
+  function showCopied(){
+    btn.classList.add('copied');
+    btn.innerHTML=checkSvg+' Copiada';
+    setTimeout(resetCopyBtn, 2200);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(pwd).then(showCopied).catch(fallbackCopy);
+  } else { fallbackCopy(); }
+  function fallbackCopy(){
+    var ta=document.createElement('textarea');
+    ta.value=pwd; ta.style.cssText='position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); showCopied(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+
+function resetCopyBtn(){
+  var btn=document.getElementById('btnCopyPwd');
+  if(btn){ btn.classList.remove('copied'); btn.innerHTML=copySvg+' Copiar'; }
+}
+
+// ════════════════════════════════════════
+// MODAL: NUEVO / EDITAR
+// ════════════════════════════════════════
+var editingId=null;
+var selectedRol='enlace';
+
+function openNuevoUsuario(){
+  editingId=null;
+  document.getElementById('modalUsrTitle').textContent='Nuevo usuario';
+  document.getElementById('modalUsrSub').textContent='Completa los datos para dar de alta el acceso';
+  document.getElementById('fNombre').value='';
+  document.getElementById('fEmail').value='';
+  document.getElementById('fPasswordGroup').style.display='';
+  document.getElementById('estadoGroup').style.display='none';
+  document.getElementById('btnGuardarUsr').innerHTML='<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg> Guardar usuario';
+  document.getElementById('modalFooterLeft').innerHTML='';
+  // genera contraseña automáticamente
+  document.getElementById('fPassword').value=generatePassword();
+  resetCopyBtn();
+  // gerencia y unidad administrativa
+  document.getElementById('fGerencia').value='';
+  document.getElementById('fUnidadAdminGroup').style.display='none';
+  document.getElementById('fUnidadAdmin').innerHTML='<option value="">Selecciona una unidad…</option>';
+  // reset rol y gerencias
+  selectRol('enlace');
+  document.querySelectorAll('#gerChecks input').forEach(function(cb){
+    cb.checked=false; cb.closest('.ger-check').classList.remove('checked');
+  });
+  document.getElementById('modalUsuario').classList.add('open');
+}
+
+function openEditarUsuario(id){
+  var u=USUARIOS.find(function(u){return u.id===id;});
+  if(!u) return;
+  editingId=id;
+  document.getElementById('modalUsrTitle').textContent='Editar usuario';
+  document.getElementById('modalUsrSub').textContent=u.nombre+' · '+u.email;
+  document.getElementById('fNombre').value=u.nombre;
+  document.getElementById('fEmail').value=u.email;
+  document.getElementById('fPasswordGroup').style.display='none';
+  document.getElementById('estadoGroup').style.display='';
+  document.getElementById('swActivo').classList.toggle('on', u.activo);
+  document.getElementById('btnGuardarUsr').innerHTML='<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg> Guardar cambios';
+  document.getElementById('modalFooterLeft').innerHTML=
+    '<button class="btn-ghost" style="color:#DC2626" onclick="confirmarToggle(\''+id+'\');closeModal()">'+
+    (u.activo?'Desactivar cuenta':'Activar cuenta')+'</button>';
+  // set gerencia from user's primary gerencia, then populate units
+  var primaryGer = (u.gerencias && u.gerencias.length) ? u.gerencias[0] : '';
+  document.getElementById('fGerencia').value = primaryGer;
+  onGerenciaChange();
+  document.getElementById('fUnidadAdmin').value = u.unidadAdministrativa || '';
+  selectRol(u.rol);
+  document.querySelectorAll('#gerChecks input').forEach(function(cb){
+    var checked=u.gerencias.indexOf(cb.value)>=0;
+    cb.checked=checked;
+    cb.closest('.ger-check').classList.toggle('checked',checked);
+  });
+  document.getElementById('modalUsuario').classList.add('open');
+}
+
+var GER_HINTS={
+  enlace:  'Define a qué gerencias puede capturar y enviar metas. Puede asignarse más de una.',
+  revisor: 'Define qué gerencias supervisa este revisor. Puede asignarse más de una.',
+  admin:   'Indica el área de adscripción. El administrador tiene acceso a todas las gerencias.',
+  lectura: 'Define qué gerencias puede consultar en modo de solo lectura.',
+};
+
+function selectRol(rol){
+  selectedRol=rol;
+  document.querySelectorAll('.rol-opt').forEach(function(el){
+    el.classList.toggle('selected', el.dataset.rol===rol);
+  });
+  var req=(rol==='enlace'||rol==='revisor');
+  var mark=document.getElementById('gerReqMark');
+  if(mark) mark.style.display=req?'':'none';
+  var hint=document.getElementById('gerHint');
+  if(hint) hint.textContent=GER_HINTS[rol]||GER_HINTS.enlace;
+}
+
+function updateGerCheck(cb){
+  cb.closest('.ger-check').classList.toggle('checked',cb.checked);
+}
+
+function guardarUsuario(){
+  var nombre=(document.getElementById('fNombre').value||'').trim();
+  var email=(document.getElementById('fEmail').value||'').trim();
+  var gerenciaVal=(document.getElementById('fGerencia').value||'').trim();
+  var unidadAdmin=(document.getElementById('fUnidadAdmin').value||'').trim();
+  if(!nombre){ showToast('Escribe el nombre completo','error'); return; }
+  if(!email){ showToast('Escribe el correo institucional','error'); return; }
+  if(!gerenciaVal){ showToast('Selecciona la gerencia','error'); return; }
+  if(!unidadAdmin){ showToast('Selecciona la unidad administrativa','error'); return; }
+
+  var gerencias=[];
+  document.querySelectorAll('#gerChecks input:checked').forEach(function(cb){ gerencias.push(cb.value); });
+  if(!gerencias.length){ gerencias=[gerenciaVal]; }
+  if((selectedRol==='enlace'||selectedRol==='revisor') && !gerencias.length){
+    showToast('Selecciona al menos una gerencia','error'); return;
+  }
+
+  var iniciales=nombre.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+  var rolColors={admin:'#8B1D3A',revisor:'#059669',enlace:'#0891B2',lectura:'#7C3AED'};
+
+  if(editingId){
+    var u=USUARIOS.find(function(u){return u.id===editingId;});
+    if(u){
+      u.nombre=nombre; u.email=email; u.rol=selectedRol;
+      u.gerencias=gerencias; u.iniciales=iniciales;
+      u.unidadAdministrativa=unidadAdmin;
+      u.activo=document.getElementById('swActivo').classList.contains('on');
+    }
+    showToast('Cambios guardados correctamente','success');
+  } else {
+    var newId='USR-'+String(USUARIOS.length+1).padStart(3,'0');
+    USUARIOS.push({ id:newId, nombre:nombre, iniciales:iniciales, color:rolColors[selectedRol]||'#6B7280',
+      email:email, rol:selectedRol, gerencias:gerencias, unidadAdministrativa:unidadAdmin,
+      activo:true, fechaAlta:'29 Jul 2026', ultimoAcceso:'—' });
+    showToast('Usuario '+nombre+' dado de alta correctamente','success');
+  }
+  closeModal();
+  renderStats();
+  renderTabla();
+}
+
+// ════════════════════════════════════════
+// CONFIRM MODAL
+// ════════════════════════════════════════
+var pendingToggleId=null;
+
+function confirmarToggle(id){
+  var u=USUARIOS.find(function(u){return u.id===id;});
+  if(!u) return;
+  pendingToggleId=id;
+  document.getElementById('confirmTitle').textContent=u.activo?'¿Desactivar cuenta?':'¿Activar cuenta?';
+  document.getElementById('confirmBody').textContent=u.activo
+    ? u.nombre+' no podrá iniciar sesión. Puedes reactivar la cuenta en cualquier momento.'
+    : 'Se restaurará el acceso de '+u.nombre+' con su rol y gerencias previos.';
+  document.getElementById('confirmBtn').textContent=u.activo?'Sí, desactivar':'Sí, activar';
+  document.getElementById('confirmBtn').onclick=ejecutarToggle;
+  document.getElementById('modalConfirm').classList.add('open');
+}
+
+function ejecutarToggle(){
+  var u=USUARIOS.find(function(u){return u.id===pendingToggleId;});
+  if(u){
+    u.activo=!u.activo;
+    showToast('Cuenta '+(u.activo?'activada':'desactivada')+' correctamente','success');
+  }
+  closeConfirm();
+  renderStats();
+  renderTabla();
+}
+
+function closeConfirm(){
+  document.getElementById('modalConfirm').classList.remove('open');
+  pendingToggleId=null;
+}
+
+// ════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════
+function closeModal(){ document.getElementById('modalUsuario').classList.remove('open'); }
+function overlayClickUsr(e){ if(e.target.id==='modalUsuario') closeModal(); }
+
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast'+(type?' '+type:'');
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+
+// ════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════
+(function(){
+  try{
+    var s=Session?Session.get():null;
+    if(!s||s.rol!=='Administrador'){window.location.href='login.html';return;}
+    var init=(s.nombre||'LS').split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+    document.getElementById('avatarEl').textContent=init;
+  }catch(e){ document.getElementById('avatarEl').textContent='LS'; }
+})();
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+renderStats();
+renderTabla();
+
+// ════════════════════════════════════════
+// MEDIOS DE VERIFICACIÓN
+// ════════════════════════════════════════
+var MEDIOS_VERIFICACION = [
+  { id:'MV-001', nombre:'Reporte mensual de facturación', tipo:'reporte',
+    area:'Gerencia Comercial', unidad:'Coordinación de Facturación y Medición', formato:'Excel',
+    descripcion:'Reporte generado mensualmente por el área de Facturación y Medición con el total facturado, recaudado y cartera pendiente por segmento.' },
+  { id:'MV-002', nombre:'Bitácora de atención a usuarios', tipo:'bitacora',
+    area:'Gerencia Comercial', unidad:'Coordinación de Atención a Usuarios', formato:'Físico',
+    descripcion:'Registro físico y digital de solicitudes, quejas y aclaraciones atendidas en ventanilla y módulos de atención.' },
+  { id:'MV-003', nombre:'Balance hídrico mensual', tipo:'reporte',
+    area:'Gerencia Técnica', unidad:'Coordinación General Técnica', formato:'Sistema',
+    descripcion:'Informe mensual con producción, distribución y pérdidas de agua. Generado desde el sistema SCADA/SIAD.' },
+  { id:'MV-004', nombre:'Análisis de calidad del agua', tipo:'analisis',
+    area:'Gerencia Técnica', unidad:'Coordinación de Plantas Potabilizadoras y Cárcamos', formato:'PDF',
+    descripcion:'Resultados de laboratorio de muestras tomadas en puntos de la red de distribución y plantas potabilizadoras. Frecuencia mensual.' },
+  { id:'MV-005', nombre:'Bitácora de operación de plantas', tipo:'bitacora',
+    area:'Gerencia Técnica', unidad:'Coordinación de Plantas Potabilizadoras y Cárcamos', formato:'Físico',
+    descripcion:'Registro continuo de operación de plantas potabilizadoras y cárcamos de bombeo. Incluye interrupciones y mantenimientos.' },
+  { id:'MV-006', nombre:'Sistema Aqua 360 — Padrón de usuarios', tipo:'sistema',
+    area:'Gerencia Comercial', unidad:'Coordinación de Padrón y Censo', formato:'Sistema',
+    descripcion:'Módulo del sistema Aqua 360 que concentra altas, bajas y modificaciones del padrón de usuarios activos.' },
+  { id:'MV-007', nombre:'Contratos y actas de adjudicación', tipo:'documento',
+    area:'Gerencia Administrativa', unidad:'Coordinación de Adquisiciones', formato:'PDF',
+    descripcion:'Contratos formalizados con proveedores y contratistas, incluyendo actas de fallo y adjudicación del PAC.' },
+  { id:'MV-008', nombre:'Actas de sesión del Consejo de Administración', tipo:'acta',
+    area:'Gerencia de Planeación', unidad:'Coordinación General de Planeación Estratégica', formato:'PDF',
+    descripcion:'Minutas y acuerdos de las sesiones ordinarias y extraordinarias del Consejo de Administración de COMAPA Sur.' },
+  { id:'MV-009', nombre:'Reporte de ejecución presupuestal', tipo:'reporte',
+    area:'Gerencia Administrativa', unidad:'Coordinación de Finanzas', formato:'Excel',
+    descripcion:'Reporte mensual del ejercicio del presupuesto por partida, programa y gerencia. Emitido por la Coordinación de Finanzas.' },
+  { id:'MV-010', nombre:'Bitácora de atención de fallas en redes', tipo:'bitacora',
+    area:'Gerencia Técnica', unidad:'Coordinación de Distribución y Mantenimiento de Redes', formato:'Sistema',
+    descripcion:'Registro de reportes ciudadanos y acciones de atención a fugas, roturas y fallas en la red de distribución.' },
+];
+
+var TIPO_MV_CFG = {
+  bitacora:  { label:'Bitácora / Registro',   bg:'#EFF6FF', color:'#1D4ED8' },
+  reporte:   { label:'Reporte / Informe',      bg:'#F0FDF4', color:'#15803D' },
+  sistema:   { label:'Sistema informático',    bg:'#F5F3FF', color:'#7C3AED' },
+  analisis:  { label:'Análisis / Laboratorio', bg:'#FFF7ED', color:'#C2410C' },
+  documento: { label:'Documento oficial',      bg:'#FEF3C7', color:'#92400E' },
+  acta:      { label:'Acta / Minuta',          bg:'#FDF2F8', color:'#9D174D' },
+};
+
+function tipoBadgeMV(tipo) {
+  var c = TIPO_MV_CFG[tipo] || { label: tipo, bg:'#F3F4F6', color:'#6B7280' };
+  return '<span style="display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px;background:'+c.bg+';color:'+c.color+'">'+c.label+'</span>';
+}
+
+function renderStatsMedios() {
+  var tipos = {};
+  MEDIOS_VERIFICACION.forEach(function(m) { tipos[m.tipo]=(tipos[m.tipo]||0)+1; });
+  var chips = [
+    { label:'Total',      val:MEDIOS_VERIFICACION.length, svg:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>' },
+    { label:'Bitácoras',  val:tipos.bitacora||0,  svg:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487 18.549 2.8a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"/></svg>' },
+    { label:'Reportes',   val:tipos.reporte||0,   svg:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>' },
+    { label:'Sistemas',   val:tipos.sistema||0,   svg:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25"/></svg>' },
+  ];
+  document.getElementById('statsMedios').innerHTML = chips.map(function(c) {
+    return '<div class="stat-chip">'+c.svg+'<div><p class="stat-label">'+c.label+'</p><p class="stat-num">'+c.val+'</p></div></div>';
+  }).join('');
+}
+
+var mvViewMode = 'list';
+
+function setViewMedios(mode) {
+  mvViewMode = mode;
+  var isGrid = (mode === 'grid');
+  document.getElementById('tablaMediosWrap').style.display = isGrid ? 'none' : '';
+  document.getElementById('gridMediosWrap').style.display = isGrid ? '' : 'none';
+  var btnList = document.getElementById('mvBtnList');
+  var btnGrid = document.getElementById('mvBtnGrid');
+  btnList.style.background = isGrid ? 'none' : 'var(--color-primary)';
+  btnList.style.color      = isGrid ? 'var(--color-text-secondary)' : '#fff';
+  btnGrid.style.background = isGrid ? 'var(--color-primary)' : 'none';
+  btnGrid.style.color      = isGrid ? '#fff' : 'var(--color-text-secondary)';
+  if (isGrid) renderMediosGrid(); else renderMedios();
+}
+
+function mvFilteredList() {
+  var q    = (document.getElementById('searchMedio').value||'').toLowerCase().trim();
+  var tipo = document.getElementById('filterTipoMedio').value;
+  var area = document.getElementById('filterAreaMedio').value;
+  return MEDIOS_VERIFICACION.filter(function(m) {
+    if (tipo && m.tipo !== tipo) return false;
+    if (area && m.area !== area) return false;
+    if (q && !m.nombre.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function renderMedios() {
+  renderStatsMedios();
+  if (mvViewMode === 'grid') { renderMediosGrid(); return; }
+
+  var list  = mvFilteredList();
+  var empty = document.getElementById('emptyMedios');
+  var tbody = document.getElementById('tbodyMedios');
+  if (!list.length) { tbody.innerHTML=''; empty.style.display=''; return; }
+  empty.style.display='none';
+  tbody.innerHTML = list.map(function(m) {
+    return '<tr>'+
+      '<td><div style="font-size:10px;font-weight:700;color:var(--color-primary);font-family:monospace;margin-bottom:2px">'+m.id+'</div>'+
+        '<div style="font-size:13px;font-weight:600;color:var(--color-text-primary)">'+m.nombre+'</div>'+
+        (m.descripcion ? '<div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;max-width:380px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden">'+m.descripcion+'</div>' : '')+
+        (m.archivo ? '<div style="display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:10px;font-weight:600;color:#15803D;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:2px 7px"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="10" height="10"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"/></svg>'+m.archivo.nombre+'</div>' : '')+
+      '</td>'+
+      '<td>'+tipoBadgeMV(m.tipo)+'</td>'+
+      '<td><div style="font-size:12px;font-weight:600;color:var(--color-text-primary)">'+m.area+'</div>'+
+        (m.unidad ? '<div style="font-size:11px;color:var(--color-text-secondary);margin-top:1px">'+m.unidad+'</div>' : '')+
+      '</td>'+
+      '<td><span style="font-size:11px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:999px;padding:2px 9px;color:var(--color-text-secondary)">'+m.formato+'</span></td>'+
+      '<td style="text-align:right"><div style="display:inline-flex;gap:6px">'+
+        '<button onclick="openEditarMedio(\''+m.id+'\')" style="background:var(--color-surface);color:var(--color-text-secondary);border:1px solid var(--color-border);padding:6px 10px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:inherit"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"/></svg>Editar</button>'+
+        '<button onclick="confirmarEliminarMedio(\''+m.id+'\')" style="background:#FEF2F2;color:#DC2626;border:none;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:inherit"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg>Eliminar</button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join('');
+}
+
+function renderMediosGrid() {
+  var list = mvFilteredList();
+  var wrap = document.getElementById('gridMediosWrap');
+  if (!list.length) {
+    wrap.innerHTML='<div class="empty-state" style="padding:40px 0"><p>No hay medios de verificación con esos filtros</p></div>';
+    return;
+  }
+
+  var GER_ORDER  = ['Gerencia Técnica','Gerencia Comercial','Gerencia Administrativa','Gerencia de Planeación'];
+  var GER_COLORS = {'Gerencia Técnica':'#0891B2','Gerencia Comercial':'#8B1D3A','Gerencia Administrativa':'#065F46','Gerencia de Planeación':'#7C3AED'};
+  var TIPO_ICONS = {
+    bitacora: 'm16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z',
+    reporte:  'M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z',
+    sistema:  'M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25',
+    analisis: 'M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 1-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5',
+    documento:'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z',
+    acta:     'M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z',
+  };
+
+  var chevron = '<svg class="mvf-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>';
+  var unitFolderSvg = '<svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="#6B7280" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/></svg>';
+
+  // Group by gerencia → unidad
+  var byGer = {};
+  list.forEach(function(m) {
+    var g = m.area || 'Otra área';
+    var u = m.unidad || m.area || 'Sin unidad';
+    if (!byGer[g]) byGer[g] = {};
+    if (!byGer[g][u]) byGer[g][u] = [];
+    byGer[g][u].push(m);
+  });
+
+  var html = '';
+  // Render in order, then any extras not in GER_ORDER
+  var allGers = GER_ORDER.filter(function(g){return byGer[g];})
+    .concat(Object.keys(byGer).filter(function(g){return GER_ORDER.indexOf(g)===-1;}));
+
+  allGers.forEach(function(ger) {
+    var units  = byGer[ger];
+    var color  = GER_COLORS[ger] || '#6B7280';
+    var unitKeys = Object.keys(units);
+    var total  = unitKeys.reduce(function(s,u){return s+units[u].length;},0);
+
+    var gerFolderSvg = '<svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="'+color+'" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v8.25"/></svg>';
+
+    html += '<div class="mvf-ger">'+
+      '<div class="mvf-ger-hd" onclick="this.closest(\'.mvf-ger\').classList.toggle(\'collapsed\')">'+
+        '<span class="mvf-ger-bar" style="background:'+color+'"></span>'+
+        gerFolderSvg+
+        '<span class="mvf-ger-name">'+ger+'</span>'+
+        '<span class="mvf-count-badge">'+total+' medio'+(total!==1?'s':'')+'</span>'+
+        chevron+
+      '</div>'+
+      '<div class="mvf-ger-body">';
+
+    unitKeys.forEach(function(unit) {
+      var items = units[unit];
+      html += '<div class="mvf-unit">'+
+        '<div class="mvf-unit-hd" onclick="this.closest(\'.mvf-unit\').classList.toggle(\'collapsed\')">'+
+          unitFolderSvg+
+          '<span class="mvf-unit-name">'+unit+'</span>'+
+          '<span class="mvf-count-badge" style="font-size:10px">'+items.length+'</span>'+
+          chevron+
+        '</div>'+
+        '<div class="mvf-unit-body"><div class="mvf-items-grid">';
+
+      items.forEach(function(m) {
+        var tc   = TIPO_MV_CFG[m.tipo] || {label:m.tipo,bg:'#F3F4F6',color:'#6B7280'};
+        var path = TIPO_ICONS[m.tipo]  || TIPO_ICONS.documento;
+        html += '<div class="mvf-card" onclick="openEditarMedio(\''+m.id+'\')">'+
+          '<div class="mvf-card-iconwrap" style="background:'+tc.bg+'">'+
+            '<svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="'+tc.color+'" width="19" height="19"><path stroke-linecap="round" stroke-linejoin="round" d="'+path+'"/></svg>'+
+          '</div>'+
+          '<div class="mvf-card-name">'+m.nombre+'</div>'+
+          '<div class="mvf-card-meta">'+
+            '<span class="mvf-tipo-pill" style="background:'+tc.bg+';color:'+tc.color+'">'+tc.label+'</span>'+
+            '<span class="mvf-fmt">'+m.formato+'</span>'+
+          '</div>'+
+        '</div>';
+      });
+
+      html += '</div></div></div>';
+    });
+
+    html += '</div></div>';
+  });
+
+  wrap.innerHTML = html;
+}
+
+function clearFiltrosMedios() {
+  document.getElementById('searchMedio').value='';
+  document.getElementById('filterTipoMedio').value='';
+  document.getElementById('filterAreaMedio').value='';
+  renderMedios();
+}
+
+var editingMedioId=null, eliminandoMedioId=null;
+
+function formatFileSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/(1024*1024)).toFixed(1) + ' MB';
+}
+
+function mostrarArchivoAdjunto(nombre, tamano) {
+  document.getElementById('fileDropZone').style.display = 'none';
+  document.getElementById('fileAttached').style.display = 'flex';
+  document.getElementById('fileAttachedName').textContent = nombre;
+  document.getElementById('fileAttachedSize').textContent = tamano ? formatFileSize(tamano) : '';
+}
+
+function quitarArchivo() {
+  document.getElementById('fMedioArchivo').value = '';
+  document.getElementById('fileDropZone').style.display = '';
+  document.getElementById('fileAttached').style.display = 'none';
+  document.getElementById('fileAttachedName').textContent = '';
+  document.getElementById('fileAttachedSize').textContent = '';
+}
+
+function onArchivoSeleccionado(input, file) {
+  var f = file || (input && input.files && input.files[0]);
+  if (!f) return;
+  if (f.size > 10 * 1024 * 1024) { showToast('El archivo supera los 10 MB', 'error'); return; }
+  mostrarArchivoAdjunto(f.name, f.size);
+}
+
+function resetFileField(archivo) {
+  if (archivo && archivo.nombre) {
+    mostrarArchivoAdjunto(archivo.nombre, archivo.tamano);
+  } else {
+    quitarArchivo();
+  }
+}
+
+function openNuevoMedio() {
+  editingMedioId=null;
+  document.getElementById('modalMedioTitle').textContent='Nuevo medio de verificación';
+  document.getElementById('modalMedioSub').textContent='Añade una fuente de evidencia al catálogo del MIR';
+  document.getElementById('fMedioNombre').value='';
+  document.getElementById('fMedioTipo').value='';
+  document.getElementById('fMedioGerencia').value='';
+  document.getElementById('fMedioUnidadGroup').style.display='none';
+  document.getElementById('fMedioUnidad').innerHTML='<option value="">Selecciona la unidad…</option>';
+  document.getElementById('fMedioFormato').value='PDF';
+  document.getElementById('fMedioDesc').value='';
+  document.getElementById('modalMedioFooterLeft').innerHTML='';
+  quitarArchivo();
+  document.getElementById('modalMedio').classList.add('open');
+}
+
+function onMedioGerenciaChange() {
+  var ger = document.getElementById('fMedioGerencia').value;
+  var grp = document.getElementById('fMedioUnidadGroup');
+  var sel = document.getElementById('fMedioUnidad');
+  if (!ger) { grp.style.display='none'; sel.innerHTML='<option value="">Selecciona la unidad…</option>'; return; }
+  var units = GER_UNITS[ger] || [];
+  sel.innerHTML = '<option value="">Selecciona la unidad…</option>' +
+    units.map(function(u){return '<option value="'+u+'">'+u+'</option>';}).join('');
+  grp.style.display = '';
+}
+
+function openEditarMedio(id) {
+  var m=MEDIOS_VERIFICACION.find(function(x){return x.id===id;});
+  if(!m) return;
+  editingMedioId=id;
+  document.getElementById('modalMedioTitle').textContent='Editar medio de verificación';
+  document.getElementById('modalMedioSub').textContent=m.nombre;
+  document.getElementById('fMedioNombre').value=m.nombre;
+  document.getElementById('fMedioTipo').value=m.tipo;
+  document.getElementById('fMedioGerencia').value=m.area||'';
+  onMedioGerenciaChange();
+  document.getElementById('fMedioUnidad').value=m.unidad||'';
+  document.getElementById('fMedioFormato').value=m.formato;
+  document.getElementById('fMedioDesc').value=m.descripcion||'';
+  document.getElementById('modalMedioFooterLeft').innerHTML=
+    '<button style="background:none;border:none;color:#DC2626;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit" onclick="confirmarEliminarMedio(\''+id+'\');cerrarModalMedio()">Eliminar</button>';
+  resetFileField(m.archivo||null);
+  document.getElementById('modalMedio').classList.add('open');
+}
+
+function cerrarModalMedio() {
+  document.getElementById('modalMedio').classList.remove('open');
+}
+
+function guardarMedio() {
+  var nombre =(document.getElementById('fMedioNombre').value||'').trim();
+  var tipo   =document.getElementById('fMedioTipo').value;
+  var area   =document.getElementById('fMedioGerencia').value;
+  var unidad =document.getElementById('fMedioUnidad').value;
+  var formato=document.getElementById('fMedioFormato').value;
+  var desc   =(document.getElementById('fMedioDesc').value||'').trim();
+  if(!nombre){showToast('Escribe el nombre del medio','error');return;}
+  if(!tipo)  {showToast('Selecciona el tipo','error');return;}
+  if(!area)  {showToast('Selecciona la gerencia','error');return;}
+  if(!unidad){showToast('Selecciona la unidad responsable','error');return;}
+  // archivo adjunto
+  var archivoInput=document.getElementById('fMedioArchivo');
+  var archivoData=null;
+  if(archivoInput.files && archivoInput.files[0]){
+    var f=archivoInput.files[0];
+    archivoData={nombre:f.name, tamano:f.size};
+  } else {
+    // conservar archivo previo si no se reemplazó
+    if(editingMedioId){
+      var prev=MEDIOS_VERIFICACION.find(function(x){return x.id===editingMedioId;});
+      if(prev) archivoData=prev.archivo||null;
+    }
+    // si se quitó (drop zone visible) => null
+    if(document.getElementById('fileDropZone').style.display==='none' && !archivoInput.files.length){
+      // attached shown without new file => keep prev (already set above)
+    } else if(document.getElementById('fileDropZone').style.display!=='none'){
+      archivoData=null;
+    }
+  }
+  if(editingMedioId){
+    var m=MEDIOS_VERIFICACION.find(function(x){return x.id===editingMedioId;});
+    if(m){m.nombre=nombre;m.tipo=tipo;m.area=area;m.unidad=unidad;m.formato=formato;m.descripcion=desc;m.archivo=archivoData;}
+    showToast('Medio de verificación actualizado','success');
+  } else {
+    var newId='MV-'+String(MEDIOS_VERIFICACION.length+1).padStart(3,'0');
+    MEDIOS_VERIFICACION.push({id:newId,nombre:nombre,tipo:tipo,area:area,unidad:unidad,formato:formato,descripcion:desc,archivo:archivoData});
+    showToast('Medio de verificación añadido al catálogo','success');
+  }
+  cerrarModalMedio();
+  renderMedios();
+}
+
+function confirmarEliminarMedio(id) {
+  var m=MEDIOS_VERIFICACION.find(function(x){return x.id===id;});
+  if(!m) return;
+  eliminandoMedioId=id;
+  if(!confirm('¿Eliminar "'+m.nombre+'" del catálogo? Esta acción no se puede deshacer.')) return;
+  MEDIOS_VERIFICACION=MEDIOS_VERIFICACION.filter(function(x){return x.id!==eliminandoMedioId;});
+  showToast('Medio de verificación eliminado','success');
+  renderMedios();
+}
+
+renderMedios();
+
+// ════════════════════════════════════════
+// CICLO DE PLANEACIÓN
+// ════════════════════════════════════════
+// Demo: clear cycle state on every page load
+try { localStorage.removeItem('comapa-ciclo'); } catch(e) {}
+
+var CICLO_KEY = 'comapa-ciclo';
+
+function cicloParseDate(s) {
+  if (!s) return null;
+  var p = s.split('-');
+  var d = new Date(+p[0], +p[1]-1, +p[2]);
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function cicloGetEstado(ciclo) {
+  if (!ciclo || !ciclo.faseCaptura || !ciclo.faseRevision) return 'inactivo';
+  if (ciclo.cerradoManualmente) return 'cerrado';
+  var hoy = new Date(); hoy.setHours(0,0,0,0);
+  var c0 = cicloParseDate(ciclo.faseCaptura.inicio);
+  var c1 = cicloParseDate(ciclo.faseCaptura.fin);
+  var r0 = cicloParseDate(ciclo.faseRevision.inicio);
+  var r1 = cicloParseDate(ciclo.faseRevision.fin);
+  if (!c0||!c1||!r0||!r1) return 'inactivo';
+  if (hoy < c0) return 'pendiente';
+  if (hoy >= c0 && hoy <= c1) return 'captura';
+  if (hoy > c1 && hoy < r0) return 'entre_fases';
+  if (hoy >= r0 && hoy <= r1) return 'revision';
+  return 'cerrado';
+}
+
+function cicloLoad() {
+  try { return JSON.parse(localStorage.getItem(CICLO_KEY)); } catch(e) { return null; }
+}
+
+function cicloFmtDate(s) {
+  if (!s) return '';
+  var p = s.split('-');
+  var meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return +p[2]+' '+meses[+p[1]-1]+'. '+p[0];
+}
+
+function cicloDias(ini, fin) {
+  var a = cicloParseDate(ini), b = cicloParseDate(fin);
+  if (!a||!b||b<a) return null;
+  return Math.round((b-a)/(1000*60*60*24))+1;
+}
+
+function cicloUpdateDurs() {
+  var cI = cpGetValue('ciclo-c-inicio');
+  var cF = cpGetValue('ciclo-c-fin');
+  var rI = cpGetValue('ciclo-r-inicio');
+  var rF = cpGetValue('ciclo-r-fin');
+  var cd = cicloDias(cI,cF), rd = cicloDias(rI,rF);
+  document.getElementById('ciclo-c-dur').textContent = cd ? cd+' día'+(cd===1?'':'s') : '— días';
+  document.getElementById('ciclo-r-dur').textContent = rd ? rd+' día'+(rd===1?'':'s') : '— días';
+}
+
+function cicloRenderStatus() {
+  var ciclo = cicloLoad();
+  var est = cicloGetEstado(ciclo);
+  var card = document.getElementById('ciclo-status-card');
+  if (!card) return;
+  card.className = 'ciclo-status-card '+est;
+  var labelEl = document.getElementById('ciclo-status-label');
+  var detailEl = document.getElementById('ciclo-status-detail');
+  var closeBtn = document.getElementById('ciclo-close-btn');
+  var labels = {
+    inactivo: 'Sin ciclo configurado',
+    pendiente: 'Ciclo configurado — Pendiente de inicio',
+    captura: 'Ciclo activo · Fase 1: Captura de metas',
+    entre_fases: 'Entre fases · Esperando inicio de revisión',
+    revision: 'Ciclo activo · Fase 2: Revisión de metas',
+    cerrado: 'Ciclo cerrado'
+  };
+  labelEl.textContent = labels[est] || est;
+  if (!ciclo || !ciclo.faseCaptura) {
+    detailEl.textContent = 'Define las fechas del ciclo y guarda la configuración para activarlo automáticamente.';
+    if (closeBtn) closeBtn.style.display = 'none';
+    cicloUpdatePhaseBadges(null, est);
+    return;
+  }
+  var hoy = new Date(); hoy.setHours(0,0,0,0);
+  var c0 = cicloParseDate(ciclo.faseCaptura.inicio);
+  var c1 = cicloParseDate(ciclo.faseCaptura.fin);
+  var r0 = cicloParseDate(ciclo.faseRevision.inicio);
+  var r1 = cicloParseDate(ciclo.faseRevision.fin);
+  function diasRest(d) {
+    if (!d) return 0;
+    return Math.max(0, Math.round((d-hoy)/(1000*60*60*24)));
+  }
+  var details = {
+    pendiente: 'El ciclo abrirá para captura el '+cicloFmtDate(ciclo.faseCaptura.inicio)+'. Faltan '+diasRest(c0)+' día'+(diasRest(c0)===1?'':'s')+'.',
+    captura: 'Los usuarios enlace pueden configurar metas hasta el '+cicloFmtDate(ciclo.faseCaptura.fin)+'. Quedan '+diasRest(c1)+' día'+(diasRest(c1)===1?'':'s')+'.',
+    entre_fases: 'La fase de captura cerró. La revisión de metas abrirá el '+cicloFmtDate(ciclo.faseRevision.inicio)+'.',
+    revision: 'Los usuarios revisor pueden validar metas hasta el '+cicloFmtDate(ciclo.faseRevision.fin)+'. Quedan '+diasRest(r1)+' día'+(diasRest(r1)===1?'':'s')+'.',
+    cerrado: ciclo.cerradoManualmente ? 'Cerrado manualmente por el administrador.' : 'El ciclo finalizó el '+cicloFmtDate(ciclo.faseRevision.fin)+'.'
+  };
+  detailEl.textContent = details[est] || '';
+  var showClose = (est==='pendiente'||est==='captura'||est==='entre_fases'||est==='revision');
+  if (closeBtn) closeBtn.style.display = showClose ? '' : 'none';
+  cicloUpdatePhaseBadges(ciclo, est);
+}
+
+function cicloUpdatePhaseBadges(ciclo, est) {
+  var cb = document.getElementById('ciclo-c-phase-badge');
+  var rb = document.getElementById('ciclo-r-phase-badge');
+  if (!cb||!rb) return;
+  cb.style.display = 'none'; rb.style.display = 'none';
+  if (!ciclo) return;
+  var map = {
+    pendiente:    ['pendiente-p','Pendiente',   'pendiente-p','Pendiente'],
+    captura:      ['activa',     'Activa ahora','pendiente-p','Pendiente'],
+    entre_fases:  ['cerrada',    'Cerrada',     'pendiente-p','Pendiente'],
+    revision:     ['cerrada',    'Cerrada',     'activa',     'Activa ahora'],
+    cerrado:      ['cerrada',    'Cerrada',     'cerrada',    'Cerrada']
+  };
+  var v = map[est]; if (!v) return;
+  cb.className='phase-badge '+v[0]; cb.textContent=v[1]; cb.style.display='';
+  rb.className='phase-badge '+v[2]; rb.textContent=v[3]; rb.style.display='';
+}
+
+function cicloPopulateForm() {
+  var ids = ['ciclo-c-inicio','ciclo-c-fin','ciclo-r-inicio','ciclo-r-fin'];
+  ids.forEach(function(id) { if (!_cpState[id]) cpInit(id, cicloUpdateDurs); });
+  var ciclo = cicloLoad();
+  if (!ciclo) return;
+  if (ciclo.faseCaptura) {
+    cpSetValue('ciclo-c-inicio', ciclo.faseCaptura.inicio);
+    cpSetValue('ciclo-c-fin',    ciclo.faseCaptura.fin);
+  }
+  if (ciclo.faseRevision) {
+    cpSetValue('ciclo-r-inicio', ciclo.faseRevision.inicio);
+    cpSetValue('ciclo-r-fin',    ciclo.faseRevision.fin);
+  }
+  cicloUpdateDurs();
+}
+
+window.saveCiclo = function() {
+  var cI = cpGetValue('ciclo-c-inicio');
+  var cF = cpGetValue('ciclo-c-fin');
+  var rI = cpGetValue('ciclo-r-inicio');
+  var rF = cpGetValue('ciclo-r-fin');
+  if (!cI||!cF||!rI||!rF) { showToast('Completa todas las fechas antes de guardar.','error'); return; }
+  if (cF < cI) { showToast('El cierre de captura debe ser posterior a la apertura.','error'); return; }
+  if (rF < rI) { showToast('El cierre de revisión debe ser posterior a la apertura.','error'); return; }
+  if (rI <= cF) { showToast('La revisión debe iniciar después del cierre de captura.','error'); return; }
+  var ciclo = { faseCaptura:{inicio:cI,fin:cF}, faseRevision:{inicio:rI,fin:rF}, cerradoManualmente:false };
+  try { localStorage.setItem(CICLO_KEY, JSON.stringify(ciclo)); } catch(e) {}
+  cicloRenderStatus();
+  showToast('Ciclo guardado correctamente.','success');
+};
+
+window.closeCicloManual = function() {
+  if (!confirm('¿Cerrar el ciclo anticipadamente? Los usuarios enlace y revisor perderán acceso inmediatamente.')) return;
+  var ciclo = cicloLoad();
+  if (!ciclo) return;
+  ciclo.cerradoManualmente = true;
+  try { localStorage.setItem(CICLO_KEY, JSON.stringify(ciclo)); } catch(e) {}
+  cicloRenderStatus();
+  showToast('Ciclo cerrado.','success');
+};
+
+// ── Custom Date Picker ──────────────────────────────────────────
+var _cpState = {};
+var _CP_MESES_LONG = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+var _CP_MESES_SHORT = ['ene.','feb.','mar.','abr.','may.','jun.','jul.','ago.','sep.','oct.','nov.','dic.'];
+
+function cpInit(id, onChange) {
+  var today = new Date();
+  _cpState[id] = { value: null, year: today.getFullYear(), month: today.getMonth(), onChange: onChange || null };
+  cpRender(id);
+}
+
+window.cpToggle = function(id) {
+  var drop = document.getElementById('dp-drop-'+id);
+  var trg  = document.getElementById('dp-trg-'+id);
+  if (!drop) return;
+  var isOpen = drop.style.display !== 'none';
+  Object.keys(_cpState).forEach(function(k) {
+    var d = document.getElementById('dp-drop-'+k);
+    var t = document.getElementById('dp-trg-'+k);
+    if (d) d.style.display = 'none';
+    if (t) t.classList.remove('open');
+  });
+  if (!isOpen) {
+    drop.style.display = '';
+    if (trg) trg.classList.add('open');
+  }
+};
+
+window.cpNav = function(id, delta) {
+  var st = _cpState[id]; if (!st) return;
+  st.month += delta;
+  if (st.month > 11) { st.month = 0; st.year++; }
+  if (st.month < 0)  { st.month = 11; st.year--; }
+  cpRender(id);
+};
+
+window.cpSelect = function(id, y, m, d) {
+  var st = _cpState[id]; if (!st) return;
+  st.value = new Date(y, m, d);
+  st.year = y; st.month = m;
+  var drop = document.getElementById('dp-drop-'+id);
+  var trg  = document.getElementById('dp-trg-'+id);
+  if (drop) drop.style.display = 'none';
+  if (trg) trg.classList.remove('open');
+  cpUpdateText(id);
+  cpRender(id);
+  if (st.onChange) st.onChange();
+};
+
+function cpGetValue(id) {
+  var st = _cpState[id];
+  if (!st||!st.value) return '';
+  var d = st.value;
+  var mm = ('0'+(d.getMonth()+1)).slice(-2);
+  var dd = ('0'+d.getDate()).slice(-2);
+  return d.getFullYear()+'-'+mm+'-'+dd;
+}
+
+function cpSetValue(id, valStr) {
+  if (!valStr) return;
+  var p = valStr.split('-');
+  var st = _cpState[id]; if (!st) return;
+  st.value = new Date(+p[0], +p[1]-1, +p[2]);
+  st.year = +p[0]; st.month = +p[1]-1;
+  cpUpdateText(id);
+  cpRender(id);
+}
+
+function cpUpdateText(id) {
+  var el = document.getElementById('dp-text-'+id);
+  if (!el) return;
+  var st = _cpState[id];
+  if (!st||!st.value) {
+    el.textContent = 'Seleccionar fecha';
+    el.classList.add('placeholder');
+  } else {
+    var d = st.value;
+    el.textContent = d.getDate()+' '+_CP_MESES_SHORT[d.getMonth()]+' '+d.getFullYear();
+    el.classList.remove('placeholder');
+  }
+}
+
+function cpRender(id) {
+  var grid = document.getElementById('dp-grid-'+id);
+  var hdr  = document.getElementById('dp-hdr-'+id);
+  if (!grid||!hdr) return;
+  var st = _cpState[id];
+  hdr.textContent = _CP_MESES_LONG[st.month]+' '+st.year;
+  var today = new Date(); today.setHours(0,0,0,0);
+  var firstDay = new Date(st.year, st.month, 1);
+  var lastDay  = new Date(st.year, st.month+1, 0);
+  var startDow = (firstDay.getDay()+6)%7; // Mon=0
+  var lastDow  = (lastDay.getDay()+6)%7;
+  var html = '';
+  for (var i = 0; i < startDow; i++) html += '<div class="cp-dp-day other-month"></div>';
+  for (var d = 1; d <= lastDay.getDate(); d++) {
+    var dDate = new Date(st.year, st.month, d); dDate.setHours(0,0,0,0);
+    var isToday = dDate.getTime()===today.getTime();
+    var isSel   = st.value && new Date(st.value.getFullYear(), st.value.getMonth(), st.value.getDate()).getTime()===dDate.getTime();
+    var cls = 'cp-dp-day'+(isToday?' today':'')+(isSel?' selected':'');
+    html += '<button class="'+cls+'" onclick="cpSelect(\''+id+'\','+st.year+','+st.month+','+d+')" type="button">'+d+'</button>';
+  }
+  var trailing = lastDow < 6 ? 6-lastDow : 0;
+  for (var n = 0; n < trailing; n++) html += '<div class="cp-dp-day other-month"></div>';
+  grid.innerHTML = html;
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest || !e.target.closest('.cp-datepicker')) {
+    Object.keys(_cpState).forEach(function(k) {
+      var d = document.getElementById('dp-drop-'+k);
+      var t = document.getElementById('dp-trg-'+k);
+      if (d) d.style.display = 'none';
+      if (t) t.classList.remove('open');
+    });
+  }
+});
+</script>
+</body>
+</html>

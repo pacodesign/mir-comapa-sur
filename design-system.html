@@ -1,0 +1,1333 @@
+<title>Design System · COMAPA Sur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ── TOKENS ─────────────────────────────────────────── */
+:root {
+  --c-brand:          #8B1D3A;
+  --c-brand-dark:     #6B1630;
+  --c-brand-tint:     #F5E8EC;
+  --c-danger:         #EF4444;
+  --c-warning:        #F59E0B;
+  --c-success:        #22C55E;
+  --c-info:           #3B82F6;
+  --c-danger-tint:    #FEF2F2;
+  --c-warning-tint:   #FFFBEB;
+  --c-success-tint:   #F0FDF4;
+  --c-info-tint:      #EFF6FF;
+
+  --c-bg:             #FFFFFF;
+  --c-surface:        #F7F7F7;
+  --c-frame:          #F0F1F3;
+  --c-border:         #E5E7EB;
+  --c-text:           #111827;
+  --c-text-2:         #6B7280;
+  --c-text-3:         #9CA3AF;
+
+  --nav-w:            220px;
+  --r-card:           16px;
+  --r-btn:            999px;
+  --r-input:          10px;
+  --r-badge:          999px;
+
+  --shadow-s:         0 1px 3px rgba(0,0,0,.06);
+  --shadow-m:         0 4px 14px rgba(0,0,0,.10);
+  --shadow-l:         0 8px 32px rgba(0,0,0,.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-bg:     #1A1D24;
+    --c-surface:#131620;
+    --c-frame:  #0E1117;
+    --c-border: #2A2E3E;
+    --c-text:   #F1F2F6;
+    --c-text-2: #9BA3B6;
+    --c-text-3: #5D6580;
+    --c-brand-tint: #2D1523;
+    --c-info-tint:  #0F1B2D;
+    --c-warning-tint:#1F1A0E;
+    --c-success-tint:#0D1F13;
+    --c-danger-tint: #1F0F0F;
+    --shadow-s: 0 1px 3px rgba(0,0,0,.25);
+    --shadow-m: 0 4px 14px rgba(0,0,0,.40);
+    --shadow-l: 0 8px 32px rgba(0,0,0,.60);
+  }
+}
+:root[data-theme="dark"] {
+  --c-bg:     #1A1D24;
+  --c-surface:#131620;
+  --c-frame:  #0E1117;
+  --c-border: #2A2E3E;
+  --c-text:   #F1F2F6;
+  --c-text-2: #9BA3B6;
+  --c-text-3: #5D6580;
+  --c-brand-tint: #2D1523;
+  --c-info-tint:  #0F1B2D;
+  --c-warning-tint:#1F1A0E;
+  --c-success-tint:#0D1F13;
+  --c-danger-tint: #1F0F0F;
+  --shadow-s: 0 1px 3px rgba(0,0,0,.25);
+  --shadow-m: 0 4px 14px rgba(0,0,0,.40);
+  --shadow-l: 0 8px 32px rgba(0,0,0,.60);
+}
+
+/* ── BASE ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--c-text);
+  background: var(--c-frame);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── LEFT NAV ───────────────────────────────────────── */
+.ds-nav {
+  width: var(--nav-w);
+  background: var(--c-bg);
+  border-right: 1px solid var(--c-border);
+  position: fixed; top: 0; left: 0;
+  height: 100vh;
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+  z-index: 100;
+}
+.nav-brand {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--c-border);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
+}
+.nav-logo-mark {
+  width: 30px; height: 30px;
+  background: var(--c-brand); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-logo-mark svg { width: 14px; height: 14px; stroke: white; stroke-width: 2; fill: none; }
+.nav-logo-name { font-size: 12px; font-weight: 700; color: var(--c-text); letter-spacing: -.01em; }
+.nav-logo-sub  { font-size: 10px; color: var(--c-text-2); margin-top: 1px; }
+.nav-version {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700;
+  background: var(--c-brand-tint); color: var(--c-brand);
+  border-radius: 6px; padding: 3px 8px;
+}
+
+.nav-group { padding: 12px 0; }
+.nav-group + .nav-group { border-top: 1px solid var(--c-border); }
+.nav-group-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .10em;
+  text-transform: uppercase; color: var(--c-text-3);
+  padding: 0 20px 8px;
+}
+.nav-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 20px;
+  font-size: 12px; font-weight: 600;
+  color: var(--c-text-2);
+  text-decoration: none;
+  border-radius: 0;
+  transition: color .15s, background .15s;
+  position: relative;
+}
+.nav-link:hover { color: var(--c-text); background: var(--c-surface); }
+.nav-link.active { color: var(--c-brand); background: var(--c-brand-tint); }
+.nav-link.active::before {
+  content: '';
+  position: absolute; left: 0; top: 4px; bottom: 4px;
+  width: 3px; background: var(--c-brand); border-radius: 0 3px 3px 0;
+}
+.nav-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+.nav-footer {
+  margin-top: auto;
+  padding: 14px 20px;
+  border-top: 1px solid var(--c-border);
+}
+.theme-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; font-weight: 600; color: var(--c-text-2);
+}
+.theme-btns { display: flex; gap: 4px; }
+.theme-btn {
+  width: 28px; height: 24px;
+  border-radius: 6px; border: 1.5px solid var(--c-border);
+  background: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; transition: border-color .15s, background .15s;
+}
+.theme-btn:hover { background: var(--c-surface); border-color: var(--c-text-3); }
+.theme-btn.active { background: var(--c-brand-tint); border-color: var(--c-brand); }
+
+/* ── MAIN ───────────────────────────────────────────── */
+.ds-main {
+  margin-left: var(--nav-w);
+  flex: 1;
+  padding: 40px 48px;
+  max-width: calc(900px + var(--nav-w));
+}
+
+/* ── SECTION ────────────────────────────────────────── */
+.ds-section { margin-bottom: 64px; }
+.ds-section-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: .10em;
+  text-transform: uppercase; color: var(--c-brand);
+  margin-bottom: 8px;
+}
+.ds-section-title {
+  font-size: 26px; font-weight: 800; letter-spacing: -.03em;
+  color: var(--c-text); line-height: 1.2;
+  text-wrap: balance;
+  margin-bottom: 6px;
+}
+.ds-section-desc {
+  font-size: 13px; color: var(--c-text-2); line-height: 1.65;
+  max-width: 600px; margin-bottom: 28px;
+}
+.ds-rule { height: 1px; background: var(--c-border); margin: 28px 0; }
+
+.subsection { margin-bottom: 40px; }
+.subsection-title {
+  font-size: 13px; font-weight: 700; color: var(--c-text);
+  letter-spacing: -.01em; margin-bottom: 4px;
+}
+.subsection-desc { font-size: 12px; color: var(--c-text-2); margin-bottom: 16px; line-height: 1.6; }
+
+/* ── PREVIEW FRAME ──────────────────────────────────── */
+.preview {
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-card);
+  padding: 28px 24px;
+  display: flex; flex-wrap: wrap; gap: 12px;
+  align-items: flex-start;
+}
+.preview.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.preview.col    { flex-direction: column; }
+.preview.center { justify-content: center; align-items: center; }
+.preview.dark-bg { background: #0E1117; border-color: #2A2E3E; }
+
+/* ── TOKEN PILL ─────────────────────────────────────── */
+.token-pill {
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+  font-size: 10px; font-weight: 600;
+  background: var(--c-surface);
+  color: var(--c-text-2);
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  padding: 2px 7px;
+  letter-spacing: .02em;
+  margin-top: 6px;
+}
+
+/* ── COLOR GRID ─────────────────────────────────────── */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+}
+.color-swatch {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--c-border);
+  cursor: pointer;
+  transition: transform .15s;
+}
+.color-swatch:hover { transform: translateY(-2px); }
+.swatch-block { height: 56px; }
+.swatch-info {
+  background: var(--c-bg);
+  padding: 8px 10px;
+}
+.swatch-name { font-size: 11px; font-weight: 700; color: var(--c-text); }
+.swatch-hex  { font-family: 'Courier New', monospace; font-size: 10px; color: var(--c-text-2); }
+.swatch-var  { font-family: 'Courier New', monospace; font-size: 9px; color: var(--c-text-3); margin-top: 2px; }
+.copied-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--c-text); color: var(--c-bg);
+  font-size: 12px; font-weight: 600; padding: 8px 16px;
+  border-radius: var(--r-btn); opacity: 0;
+  transition: opacity .2s; pointer-events: none; z-index: 999;
+}
+.copied-toast.show { opacity: 1; }
+
+/* ── TYPOGRAPHY SCALE ───────────────────────────────── */
+.type-row {
+  display: flex; align-items: baseline; gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--c-border);
+}
+.type-row:last-child { border-bottom: none; }
+.type-meta {
+  min-width: 130px; flex-shrink: 0;
+}
+.type-meta-role { font-size: 11px; font-weight: 700; color: var(--c-text); }
+.type-meta-spec { font-family: 'Courier New', monospace; font-size: 9px; color: var(--c-text-3); margin-top: 2px; }
+.type-specimen { flex: 1; color: var(--c-text); }
+
+/* ── SPACING SCALE ──────────────────────────────────── */
+.spacing-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--c-border);
+}
+.spacing-row:last-child { border-bottom: none; }
+.spacing-bar-wrap { width: 200px; }
+.spacing-bar {
+  height: 20px; background: var(--c-brand); border-radius: 4px;
+  opacity: .7;
+}
+.spacing-label { min-width: 48px; font-family: 'Courier New', monospace; font-size: 11px; font-weight: 700; color: var(--c-text); }
+.spacing-desc  { font-size: 11px; color: var(--c-text-2); }
+
+/* ─────────────────────────────────────────────────────
+   SYSTEM COMPONENTS (mirroring shared.css)
+   ───────────────────────────────────────────────────── */
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: none; border-radius: var(--r-btn);
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; padding: 9px 18px;
+  transition: background .15s, opacity .15s, border-color .15s, color .15s;
+  white-space: nowrap; text-decoration: none;
+}
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+.btn.btn-sm { padding: 7px 14px; font-size: 12px; }
+.btn.btn-lg { padding: 12px 24px; font-size: 14px; font-weight: 700; }
+.btn-primary  { background: var(--c-brand); color: white; }
+.btn-primary:hover  { background: var(--c-brand-dark); }
+.btn-secondary { background: var(--c-surface); color: var(--c-text); }
+.btn-secondary:hover { background: var(--c-border); }
+.btn-ghost {
+  background: transparent; color: var(--c-text-2);
+  border: 1.5px solid var(--c-border);
+}
+.btn-ghost:hover { border-color: var(--c-text-3); color: var(--c-text); }
+.btn-danger { background: var(--c-danger); color: white; }
+.btn-danger:hover { background: #DC2626; }
+.btn-chip {
+  font-size: 11px; font-weight: 600; padding: 4px 10px;
+  border-radius: 8px; background: var(--c-brand-tint);
+  color: var(--c-brand); border: none; cursor: pointer;
+  font-family: inherit; transition: background .15s;
+}
+.btn-chip:hover { background: #EED5DA; }
+.btn-chip.warning { background: var(--c-warning-tint); color: #92400E; }
+.btn-chip.info    { background: var(--c-info-tint); color: #1D4ED8; }
+
+/* CARDS */
+.kpi-card {
+  background: var(--c-bg); border-radius: var(--r-card);
+  padding: 20px; box-shadow: var(--shadow-s);
+  transition: box-shadow .2s, transform .2s;
+}
+.kpi-card:hover { box-shadow: var(--shadow-m); transform: translateY(-1px); }
+.kpi-label {
+  font-size: 11px; font-weight: 600; color: var(--c-text-2);
+  text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px;
+}
+.kpi-value { font-size: 30px; font-weight: 700; color: var(--c-text); line-height: 1; }
+
+.section-card {
+  background: var(--c-bg); border-radius: var(--r-card);
+  border: 1px solid var(--c-border); overflow: hidden;
+}
+.sc-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px; border-bottom: 1px solid var(--c-border);
+}
+.sc-title { font-size: 13px; font-weight: 700; color: var(--c-text); }
+.sc-body  { padding: 16px 20px; }
+
+/* BADGES */
+.estado-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700;
+  padding: 3px 9px; border-radius: var(--r-badge);
+  text-transform: uppercase; letter-spacing: .04em; white-space: nowrap;
+}
+.estado-badge::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+}
+.estado-badge.borrador          { background: #F3F4F6; color: #374151; }
+.estado-badge.borrador::before  { background: #9CA3AF; }
+.estado-badge.pendiente         { background: var(--c-warning-tint); color: #92400E; }
+.estado-badge.pendiente::before { background: var(--c-warning); }
+.estado-badge.enviado           { background: var(--c-info-tint); color: #1D4ED8; }
+.estado-badge.enviado::before   { background: var(--c-info); }
+.estado-badge.observado         { background: #FFF7ED; color: #C2410C; }
+.estado-badge.observado::before { background: #F97316; }
+.estado-badge.corregido         { background: #F5F3FF; color: #6D28D9; }
+.estado-badge.corregido::before { background: #7C3AED; }
+.estado-badge.listo             { background: var(--c-success-tint); color: #15803D; }
+.estado-badge.listo::before     { background: var(--c-success); }
+.estado-badge.cerrado           { background: #F0FDF4; color: #166534; }
+.estado-badge.cerrado::before   { background: #16A34A; }
+.estado-badge.vencido           { background: var(--c-danger-tint); color: #B91C1C; }
+.estado-badge.vencido::before   { background: var(--c-danger); }
+
+.nivel-badge {
+  display: inline-flex; align-items: center;
+  font-size: 10px; font-weight: 700;
+  padding: 3px 8px; border-radius: 6px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.nivel-badge.fin        { background: #FDF2F8; color: #9D174D; }
+.nivel-badge.proposito  { background: var(--c-info-tint); color: #1D4ED8; }
+.nivel-badge.componente { background: #F5F3FF; color: #5B21B6; }
+.nivel-badge.actividad  { background: var(--c-success-tint); color: #15803D; }
+
+/* FORMS */
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-size: 12px; font-weight: 600; color: var(--c-text); }
+.form-input, .form-textarea, .form-select {
+  width: 100%; border: 1.5px solid var(--c-border); border-radius: var(--r-input);
+  padding: 9px 12px; font-family: inherit; font-size: 13px;
+  color: var(--c-text); background: var(--c-bg);
+  transition: border-color .15s, box-shadow .15s; outline: none;
+}
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--c-brand); box-shadow: 0 0 0 3px rgba(139,29,58,.08);
+}
+.form-input.error { border-color: var(--c-danger); }
+.form-textarea { resize: vertical; min-height: 80px; }
+.form-hint  { font-size: 11px; color: var(--c-text-2); }
+.form-error { font-size: 11px; color: var(--c-danger); font-weight: 600; }
+.search-wrap { position: relative; }
+.search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--c-text-3); pointer-events: none; stroke: currentColor; fill: none; stroke-width: 2; }
+.search-input {
+  width: 100%; border: 1.5px solid var(--c-border); border-radius: var(--r-btn);
+  padding: 8px 14px 8px 36px; font-family: inherit; font-size: 13px;
+  color: var(--c-text); background: var(--c-bg); outline: none;
+  transition: border-color .15s;
+}
+.search-input:focus { border-color: var(--c-brand); }
+.chips-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: var(--r-btn);
+  font-size: 12px; font-weight: 600;
+  border: 1.5px solid var(--c-border);
+  color: var(--c-text-2); background: var(--c-bg); cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  font-family: inherit;
+}
+.chip:hover { background: var(--c-surface); }
+.chip.active { background: var(--c-brand); border-color: var(--c-brand); color: white; }
+
+/* TABLE */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table thead th {
+  text-align: left; font-size: 10px; font-weight: 700;
+  color: var(--c-text-2); text-transform: uppercase; letter-spacing: .05em;
+  padding: 11px 14px; background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+}
+.data-table tbody td {
+  padding: 12px 14px; border-bottom: 1px solid var(--c-border);
+  color: var(--c-text); vertical-align: middle;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover { background: var(--c-surface); }
+.table-wrap { border-radius: var(--r-card); border: 1px solid var(--c-border); overflow: hidden; }
+
+/* MODAL PREVIEW */
+.modal-preview {
+  background: rgba(0,0,0,.45);
+  border-radius: var(--r-card);
+  padding: 20px;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 180px;
+}
+.modal-card {
+  background: var(--c-bg); border-radius: 20px; padding: 28px;
+  width: 100%; max-width: 440px; box-shadow: var(--shadow-l);
+}
+.modal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.modal-title { font-size: 16px; font-weight: 700; color: var(--c-text); }
+.modal-close {
+  width: 28px; height: 28px; border-radius: 50%; border: none;
+  background: var(--c-surface); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c-text-2);
+}
+.modal-close svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.modal-body { font-size: 13px; color: var(--c-text-2); line-height: 1.6; margin-bottom: 20px; }
+.modal-footer { display: flex; gap: 8px; justify-content: flex-end; }
+
+/* SIDEBAR PREVIEW */
+.sidebar-preview {
+  display: flex; border-radius: var(--r-card); overflow: hidden;
+  border: 1px solid var(--c-border); height: 260px;
+}
+.sidebar-mock {
+  width: 148px; flex-shrink: 0;
+  background: var(--c-bg); border-right: 1px solid var(--c-border);
+  padding: 16px 0; display: flex; flex-direction: column; gap: 4px;
+}
+.sidebar-mock-logo {
+  width: 32px; height: 32px; background: var(--c-brand); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;
+}
+.sidebar-mock-logo svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2; }
+.sidebar-mock-nav { padding: 0 8px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.nav-mock-item {
+  display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+  border-radius: 10px; color: var(--c-text-2); font-size: 11px; font-weight: 600;
+}
+.nav-mock-item svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; flex-shrink: 0; }
+.nav-mock-item.active { background: var(--c-brand-tint); color: var(--c-brand); }
+.nav-mock-item.active-info { background: var(--c-info-tint); color: var(--c-info); }
+.sidebar-mock-content { flex: 1; background: var(--c-surface); padding: 20px; }
+.sidebar-mock-content-label { font-size: 11px; color: var(--c-text-3); margin-bottom: 10px; }
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center; padding: 40px 24px; color: var(--c-text-2);
+}
+.empty-state-icon { width: 40px; height: 40px; margin: 0 auto 12px; color: var(--c-text-3); stroke: currentColor; fill: none; stroke-width: 1.5; }
+.empty-state-title { font-size: 14px; font-weight: 700; color: var(--c-text); margin-bottom: 6px; }
+.empty-state-body  { font-size: 13px; line-height: 1.6; }
+
+/* TOKEN REF TABLE */
+.token-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.token-table th {
+  text-align: left; padding: 9px 14px; background: var(--c-surface);
+  border-bottom: 2px solid var(--c-border);
+  font-size: 10px; font-weight: 700; color: var(--c-text-2);
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.token-table td { padding: 10px 14px; border-bottom: 1px solid var(--c-border); vertical-align: middle; }
+.token-table tbody tr:last-child td { border-bottom: none; }
+.token-table tbody tr:hover { background: var(--c-surface); }
+.token-name { font-family: 'Courier New', monospace; font-size: 11px; font-weight: 700; color: var(--c-text); }
+.token-val  { font-family: 'Courier New', monospace; font-size: 11px; color: var(--c-text-2); }
+.token-dot  { width: 18px; height: 18px; border-radius: 5px; display: inline-block; vertical-align: middle; border: 1px solid var(--c-border); }
+
+/* BADGE SPEC TABLE */
+.spec-label { font-size: 11px; color: var(--c-text-2); margin-top: 8px; }
+.badge-row  { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--c-border); }
+.badge-row:last-child { border-bottom: none; }
+.badge-row-meta { min-width: 180px; }
+.badge-row-class { font-family: 'Courier New', monospace; font-size: 10px; color: var(--c-text-3); margin-top: 2px; }
+
+/* INTRO HEADER */
+.ds-header {
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--c-border);
+}
+.ds-header-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--c-brand);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.ds-header-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 22px; height: 2px;
+  background: var(--c-brand); border-radius: 2px;
+}
+.ds-header h1 {
+  font-size: 36px; font-weight: 800; letter-spacing: -.03em;
+  color: var(--c-text); line-height: 1.1; text-wrap: balance;
+  margin-bottom: 12px;
+}
+.ds-header-desc {
+  font-size: 14px; color: var(--c-text-2); line-height: 1.7;
+  max-width: 540px;
+}
+.ds-header-meta {
+  display: flex; align-items: center; gap: 16px; margin-top: 20px;
+  flex-wrap: wrap;
+}
+.meta-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600;
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: 8px; padding: 5px 10px;
+  color: var(--c-text-2);
+}
+.meta-chip svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+</style>
+
+<div id="copied-toast" class="copied-toast">¡Copiado!</div>
+
+<!-- LEFT NAV -->
+<nav class="ds-nav" id="dsNav">
+  <div class="nav-brand">
+    <div class="nav-logo">
+      <div class="nav-logo-mark">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+      </div>
+      <div>
+        <div class="nav-logo-name">COMAPA Sur</div>
+        <div class="nav-logo-sub">Sistema MIR</div>
+      </div>
+    </div>
+    <span class="nav-version">Design System v1.0</span>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Fundamentos</div>
+    <a href="#colores" class="nav-link active" data-section="colores">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path stroke-linecap="round" d="M12 20a7 7 0 1 1 0-14"/></svg>
+      Colores
+    </a>
+    <a href="#tipografia" class="nav-link" data-section="tipografia">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16"/></svg>
+      Tipografía
+    </a>
+    <a href="#espaciado" class="nav-link" data-section="espaciado">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V6a2 2 0 0 1 2-2h2M4 16v2a2 2 0 0 0 2 2h2m8-16h2a2 2 0 0 1 2 2v2m-4 12h2a2 2 0 0 0 2-2v-2"/></svg>
+      Espaciado
+    </a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Componentes</div>
+    <a href="#botones" class="nav-link" data-section="botones">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="8" rx="4"/></svg>
+      Botones
+    </a>
+    <a href="#cards" class="nav-link" data-section="cards">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="3"/></svg>
+      Cards
+    </a>
+    <a href="#badges" class="nav-link" data-section="badges">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+      Badges
+    </a>
+    <a href="#formularios" class="nav-link" data-section="formularios">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Z"/></svg>
+      Formularios
+    </a>
+    <a href="#tablas" class="nav-link" data-section="tablas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125h-1.5m2.625-13.125c0-.621-.504-1.125-1.125-1.125H4.5A1.125 1.125 0 0 0 3.375 5.625m18.75 0v1.5c0 .621-.504 1.125-1.125 1.125h-2.25m-15 0h2.25m12.75 0H6.375m12.75 0h1.5"/></svg>
+      Tablas
+    </a>
+    <a href="#modales" class="nav-link" data-section="modales">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 7.5A2.25 2.25 0 0 1 7.5 5.25h9a2.25 2.25 0 0 1 2.25 2.25v9a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-9Z"/></svg>
+      Modales
+    </a>
+    <a href="#navegacion" class="nav-link" data-section="navegacion">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"/></svg>
+      Navegación
+    </a>
+    <a href="#estados" class="nav-link" data-section="estados">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg>
+      Estados vacíos
+    </a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Referencia</div>
+    <a href="#tokens" class="nav-link" data-section="tokens">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"/></svg>
+      Tokens completos
+    </a>
+  </div>
+
+  <div class="nav-footer">
+    <div class="theme-toggle">
+      <span>Tema</span>
+      <div class="theme-btns">
+        <button class="theme-btn" id="themeLight" title="Claro">☀️</button>
+        <button class="theme-btn active" id="themeAuto"  title="Sistema">⚙️</button>
+        <button class="theme-btn" id="themeDark"  title="Oscuro">🌙</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="ds-main">
+
+  <!-- HEADER -->
+  <div class="ds-header" id="header">
+    <div class="ds-header-eyebrow">Design System</div>
+    <h1>COMAPA Sur · MIR</h1>
+    <p class="ds-header-desc">
+      Documento canónico de componentes, tokens y patrones visuales del Sistema MIR.
+      Toda pantalla nueva y todo componente modificado debe replicar exactamente las especificaciones aquí definidas.
+    </p>
+    <div class="ds-header-meta">
+      <span class="meta-chip">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+        Actualizado sep 2026
+      </span>
+      <span class="meta-chip">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+        shared.css · v1.0
+      </span>
+      <span class="meta-chip">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"/></svg>
+        Plus Jakarta Sans
+      </span>
+    </div>
+  </div>
+
+  <!-- ── COLORES ───────────────────────────────────── -->
+  <section class="ds-section" id="colores">
+    <div class="ds-section-eyebrow">Fundamentos</div>
+    <h2 class="ds-section-title">Colores</h2>
+    <p class="ds-section-desc">Toda decisión de color pasa por estas variables. Nunca uses valores hex hardcodeados fuera del bloque <code>:root</code>. Haz clic en cualquier swatch para copiar el valor hex.</p>
+
+    <div class="subsection">
+      <div class="subsection-title">Marca y semánticos</div>
+      <div class="color-grid">
+        <div class="color-swatch" onclick="copyColor('#8B1D3A')"><div class="swatch-block" style="background:#8B1D3A"></div><div class="swatch-info"><div class="swatch-name">Primary</div><div class="swatch-hex">#8B1D3A</div><div class="swatch-var">--color-primary</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#6B1630')"><div class="swatch-block" style="background:#6B1630"></div><div class="swatch-info"><div class="swatch-name">Accent Dark</div><div class="swatch-hex">#6B1630</div><div class="swatch-var">--color-accent-dark</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#F5E8EC')"><div class="swatch-block" style="background:#F5E8EC"></div><div class="swatch-info"><div class="swatch-name">Primary Tint</div><div class="swatch-hex">#F5E8EC</div><div class="swatch-var">--color-primary-tint</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#EF4444')"><div class="swatch-block" style="background:#EF4444"></div><div class="swatch-info"><div class="swatch-name">Danger</div><div class="swatch-hex">#EF4444</div><div class="swatch-var">--color-danger</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#F59E0B')"><div class="swatch-block" style="background:#F59E0B"></div><div class="swatch-info"><div class="swatch-name">Warning</div><div class="swatch-hex">#F59E0B</div><div class="swatch-var">--color-warning</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#22C55E')"><div class="swatch-block" style="background:#22C55E"></div><div class="swatch-info"><div class="swatch-name">Success</div><div class="swatch-hex">#22C55E</div><div class="swatch-var">--color-success</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#3B82F6')"><div class="swatch-block" style="background:#3B82F6"></div><div class="swatch-info"><div class="swatch-name">Info (Revisor)</div><div class="swatch-hex">#3B82F6</div><div class="swatch-var">--color-info</div></div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Superficies y texto</div>
+      <div class="color-grid">
+        <div class="color-swatch" onclick="copyColor('#FFFFFF')"><div class="swatch-block" style="background:#FFFFFF;border-bottom:1px solid #E5E7EB"></div><div class="swatch-info"><div class="swatch-name">Background</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-var">--color-bg</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#F7F7F7')"><div class="swatch-block" style="background:#F7F7F7"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#F7F7F7</div><div class="swatch-var">--color-surface</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#E5E7EB')"><div class="swatch-block" style="background:#E5E7EB"></div><div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#E5E7EB</div><div class="swatch-var">--color-border</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#111827')"><div class="swatch-block" style="background:#111827"></div><div class="swatch-info"><div class="swatch-name">Text Primary</div><div class="swatch-hex">#111827</div><div class="swatch-var">--color-text-primary</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#6B7280')"><div class="swatch-block" style="background:#6B7280"></div><div class="swatch-info"><div class="swatch-name">Text Secondary</div><div class="swatch-hex">#6B7280</div><div class="swatch-var">--color-text-secondary</div></div></div>
+        <div class="color-swatch" onclick="copyColor('#9CA3AF')"><div class="swatch-block" style="background:#9CA3AF"></div><div class="swatch-info"><div class="swatch-name">Text Muted</div><div class="swatch-hex">#9CA3AF</div><div class="swatch-var">--color-text-muted</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TIPOGRAFÍA ────────────────────────────────── -->
+  <section class="ds-section" id="tipografia">
+    <div class="ds-section-eyebrow">Fundamentos</div>
+    <h2 class="ds-section-title">Tipografía</h2>
+    <p class="ds-section-desc">Una sola fuente, Plus Jakarta Sans, con escala de tamaños y pesos definida. Todos los componentes usan <code>font-family: var(--font-family)</code>. Nombres de tokens y valores técnicos en <code>monospace</code> del sistema.</p>
+
+    <div class="preview col" style="padding: 0;">
+      <div class="type-row">
+        <div class="type-meta"><div class="type-meta-role">Título de página</div><div class="type-meta-spec">22px / 700 / .page-title</div></div>
+        <div class="type-specimen" style="font-size:22px;font-weight:700;letter-spacing:-.01em">Dashboard de indicadores</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-meta-role">Encabezado de sección</div><div class="type-meta-spec">16px / 700 / .modal-title</div></div>
+        <div class="type-specimen" style="font-size:16px;font-weight:700">Emitir observación</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-meta-role">Cuerpo estándar</div><div class="type-meta-spec">13px / 400 / body</div></div>
+        <div class="type-specimen" style="font-size:13px;font-weight:400">El indicador fue enviado a revisión el día 15 de agosto. El revisor tiene 5 días hábiles para emitir su respuesta.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-meta-role">Etiqueta / caption</div><div class="type-meta-spec">11px / 600 / .nav-label</div></div>
+        <div class="type-specimen" style="font-size:11px;font-weight:600;color:#6B7280">Mis actividades</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-meta-role">Section label</div><div class="type-meta-spec">11px / 600 / uppercase / .section-label</div></div>
+        <div class="type-specimen" style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#6B7280">Indicadores pendientes</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-meta-role">Badge / estado</div><div class="type-meta-spec">10px / 700 / uppercase / .estado-badge</div></div>
+        <div class="type-specimen" style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em">Enviado a revisión</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-meta-role">KPI numérico</div><div class="type-meta-spec">30px / 700 / .kpi-value</div></div>
+        <div class="type-specimen" style="font-size:30px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums">24</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><div class="type-meta-role">Tabla encabezado</div><div class="type-meta-spec">10px / 700 / uppercase / thead th</div></div>
+        <div class="type-specimen" style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6B7280">Código · Nombre · Estado</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ESPACIADO ─────────────────────────────────── -->
+  <section class="ds-section" id="espaciado">
+    <div class="ds-section-eyebrow">Fundamentos</div>
+    <h2 class="ds-section-title">Espaciado y radios</h2>
+    <p class="ds-section-desc">Escala de espaciado. Usar múltiplos de 4px. Radios definidos por token.</p>
+
+    <div class="preview col" style="padding:0;">
+      <div class="spacing-row"><div class="spacing-label">4px</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:4px;height:14px"></div></div><div class="spacing-desc">Gap mínimo entre elementos inline</div></div>
+      <div class="spacing-row"><div class="spacing-label">8px</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:8px"></div></div><div class="spacing-desc">Gap en filas de nav, iconos con labels</div></div>
+      <div class="spacing-row"><div class="spacing-label">12px</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:12px"></div></div><div class="spacing-desc">Margin entre section-label y contenido</div></div>
+      <div class="spacing-row"><div class="spacing-label">16px</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:16px"></div></div><div class="spacing-desc"><strong>--gap</strong> · Gap de cuadrícula, padding de sección</div></div>
+      <div class="spacing-row"><div class="spacing-label">20px</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:20px"></div></div><div class="spacing-desc"><strong>--pad-card</strong> · Padding interno de cards y section-cards</div></div>
+      <div class="spacing-row"><div class="spacing-label">24px</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:24px"></div></div><div class="spacing-desc">Padding de .main-content · Padding de .modal-card</div></div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div class="subsection-title" style="margin-bottom:12px">Radios</div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
+        <div style="text-align:center">
+          <div style="width:56px;height:56px;background:var(--c-brand);border-radius:6px;margin:0 auto 6px"></div>
+          <div style="font-size:10px;font-weight:700;color:var(--c-text)">6px</div>
+          <div style="font-size:9px;color:var(--c-text-3)">btn-chip</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:56px;height:56px;background:var(--c-brand);border-radius:8px;margin:0 auto 6px"></div>
+          <div style="font-size:10px;font-weight:700;color:var(--c-text)">8px</div>
+          <div style="font-size:9px;color:var(--c-text-3)">nav-item, tags</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:56px;height:56px;background:var(--c-brand);border-radius:10px;margin:0 auto 6px"></div>
+          <div style="font-size:10px;font-weight:700;color:var(--c-text)">10px</div>
+          <div style="font-size:9px;color:var(--c-text-3)">--radius-input</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:56px;height:56px;background:var(--c-brand);border-radius:16px;margin:0 auto 6px"></div>
+          <div style="font-size:10px;font-weight:700;color:var(--c-text)">16px</div>
+          <div style="font-size:9px;color:var(--c-text-3)">--radius-card</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:56px;height:56px;background:var(--c-brand);border-radius:20px;margin:0 auto 6px"></div>
+          <div style="font-size:10px;font-weight:700;color:var(--c-text)">20px</div>
+          <div style="font-size:9px;color:var(--c-text-3)">modales</div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:80px;height:40px;background:var(--c-brand);border-radius:999px;margin:0 auto 6px"></div>
+          <div style="font-size:10px;font-weight:700;color:var(--c-text)">999px</div>
+          <div style="font-size:9px;color:var(--c-text-3)">--radius-btn, badges</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BOTONES ───────────────────────────────────── -->
+  <section class="ds-section" id="botones">
+    <div class="ds-section-eyebrow">Componentes</div>
+    <h2 class="ds-section-title">Botones</h2>
+    <p class="ds-section-desc">4 variantes semánticas × 3 tamaños. Clase base <code>.btn</code> requerida siempre. El botón deshabilitado usa <code>:disabled</code> — nunca opacidad manual.</p>
+
+    <div class="subsection">
+      <div class="subsection-title">Variantes — tamaño default</div>
+      <div class="preview">
+        <button class="btn btn-primary">Enviar a revisión</button>
+        <button class="btn btn-secondary">Guardar borrador</button>
+        <button class="btn btn-ghost">Cancelar</button>
+        <button class="btn btn-danger">Rechazar</button>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Tamaños</div>
+      <div class="preview" style="align-items:center">
+        <button class="btn btn-primary btn-sm">Pequeño</button>
+        <button class="btn btn-primary">Default</button>
+        <button class="btn btn-primary btn-lg">Grande</button>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Con ícono</div>
+      <div class="preview">
+        <button class="btn btn-primary">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+          Enviar
+        </button>
+        <button class="btn btn-secondary">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          Agregar
+        </button>
+        <button class="btn btn-ghost">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"/></svg>
+          Filtrar
+        </button>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Deshabilitado</div>
+      <div class="preview">
+        <button class="btn btn-primary" disabled>Enviar</button>
+        <button class="btn btn-secondary" disabled>Guardar</button>
+        <button class="btn btn-ghost" disabled>Cancelar</button>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Chip buttons — acciones inline en tablas y listados</div>
+      <div class="preview">
+        <button class="btn-chip">Ver detalle</button>
+        <button class="btn-chip warning">Observado</button>
+        <button class="btn-chip info">En revisión</button>
+      </div>
+      <div class="token-pill">.btn-chip</div>
+      <div class="token-pill">.btn-chip.warning</div>
+      <div class="token-pill">.btn-chip.info</div>
+    </div>
+  </section>
+
+  <!-- ── CARDS ─────────────────────────────────────── -->
+  <section class="ds-section" id="cards">
+    <div class="ds-section-eyebrow">Componentes</div>
+    <h2 class="ds-section-title">Cards</h2>
+    <p class="ds-section-desc">Tres tipos de contenedor. <strong>kpi-card</strong> para métricas. <strong>section-card</strong> para bloques con encabezado y cuerpo. <strong>card</strong> para contenido genérico.</p>
+
+    <div class="subsection">
+      <div class="subsection-title">KPI Card</div>
+      <div class="preview">
+        <div class="kpi-card" style="min-width:140px">
+          <div class="kpi-label">Pendientes</div>
+          <div class="kpi-value">18</div>
+        </div>
+        <div class="kpi-card" style="min-width:140px">
+          <div class="kpi-label">En revisión</div>
+          <div class="kpi-value" style="color:#3B82F6">7</div>
+        </div>
+        <div class="kpi-card" style="min-width:140px">
+          <div class="kpi-label">Observados</div>
+          <div class="kpi-value" style="color:#F59E0B">3</div>
+        </div>
+        <div class="kpi-card" style="min-width:140px">
+          <div class="kpi-label">Aprobados</div>
+          <div class="kpi-value" style="color:#22C55E">94</div>
+        </div>
+      </div>
+      <div class="token-pill">.kpi-card</div>
+      <div class="token-pill">.kpi-label</div>
+      <div class="token-pill">.kpi-value</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Section Card</div>
+      <div class="preview col">
+        <div class="section-card" style="max-width:460px">
+          <div class="sc-header">
+            <div class="sc-title">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#374151" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
+              Indicadores pendientes de revisión
+            </div>
+            <button class="btn btn-primary btn-sm">Ver todos</button>
+          </div>
+          <div class="sc-body" style="font-size:13px;color:#6B7280">
+            Tienes <strong style="color:#111827">7 indicadores</strong> esperando tu revisión en Gerencia Comercial.
+          </div>
+        </div>
+      </div>
+      <div class="token-pill">.section-card</div>
+      <div class="token-pill">.sc-header</div>
+      <div class="token-pill">.sc-title</div>
+      <div class="token-pill">.sc-body</div>
+    </div>
+  </section>
+
+  <!-- ── BADGES ────────────────────────────────────── -->
+  <section class="ds-section" id="badges">
+    <div class="ds-section-eyebrow">Componentes</div>
+    <h2 class="ds-section-title">Badges de estado y nivel</h2>
+    <p class="ds-section-desc">
+      Spec canónica única: <strong>10px / 700 / padding 3px 9px / dot ::before 5×5px</strong>.
+      No existe otra variante. Si un badge aparece con tamaño, peso o padding distintos en alguna pantalla, es un error que debe corregirse con este spec.
+    </p>
+
+    <div class="subsection">
+      <div class="subsection-title">Estados del indicador — flujo completo</div>
+      <div class="preview col">
+        <div class="badge-row">
+          <div class="badge-row-meta">
+            <span class="estado-badge borrador">Borrador</span>
+            <div class="badge-row-class">.estado-badge.borrador</div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;flex:1">Indicador registrado, sin acción del Enlace</div>
+        </div>
+        <div class="badge-row">
+          <div class="badge-row-meta">
+            <span class="estado-badge pendiente">Pendiente de carga</span>
+            <div class="badge-row-class">.estado-badge.pendiente</div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;flex:1">Asignado, esperando evidencia del Enlace</div>
+        </div>
+        <div class="badge-row">
+          <div class="badge-row-meta">
+            <span class="estado-badge enviado">Enviado a revisión</span>
+            <div class="badge-row-class">.estado-badge.enviado</div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;flex:1">Enlace envió evidencia, en bandeja del Revisor</div>
+        </div>
+        <div class="badge-row">
+          <div class="badge-row-meta">
+            <span class="estado-badge observado">Observado</span>
+            <div class="badge-row-class">.estado-badge.observado</div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;flex:1">Revisor devolvió con observación escrita</div>
+        </div>
+        <div class="badge-row">
+          <div class="badge-row-meta">
+            <span class="estado-badge corregido">Corregido</span>
+            <div class="badge-row-class">.estado-badge.corregido</div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;flex:1">Enlace corrigió y re-envió al Revisor</div>
+        </div>
+        <div class="badge-row">
+          <div class="badge-row-meta">
+            <span class="estado-badge listo">Listo para validar</span>
+            <div class="badge-row-class">.estado-badge.listo</div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;flex:1">Revisor aprobó, espera al Administrador</div>
+        </div>
+        <div class="badge-row">
+          <div class="badge-row-meta">
+            <span class="estado-badge cerrado">Cerrado</span>
+            <div class="badge-row-class">.estado-badge.cerrado</div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;flex:1">Administrador validó. Estado final.</div>
+        </div>
+        <div class="badge-row">
+          <div class="badge-row-meta">
+            <span class="estado-badge vencido">Vencido</span>
+            <div class="badge-row-class">.estado-badge.vencido</div>
+          </div>
+          <div style="font-size:12px;color:#6B7280;flex:1">Fecha límite superada sin evidencia aprobada</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Niveles MIR</div>
+      <div class="preview">
+        <div>
+          <span class="nivel-badge fin">Fin</span>
+          <div class="token-pill">.nivel-badge.fin</div>
+        </div>
+        <div>
+          <span class="nivel-badge proposito">Propósito</span>
+          <div class="token-pill">.nivel-badge.proposito</div>
+        </div>
+        <div>
+          <span class="nivel-badge componente">Componente</span>
+          <div class="token-pill">.nivel-badge.componente</div>
+        </div>
+        <div>
+          <span class="nivel-badge actividad">Actividad</span>
+          <div class="token-pill">.nivel-badge.actividad</div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--c-text-2);margin-top:8px;">Los niveles MIR usan <code>border-radius: 6px</code> (rectangular), no pill, para diferenciarse visualmente de los badges de estado.</p>
+    </div>
+  </section>
+
+  <!-- ── FORMULARIOS ───────────────────────────────── -->
+  <section class="ds-section" id="formularios">
+    <div class="ds-section-eyebrow">Componentes</div>
+    <h2 class="ds-section-title">Formularios</h2>
+    <p class="ds-section-desc">Todos los inputs usan border 1.5px, radius 10px, foco con acento primario (maroon). El borde de error es <code>--color-danger</code>.</p>
+
+    <div class="subsection">
+      <div class="subsection-title">Inputs de texto</div>
+      <div class="preview col" style="max-width:400px">
+        <div class="form-group">
+          <label class="form-label">Meta anual <span style="color:#EF4444">*</span></label>
+          <input class="form-input" type="number" placeholder="Ej. 95.5">
+          <span class="form-hint">Ingresa el valor numérico de la meta para este ejercicio.</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Observación del Revisor</label>
+          <textarea class="form-textarea" placeholder="Describe qué debe corregir el Enlace…"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Avance reportado</label>
+          <input class="form-input error" type="text" value="abc">
+          <span class="form-error">El avance debe ser un número positivo.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Búsqueda y filtros (chips)</div>
+      <div class="preview col">
+        <div class="search-wrap" style="max-width:320px">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+          <input class="search-input" type="text" placeholder="Buscar indicador...">
+        </div>
+        <div class="chips-row">
+          <button class="chip active">Todos</button>
+          <button class="chip">Pendientes</button>
+          <button class="chip">En revisión</button>
+          <button class="chip">Observados</button>
+          <button class="chip">Aprobados</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TABLAS ─────────────────────────────────────── -->
+  <section class="ds-section" id="tablas">
+    <div class="ds-section-eyebrow">Componentes</div>
+    <h2 class="ds-section-title">Tablas</h2>
+    <p class="ds-section-desc">Clase única <code>.data-table</code> dentro de un <code>.table-wrap</code>. El <code>thead</code> usa <code>background: var(--color-surface)</code>, nunca <code>#FAFAFA</code> hardcodeado. El hover de fila también usa <code>var(--color-surface)</code>.</p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Indicador</th>
+            <th>Nivel</th>
+            <th>Estado</th>
+            <th>Fecha límite</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family:monospace;font-size:11px;font-weight:700;color:#8B1D3A">PLA-ACT-47</td>
+            <td style="font-weight:600;max-width:220px">Eficiencia comercial en cobro de facturación</td>
+            <td><span class="nivel-badge actividad">Actividad</span></td>
+            <td><span class="estado-badge enviado">Enviado a revisión</span></td>
+            <td style="font-size:12px;color:#6B7280">31 ago 2026</td>
+            <td><button class="btn-chip">Revisar</button></td>
+          </tr>
+          <tr>
+            <td style="font-family:monospace;font-size:11px;font-weight:700;color:#8B1D3A">PLA-COMP-12</td>
+            <td style="font-weight:600;max-width:220px">Cobertura de agua potable por zona</td>
+            <td><span class="nivel-badge componente">Componente</span></td>
+            <td><span class="estado-badge observado">Observado</span></td>
+            <td style="font-size:12px;color:#EF4444;font-weight:700">28 ago 2026</td>
+            <td><button class="btn-chip warning">Corregir</button></td>
+          </tr>
+          <tr>
+            <td style="font-family:monospace;font-size:11px;font-weight:700;color:#8B1D3A">PLA-PROP-05</td>
+            <td style="font-weight:600;max-width:220px">Satisfacción ciudadana con el servicio</td>
+            <td><span class="nivel-badge proposito">Propósito</span></td>
+            <td><span class="estado-badge listo">Listo para validar</span></td>
+            <td style="font-size:12px;color:#6B7280">15 sep 2026</td>
+            <td><button class="btn-chip info">Ver</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── MODALES ────────────────────────────────────── -->
+  <section class="ds-section" id="modales">
+    <div class="ds-section-eyebrow">Componentes</div>
+    <h2 class="ds-section-title">Modales</h2>
+    <p class="ds-section-desc">
+      Overlay: <code>rgba(0,0,0,.45)</code> + <code>backdrop-filter: blur(4px)</code>. Modal card: <code>border-radius: 20px</code>, <code>padding: 28px</code>, <code>max-width: 520px</code>. Los botones del footer usan las clases estándar de <code>.btn</code>.
+    </p>
+
+    <div class="modal-preview">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">Emitir observación</div>
+          <button class="modal-close"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg></button>
+        </div>
+        <div class="modal-body">
+          Escribe la observación específica que el Enlace debe atender antes de que el indicador pueda ser aprobado.
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <textarea class="form-textarea" placeholder="Describe qué debe corregir el Enlace…" style="min-height:72px"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost btn-sm">Cancelar</button>
+          <button class="btn btn-primary btn-sm">Confirmar observación</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NAVEGACIÓN ────────────────────────────────── -->
+  <section class="ds-section" id="navegacion">
+    <div class="ds-section-eyebrow">Componentes</div>
+    <h2 class="ds-section-title">Navegación lateral</h2>
+    <p class="ds-section-desc">
+      El sidebar es idéntico en estructura y estilos en todas las páginas. La única diferencia semántica es el color del ítem activo: <strong>maroon</strong> para Enlace/Administrador, <strong>azul (--color-info)</strong> para Revisor. Se implementa con la clase <code>.sidebar--revisor</code> en el elemento <code>.sidebar</code>.
+    </p>
+
+    <div class="preview" style="gap:24px;align-items:flex-start">
+      <div>
+        <div class="subsection-title" style="margin-bottom:10px">Enlace / Administrador</div>
+        <div class="sidebar-preview" style="width:200px;height:240px">
+          <div class="sidebar-mock">
+            <div class="sidebar-mock-logo">
+              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+            </div>
+            <div class="sidebar-mock-nav">
+              <div class="nav-mock-item active">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
+                Inicio
+              </div>
+              <div class="nav-mock-item">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08C17.403 4.21 18 4.973 18 5.574V5.25h.75v-1.5H18V2.25h-.75v1.5z"/></svg>
+                Actividades
+              </div>
+              <div class="nav-mock-item">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"/></svg>
+                Planeación
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="token-pill" style="margin-top:8px">.sidebar</div>
+        <div class="token-pill">.nav-item.active → maroon</div>
+      </div>
+
+      <div>
+        <div class="subsection-title" style="margin-bottom:10px">Revisor</div>
+        <div class="sidebar-preview" style="width:200px;height:240px">
+          <div class="sidebar-mock">
+            <div class="sidebar-mock-logo">
+              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+            </div>
+            <div class="sidebar-mock-nav">
+              <div class="nav-mock-item active-info">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
+                Inicio
+              </div>
+              <div class="nav-mock-item">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z"/></svg>
+                Bandeja
+              </div>
+              <div class="nav-mock-item">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"/></svg>
+                Planeación
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="token-pill" style="margin-top:8px">.sidebar.sidebar--revisor</div>
+        <div class="token-pill">.nav-item.active → --color-info</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ESTADOS VACÍOS ─────────────────────────────── -->
+  <section class="ds-section" id="estados">
+    <div class="ds-section-eyebrow">Componentes</div>
+    <h2 class="ds-section-title">Estados vacíos</h2>
+    <p class="ds-section-desc">Todo listado o tabla que pueda estar vacío debe mostrar un estado vacío contextual — nunca la lista en blanco. El mensaje explica por qué está vacío y qué hacer.</p>
+
+    <div class="preview center" style="min-height:180px">
+      <div class="empty-state">
+        <svg class="empty-state-icon" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
+        </svg>
+        <div class="empty-state-title">No tienes indicadores pendientes</div>
+        <div class="empty-state-body">Todos tus indicadores del periodo actual han sido enviados a revisión. Espera la respuesta del Revisor.</div>
+      </div>
+    </div>
+    <div class="token-pill">.empty-state</div>
+    <div class="token-pill">.empty-state-icon</div>
+    <div class="token-pill">.empty-state-title</div>
+    <div class="token-pill">.empty-state-body</div>
+  </section>
+
+  <!-- ── TOKENS COMPLETOS ───────────────────────────── -->
+  <section class="ds-section" id="tokens">
+    <div class="ds-section-eyebrow">Referencia</div>
+    <h2 class="ds-section-title">Tokens completos</h2>
+    <p class="ds-section-desc">Referencia completa de todas las variables CSS definidas en <code>shared.css</code>. Estas variables deben estar presentes en el bloque <code>:root</code> de cada archivo HTML del proyecto.</p>
+
+    <div class="table-wrap">
+      <table class="token-table">
+        <thead>
+          <tr><th>Variable</th><th>Valor</th><th>Vista previa</th><th>Uso</th></tr>
+        </thead>
+        <tbody id="tokenTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const TOKENS = [
+  { name: '--color-primary',        val: '#8B1D3A', type:'color', uso: 'Logo, botón primario, ítem activo Enlace/Admin' },
+  { name: '--color-accent',         val: '#8B1D3A', type:'color', uso: 'Alias de primary para botones' },
+  { name: '--color-accent-dark',    val: '#6B1630', type:'color', uso: 'Hover de botón primario' },
+  { name: '--color-danger',         val: '#EF4444', type:'color', uso: 'Error, vencido, botón danger' },
+  { name: '--color-warning',        val: '#F59E0B', type:'color', uso: 'Pendiente, alertas de fecha' },
+  { name: '--color-success',        val: '#22C55E', type:'color', uso: 'Aprobado, listo para validar' },
+  { name: '--color-info',           val: '#3B82F6', type:'color', uso: 'Enviado a revisión, acento Revisor' },
+  { name: '--color-primary-tint',   val: '#F5E8EC', type:'color', uso: 'Fondo de ítem activo Enlace' },
+  { name: '--color-info-tint',      val: '#EFF6FF', type:'color', uso: 'Fondo de ítem activo Revisor, badge enviado' },
+  { name: '--color-warning-tint',   val: '#FFFBEB', type:'color', uso: 'Fondo badge pendiente' },
+  { name: '--color-success-tint',   val: '#F0FDF4', type:'color', uso: 'Fondo badge listo/cerrado' },
+  { name: '--color-danger-tint',    val: '#FEF2F2', type:'color', uso: 'Fondo badge vencido/error' },
+  { name: '--color-bg',             val: '#FFFFFF', type:'color', uso: 'Fondo de cards, sidebar, inputs' },
+  { name: '--color-surface',        val: '#F7F7F7', type:'color', uso: 'Fondo de la app, thead de tablas' },
+  { name: '--color-border',         val: '#E5E7EB', type:'color', uso: 'Bordes de cards, inputs, divisores' },
+  { name: '--color-text-primary',   val: '#111827', type:'color', uso: 'Texto principal' },
+  { name: '--color-text-secondary', val: '#6B7280', type:'color', uso: 'Subtítulos, labels, hints' },
+  { name: '--color-text-muted',     val: '#9CA3AF', type:'color', uso: 'Iconos, texto terciario' },
+  { name: '--color-avatar-bg',      val: '#9CA3AF', type:'color', uso: 'Avatar Enlace/Admin (Revisor usa --color-info)' },
+  { name: '--color-link',           val: '#6B7280', type:'color', uso: 'Links de nav no activos' },
+  { name: '--radius-card',          val: '16px',    type:'text',  uso: 'Border-radius de todas las cards' },
+  { name: '--radius-btn',           val: '999px',   type:'text',  uso: 'Border-radius de botones y badges' },
+  { name: '--radius-input',         val: '10px',    type:'text',  uso: 'Border-radius de inputs y textareas' },
+  { name: '--radius-badge',         val: '999px',   type:'text',  uso: 'Border-radius de estado-badge' },
+  { name: '--pad-card',             val: '20px',    type:'text',  uso: 'Padding de KPI card y section-card' },
+  { name: '--gap',                  val: '16px',    type:'text',  uso: 'Gap de cuadrícula de cards' },
+  { name: '--font-family',          val: "'Plus Jakarta Sans'", type:'text', uso: 'Fuente base de toda la plataforma' },
+];
+
+const tbody = document.getElementById('tokenTableBody');
+TOKENS.forEach(t => {
+  const row = document.createElement('tr');
+  const preview = t.type === 'color'
+    ? `<span class="token-dot" style="background:${t.val}"></span>`
+    : `<span style="font-family:monospace;font-size:11px;color:#6B7280">${t.val}</span>`;
+  row.innerHTML = `
+    <td><span class="token-name">${t.name}</span></td>
+    <td><span class="token-val">${t.val}</span></td>
+    <td>${preview}</td>
+    <td style="font-size:11px;color:#6B7280">${t.uso}</td>`;
+  tbody.appendChild(row);
+});
+
+// Copy color on click
+function copyColor(hex) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const t = document.getElementById('copied-toast');
+  t.textContent = `¡Copiado ${hex}!`;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// Theme toggle
+const root = document.documentElement;
+document.getElementById('themeLight').onclick = () => {
+  root.setAttribute('data-theme', 'light');
+  setActiveThemeBtn('themeLight');
+};
+document.getElementById('themeAuto').onclick = () => {
+  root.removeAttribute('data-theme');
+  setActiveThemeBtn('themeAuto');
+};
+document.getElementById('themeDark').onclick = () => {
+  root.setAttribute('data-theme', 'dark');
+  setActiveThemeBtn('themeDark');
+};
+function setActiveThemeBtn(id) {
+  ['themeLight','themeAuto','themeDark'].forEach(b => {
+    document.getElementById(b).classList.toggle('active', b === id);
+  });
+}
+
+// Scroll-spy
+const sections = document.querySelectorAll('.ds-section[id]');
+const navLinks  = document.querySelectorAll('.nav-link[data-section]');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === e.target.id));
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(s => obs.observe(s));
+</script>

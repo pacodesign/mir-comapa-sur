@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validación de avance — Admin · MIR COMAPA Sur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="session.js"></script>
+  <script src="mir-actividades-data.js"></script>
+  <script src="validacion-admin-store.js"></script>
+  <style>
+    :root {
+      --color-primary: #8B1D3A;
+      --color-accent-dark: #6B1630;
+      --color-bg: #FFFFFF;
+      --color-surface: #F7F7F7;
+      --color-border: #E5E7EB;
+      --color-text-primary: #111827;
+      --color-text-secondary: #6B7280;
+      --radius-card: 16px;
+      --radius-btn: 999px;
+      --pad-card: 20px;
+      --gap: 16px;
+      --color-danger:          #EF4444;
+      --color-warning:         #F59E0B;
+      --color-success:         #22C55E;
+      --color-info:            #3B82F6;
+      --color-link:            #6B7280;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { width:148px; background:var(--color-bg); border-right:1px solid var(--color-border); display:flex; flex-direction:column; align-items:stretch; padding:16px 0; gap:4px; position:fixed; top:0; left:0; height:100vh; z-index:100; }
+    .sidebar-logo { width:36px; height:36px; background:var(--color-primary); border-radius:10px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }
+    .sidebar-logo svg { width:18px; height:18px; stroke:white; }
+    .sidebar-nav { display:flex; flex-direction:column; gap:2px; flex:1; align-items:stretch; padding:0 8px; }
+    .nav-item { width:100%; height:auto; padding:7px 10px; border-radius:12px; display:flex; align-items:center; flex-direction:row; gap:8px; cursor:pointer; color:var(--color-text-secondary); transition:background .15s,color .15s; text-decoration:none; }
+    .nav-item:hover { background:var(--color-surface); }
+    .nav-item.active { background:#F5E8EC; color:var(--color-primary); }
+    .nav-item svg { width:20px; height:20px; flex-shrink:0; }
+    .nav-label { font-size:11px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .sidebar-bottom { display:flex; flex-direction:column; align-items:center; gap:8px; padding:0 8px; }
+    .avatar-xs { width:32px; height:32px; border-radius:50%; background:var(--color-primary); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:white; cursor:pointer; }
+
+    /* ── LAYOUT ── */
+    .app-wrapper { display:flex; flex:1; margin-left:148px; }
+    .main-content { flex:1; padding:24px; min-width:0; max-width:1200px; }
+
+    /* ── PAGE HEADER ── */
+    .page-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:16px; }
+    .page-title { font-size:22px; font-weight:700; line-height:1.3; }
+
+    /* ── PERIOD DROPDOWN ── */
+    .period-dropdown { position:relative; width:100%; margin-bottom:16px; }
+    .period-trigger {
+      width:100%; display:flex; align-items:center; gap:8px;
+      background:var(--color-bg); border:1px solid var(--color-border);
+      border-radius:var(--radius-btn); padding:10px 14px 10px 16px;
+      font-family:inherit; font-size:14px; font-weight:700; color:var(--color-text-primary);
+      cursor:pointer; text-align:left; transition:border-color .15s;
+    }
+    .period-trigger:hover { border-color:var(--color-text-secondary); }
+    .period-trigger.open { border-color:var(--color-primary); }
+    .period-trigger-label { flex:1; }
+    .period-demo-tag { font-size:10px; font-weight:600; padding:2px 8px; border-radius:var(--radius-btn); background:#FEF3C7; color:#92400E; }
+    .period-chevron { width:16px; height:16px; flex-shrink:0; transition:transform .2s; }
+    .period-trigger.open .period-chevron { transform:rotate(180deg); }
+    .period-panel {
+      position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:200;
+      background:var(--color-bg); border:1px solid var(--color-border);
+      border-radius:16px; padding:6px; max-height:220px; overflow-y:auto;
+      box-shadow:0 8px 24px rgba(0,0,0,0.08); display:none;
+    }
+    .period-panel.open { display:block; }
+    .period-option {
+      display:flex; align-items:center; gap:8px;
+      padding:8px 12px; border-radius:10px;
+      font-size:13px; font-weight:500; cursor:pointer;
+      transition:background .12s; color:var(--color-text-primary);
+    }
+    .period-option:hover { background:var(--color-surface); }
+    .period-option.selected { background:#F5E8EC; color:var(--color-primary); font-weight:600; }
+    .period-option-demo { font-size:10px; font-weight:600; padding:2px 7px; border-radius:var(--radius-btn); background:#FEF3C7; color:#92400E; margin-left:auto; }
+
+    /* ── DASHBOARD TWO-COLUMN LAYOUT ── */
+    .dashboard-layout { display:flex; gap:20px; align-items:flex-start; }
+    .kpi-col { width:30%; flex-shrink:0; display:flex; flex-direction:column; }
+    .gerencias-col { flex:1; min-width:0; }
+
+    /* ── KPI STRIP ── */
+    .kpi-strip { display:flex; flex-direction:column; gap:10px; }
+    .kpi-card { background:var(--color-bg); border-radius:var(--radius-card); padding:16px 18px; }
+    .kpi-label { font-size:10px; font-weight:600; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px; }
+    .kpi-value { font-size:28px; font-weight:700; line-height:1; margin-bottom:3px; }
+    .kpi-sub { font-size:11px; color:var(--color-text-secondary); }
+    .kpi-value.green  { color:#16A34A; }
+    .kpi-value.amber  { color:#D97706; }
+    .kpi-value.blue   { color:#2563EB; }
+
+    /* ── GERENCIA GRID ── */
+    .gerencias-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+
+    /* ── GERENCIA CARD ── */
+    .g-card {
+      background:var(--color-bg);
+      border-radius:var(--radius-card);
+      overflow:hidden;
+      display:flex; flex-direction:column;
+      cursor:pointer;
+      transition:transform .15s;
+      text-decoration:none;
+      color:inherit;
+    }
+    .g-card:hover { transform:translateY(-2px); }
+
+    .g-body { padding:18px; display:flex; flex-direction:column; gap:14px; flex:1; }
+
+    .g-header { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+    .g-name { font-size:14px; font-weight:700; line-height:1.3; }
+    .g-meta { font-size:11px; color:var(--color-text-secondary); margin-top:3px; }
+
+    /* Estado badges */
+    .g-estado-badge {
+      font-size:10px; font-weight:700;
+      padding:3px 10px; border-radius:var(--radius-btn);
+      white-space:nowrap; flex-shrink:0;
+      display:inline-flex; align-items:center; gap:4px;
+    }
+    .g-estado-badge.en_captura               { background:#F3F4F6; color:#6B7280; }
+    .g-estado-badge.enviado_revision          { background:#EFF6FF; color:#1D4ED8; }
+    .g-estado-badge.listo_para_validar        { background:#FEF3C7; color:#92400E; }
+    .g-estado-badge.validado                  { background:#D1FAE5; color:#065F46; }
+    .g-estado-badge.regresado_correccion_parcial { background:#FFF7ED; color:#EA580C; }
+    .g-estado-badge .badge-dot { width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
+
+    /* Fraction display */
+    .g-fraction { display:flex; flex-direction:column; gap:6px; }
+    .g-fraction-row { display:flex; align-items:baseline; gap:6px; }
+    .g-fraction-num { font-size:28px; font-weight:700; line-height:1; color:var(--color-text-primary); }
+    .g-fraction-sep { font-size:16px; font-weight:400; color:var(--color-text-secondary); }
+    .g-fraction-total { font-size:16px; font-weight:600; color:var(--color-text-secondary); }
+    .g-fraction-label { font-size:11px; color:var(--color-text-secondary); margin-top:-2px; }
+    .g-progress-bar { height:5px; background:#E5E7EB; border-radius:3px; overflow:hidden; }
+    .g-progress-fill { height:100%; border-radius:3px; transition:width .4s ease; }
+
+    /* Semaforo row */
+    .g-semaforo-row { display:flex; align-items:center; gap:8px; }
+    .g-semaforo-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .g-semaforo-dot.verde   { background:#22C55E; }
+    .g-semaforo-dot.amarillo { background:#F59E0B; }
+    .g-semaforo-dot.rojo    { background:#EF4444; }
+    .g-semaforo-dot.nd      { background:#D1D5DB; }
+    .g-semaforo-label { font-size:12px; font-weight:600; }
+    .g-semaforo-label.verde   { color:#16A34A; }
+    .g-semaforo-label.amarillo { color:#D97706; }
+    .g-semaforo-label.rojo    { color:#DC2626; }
+    .g-semaforo-label.nd      { color:#9CA3AF; }
+    .g-semaforo-detail { font-size:11px; color:var(--color-text-secondary); margin-left:auto; }
+
+    /* Stats footer — bento grid */
+    .g-divider { display:none; }
+    .g-stats-row {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:6px;
+      padding:0 12px 12px;
+    }
+    .g-stat-item {
+      background:var(--color-surface);
+      border-radius:10px;
+      padding:10px 6px;
+      text-align:center;
+    }
+    .g-stat-val { font-size:18px; font-weight:700; line-height:1; color:var(--color-text-primary); }
+    .g-stat-lbl { font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--color-text-secondary); margin-top:4px; }
+
+    /* Empty state */
+    .empty-state { text-align:center; padding:48px 24px; color:var(--color-text-secondary); background:var(--color-bg); border-radius:var(--radius-card); }
+    .empty-state svg { width:40px; height:40px; margin:0 auto 12px; opacity:.4; }
+    .empty-state p { font-size:13px; }
+    .empty-state .empty-hint { font-size:12px; color:var(--color-primary); margin-top:8px; font-weight:600; }
+
+    /* Toast */
+    .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#111827; color:white; padding:10px 18px; border-radius:var(--radius-btn); font-size:13px; font-weight:500; pointer-events:none; opacity:0; transition:opacity .2s; z-index:1000; white-space:nowrap; }
+    .toast.show { opacity:1; }
+  </style>
+  <script>
+  (function (m, a, z, e) {
+    var s, t, u, v;
+    try { t = m.sessionStorage.getItem('maze-us'); } catch (err) {}
+    if (!t) {
+      t = new Date().getTime();
+      try { m.sessionStorage.setItem('maze-us', t); } catch (err) {}
+    }
+    u = document.currentScript || (function () {
+      var w = document.getElementsByTagName('script');
+      return w[w.length - 1];
+    })();
+    v = u && u.nonce;
+    s = a.createElement('script');
+    s.src = z + '?apiKey=' + e;
+    s.async = true;
+    if (v) s.setAttribute('nonce', v);
+    a.getElementsByTagName('head')[0].appendChild(s);
+    m.mazeUniversalSnippetApiKey = e;
+  })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '9da16a9c-d16b-42b8-837b-4ba698f5135d');
+  </script>
+  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item" href="dashboard-inicio.html" title="Inicio">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
+      <span class="nav-label">Inicio</span>
+    </a>
+    <a class="nav-item" href="consulta-mir.html" title="MIR por gerencia">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0c-.621 0-1.125.504-1.125 1.125V9M12 6.75h.008v.008H12V6.75Z"/></svg>
+      <span class="nav-label">MIR por gerencia</span>
+    </a>
+    <a class="nav-item" href="planeacion-indicadores.html" title="Planeación">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg>
+      <span class="nav-label">Planeación</span>
+    </a>
+    <a class="nav-item active" href="validacion-admin-dashboard.html" title="Validación de avance">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.955 11.955 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+      <span class="nav-label">Validación</span>
+    </a>
+    <a class="nav-item" href="reportes.html" title="Reportes">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"/></svg>
+      <span class="nav-label">Reportes</span>
+    </a>
+  </div>
+  <div class="sidebar-bottom">
+    <a class="nav-item" href="configuracion.html" title="Configuración">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+      <span class="nav-label">Configuración</span>
+    </a>
+    <div class="avatar-xs" id="avatarEl" onclick="window.location.href='dashboard-inicio.html'">LS</div>
+  </div>
+</nav>
+
+<!-- ── APP ── -->
+<div class="app-wrapper">
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <div class="dashboard-layout">
+
+      <!-- Left column: header + period + KPIs -->
+      <aside class="kpi-col">
+        <div class="page-header">
+          <h1 class="page-title">Validación de avance</h1>
+        </div>
+
+        <div class="period-dropdown" id="period-dropdown">
+          <button class="period-trigger" id="period-trigger" onclick="togglePeriodDropdown()">
+            <span class="period-trigger-label" id="period-label">Mayo 2026</span>
+            <span class="period-demo-tag" id="period-demo-tag" style="display:none">Demo</span>
+            <svg class="period-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+          </button>
+          <div class="period-panel" id="period-panel"></div>
+        </div>
+
+        <div class="kpi-strip" id="kpi-strip">
+          <div class="kpi-card"><div class="kpi-label">Gerencias validadas</div><div class="kpi-value green" id="kpi-validadas">—</div><div class="kpi-sub">de 4 gerencias</div></div>
+          <div class="kpi-card"><div class="kpi-label">Listas para validar</div><div class="kpi-value amber" id="kpi-listas">—</div><div class="kpi-sub">requieren acción</div></div>
+          <div class="kpi-card"><div class="kpi-label">Indicadores este mes</div><div class="kpi-value blue" id="kpi-corte">—</div><div class="kpi-sub" id="kpi-corte-sub">con corte en el período</div></div>
+          <div class="kpi-card"><div class="kpi-label">Aprobados / validados</div><div class="kpi-value" id="kpi-aprobados">—</div><div class="kpi-sub">indicadores conformes</div></div>
+        </div>
+      </aside>
+
+      <!-- Right column: gerencias grid -->
+      <div class="gerencias-col">
+        <div class="gerencias-grid" id="gerencias-grid">
+          <!-- rendered by JS -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  // ── AUTH ──────────────────────────────────────────────────────────────────
+  var _user = Session.requireAuth();
+  if (!_user) return;
+  if (_user.rol !== 'Administrador') { window.location.href = 'dashboard-inicio.html'; return; }
+
+  var initials = (_user.nombre || 'LS').split(' ').map(function (w) { return w[0]; }).join('').substring(0, 2).toUpperCase();
+  document.getElementById('avatarEl').textContent = initials;
+
+  // ── PERIODO STATE ─────────────────────────────────────────────────────────
+  var MESES_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+  var _hoy     = new Date();
+  var _maxPer  = _hoy.getFullYear() + '-' + String(_hoy.getMonth() + 1).padStart(2, '0');
+  var _periodo = ValidationAdminStore.DEMO_PERIODO; // default: May 2026 (demo data)
+
+  function _parsePer(p) {
+    return { year: parseInt(p.slice(0, 4), 10), month: parseInt(p.slice(5, 7), 10) };
+  }
+
+  function _addMonths(p, delta) {
+    var d = _parsePer(p);
+    var m = d.month - 1 + delta;
+    var y = d.year + Math.floor(m / 12);
+    m = ((m % 12) + 12) % 12;
+    return y + '-' + String(m + 1).padStart(2, '0');
+  }
+
+  function _perLabel(p) {
+    var d = _parsePer(p);
+    return MESES_ES[d.month - 1] + ' ' + d.year;
+  }
+
+  function _buildPeriodList() {
+    var periods = [];
+    var cur = _maxPer;
+    for (var i = 0; i < 24; i++) {
+      periods.push(cur);
+      cur = _addMonths(cur, -1);
+      if (cur < '2020-01') break;
+    }
+    var demoPer = ValidationAdminStore.DEMO_PERIODO;
+    if (periods.indexOf(demoPer) === -1) periods.push(demoPer);
+    periods.sort(function (a, b) { return b > a ? 1 : -1; });
+    return periods;
+  }
+
+  function renderPeriodPanel() {
+    var panel = document.getElementById('period-panel');
+    var demoPer = ValidationAdminStore.DEMO_PERIODO;
+    panel.innerHTML = _buildPeriodList().map(function (p) {
+      var sel = p === _periodo;
+      var isDemo = p === demoPer;
+      return '<div class="period-option' + (sel ? ' selected' : '') + '" onclick="selectPeriodo(\'' + p + '\')">' +
+        _perLabel(p) +
+        (isDemo ? '<span class="period-option-demo">Demo</span>' : '') +
+        '</div>';
+    }).join('');
+  }
+
+  function togglePeriodDropdown() {
+    var trigger = document.getElementById('period-trigger');
+    var panel = document.getElementById('period-panel');
+    var isOpen = panel.classList.contains('open');
+    if (isOpen) {
+      trigger.classList.remove('open');
+      panel.classList.remove('open');
+    } else {
+      renderPeriodPanel();
+      trigger.classList.add('open');
+      panel.classList.add('open');
+    }
+  }
+  window.togglePeriodDropdown = togglePeriodDropdown;
+
+  function selectPeriodo(p) {
+    _periodo = p;
+    document.getElementById('period-trigger').classList.remove('open');
+    document.getElementById('period-panel').classList.remove('open');
+    renderAll();
+  }
+  window.selectPeriodo = selectPeriodo;
+
+  document.addEventListener('click', function (e) {
+    var dd = document.getElementById('period-dropdown');
+    if (dd && !dd.contains(e.target)) {
+      document.getElementById('period-trigger').classList.remove('open');
+      document.getElementById('period-panel').classList.remove('open');
+    }
+  });
+
+  // ── HELPERS ───────────────────────────────────────────────────────────────
+
+  function _semaforoAgregado(g) {
+    if (g.rojo > 0)    return 'rojo';
+    if (g.amarillo > 0) return 'amarillo';
+    if (g.verde > 0)   return 'verde';
+    return 'nd';
+  }
+
+  var _estadoLabels = {
+    en_captura:                   'En captura',
+    enviado_revision:             'En revisión',
+    listo_para_validar:           'Listo para validar',
+    validado:                     'Validado',
+    regresado_correccion_parcial: 'Reg. a corrección',
+  };
+
+  var _semaforoLabels = { verde: 'Cumplimiento verde', amarillo: 'Cumplimiento con alerta', rojo: 'Incumplimiento', nd: 'Sin datos' };
+
+  function _pctSafe(val, total) { return total ? Math.round(val / total * 100) : 0; }
+
+  // ── RENDER ────────────────────────────────────────────────────────────────
+
+  function renderAll() {
+    var gerencias = ValidationAdminStore.getGerencias(_periodo);
+
+    // Update period trigger
+    document.getElementById('period-label').textContent = _perLabel(_periodo);
+    var isDemoPer = (_periodo === ValidationAdminStore.DEMO_PERIODO);
+    var demoTag = document.getElementById('period-demo-tag');
+    if (demoTag) demoTag.style.display = isDemoPer ? '' : 'none';
+
+    renderKPIs(gerencias);
+    renderCards(gerencias);
+  }
+
+  function renderKPIs(gerencias) {
+    var validadas  = 0, listas = 0, corte = 0, aprobados = 0;
+    gerencias.forEach(function (g) {
+      if (g.periodoEstado === 'validado')            validadas++;
+      if (g.periodoEstado === 'listo_para_validar')  listas++;
+      corte    += g.indicadoresConCorte;
+      aprobados += (g.aprobados + g.validados);
+    });
+    document.getElementById('kpi-validadas').textContent  = validadas;
+    document.getElementById('kpi-listas').textContent     = listas;
+    document.getElementById('kpi-corte').textContent      = corte;
+    document.getElementById('kpi-aprobados').textContent  = aprobados;
+    document.getElementById('kpi-corte-sub').textContent  = 'con corte en ' + _perLabel(_periodo).toLowerCase();
+  }
+
+  function renderCards(gerencias) {
+    var grid = document.getElementById('gerencias-grid');
+
+    if (!gerencias.length) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><p>No hay gerencias configuradas.</p></div>';
+      return;
+    }
+
+    var allEmpty = gerencias.every(function (g) { return g.indicadoresConCorte === 0; });
+
+    grid.innerHTML = gerencias.map(function (g) {
+      var semaforo   = _semaforoAgregado(g);
+      var estadoLbl  = _estadoLabels[g.periodoEstado] || g.periodoEstado;
+      var pctCorte   = _pctSafe(g.indicadoresConCorte, g.totalIndicadores);
+      var pctAprobPct = _pctSafe(g.aprobados + g.validados, g.indicadoresConCorte || 1);
+      var url = 'validacion-gerencia-detalle.html?ger=' + g.id + '&periodo=' + _periodo;
+
+      var semaforoDetail = '';
+      if (g.rojo > 0)    semaforoDetail = g.rojo + ' en incumplimiento';
+      else if (g.amarillo > 0) semaforoDetail = g.amarillo + ' con alerta';
+      else if (g.verde > 0)    semaforoDetail = g.verde + ' en cumplimiento';
+      else semaforoDetail = 'Sin datos aún';
+
+      var statAprobados = g.aprobados + g.validados;
+      var statRevision  = g.enRevision;
+      var statReg       = g.regresados;
+      var statPend      = g.pendientes;
+
+      // Accent color for top bar and icon
+      var accentColor = g.color || '#8B1D3A';
+
+      return [
+        '<a class="g-card" href="' + url + '">',
+        '  <div class="g-body">',
+
+        // Header: name + estado badge
+        '    <div class="g-header">',
+        '      <div>',
+        '        <div class="g-name">' + g.nombre.replace('Gerencia de ', '').replace('Gerencia ', '') + '</div>',
+        '        <div class="g-meta">' + g.numUnidades + ' unidades · ' + g.totalIndicadores + ' indicadores total</div>',
+        '      </div>',
+        '      <span class="g-estado-badge ' + g.periodoEstado + '"><span class="badge-dot"></span>' + estadoLbl + '</span>',
+        '    </div>',
+
+        // Fraction: indicadores este mes
+        '    <div class="g-fraction">',
+        '      <div class="g-fraction-row">',
+        '        <span class="g-fraction-num">' + g.indicadoresConCorte + '</span>',
+        '        <span class="g-fraction-sep">/</span>',
+        '        <span class="g-fraction-total">' + g.totalIndicadores + '</span>',
+        '      </div>',
+        '      <div class="g-fraction-label">indicadores con corte este mes</div>',
+        '      <div class="g-progress-bar"><div class="g-progress-fill" style="width:' + pctCorte + '%;background:' + accentColor + '80"></div></div>',
+        '    </div>',
+
+        // Semaforo row
+        '    <div class="g-semaforo-row">',
+        '      <div class="g-semaforo-dot ' + semaforo + '"></div>',
+        '      <span class="g-semaforo-label ' + semaforo + '">' + _semaforoLabels[semaforo] + '</span>',
+        '      <span class="g-semaforo-detail">' + semaforoDetail + '</span>',
+        '    </div>',
+
+        '  </div>',
+
+        // Stats footer — bento cells
+        '  <div class="g-stats-row">',
+        '    <div class="g-stat-item"><div class="g-stat-val green">' + statAprobados + '</div><div class="g-stat-lbl">Aprobados</div></div>',
+        '    <div class="g-stat-item"><div class="g-stat-val blue">' + statRevision + '</div><div class="g-stat-lbl">En revisión</div></div>',
+        '    <div class="g-stat-item"><div class="g-stat-val orange">' + statReg + '</div><div class="g-stat-lbl">Regresados</div></div>',
+        '    <div class="g-stat-item"><div class="g-stat-val gray">' + statPend + '</div><div class="g-stat-lbl">Pendientes</div></div>',
+        '  </div>',
+        '</a>',
+      ].join('\n');
+    }).join('\n');
+
+    if (allEmpty) {
+      var hint = document.createElement('div');
+      hint.className = 'empty-hint';
+      hint.style.cssText = 'text-align:center;font-size:12px;color:var(--color-primary);font-weight:600;margin-top:12px;grid-column:1/-1';
+      hint.textContent = 'Los datos de demostración están en Mayo 2026. Navega al período anterior para verlos.';
+      grid.appendChild(hint);
+    }
+  }
+
+  // ── INIT ──────────────────────────────────────────────────────────────────
+  renderAll();
+
+})();
+</script>
+</body>
+</html>
