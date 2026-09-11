@@ -11,18 +11,16 @@
   <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
   <script>window._uxa = window._uxa || []; window._uxa.push(['forceRecord']);</script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background: #fff;
-      color: #111827;
+      background: var(--color-bg);
+      color: var(--color-text-primary);
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
     }
-
-    /* ── Top bar ── */
+/* ── Top bar ── */
     .topbar {
       display: flex;
       align-items: center;
@@ -30,29 +28,28 @@
       padding: 20px 32px;
       border-bottom: 1px solid #F3F4F6;
     }
-    .topbar-logo {
+.topbar-logo {
       width: 32px; height: 32px;
-      background: #8B1D3A;
+      background: var(--color-primary);
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-    .topbar-logo svg { width: 16px; height: 16px; fill: white; }
-    .topbar-name {
-      font-size: 13px; font-weight: 700; color: #111827;
+.topbar-logo svg { width: 16px; height: 16px; fill: white; }
+.topbar-name {
+      font-size: 13px; font-weight: 700; color: var(--color-text-primary);
       letter-spacing: -.01em;
     }
-    .topbar-sep { color: #D1D5DB; margin: 0 2px; }
-    .topbar-sub { font-size: 13px; color: #6B7280; }
-    .topbar-badge {
+.topbar-sep { color: #D1D5DB; margin: 0 2px; }
+.topbar-sub { font-size: 13px; color: var(--color-text-secondary); }
+.topbar-badge {
       margin-left: auto;
       font-size: 11px; font-weight: 600;
       background: #FEF3C7; color: #D97706;
       border-radius: 999px; padding: 3px 10px;
       letter-spacing: .01em;
     }
-
-    /* ── Main ── */
+/* ── Main ── */
     .main {
       flex: 1;
       display: flex;
@@ -60,13 +57,7 @@
       justify-content: center;
       padding: 40px 24px;
     }
-
-    .card {
-      max-width: 520px;
-      width: 100%;
-    }
-
-    .eyebrow {
+.eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -74,165 +65,110 @@
       font-weight: 700;
       letter-spacing: .08em;
       text-transform: uppercase;
-      color: #8B1D3A;
-      background: #F5E8EC;
+      color: var(--color-primary);
+      background: var(--color-primary-tint);
       border-radius: 999px;
       padding: 4px 12px;
       margin-bottom: 20px;
     }
-    .eyebrow::before {
+.eyebrow::before {
       content: '';
       width: 6px; height: 6px;
-      background: #8B1D3A;
+      background: var(--color-primary);
       border-radius: 50%;
       display: inline-block;
     }
-
-    h1 {
+h1 {
       font-size: 32px;
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -.02em;
-      color: #111827;
+      color: var(--color-text-primary);
       margin-bottom: 6px;
     }
-    .user-name { color: #8B1D3A; }
-
-    .role-tag {
+.user-name { color: var(--color-primary); }
+.role-tag {
       display: inline-flex;
       align-items: center;
       gap: 5px;
       font-size: 12px;
       font-weight: 600;
-      color: #374151;
+      color: var(--color-text-primary);
       background: #F3F4F6;
       border-radius: 999px;
       padding: 4px 10px;
       margin-bottom: 28px;
       margin-top: 10px;
     }
-    .role-dot {
+.role-dot {
       width: 7px; height: 7px;
-      background: #8B1D3A;
+      background: var(--color-primary);
       border-radius: 50%;
     }
-
-    .divider {
-      height: 1px;
-      background: #F3F4F6;
-      margin-bottom: 24px;
-    }
-
-    .info-list {
+.info-list {
       display: flex;
       flex-direction: column;
       gap: 14px;
       margin-bottom: 32px;
     }
-    .info-item {
+.info-item {
       display: flex;
       gap: 12px;
       align-items: flex-start;
     }
-    .info-icon {
+.info-icon {
       width: 32px; height: 32px;
       border-radius: 8px;
       background: #F9FAFB;
-      border: 1px solid #E5E7EB;
+      border: 1px solid var(--color-border);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       margin-top: 1px;
     }
-    .info-icon svg { width: 15px; height: 15px; }
-    .info-text strong {
+.info-icon svg { width: 15px; height: 15px; }
+.info-text strong {
       display: block;
       font-size: 13px;
       font-weight: 700;
-      color: #111827;
+      color: var(--color-text-primary);
       margin-bottom: 2px;
     }
-    .info-text p {
+.info-text p {
       font-size: 13px;
-      color: #6B7280;
+      color: var(--color-text-secondary);
       line-height: 1.5;
     }
-
-    .actions {
+.actions {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-    .btn-primary {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 24px;
-      background: #8B1D3A;
-      color: white;
-      border: none;
-      border-radius: 999px;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background .15s, transform .1s;
-      width: 100%;
-    }
-    .btn-primary:hover { background: #7a1933; }
-    .btn-primary:active { transform: scale(.98); }
-    .btn-primary svg { width: 16px; height: 16px; }
-
-    .btn-secondary {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 12px 24px;
-      background: transparent;
-      color: #6B7280;
-      border: 1.5px solid #E5E7EB;
-      border-radius: 999px;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: border-color .15s, color .15s;
-      width: 100%;
-    }
-    .btn-secondary:hover { border-color: #9CA3AF; color: #374151; }
-    .btn-secondary svg { width: 14px; height: 14px; }
-
-    /* ── Entrance animation ── */
+/* ── Entrance animation ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
     @keyframes fadeIn {
       from { opacity: 0; }
       to   { opacity: 1; }
-    }
-
-    .topbar  { animation: fadeIn .4s ease both; }
-    .eyebrow { animation: fadeUp .45s ease both .05s; }
-    h1       { animation: fadeUp .45s ease both .12s; }
-    .role-tag{ animation: fadeUp .45s ease both .18s; }
-    .divider { animation: fadeIn .4s ease both .22s; }
-    .info-item:nth-child(1) { animation: fadeUp .4s ease both .26s; }
-    .info-item:nth-child(2) { animation: fadeUp .4s ease both .34s; }
-    .actions { animation: fadeUp .4s ease both .42s; }
-    footer   { animation: fadeIn .4s ease both .5s; }
-
-    /* ── Footer ── */
+    }.topbar { animation: fadeIn .4s ease both; }
+.eyebrow { animation: fadeUp .45s ease both .05s; }
+h1 { animation: fadeUp .45s ease both .12s; }
+.role-tag { animation: fadeUp .45s ease both .18s; }
+.info-item:nth-child(1) { animation: fadeUp .4s ease both .26s; }
+.info-item:nth-child(2) { animation: fadeUp .4s ease both .34s; }
+.actions { animation: fadeUp .4s ease both .42s; }
+footer { animation: fadeIn .4s ease both .5s; }
+/* ── Footer ── */
     footer {
       padding: 16px 32px;
       border-top: 1px solid #F3F4F6;
       text-align: center;
       font-size: 11px;
-      color: #9CA3AF;
+      color: var(--color-text-muted);
     }
-  </style>
+</style>
 </head>
 <body>
 
