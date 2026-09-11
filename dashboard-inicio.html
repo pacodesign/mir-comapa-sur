@@ -118,7 +118,7 @@ body {
 .btn-white:hover { opacity: 0.9; }
 /* ── ALERT ── */
     .alert-info {
-      background: #FEF3C7;
+      background: var(--color-warning-tint);
       border-radius: var(--radius-card);
       padding: 11px 16px;
       display: flex; align-items: center; gap: 10px;
@@ -181,7 +181,7 @@ body {
       font-size: 10px; font-weight: 600;
       padding: 3px 8px; border-radius: var(--radius-btn);
       margin-top: 6px;
-      background: #F3F4F6; color: var(--color-text-secondary);
+      background: var(--color-neutral-100); color: var(--color-text-secondary);
     }
 /* ── GERENCIA GRID ── */
     .gerencia-grid {
@@ -227,10 +227,10 @@ body {
       padding: 3px 9px; border-radius: var(--radius-btn);
       display: inline-flex; align-items: center; gap: 4px;
     }
-.g-chip.green { background: var(--color-success-tint); color: #16A34A; }
+.g-chip.green { background: var(--color-success-tint); color: var(--color-success); }
 .g-chip.blue { background: var(--color-info-tint); color: var(--color-info); }
-.g-chip.orange { background: #FFF7ED; color: #EA580C; }
-.g-chip.gray { background: #F3F4F6; color: var(--color-text-secondary); }
+.g-chip.orange { background: var(--color-observado-tint); color: var(--color-observado); }
+.g-chip.gray { background: var(--color-neutral-100); color: var(--color-text-secondary); }
 /* Team row */
     .g-team-row { display: flex; gap: 8px; align-items: center; padding-top: 4px; border-top: 1px solid var(--color-border); }
 .g-team-label { font-size: 10px; color: var(--color-text-secondary); font-weight: 500; margin-right: 2px; }
@@ -288,7 +288,7 @@ body {
 .rp-alert-name { font-size: 12px; color: var(--color-text-primary); }
 .rp-alert-badge {
       font-size: 10px; font-weight: 700;
-      background: #FFF7ED; color: #EA580C;
+      background: var(--color-observado-tint); color: var(--color-observado);
       padding: 2px 7px; border-radius: var(--radius-btn);
     }
 .rp-date-item {
@@ -313,12 +313,12 @@ body {
 /* ── FREQ TAGS ── */
     .freq-tags { display: flex; flex-wrap: wrap; gap: 4px; }
 .freq-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); }
-.freq-tag.semanal { background: #F3F4F6; color: var(--color-text-secondary); }
-.freq-tag.mensual { background: #F3F4F6; color: var(--color-text-secondary); }
-.freq-tag.bimestral { background: #F3F4F6; color: var(--color-text-secondary); }
-.freq-tag.trimestral { background: #F3F4F6; color: var(--color-text-secondary); }
-.freq-tag.semestral { background: #F3F4F6; color: var(--color-text-secondary); }
-.freq-tag.anual { background: #F3F4F6; color: var(--color-text-secondary); }
+.freq-tag.semanal { background: var(--color-neutral-100); color: var(--color-text-secondary); }
+.freq-tag.mensual { background: var(--color-neutral-100); color: var(--color-text-secondary); }
+.freq-tag.bimestral { background: var(--color-neutral-100); color: var(--color-text-secondary); }
+.freq-tag.trimestral { background: var(--color-neutral-100); color: var(--color-text-secondary); }
+.freq-tag.semestral { background: var(--color-neutral-100); color: var(--color-text-secondary); }
+.freq-tag.anual { background: var(--color-neutral-100); color: var(--color-text-secondary); }
 /* ── QUICK ACCESS ── */
     .quick-grid {
       display: grid;
@@ -340,10 +340,10 @@ body {
       width: 36px; height: 36px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
     }
-.q-icon.teal { background: #F3F4F6; color: var(--color-text-secondary); }
-.q-icon.purple { background: #F3F4F6; color: var(--color-text-secondary); }
-.q-icon.orange { background: #F3F4F6; color: var(--color-text-secondary); }
-.q-icon.blue { background: #F3F4F6; color: var(--color-text-secondary); }
+.q-icon.teal { background: var(--color-neutral-100); color: var(--color-text-secondary); }
+.q-icon.purple { background: var(--color-neutral-100); color: var(--color-text-secondary); }
+.q-icon.orange { background: var(--color-neutral-100); color: var(--color-text-secondary); }
+.q-icon.blue { background: var(--color-neutral-100); color: var(--color-text-secondary); }
 .q-icon svg { width: 18px; height: 18px; }
 .q-title { font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
 .q-desc { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; flex: 1; }
@@ -401,9 +401,9 @@ body {
 .level-tag.actividad { background: var(--color-text-muted); color: white; }
 /* ── MV TAGS ── */
     .mv-tag { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: var(--radius-btn); width: fit-content; }
-.mv-tag.interno { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid #D1D5DB; }
-.mv-tag.externo { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid #D1D5DB; }
-.mv-tag.mixto { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid #D1D5DB; }
+.mv-tag.interno { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-neutral-300); }
+.mv-tag.externo { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-neutral-300); }
+.mv-tag.mixto { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-neutral-300); }
 /* ── RESPONSIVE ── */
     @media (max-width: 1200px) {
       .kpi-grid { grid-template-columns: repeat(2, 1fr); }
@@ -439,7 +439,7 @@ body {
 .period-trigger:hover { border-color:var(--color-text-secondary); }
 .period-trigger.open { border-color:var(--color-primary); }
 .period-trigger-label { flex:1; }
-.period-demo-tag { font-size:10px; font-weight:600; padding:2px 8px; border-radius:var(--radius-btn); background:#FEF3C7; color:#92400E; }
+.period-demo-tag { font-size:10px; font-weight:600; padding:2px 8px; border-radius:var(--radius-btn); background:var(--color-warning-tint); color:var(--color-warning-text); }
 .period-chevron { width:16px; height:16px; flex-shrink:0; transition:transform .2s; }
 .period-trigger.open .period-chevron { transform:rotate(180deg); }
 .period-panel { position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:200; background:var(--color-bg); border:1px solid var(--color-border); border-radius:16px; padding:6px; max-height:220px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.08); display:none; }
@@ -447,7 +447,7 @@ body {
 .period-option { display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; font-size:13px; font-weight:500; cursor:pointer; transition:background .12s; color:var(--color-text-primary); }
 .period-option:hover { background:var(--color-surface); }
 .period-option.selected { background:var(--color-primary-tint); color:var(--color-primary); font-weight:600; }
-.period-option-demo { font-size:10px; font-weight:600; padding:2px 7px; border-radius:var(--radius-btn); background:#FEF3C7; color:#92400E; margin-left:auto; }
+.period-option-demo { font-size:10px; font-weight:600; padding:2px 7px; border-radius:var(--radius-btn); background:var(--color-warning-tint); color:var(--color-warning-text); margin-left:auto; }
 /* Gerencia card (admin embed) */
     .g-card { background:var(--color-surface); border-radius:var(--radius-card); overflow:hidden; display:flex; flex-direction:column; cursor:pointer; transition:transform .15s; text-decoration:none; color:inherit; }
 .g-card:hover { transform:translateY(-2px); }
@@ -457,9 +457,9 @@ body {
     .g-estado-badge { font-size:10px; font-weight:700; padding:3px 10px; border-radius:var(--radius-btn); white-space:nowrap; flex-shrink:0; display:inline-flex; align-items:center; gap:4px; }
 .g-estado-badge.en_captura { background:var(--color-bg); color:var(--color-text-secondary); }
 .g-estado-badge.enviado_revision { background:var(--color-info-tint); color:var(--color-info); }
-.g-estado-badge.listo_para_validar { background:#FEF3C7; color:#92400E; }
-.g-estado-badge.validado { background:#D1FAE5; color:#065F46; }
-.g-estado-badge.regresado_correccion_parcial { background:#FFF7ED; color:#EA580C; }
+.g-estado-badge.listo_para_validar { background:var(--color-warning-tint); color:var(--color-warning-text); }
+.g-estado-badge.validado { background:var(--color-success-tint); color:var(--color-success-strong); }
+.g-estado-badge.regresado_correccion_parcial { background:var(--color-observado-tint); color:var(--color-observado); }
 .g-estado-badge .badge-dot { width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
 /* Fraction display */
     .g-fraction { display:flex; flex-direction:column; gap:6px; }
@@ -476,10 +476,10 @@ body {
 .g-incum-dot.verde { background:var(--color-success); }
 .g-incum-text { font-size:12px; font-weight:600; }
 .g-incum-text.rojo { color:var(--color-danger); }
-.g-incum-text.amarillo { color:#D97706; }
-.g-incum-text.verde { color:#16A34A; }
-.g-incum-row.amarillo { background:#FEF3C7; }
-.g-incum-row.verde { background:#D1FAE5; }
+.g-incum-text.amarillo { color:var(--color-warning-dark); }
+.g-incum-text.verde { color:var(--color-success); }
+.g-incum-row.amarillo { background:var(--color-warning-tint); }
+.g-incum-row.verde { background:var(--color-success-tint); }
 /* Stats footer */
     .g-stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; padding:0 12px 12px; }
 .g-stat-item { background:var(--color-bg); border-radius:10px; padding:10px 6px; text-align:center; }
@@ -823,11 +823,11 @@ body {
 
     <p class="rp-section-title">Indicadores por gerencia</p>
     <div class="rp-stat">
-      <div class="rp-bar" style="background:#7C3AED;"></div>
+      <div class="rp-bar" style="background:var(--color-corregido);"></div>
       <div><p class="rp-stat-val" id="rpStatPla">15</p><p class="rp-stat-lbl">Planeación</p></div>
     </div>
     <div class="rp-stat">
-      <div class="rp-bar" style="background:#0891B2;"></div>
+      <div class="rp-bar" style="background:var(--color-info);"></div>
       <div><p class="rp-stat-val" id="rpStatTec">41</p><p class="rp-stat-lbl">Técnica</p></div>
     </div>
     <div class="rp-stat">
@@ -835,7 +835,7 @@ body {
       <div><p class="rp-stat-val" id="rpStatCom">29</p><p class="rp-stat-lbl">Comercial</p></div>
     </div>
     <div class="rp-stat">
-      <div class="rp-bar" style="background:#065F46;"></div>
+      <div class="rp-bar" style="background:var(--color-success-strong);"></div>
       <div><p class="rp-stat-val" id="rpStatAdm">47</p><p class="rp-stat-lbl">Administrativa</p></div>
     </div>
     <div class="rp-total-big">

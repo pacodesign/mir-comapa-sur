@@ -68,7 +68,7 @@ body {
 .rp-bar.b-success { background: var(--color-success); }
 .rp-bar.b-info { background: var(--color-info); }
 .rp-bar.b-warning { background: var(--color-warning); }
-.rp-bar.b-gray { background: #D1D5DB; }
+.rp-bar.b-gray { background: var(--color-neutral-300); }
 .rp-stat-val { font-size: 22px; font-weight: 700; color: var(--color-text-primary); line-height: 1; }
 .rp-stat-lbl { font-size: 11px; color: var(--color-text-secondary); }
 .rp-total-big { text-align: center; padding: 10px 0; }
@@ -113,7 +113,7 @@ body {
     }
 .btn-xs:hover { background: #EED5DA; }
 .btn-xs.warning {
-      color: #92400E; background: #FEF3C7;
+      color: var(--color-warning-text); background: var(--color-warning-tint);
     }
 .btn-xs.warning:hover { background: #FDE68A; }
 /* ── SECTION LABEL ───────────────────────────────────────────────────── */
@@ -198,7 +198,7 @@ body {
 .avance-pct { font-size: 48px; font-weight: 700; color: var(--color-text-primary); line-height: 1; }
 .avance-label { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; }
 .progress-track {
-      height: 10px; background: #F3F4F6; border-radius: 5px;
+      height: 10px; background: var(--color-neutral-100); border-radius: 5px;
       overflow: hidden; display: flex; margin: 12px 0 10px;
     }
 .progress-seg { height: 100%; }
@@ -211,7 +211,7 @@ body {
 .legend-dot.aprobada { background: var(--color-success); }
 .legend-dot.enviada { background: var(--color-info); }
 .legend-dot.observada { background: var(--color-warning); }
-.legend-dot.pendiente { background: #D1D5DB; }
+.legend-dot.pendiente { background: var(--color-neutral-300); }
 /* ── DEADLINE LIST ───────────────────────────────────────────────────── */
     .deadline-list { display: flex; flex-direction: column; gap: 6px; }
 .deadline-item {
@@ -261,11 +261,11 @@ body {
     }
 .obs-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
 .obs-icon {
-      width: 32px; height: 32px; background: #FEF3C7; border-radius: 8px;
+      width: 32px; height: 32px; background: var(--color-warning-tint); border-radius: 8px;
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-.obs-icon svg { width: 16px; height: 16px; color: #D97706; }
-.obs-act-id { font-size: 9px; font-weight: 700; color: #D97706; font-family: monospace; }
+.obs-icon svg { width: 16px; height: 16px; color: var(--color-warning-dark); }
+.obs-act-id { font-size: 9px; font-weight: 700; color: var(--color-warning-dark); font-family: monospace; }
 .obs-act-title { font-size: 13px; font-weight: 700; color: var(--color-text-primary); margin-top: 1px; }
 .obs-author { font-size: 11px; color: var(--color-text-secondary); margin-top: 4px; }
 .obs-text {
@@ -278,9 +278,9 @@ body {
       display: flex; align-items: flex-start; gap: 8px;
       background: rgba(255,255,255,.5); border-radius: 8px;
       padding: 8px 10px; margin-bottom: 12px;
-      font-size: 11px; color: #92400E; line-height: 1.5;
+      font-size: 11px; color: var(--color-warning-text); line-height: 1.5;
     }
-.obs-mv svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; color: #D97706; }
+.obs-mv svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; color: var(--color-warning-dark); }
 .obs-actions { display: flex; gap: 8px; }
 /* ── NOTIFICACIONES FEED ─────────────────────────────────────────────── */
     .notif-feed { display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px; }
@@ -296,7 +296,7 @@ body {
 .nf-dot.clock { background: var(--color-warning); }
 .nf-dot.alert { background: var(--color-danger); }
 .nf-dot.check { background: var(--color-success); }
-.nf-dot.read { background: #D1D5DB; }
+.nf-dot.read { background: var(--color-neutral-300); }
 .nf-body { flex: 1; min-width: 0; }
 .nf-title { font-size: 12px; font-weight: 600; color: var(--color-text-primary); }
 .nf-msg { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
@@ -590,7 +590,7 @@ body {
               <p class="card-title">Observaciones por atender</p>
               <p class="card-subtitle">Evidencia rechazada u observada por el Revisor</p>
             </div>
-            <span style="font-size:10px;font-weight:700;padding:3px 8px;background:#FEF3C7;color:#D97706;border-radius:999px;">1 pendiente</span>
+            <span style="font-size:10px;font-weight:700;padding:3px 8px;background:var(--color-warning-tint);color:var(--color-warning-dark);border-radius:999px;">1 pendiente</span>
           </div>
 
           <div class="obs-wrap">

@@ -27,7 +27,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .sec-nav-item.active {background:var(--color-primary-tint);color:var(--color-primary);font-weight:700;}
 .sec-nav-item svg {width:15px;height:15px;flex-shrink:0;opacity:.7;}
 .sec-nav-item.active svg {opacity:1;}
-.sec-nav-soon {font-size:9px;font-weight:600;padding:2px 6px;border-radius:999px;background:#F3F4F6;color:var(--color-text-muted);margin-left:auto;flex-shrink:0;}
+.sec-nav-soon {font-size:9px;font-weight:600;padding:2px 6px;border-radius:999px;background:var(--color-neutral-100);color:var(--color-text-muted);margin-left:auto;flex-shrink:0;}
 /* ── Main content ── */
     .main-content {flex:1;padding:28px 32px;min-width:0;}
 /* ── Page header ── */
@@ -35,7 +35,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 /* ── Buttons ── */
     .btn-primary {background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s;}
 .btn-outline {background:white;color:var(--color-text-primary);border:1px solid var(--color-border);border-radius:var(--radius-btn);padding:8px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;}
-.btn-outline:hover {border-color:#D1D5DB;background:#FAFAFA;}
+.btn-outline:hover {border-color:var(--color-neutral-300);background:var(--color-neutral-50);}
 .btn-outline svg {width:13px;height:13px;}
 /* ── Filter bar ── */
     .filter-bar {display:flex;gap:8px;align-items:center;margin-bottom:24px;flex-wrap:wrap;}
@@ -45,7 +45,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 /* ── Report cards grid ── */
     .reports-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:32px;}
 .report-card {background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-card);padding:20px 22px;display:flex;flex-direction:column;gap:14px;transition:box-shadow .15s,border-color .15s;}
-.report-card:hover {box-shadow:0 4px 16px rgba(0,0,0,.08);border-color:#D1D5DB;}
+.report-card:hover {box-shadow:0 4px 16px rgba(0,0,0,.08);border-color:var(--color-neutral-300);}
 .report-card-header {display:flex;align-items:flex-start;gap:12px;}
 .report-card-icon {width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .report-card-icon svg {width:20px;height:20px;}
@@ -63,10 +63,10 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .table-card-header {padding:14px 18px;border-bottom:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;}
 .table-card-title {font-size:14px;font-weight:700;}
 table {width:100%;border-collapse:collapse;}
-thead th {background:#FAFAFA;border-bottom:1px solid var(--color-border);padding:10px 16px;text-align:left;font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
-tbody tr {border-bottom:1px solid #F3F4F6;transition:background .1s;}
+thead th {background:var(--color-neutral-50);border-bottom:1px solid var(--color-border);padding:10px 16px;text-align:left;font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+tbody tr {border-bottom:1px solid var(--color-neutral-100);transition:background .1s;}
 tbody tr:last-child {border-bottom:none;}
-tbody tr:hover {background:#FAFAFA;}
+tbody tr:hover {background:var(--color-neutral-50);}
 td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .td-bold {font-weight:600;}
 /* ── Progress bar ── */
@@ -76,14 +76,14 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .prog-pct {font-size:12px;font-weight:600;color:var(--color-text-primary);white-space:nowrap;width:36px;text-align:right;}
 /* ── Estado badge ── */
     .badge {font-size:11px;font-weight:600;padding:3px 10px;border-radius:var(--radius-btn);display:inline-block;white-space:nowrap;}
-.badge-ok {background:var(--color-success-tint);color:#15803D;}
+.badge-ok {background:var(--color-success-tint);color:var(--color-success-dark);}
 .badge-warn {background:var(--color-warning-tint);color:#B45309;}
 .badge-err {background:var(--color-danger-tint);color:var(--color-danger);}
-.badge-gray {background:#F3F4F6;color:var(--color-text-secondary);}
+.badge-gray {background:var(--color-neutral-100);color:var(--color-text-secondary);}
 /* ── Toast ── */
     .toast {position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--color-text-primary);color:white;font-size:13px;font-weight:500;padding:10px 20px;border-radius:var(--radius-btn);opacity:0;transition:all .25s;z-index:2000;pointer-events:none;white-space:nowrap;}
 .toast.show {opacity:1;transform:translateX(-50%) translateY(0);}
-.toast.success {background:#065F46;}
+.toast.success {background:var(--color-success-strong);}
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script>
@@ -375,7 +375,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
       <div class="reports-grid">
         <div class="report-card">
           <div class="report-card-header">
-            <div class="report-card-icon" style="background:#FFF1F3;">
+            <div class="report-card-icon" style="background:var(--color-primary-tint);">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="#8B1D3A"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg>
             </div>
             <div class="report-card-info">
@@ -450,7 +450,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         </div>
         <div class="report-card">
           <div class="report-card-header">
-            <div class="report-card-icon" style="background:#F5F3FF;">
+            <div class="report-card-icon" style="background:var(--color-corregido-tint);">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="#7C3AED"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg>
             </div>
             <div class="report-card-info">
@@ -638,35 +638,35 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         .db-panel {display:none;}
 .db-panel.active {display:block;}
 /* Proceso divider */
-        .db-proceso-hdr {font-size:10px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.08em;padding:16px 0 8px;border-bottom:1px solid #F3F4F6;margin-bottom:12px;}
+        .db-proceso-hdr {font-size:10px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.08em;padding:16px 0 8px;border-bottom:1px solid var(--color-neutral-100);margin-bottom:12px;}
 /* Card grid */
         .db-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:24px;}
 /* Indicator card */
         .db-card {background:var(--color-bg);border:1px solid var(--color-border);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;transition:box-shadow .15s,border-color .15s;}
 .db-card:hover {box-shadow:0 4px 14px rgba(139,29,58,.09);border-color:#D8C2BF;}
 .db-card-top {display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
-.db-proceso-chip {font-size:10px;font-weight:600;color:var(--color-text-secondary);background:#F3F4F6;padding:3px 8px;border-radius:999px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px;}
+.db-proceso-chip {font-size:10px;font-weight:600;color:var(--color-text-secondary);background:var(--color-neutral-100);padding:3px 8px;border-radius:999px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px;}
 .db-card-name {font-size:13px;font-weight:600;color:var(--color-text-primary);line-height:1.4;flex:1;}
 /* Value row */
         .db-val-row {display:flex;align-items:flex-end;gap:10px;}
 .db-val-big {font-size:28px;font-weight:700;line-height:1;color:var(--color-text-primary);font-variant-numeric:tabular-nums;}
 .db-val-meta {font-size:11px;color:var(--color-text-secondary);margin-bottom:3px;}
 .db-val-delta {font-size:11px;font-weight:600;margin-bottom:3px;display:flex;align-items:center;gap:2px;}
-.db-delta-up {color:#15803D;}
+.db-delta-up {color:var(--color-success-dark);}
 .db-delta-dn {color:var(--color-danger);}
 /* Sparkline */
         .db-spark-wrap {display:flex;flex-direction:column;gap:3px;}
 .db-spark svg {display:block;}
 .db-spark-labels {display:flex;justify-content:space-between;padding:0 1px;}
-.db-spark-lbl {font-size:8px;color:#D1D5DB;font-weight:500;width:10px;text-align:center;}
+.db-spark-lbl {font-size:8px;color:var(--color-neutral-300);font-weight:500;width:10px;text-align:center;}
 /* Status + period row */
         .db-card-footer {display:flex;align-items:center;justify-content:space-between;margin-top:2px;}
 .db-status {font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;}
-.db-status-ok {background:#DCFCE7;color:#15803D;}
-.db-status-warn {background:#FEF9C3;color:#A16207;}
-.db-status-bad {background:#FEE2E2;color:var(--color-danger);}
-.db-status-nd {background:#F3F4F6;color:var(--color-text-secondary);}
-.db-period-tag {font-size:10px;font-weight:600;color:var(--color-text-muted);background:#F9FAFB;border:1px solid var(--color-border);padding:2px 7px;border-radius:999px;}
+.db-status-ok {background:var(--color-success-tint);color:var(--color-success-dark);}
+.db-status-warn {background:var(--color-warning-tint);color:var(--color-warning-text);}
+.db-status-bad {background:var(--color-danger-tint);color:var(--color-danger);}
+.db-status-nd {background:var(--color-neutral-100);color:var(--color-text-secondary);}
+.db-period-tag {font-size:10px;font-weight:600;color:var(--color-text-muted);background:var(--color-neutral-50);border:1px solid var(--color-border);padding:2px 7px;border-radius:999px;}
 .db-dl-btn {display:inline-flex;align-items:center;gap:8px;background:var(--color-primary);color:var(--color-bg);font-size:13px;font-weight:700;font-family:inherit;padding:9px 18px;border-radius:999px;border:none;cursor:pointer;transition:background .15s;}
 .db-dl-btn:hover {background:var(--color-accent-dark);}
 .db-dl-btn.db-dl-ghost {background:transparent;color:var(--color-primary);border:1.5px solid var(--color-primary);}
@@ -674,7 +674,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .db-dl-btn svg {width:15px;height:15px;flex-shrink:0;}
 .db-hdr-actions {display:flex;align-items:center;gap:10px;flex-shrink:0;}
 /* View toggle */
-        .db-view-toggle {display:flex;gap:0;background:#F3F4F6;border-radius:999px;padding:3px;margin-bottom:16px;width:fit-content;}
+        .db-view-toggle {display:flex;gap:0;background:var(--color-neutral-100);border-radius:999px;padding:3px;margin-bottom:16px;width:fit-content;}
 .db-vt-btn {background:none;border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--color-text-secondary);padding:6px 16px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .15s,color .15s;}
 .db-vt-btn svg {width:14px;height:14px;}
 .db-vt-btn.active {background:var(--color-bg);color:var(--color-text-primary);box-shadow:0 1px 3px rgba(0,0,0,.1);}
@@ -684,20 +684,20 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .db-excel-table thead tr {background:var(--color-text-primary);}
 .db-excel-table thead th {background:var(--color-text-primary);color:var(--color-bg);font-weight:700;font-size:11px;padding:10px 12px;white-space:nowrap;text-align:left;border-right:1px solid rgba(255,255,255,.1);}
 .db-excel-table thead th.th-month {text-align:center;min-width:68px;}
-.db-excel-table tbody tr:nth-child(even) {background:#F9FAFB;}
+.db-excel-table tbody tr:nth-child(even) {background:var(--color-neutral-50);}
 .db-excel-table tbody tr:hover {background:#F0F4FF;}
-.db-excel-table tbody td {padding:9px 12px;white-space:nowrap;border-bottom:1px solid var(--color-border);border-right:1px solid #F3F4F6;vertical-align:middle;}
+.db-excel-table tbody td {padding:9px 12px;white-space:nowrap;border-bottom:1px solid var(--color-border);border-right:1px solid var(--color-neutral-100);vertical-align:middle;}
 .db-excel-table tbody td.td-proceso {font-size:11px;color:var(--color-text-secondary);font-weight:500;max-width:140px;white-space:normal;line-height:1.3;}
 .db-excel-table tbody td.td-indicador {font-weight:600;color:var(--color-text-primary);font-size:12px;max-width:260px;white-space:normal;line-height:1.35;}
 .db-excel-table tbody td.td-meta {text-align:center;font-weight:700;color:var(--color-text-primary);}
 .db-excel-table tbody td.td-per {text-align:center;font-size:11px;color:var(--color-text-secondary);}
 .db-excel-table tbody td.td-mes {text-align:center;font-variant-numeric:tabular-nums;font-weight:600;}
-.td-ok {background:#DCFCE7!important;color:#15803D;}
-.td-warn {background:#FEF9C3!important;color:#A16207;}
-.td-bad {background:#FEE2E2!important;color:var(--color-danger);}
-.td-nd {color:#D1D5DB;font-weight:400;}
+.td-ok {background:var(--color-success-tint)!important;color:var(--color-success-dark);}
+.td-warn {background:var(--color-warning-tint)!important;color:var(--color-warning-text);}
+.td-bad {background:var(--color-danger-tint)!important;color:var(--color-danger);}
+.td-nd {color:var(--color-neutral-300);font-weight:400;}
 /* Proceso subheader row in table */
-        .db-excel-table tr.tr-proceso-hdr td {background:#F3F4F6!important;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-secondary);padding:6px 12px;border-bottom:1px solid var(--color-border);}
+        .db-excel-table tr.tr-proceso-hdr td {background:var(--color-neutral-100)!important;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-secondary);padding:6px 12px;border-bottom:1px solid var(--color-border);}
 /* Table view per-gerencia header */
         .db-table-ger-hdr {display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--color-border);background:var(--color-bg);border-radius:12px 12px 0 0;}
 .db-table-ger-title {font-size:14px;font-weight:700;color:var(--color-text-primary);}
@@ -712,18 +712,18 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .mbr-ed-header {display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .mbr-ed-htitle {font-size:13px;font-weight:700;color:var(--color-text-primary);display:flex;align-items:center;gap:8px;}
 .mbr-ed-close {background:none;border:none;cursor:pointer;color:var(--color-text-muted);padding:4px;border-radius:6px;display:flex;align-items:center;line-height:1;transition:background .12s,color .12s;}
-.mbr-ed-close:hover {background:#F3F4F6;color:var(--color-text-primary);}
+.mbr-ed-close:hover {background:var(--color-neutral-100);color:var(--color-text-primary);}
 .mbr-ed-body {display:flex;gap:24px;align-items:flex-start;}
 .mbr-ed-logo-col {flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;width:120px;}
 .mbr-ed-col-label {font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;text-align:center;}
-.mbr-ed-preview {width:80px;height:80px;border-radius:8px;border:1.5px dashed #D1D5DB;background:#F9FAFB;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;transition:border-color .12s,background .12s;}
+.mbr-ed-preview {width:80px;height:80px;border-radius:8px;border:1.5px dashed var(--color-neutral-300);background:var(--color-neutral-50);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;transition:border-color .12s,background .12s;}
 .mbr-ed-preview:hover {border-color:var(--color-primary);background:#FFF5F7;}
 .mbr-ed-preview img {max-width:80px;max-height:80px;object-fit:contain;}
 .mbr-ed-ph {font-size:8px;color:var(--color-text-muted);font-weight:600;text-align:center;line-height:1.5;padding:8px;pointer-events:none;}
 .mbr-ed-logo-btns {display:flex;gap:6px;}
 .mbr-ed-sub-btn {font-size:11px;font-weight:600;font-family:inherit;padding:5px 12px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text-primary);cursor:pointer;transition:border-color .12s,color .12s;}
 .mbr-ed-sub-btn:hover {border-color:var(--color-primary);color:var(--color-primary);}
-.mbr-ed-clr-btn {font-size:11px;font-weight:700;font-family:inherit;padding:5px 8px;border-radius:6px;border:none;background:#FEE2E2;color:var(--color-danger);cursor:pointer;transition:background .12s;}
+.mbr-ed-clr-btn {font-size:11px;font-weight:700;font-family:inherit;padding:5px 8px;border-radius:6px;border:none;background:var(--color-danger-tint);color:var(--color-danger);cursor:pointer;transition:background .12s;}
 .mbr-ed-clr-btn:hover {background:#FECACA;}
 .mbr-ed-center {flex:1;display:flex;flex-direction:column;gap:10px;padding-top:22px;}
 .mbr-ed-field-label {font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
@@ -1126,9 +1126,9 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           var a = ANALISIS[ind.n];
           var TOTAL_COLS = 15;
           if (!a) {
-            return '<tr style="background:#FAFAFA;">'+
+            return '<tr style="background:var(--color-neutral-50);">'+
               '<td colspan="'+TOTAL_COLS+'" style="padding:6px 16px 8px 40px;border-bottom:2px solid var(--color-border);">'+
-                '<span style="font-size:11px;color:#D1D5DB;font-style:italic;">Sin análisis registrado para este período.</span>'+
+                '<span style="font-size:11px;color:var(--color-neutral-300);font-style:italic;">Sin análisis registrado para este período.</span>'+
               '</td>'+
             '</tr>';
           }
@@ -1144,7 +1144,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
               '<span style="font-size:11px;color:var(--color-text-primary);line-height:1.55;">'+it.val+'</span>'+
             '</div>';
           }).join('');
-          return '<tr style="background:#F9FAFB;">'+
+          return '<tr style="background:var(--color-neutral-50);">'+
             '<td colspan="'+TOTAL_COLS+'" style="padding:10px 16px 14px 40px;border-bottom:2px solid var(--color-border);">'+
               '<div style="display:flex;flex-direction:column;gap:8px;">'+rows+'</div>'+
             '</td>'+
@@ -1519,20 +1519,20 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .gpe-ger-dot {width:9px;height:9px;border-radius:50%;flex-shrink:0;}
 .gpe-ger-name {font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;}
 .gpe-metrics {display:grid;grid-template-columns:1fr 1fr;gap:0;}
-.gpe-metric {padding:12px 16px;border-top:1px solid #F3F4F6;border-right:1px solid #F3F4F6;}
+.gpe-metric {padding:12px 16px;border-top:1px solid var(--color-neutral-100);border-right:1px solid var(--color-neutral-100);}
 .gpe-metric:nth-child(even) {border-right:none;}
 .gpe-metric-lbl {font-size:10px;color:var(--color-text-muted);font-weight:500;margin-bottom:3px;line-height:1.3;}
 .gpe-metric-val {font-size:17px;font-weight:700;color:var(--color-text-primary);font-variant-numeric:tabular-nums;line-height:1.2;}
 .gpe-metric-unit {font-size:10px;color:var(--color-text-muted);margin-left:2px;}
 .gpe-metric-sub {font-size:10px;color:var(--color-text-muted);margin-top:2px;}
 .gpe-chip {display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;margin-top:4px;}
-.gpe-chip-ok {background:#DCFCE7;color:#15803D;}
-.gpe-chip-warn {background:#FEF9C3;color:#A16207;}
-.gpe-chip-bad {background:#FEE2E2;color:var(--color-danger);}
+.gpe-chip-ok {background:var(--color-success-tint);color:var(--color-success-dark);}
+.gpe-chip-warn {background:var(--color-warning-tint);color:var(--color-warning-text);}
+.gpe-chip-bad {background:var(--color-danger-tint);color:var(--color-danger);}
 .gpe-tarifas {background:var(--color-bg);border:1px solid var(--color-border);border-radius:16px;padding:16px 18px 18px;}
 .gpe-tarifas-title {font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-muted);margin-bottom:12px;}
 .gpe-tarifas-grid {display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-.gpe-tarifa {text-align:center;padding:10px 8px;background:#F9FAFB;border-radius:10px;}
+.gpe-tarifa {text-align:center;padding:10px 8px;background:var(--color-neutral-50);border-radius:10px;}
 .gpe-tarifa-tipo {font-size:10px;color:var(--color-text-secondary);font-weight:600;margin-bottom:4px;}
 .gpe-tarifa-val {font-size:18px;font-weight:800;color:var(--color-text-primary);font-variant-numeric:tabular-nums;}
 .gpe-tarifa-unit {font-size:10px;color:var(--color-text-muted);}
@@ -1540,9 +1540,9 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         .gpe-tbl-section {margin-bottom:16px;}
 .gpe-tbl-sec-hdr {font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--color-bg);padding:8px 14px;margin-bottom:0;border-radius:10px 10px 0 0;}
 .gpe-tbl-inner {border:1px solid var(--color-border);border-top:none;border-radius:0 0 10px 10px;overflow:hidden;}
-.gpe-tbl-row {display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #F3F4F6;}
+.gpe-tbl-row {display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--color-neutral-100);}
 .gpe-tbl-row:last-child {border-bottom:none;}
-.gpe-tbl-lbl {padding:9px 14px;font-size:12px;color:var(--color-text-primary);font-weight:500;background:#F9FAFB;}
+.gpe-tbl-lbl {padding:9px 14px;font-size:12px;color:var(--color-text-primary);font-weight:500;background:var(--color-neutral-50);}
 .gpe-tbl-val {padding:9px 14px;font-size:12px;font-weight:700;color:var(--color-text-primary);font-variant-numeric:tabular-nums;text-align:right;}
 </style>
 
@@ -1747,7 +1747,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .mtr-hdr-left p {font-size:13px;color:var(--color-text-secondary);margin-top:3px;}
 .mtr-hdr-right {display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .mtr-filter-row {display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
-.mtr-filter-btn {background:#F3F4F6;border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--color-text-secondary);padding:6px 14px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s;}
+.mtr-filter-btn {background:var(--color-neutral-100);border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--color-text-secondary);padding:6px 14px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s;}
 .mtr-filter-btn.active {background:var(--color-primary);color:var(--color-bg);}
 .mtr-stats {display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
 .mtr-stat {background:var(--color-bg);border:1px solid var(--color-border);border-radius:12px;padding:10px 16px;display:flex;align-items:center;gap:10px;}
@@ -1925,10 +1925,10 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .pca-kpi-val {font-size:32px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;}
 .pca-kpi-sub {font-size:10px;color:var(--color-text-muted);}
 .pca-kpi-chip {display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;width:fit-content;}
-.pca-chip-ok {background:#DCFCE7;color:#15803D;}
-.pca-chip-warn {background:#FEF9C3;color:#A16207;}
-.pca-chip-bad {background:#FEE2E2;color:var(--color-danger);}
-.pca-chip-neutral {background:#F3F4F6;color:var(--color-text-primary);}
+.pca-chip-ok {background:var(--color-success-tint);color:var(--color-success-dark);}
+.pca-chip-warn {background:var(--color-warning-tint);color:var(--color-warning-text);}
+.pca-chip-bad {background:var(--color-danger-tint);color:var(--color-danger);}
+.pca-chip-neutral {background:var(--color-neutral-100);color:var(--color-text-primary);}
 .pca-ef-strip {display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
 .pca-ef {background:linear-gradient(135deg,var(--color-primary) 0%,#4C0F20 100%);border-radius:16px;padding:22px 20px;color:var(--color-bg);text-align:center;}
 .pca-ef-lbl {font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;opacity:.7;margin-bottom:8px;}
@@ -1962,30 +1962,30 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 
       <div class="pca-section-title">Indicadores financieros y comerciales</div>
       <div class="pca-kpi-grid">
-        <div class="pca-kpi"><div class="pca-kpi-lbl">Facturación mayo (inc. saneamiento)</div><div class="pca-kpi-val" style="color:#065F46">$110.4M</div><div class="pca-kpi-sub">MXN</div><div class="pca-kpi-chip pca-chip-neutral">Comercial</div></div>
+        <div class="pca-kpi"><div class="pca-kpi-lbl">Facturación mayo (inc. saneamiento)</div><div class="pca-kpi-val" style="color:var(--color-success-strong)">$110.4M</div><div class="pca-kpi-sub">MXN</div><div class="pca-kpi-chip pca-chip-neutral">Comercial</div></div>
         <div class="pca-kpi"><div class="pca-kpi-lbl">Recaudación agua y drenaje</div><div class="pca-kpi-val" style="color:var(--color-info)">$71.8M</div><div class="pca-kpi-sub">MXN · mayo</div><div class="pca-kpi-chip pca-chip-ok">En meta</div></div>
         <div class="pca-kpi"><div class="pca-kpi-lbl">Rezago acumulado</div><div class="pca-kpi-val" style="color:var(--color-danger)">$993.7M</div><div class="pca-kpi-sub">MXN acumulado</div><div class="pca-kpi-chip pca-chip-bad">Atención prioritaria</div></div>
-        <div class="pca-kpi"><div class="pca-kpi-lbl">Ingreso captado acumulado</div><div class="pca-kpi-val" style="color:#065F46">$144.4M</div><div class="pca-kpi-sub">MXN enero–mayo</div><div class="pca-kpi-chip pca-chip-ok">Cumple</div></div>
-        <div class="pca-kpi"><div class="pca-kpi-lbl">% Micromedición</div><div class="pca-kpi-val" style="color:#A16207">71.8%</div><div class="pca-kpi-sub">Meta: 75%</div><div class="pca-kpi-chip pca-chip-warn">En riesgo</div></div>
+        <div class="pca-kpi"><div class="pca-kpi-lbl">Ingreso captado acumulado</div><div class="pca-kpi-val" style="color:var(--color-success-strong)">$144.4M</div><div class="pca-kpi-sub">MXN enero–mayo</div><div class="pca-kpi-chip pca-chip-ok">Cumple</div></div>
+        <div class="pca-kpi"><div class="pca-kpi-lbl">% Micromedición</div><div class="pca-kpi-val" style="color:var(--color-warning-text)">71.8%</div><div class="pca-kpi-sub">Meta: 75%</div><div class="pca-kpi-chip pca-chip-warn">En riesgo</div></div>
         <div class="pca-kpi"><div class="pca-kpi-lbl">Total de tomas registradas</div><div class="pca-kpi-val" style="color:var(--color-text-primary)">174,095</div><div class="pca-kpi-sub">Padrón activo</div><div class="pca-kpi-chip pca-chip-neutral">Comercial</div></div>
       </div>
 
       <div class="pca-section-title">Indicadores técnicos y operativos</div>
       <div class="pca-kpi-grid">
-        <div class="pca-kpi"><div class="pca-kpi-lbl">Caudal total producido</div><div class="pca-kpi-val" style="color:#065F46">2,322</div><div class="pca-kpi-sub">lps · Altavista + La Puerta</div><div class="pca-kpi-chip pca-chip-neutral">Técnica</div></div>
+        <div class="pca-kpi"><div class="pca-kpi-lbl">Caudal total producido</div><div class="pca-kpi-val" style="color:var(--color-success-strong)">2,322</div><div class="pca-kpi-sub">lps · Altavista + La Puerta</div><div class="pca-kpi-chip pca-chip-neutral">Técnica</div></div>
         <div class="pca-kpi"><div class="pca-kpi-lbl">% Atención a fugas (mayo)</div><div class="pca-kpi-val" style="color:var(--color-danger)">52%</div><div class="pca-kpi-sub">Meta: 81%</div><div class="pca-kpi-chip pca-chip-bad">No cumple</div></div>
-        <div class="pca-kpi"><div class="pca-kpi-lbl">Eficiencia operativa PTAP</div><div class="pca-kpi-val" style="color:#A16207">85.4%</div><div class="pca-kpi-sub">Meta: 90%</div><div class="pca-kpi-chip pca-chip-warn">En riesgo</div></div>
-        <div class="pca-kpi"><div class="pca-kpi-lbl">Calidad agua NOM-001 PTAR</div><div class="pca-kpi-val" style="color:#065F46">100%</div><div class="pca-kpi-sub">Tierra Negra + Morelos</div><div class="pca-kpi-chip pca-chip-ok">Cumple NOM</div></div>
+        <div class="pca-kpi"><div class="pca-kpi-lbl">Eficiencia operativa PTAP</div><div class="pca-kpi-val" style="color:var(--color-warning-text)">85.4%</div><div class="pca-kpi-sub">Meta: 90%</div><div class="pca-kpi-chip pca-chip-warn">En riesgo</div></div>
+        <div class="pca-kpi"><div class="pca-kpi-lbl">Calidad agua NOM-001 PTAR</div><div class="pca-kpi-val" style="color:var(--color-success-strong)">100%</div><div class="pca-kpi-sub">Tierra Negra + Morelos</div><div class="pca-kpi-chip pca-chip-ok">Cumple NOM</div></div>
         <div class="pca-kpi"><div class="pca-kpi-lbl">Cobertura red agua potable</div><div class="pca-kpi-val" style="color:var(--color-text-primary)">1,155</div><div class="pca-kpi-sub">km de red instalada</div><div class="pca-kpi-chip pca-chip-neutral">Técnica</div></div>
-        <div class="pca-kpi"><div class="pca-kpi-lbl">Avance físico de obra (abril)</div><div class="pca-kpi-val" style="color:#A16207">58%</div><div class="pca-kpi-sub">Meta: 100% al cierre</div><div class="pca-kpi-chip pca-chip-warn">En riesgo</div></div>
+        <div class="pca-kpi"><div class="pca-kpi-lbl">Avance físico de obra (abril)</div><div class="pca-kpi-val" style="color:var(--color-warning-text)">58%</div><div class="pca-kpi-sub">Meta: 100% al cierre</div><div class="pca-kpi-chip pca-chip-warn">En riesgo</div></div>
       </div>
 
       <div class="pca-section-title">Indicadores institucionales y de capital humano</div>
       <div class="pca-kpi-grid">
         <div class="pca-kpi"><div class="pca-kpi-lbl">Total de empleados</div><div class="pca-kpi-val" style="color:var(--color-text-primary)">1,248</div><div class="pca-kpi-sub">310 confianza · 938 sindicalizados</div><div class="pca-kpi-chip pca-chip-neutral">Administrativa</div></div>
-        <div class="pca-kpi"><div class="pca-kpi-lbl">% Soporte técnico TI (mayo)</div><div class="pca-kpi-val" style="color:#065F46">99%</div><div class="pca-kpi-sub">Meta: 100%</div><div class="pca-kpi-chip pca-chip-ok">Cumple</div></div>
+        <div class="pca-kpi"><div class="pca-kpi-lbl">% Soporte técnico TI (mayo)</div><div class="pca-kpi-val" style="color:var(--color-success-strong)">99%</div><div class="pca-kpi-sub">Meta: 100%</div><div class="pca-kpi-chip pca-chip-ok">Cumple</div></div>
         <div class="pca-kpi"><div class="pca-kpi-lbl">Personas impactadas cultura agua</div><div class="pca-kpi-val" style="color:var(--color-text-primary)">2,760</div><div class="pca-kpi-sub">Meta mensual: 2,833</div><div class="pca-kpi-chip pca-chip-warn">En riesgo</div></div>
-        <div class="pca-kpi"><div class="pca-kpi-lbl">Seguidores impactados (abril)</div><div class="pca-kpi-val" style="color:#065F46">4.5M</div><div class="pca-kpi-sub">Meta: 2.7M</div><div class="pca-kpi-chip pca-chip-ok">Cumple</div></div>
+        <div class="pca-kpi"><div class="pca-kpi-lbl">Seguidores impactados (abril)</div><div class="pca-kpi-val" style="color:var(--color-success-strong)">4.5M</div><div class="pca-kpi-sub">Meta: 2.7M</div><div class="pca-kpi-chip pca-chip-ok">Cumple</div></div>
       </div>
 
       <script>
@@ -2069,7 +2069,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .tr-th-acum {min-width:120px;text-align:center;background:#1A1A2E!important;}
 /* Data rows */
         .tr-row-even .tr-td-indicador,.tr-row-even td {background:var(--color-bg);}
-.tr-row-odd .tr-td-indicador,.tr-row-odd td {background:#F9FAFB;}
+.tr-row-odd .tr-td-indicador,.tr-row-odd td {background:var(--color-neutral-50);}
 .tr-indicador-row td {padding:10px 12px;border-bottom:none;border-right:1px solid var(--color-border);vertical-align:middle;}
 .tr-td-indicador {font-weight:600;font-size:12.5px;position:sticky;left:0;z-index:1;border-right:2px solid var(--color-border)!important;}
 .tr-td-center {text-align:center;font-size:12px;color:var(--color-text-secondary);}
@@ -2080,10 +2080,10 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .tr-col-acum {text-align:center;}
 /* Result status chips */
         .tr-res-chip {display:inline-block;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:700;}
-.tr-chip-ok {background:#DCFCE7;color:#15803D;}
-.tr-chip-warn {background:#FEF9C3;color:#A16207;}
-.tr-chip-bad {background:#FEE2E2;color:var(--color-danger);}
-.tr-chip-nd {background:#F3F4F6;color:var(--color-text-secondary);}
+.tr-chip-ok {background:var(--color-success-tint);color:var(--color-success-dark);}
+.tr-chip-warn {background:var(--color-warning-tint);color:var(--color-warning-text);}
+.tr-chip-bad {background:var(--color-danger-tint);color:var(--color-danger);}
+.tr-chip-nd {background:var(--color-neutral-100);color:var(--color-text-secondary);}
 /* Metadata sub-row */
         .tr-meta-row td {border-top:none;padding:0;}
 .tr-td-meta {padding:0 0 10px 0!important;background:inherit;}
@@ -3019,7 +3019,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
               + '<td class="num acum"><span style="' + cs + ';padding:2px 8px;border-radius:999px;font-weight:700;font-size:11px;">' + v(qd.acum) + '</span></td>'
               + '</tr>'
               + '<tr class="sub">'
-              + '<td colspan="9" style="padding:6px 12px 10px;border-bottom:1px solid var(--color-border);background:#F9FAFB;">'
+              + '<td colspan="9" style="padding:6px 12px 10px;border-bottom:1px solid var(--color-border);background:var(--color-neutral-50);">'
               + '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr>'
               + '<td style="width:35%;padding-right:12px;vertical-align:top;"><strong style="color:var(--color-text-secondary);font-size:9px;text-transform:uppercase;">Descripción del objetivo</strong><br>' + ind.objetivo + '</td>'
               + '<td style="width:35%;padding-right:12px;vertical-align:top;"><strong style="color:var(--color-text-secondary);font-size:9px;text-transform:uppercase;">Fórmula utilizada</strong><br><em>' + ind.formula + '</em></td>'
@@ -3055,7 +3055,7 @@ thead .acum {background:#1A1A2E;}
             + 'tr.data td {padding:6px 8px;border-right:1px solid var(--color-border);border-bottom:none;vertical-align:middle;}
 '
             + 'tr.data:nth-child(4n+1) td {background:var(--color-bg);}
-tr.data:nth-child(4n+3) td {background:#F9FAFB;}
+tr.data:nth-child(4n+3) td {background:var(--color-neutral-50);}
 '
             + '.ind {font-weight:600;min-width:180px;}
 .ctr {text-align:center;}
@@ -3115,10 +3115,10 @@ tr.data:nth-child(4n+3) td {background:#F9FAFB;}
 .gfx-step-label {font-size:12px;font-weight:500;color:var(--color-text-secondary);white-space:nowrap;}
 .gfx-step.active .gfx-step-num {background:var(--color-primary);color:var(--color-bg);}
 .gfx-step.active .gfx-step-label {color:var(--color-primary);font-weight:700;}
-.gfx-step.done .gfx-step-num {background:#059669;color:var(--color-bg);}
-.gfx-step.done .gfx-step-label {color:#059669;}
+.gfx-step.done .gfx-step-num {background:var(--color-success);color:var(--color-bg);}
+.gfx-step.done .gfx-step-label {color:var(--color-success);}
 .gfx-step-connector {flex:1;height:2px;background:var(--color-border);margin:0 16px;min-width:24px;transition:background .3s;}
-.gfx-step-connector.done {background:#059669;}
+.gfx-step-connector.done {background:var(--color-success);}
 .gfx-panel {min-height:280px;margin-bottom:20px;}
 .gfx-panel-title {font-size:18px;font-weight:700;color:var(--color-text-primary);margin-bottom:6px;}
 .gfx-panel-sub {font-size:13px;color:var(--color-text-secondary);margin-bottom:24px;}
@@ -3149,16 +3149,16 @@ tr.data:nth-child(4n+3) td {background:#F9FAFB;}
 .gfx-data-table-wrap.visible {display:block;}
 .gfx-data-table-wrap table {width:100%;border-collapse:collapse;font-size:12px;}
 .gfx-data-table-wrap thead th {background:var(--color-text-primary);color:var(--color-bg);padding:8px 12px;text-align:left;font-size:11px;position:sticky;top:0;}
-.gfx-data-table-wrap tbody td {padding:8px 12px;border-bottom:1px solid #F3F4F6;}
+.gfx-data-table-wrap tbody td {padding:8px 12px;border-bottom:1px solid var(--color-neutral-100);}
 .gfx-data-table-wrap tbody tr:last-child td {border-bottom:none;}
-.gfx-data-table-wrap tbody tr:nth-child(even) td {background:#F9FAFB;}
+.gfx-data-table-wrap tbody tr:nth-child(even) td {background:var(--color-neutral-50);}
 .gfx-nav {display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid var(--color-border);}
 .gfx-btn-back {display:flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);}
 .gfx-btn-back:hover {background:var(--color-border);}
 .gfx-btn-next {display:flex;align-items:center;gap:6px;padding:10px 24px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:none;background:var(--color-primary);color:var(--color-bg);}
 .gfx-btn-next:hover:not(:disabled) {filter:brightness(1.1);}
 .gfx-btn-next:disabled {background:var(--color-border);color:var(--color-text-secondary);cursor:not-allowed;}
-.gfx-btn-next.green {background:#059669;}
+.gfx-btn-next.green {background:var(--color-success);}
 </style>
 
       <div class="page-header">

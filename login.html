@@ -150,7 +150,7 @@ body {
     .error-box {
       background: var(--color-danger-tint); border: 1px solid #FECACA; border-radius: 10px;
       padding: 11px 14px; display: flex; align-items: flex-start; gap: 8px;
-      margin-bottom: 16px; font-size: 12px; color: #991B1B; line-height: 1.5;
+      margin-bottom: 16px; font-size: 12px; color: var(--color-danger-text); line-height: 1.5;
     }
 .error-box.hidden { display: none; }
 .error-box svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
@@ -180,20 +180,20 @@ body {
 .spinner.hidden { display: none; }
 
     @keyframes spin { to { transform: rotate(360deg); } }/* ── ACCESOS DE PRUEBA ── */
-    .hint-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid #F3F4F6; }
+    .hint-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--color-neutral-100); }
 .hint-label { font-size: 10px; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
 .hint-list { display: flex; flex-direction: column; gap: 5px; }
 .hint-item {
       display: flex; align-items: center; justify-content: space-between;
-      background: #F9FAFB; border-radius: 10px; padding: 9px 12px;
+      background: var(--color-neutral-50); border-radius: 10px; padding: 9px 12px;
       cursor: pointer; transition: background .12s; border: 1px solid transparent;
     }
-.hint-item:hover { background: #F3F4F6; border-color: var(--color-border); }
+.hint-item:hover { background: var(--color-neutral-100); border-color: var(--color-border); }
 .hint-item:active { background: var(--color-primary-tint); border-color: #E8C5CD; }
 /* Enlace accordion */
     .hint-enlace-item { flex-direction: column; align-items: stretch; cursor: default; }
-.hint-enlace-item:hover { background: #F9FAFB; border-color: transparent; }
-.hint-enlace-item.expanded { border-color: transparent; background: #F3F4F6; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+.hint-enlace-item:hover { background: var(--color-neutral-50); border-color: transparent; }
+.hint-enlace-item.expanded { border-color: transparent; background: var(--color-neutral-100); box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
 .hint-item-row { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
 .hint-item-row:hover .hint-enlace-sub { color: var(--color-primary); }
 .hint-enlace-sub { font-size: 9px; color: var(--color-text-muted); white-space: nowrap; transition: color .15s; }
@@ -209,17 +209,17 @@ body {
 .hint-ger-name { display: block; font-size: 12px; font-weight: 600; color: var(--color-text-primary); line-height: 1.3; }
 .hint-ger-meta { display: block; font-size: 10px; color: var(--color-text-muted); margin-top: 1px; }
 .hint-ger-btn:hover .hint-ger-name { color: var(--color-primary); }
-.hint-ger-chevron { width: 13px; height: 13px; color: #D1D5DB; flex-shrink: 0; transition: color .15s, transform .2s; }
+.hint-ger-chevron { width: 13px; height: 13px; color: var(--color-neutral-300); flex-shrink: 0; transition: color .15s, transform .2s; }
 .hint-ger-btn:hover .hint-ger-chevron { color: var(--color-primary); }
 .hint-ger-item.active .hint-ger-chevron { transform: rotate(90deg); color: var(--color-primary); }
 .hint-ger-item.active .hint-ger-btn { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom-color: transparent; }
 .hint-ger-units { display: none; border: 1px solid var(--color-border); border-top: none; border-radius: 0 0 10px 10px; background: var(--color-bg); padding: 4px; }
 .hint-ger-item.active .hint-ger-units { display: block; }
 .hint-unit-btn { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; text-align: left; padding: 7px 10px 7px 28px; border: none; border-radius: 7px; background: transparent; font-size: 11px; color: var(--color-text-primary); cursor: pointer; font-family: inherit; transition: all .12s; }
-.hint-unit-btn:hover { background: #FFF1F3; color: var(--color-primary); }
+.hint-unit-btn:hover { background: var(--color-primary-tint); color: var(--color-primary); }
 .hint-unit-name { flex: 1; min-width: 0; }
 .hint-unit-kpis { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
-.kpi-mir { font-size: 9px; font-weight: 700; color: var(--color-text-secondary); background: #F3F4F6; border-radius: 4px; padding: 1px 5px; white-space: nowrap; }
+.kpi-mir { font-size: 9px; font-weight: 700; color: var(--color-text-secondary); background: var(--color-neutral-100); border-radius: 4px; padding: 1px 5px; white-space: nowrap; }
 .hint-user { display: flex; align-items: center; gap: 9px; }
 .hint-avatar {
       width: 30px; height: 30px; border-radius: 50%;
@@ -235,31 +235,31 @@ body {
       border-radius: 999px; text-transform: uppercase; letter-spacing: .03em; white-space: nowrap;
     }
 .hint-role-badge.adm { background: var(--color-primary-tint); color: var(--color-primary); }
-.hint-role-badge.rev { background: #F3F4F6; color: var(--color-text-primary); }
-.hint-role-badge.enl { background: #F3F4F6; color: var(--color-text-primary); }
+.hint-role-badge.rev { background: var(--color-neutral-100); color: var(--color-text-primary); }
+.hint-role-badge.enl { background: var(--color-neutral-100); color: var(--color-text-primary); }
 .hint-role-badge.dual { background: var(--color-info-tint); color: var(--color-info); }
 /* ── FOOTER ── */
-    .page-footer { margin-top: 20px; padding-top: 18px; font-size: 11px; color: #D1D5DB; text-align: center; }
+    .page-footer { margin-top: 20px; padding-top: 18px; font-size: 11px; color: var(--color-neutral-300); text-align: center; }
 /* ── ROLE PICKER ── */
     .role-picker { display: none; }
 .role-picker.visible { display: block; }
-.rp-user { display: flex; align-items: center; gap: 10px; background: #F9FAFB; border: 1px solid var(--color-border); border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; }
+.rp-user { display: flex; align-items: center; gap: 10px; background: var(--color-neutral-50); border: 1px solid var(--color-border); border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; }
 .rp-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--color-text-secondary); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
 .rp-info { flex: 1; }
 .rp-info-name { font-size: 13px; font-weight: 700; color: var(--color-text-primary); }
 .rp-info-email { font-size: 10px; color: var(--color-text-muted); font-family: monospace; margin-top: 1px; }
-.rp-ok-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--color-success-tint); color: #16A34A; white-space: nowrap; }
+.rp-ok-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--color-success-tint); color: var(--color-success); white-space: nowrap; }
 .rp-ok-badge svg { width: 10px; height: 10px; }
 .rp-title { font-size: 20px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px; }
 .rp-sub { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 20px; line-height: 1.5; }
 .rp-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
 .rp-card { border: 1.5px solid var(--color-border); border-radius: 14px; padding: 18px 16px; cursor: pointer; text-align: left; background: white; transition: border-color .15s, box-shadow .15s, background .12s; }
-.rp-card:hover { border-color: var(--color-primary); background: #FDF5F7; box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
+.rp-card:hover { border-color: var(--color-primary); background: var(--color-primary-tint); box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
 .rp-card-ico { width: 40px; height: 40px; border-radius: 11px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
 .rp-card.revisor .rp-card-ico { background: var(--color-info-tint); }
 .rp-card.revisor .rp-card-ico svg { color: var(--color-info); }
 .rp-card.enlace .rp-card-ico { background: var(--color-success-tint); }
-.rp-card.enlace .rp-card-ico svg { color: #16A34A; }
+.rp-card.enlace .rp-card-ico svg { color: var(--color-success); }
 .rp-card-role { font-size: 13px; font-weight: 700; color: var(--color-text-primary); }
 .rp-card-person { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
 .rp-card-desc { font-size: 11px; color: var(--color-text-muted); margin-top: 8px; line-height: 1.4; }
@@ -276,7 +276,7 @@ body {
       transition: border-color .15s, box-shadow .15s, background .12s;
       position: relative;
     }
-.rp-card-gerencia:hover { border-color: var(--color-primary); background: #FDF5F7; box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
+.rp-card-gerencia:hover { border-color: var(--color-primary); background: var(--color-primary-tint); box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
 .rp-ger-icon {
       width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
@@ -308,7 +308,7 @@ body {
       display: flex; align-items: center; gap: 12px;
       transition: border-color .15s, box-shadow .15s, background .12s;
     }
-.rp-card-coord:hover { border-color: var(--color-primary); background: #FDF5F7; box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
+.rp-card-coord:hover { border-color: var(--color-primary); background: var(--color-primary-tint); box-shadow: 0 0 0 3px rgba(139,29,58,.07); }
 .rp-coord-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .rp-coord-name { font-size: 13px; font-weight: 600; color: var(--color-text-primary); flex: 1; line-height: 1.3; }
 .rp-coord-count { font-size: 10px; color: var(--color-text-muted); white-space: nowrap; }
@@ -480,7 +480,7 @@ body {
                 <div class="hint-ger-list">
                   <div class="hint-ger-item" id="hgi-tecnica">
                     <button class="hint-ger-btn" onclick="toggleHintGer('tecnica', event)">
-                      <span class="hint-ger-dot" style="background:#0891B2"></span>
+                      <span class="hint-ger-dot" style="background:var(--color-info)"></span>
                       <div class="hint-ger-info">
                         <span class="hint-ger-name">Gerencia Técnica</span>
                         <span class="hint-ger-meta">43 MIR · 17 Gerenciales</span>
@@ -518,7 +518,7 @@ body {
                   </div>
                   <div class="hint-ger-item" id="hgi-admin">
                     <button class="hint-ger-btn" onclick="toggleHintGer('admin', event)">
-                      <span class="hint-ger-dot" style="background:#065F46"></span>
+                      <span class="hint-ger-dot" style="background:var(--color-success-strong)"></span>
                       <div class="hint-ger-info">
                         <span class="hint-ger-name">Gerencia Administrativa</span>
                         <span class="hint-ger-meta">47 MIR · 12 Gerenciales</span>
@@ -541,7 +541,7 @@ body {
                   </div>
                   <div class="hint-ger-item" id="hgi-plan">
                     <button class="hint-ger-btn" onclick="toggleHintGer('plan', event)">
-                      <span class="hint-ger-dot" style="background:#7C3AED"></span>
+                      <span class="hint-ger-dot" style="background:var(--color-corregido)"></span>
                       <div class="hint-ger-info">
                         <span class="hint-ger-name">Gerencia de Planeación Estratégica</span>
                         <span class="hint-ger-meta">15 MIR · 2 Gerenciales</span>
@@ -619,7 +619,7 @@ body {
           <div class="rp-cards-gerencia">
 
             <div class="rp-card-gerencia" onclick="loginAsGerencia('Gerencia de Planeación Estratégica')">
-              <div class="rp-ger-icon" style="background:#F5F3FF;">
+              <div class="rp-ger-icon" style="background:var(--color-corregido-tint);">
                 <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="#7C3AED">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/>
                 </svg>
@@ -634,7 +634,7 @@ body {
             </div>
 
             <div class="rp-card-gerencia" onclick="loginAsGerencia('Gerencia Comercial')">
-              <div class="rp-ger-icon" style="background:#FFF1F3;">
+              <div class="rp-ger-icon" style="background:var(--color-primary-tint);">
                 <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="#8B1D3A">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/>
                 </svg>

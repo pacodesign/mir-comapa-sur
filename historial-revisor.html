@@ -25,7 +25,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .stat-card {background:var(--color-bg);border-radius:14px;padding:14px 18px;flex:1;box-shadow:0 1px 3px rgba(0,0,0,.06);text-align:center;}
 .stat-val {font-size:24px;font-weight:800;line-height:1;}
 .stat-val.green {color:var(--color-success);}
-.stat-val.orange {color:#EA580C;}
+.stat-val.orange {color:var(--color-observado);}
 .stat-val.blue {color:var(--color-info);}
 .stat-lbl {font-size:11px;color:var(--color-text-secondary);margin-top:4px;}
 /* TIMELINE */
@@ -54,21 +54,21 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .tl-estado-row {display:flex;align-items:center;gap:6px;}
 .est-chip {display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:700;}
 .est-chip::before {content:'';width:4px;height:4px;border-radius:50%;}
-.est-chip.aprobado_revisor {background:var(--color-success-tint);color:#16A34A;}
+.est-chip.aprobado_revisor {background:var(--color-success-tint);color:var(--color-success);}
 .est-chip.aprobado_revisor::before {background:var(--color-success);}
-.listo_validar { background: #ECFDF5; color: #059669; }
-.listo_validar::before { background: #10B981; }
-.cerrado { background: var(--color-success-tint); color: #15803D; }
-.cerrado::before { background: #16A34A; }
-.est-chip.observado {background:#FFF7ED;color:#EA580C;}
-.est-chip.observado::before {background:#F97316;}
+.listo_validar { background: var(--color-success-tint); color: var(--color-success); }
+.listo_validar::before { background: var(--color-success); }
+.cerrado { background: var(--color-success-tint); color: var(--color-success-dark); }
+.cerrado::before { background: var(--color-success); }
+.est-chip.observado {background:var(--color-observado-tint);color:var(--color-observado);}
+.est-chip.observado::before {background:var(--color-observado);}
 .est-chip.pendiente_revision {background:var(--color-info-tint);color:var(--color-info);}
 .est-chip.pendiente_revision::before {background:var(--color-info);}
-.est-chip.corregido {background:#F5F3FF;color:#7C3AED;}
-.est-chip.corregido::before {background:#8B5CF6;}
+.est-chip.corregido {background:var(--color-corregido-tint);color:var(--color-corregido);}
+.est-chip.corregido::before {background:var(--color-corregido);}
 .est-chip.enviado_revision {background:var(--color-info-tint);color:var(--color-info);}
 .est-chip.enviado_revision::before {background:var(--color-info);}
-.est-arrow {color:#D1D5DB;font-size:12px;}
+.est-arrow {color:var(--color-neutral-300);font-size:12px;}
 .tl-open-btn {display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--color-info);background:var(--color-info-tint);border:none;border-radius:7px;padding:3px 9px;cursor:pointer;margin-top:6px;text-decoration:none;}
 .tl-open-btn:hover {opacity:.80;}
 .tl-open-btn svg {width:11px;height:11px;}

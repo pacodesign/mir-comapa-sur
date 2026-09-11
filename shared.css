@@ -42,6 +42,22 @@
   --color-info-tint:      #EFF6FF;
   --color-primary-tint:   #F5E8EC;
 
+  /* Subtonos semánticos — texto y variantes de estado */
+  --color-success-dark:   #15803D;  /* texto verde oscuro (cerrado, listo) */
+  --color-success-strong: #065F46;  /* verde muy oscuro (acento máximo) */
+  --color-warning-text:   #92400E;  /* texto ámbar oscuro (pendiente, advertencia) */
+  --color-warning-dark:   #D97706;  /* ámbar medio */
+  --color-observado-tint: #FFF7ED;  /* fondo naranja claro (observado) */
+  --color-observado:      #EA580C;  /* naranja (dot y texto observado) */
+  --color-corregido-tint: #F5F3FF;  /* fondo violeta claro (corregido) */
+  --color-corregido:      #7C3AED;  /* violeta (dot y texto corregido) */
+  --color-danger-text:    #991B1B;  /* texto rojo oscuro (vencido) */
+
+  /* Neutros de superficie */
+  --color-neutral-50:     #F9FAFB;  /* gris muy claro */
+  --color-neutral-100:    #F3F4F6;  /* fondo de badges neutros / chips inactivos */
+  --color-neutral-300:    #D1D5DB;  /* borde suave / divisor secundario */
+
   /* Neutral text */
   --color-link:           #6B7280;
   --color-text-primary:   #111827;

@@ -27,7 +27,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .tipo-tab.active { background: var(--color-bg); color: var(--color-text-primary); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
 .tipo-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; margin-left: 6px; }
 .tipo-tag.mir { background: var(--color-info-tint); color: var(--color-info); }
-.tipo-tag.ger { background: var(--color-success-tint); color: #15803D; }
+.tipo-tag.ger { background: var(--color-success-tint); color: var(--color-success-dark); }
 /* BUTTONS */
     .btn-primary { background: var(--color-primary); color: white; border: none; border-radius: var(--radius-btn); padding: 9px 18px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background .15s; }
 /* FILTER BAR */
@@ -54,7 +54,7 @@ thead th .sort-icon { display: inline-block; margin-left: 4px; opacity: .5; }
 thead th.sorted .sort-icon { opacity: 1; }
 tbody tr { border-bottom: 1px solid var(--color-border); transition: background .1s; }
 tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: #FAFAFA; }
+tbody tr:hover { background: var(--color-neutral-50); }
 tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
 .td-actividad { min-width: 220px; max-width: 280px; }
 .act-id { font-size: 9px; font-weight: 700; color: var(--color-primary); font-family: monospace; margin-bottom: 3px; }
@@ -74,31 +74,31 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
 .td-action { text-align: right; white-space: nowrap; }
 /* NIVEL / TIPO BADGE */
     .nivel-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
-.nivel-fin { background: #EDE9FE; color: #7C3AED; }
-.nivel-proposito { background: #DBEAFE; color: var(--color-info); }
-.nivel-componente { background: #CCFBF1; color: #0F766E; }
-.nivel-actividad { background: #F3F4F6; color: var(--color-text-primary); }
-.nivel-gerencial { background: var(--color-success-tint); color: #15803D; }
+.nivel-fin { background: var(--color-corregido-tint); color: var(--color-corregido); }
+.nivel-proposito { background: var(--color-info-tint); color: var(--color-info); }
+.nivel-componente { background: var(--color-success-tint); color: var(--color-info); }
+.nivel-actividad { background: var(--color-neutral-100); color: var(--color-text-primary); }
+.nivel-gerencial { background: var(--color-success-tint); color: var(--color-success-dark); }
 /* ESTADO BADGE */
     .estado-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
-.borrador { background: #F3F4F6; color: var(--color-text-secondary); }
+.borrador { background: var(--color-neutral-100); color: var(--color-text-secondary); }
 .borrador::before { background: var(--color-text-muted); }
-.pendiente_carga { background: #FEF3C7; color: #D97706; }
+.pendiente_carga { background: var(--color-warning-tint); color: var(--color-warning-dark); }
 .pendiente_carga::before { background: var(--color-warning); }
 .pendiente_envio { background: var(--color-info-tint); color: var(--color-info); }
 .pendiente_envio::before { background: var(--color-info); }
 .enviado_revision { background: var(--color-info-tint); color: var(--color-info); }
 .enviado_revision::before { background: var(--color-info); }
-.observado { background: #FFF7ED; color: #EA580C; }
-.observado::before { background: #F97316; }
-.corregido { background: #F5F3FF; color: #7C3AED; }
-.corregido::before { background: #8B5CF6; }
-.aprobado_revisor { background: var(--color-success-tint); color: #16A34A; }
+.observado { background: var(--color-observado-tint); color: var(--color-observado); }
+.observado::before { background: var(--color-observado); }
+.corregido { background: var(--color-corregido-tint); color: var(--color-corregido); }
+.corregido::before { background: var(--color-corregido); }
+.aprobado_revisor { background: var(--color-success-tint); color: var(--color-success); }
 .aprobado_revisor::before { background: var(--color-success); }
-.listo_validar { background: #ECFDF5; color: #059669; }
-.listo_validar::before { background: #10B981; }
-.cerrado { background: var(--color-success-tint); color: #15803D; }
-.cerrado::before { background: #16A34A; }
+.listo_validar { background: var(--color-success-tint); color: var(--color-success); }
+.listo_validar::before { background: var(--color-success); }
+.cerrado { background: var(--color-success-tint); color: var(--color-success-dark); }
+.cerrado::before { background: var(--color-success); }
 .vencido { background: var(--color-danger-tint); color: var(--color-danger); }
 .vencido::before { background: var(--color-danger); }
 /* CTA BUTTONS */
@@ -106,9 +106,9 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
 .btn-act:hover { opacity: .85; }
 .btn-act svg { width: 12px; height: 12px; }
 .btn-act.primary { background: var(--color-primary); color: white; }
-.btn-act.warning { background: #FEF3C7; color: #92400E; }
+.btn-act.warning { background: var(--color-warning-tint); color: var(--color-warning-text); }
 .btn-act.neutral { background: var(--color-surface); color: var(--color-text-primary); border: 1px solid var(--color-border); }
-.btn-act.success { background: var(--color-success-tint); color: #15803D; }
+.btn-act.success { background: var(--color-success-tint); color: var(--color-success-dark); }
 .btn-act.danger { background: var(--color-danger-tint); color: var(--color-danger); }
 /* EMPTY STATE */
     .empty-state { text-align: center; padding: 56px 24px; }
@@ -229,7 +229,7 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
           De gerencia <span class="tipo-tag ger" id="tagGer"></span>
         </button>
         <button class="tipo-tab active" id="tabTodos" onclick="switchTipo('todos')">
-          Todos <span class="tipo-tag" id="tagTodos" style="background:#F3F4F6;color:var(--color-text-primary);"></span>
+          Todos <span class="tipo-tag" id="tagTodos" style="background:var(--color-neutral-100);color:var(--color-text-primary);"></span>
         </button>
       </div>
     </div>
@@ -404,7 +404,7 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
         <td><span style="font-size:12px;color:var(--color-text-secondary);line-height:1.4;">${esGerencial ? (act.area || '—') : (act.unidadResponsable || '—')}</span></td>
         <td>${tipoBadge}</td>
         <td class="td-mv">${esGerencial
-          ? '<span style="display:inline-flex;align-items:center;gap:5px;color:#D1D5DB;"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg><span style="font-size:10px;font-weight:500;letter-spacing:.01em;">Gerencial</span></span>'
+          ? '<span style="display:inline-flex;align-items:center;gap:5px;color:var(--color-neutral-300);"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg><span style="font-size:10px;font-weight:500;letter-spacing:.01em;">Gerencial</span></span>'
           : '<p class="mv-text">'+act.medioVerificacion+'</p>'}</td>
         <td><span class="frec-badge">${act.frecuenciaMedicion}</span></td>
         <td class="td-fecha">

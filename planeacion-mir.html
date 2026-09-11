@@ -31,9 +31,9 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .rp-period-val {font-size:13px;font-weight:600;color:var(--color-text-primary);margin-bottom:3px;}
 .rp-period-sub {font-size:11px;color:var(--color-text-secondary);}
 .rp-badge {display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:var(--radius-btn);}
-.rp-badge.green {background:var(--color-success-tint);color:#16A34A;}
-.rp-badge.orange {background:#FFF7ED;color:#EA580C;}
-.rp-badge.gray {background:#F3F4F6;color:var(--color-text-secondary);}
+.rp-badge.green {background:var(--color-success-tint);color:var(--color-success);}
+.rp-badge.orange {background:var(--color-observado-tint);color:var(--color-observado);}
+.rp-badge.gray {background:var(--color-neutral-100);color:var(--color-text-secondary);}
 /* ── PAGE HEADER ── */
     .page-header {display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;}
 .header-actions {display:flex;gap:8px;align-items:center;flex-shrink:0;}
@@ -48,9 +48,9 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .sub-tab {font-size:13px;font-weight:600;padding:10px 18px;border:none;background:none;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;transition:color .1s,border-color .1s;}
 .sub-tab.active {color:var(--color-primary);border-bottom-color:var(--color-primary);}
 .sub-tab:hover:not(.active) {color:var(--color-text-primary);}
-.tab-count {font-size:10px;font-weight:700;padding:1px 6px;border-radius:var(--radius-btn);background:#F3F4F6;color:var(--color-text-secondary);margin-left:6px;}
-.sub-tab.active .tab-count {background:#FDF5F7;color:var(--color-primary);}
-.soon-badge {font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:#F3F4F6;color:var(--color-text-muted);margin-left:6px;letter-spacing:.03em;}
+.tab-count {font-size:10px;font-weight:700;padding:1px 6px;border-radius:var(--radius-btn);background:var(--color-neutral-100);color:var(--color-text-secondary);margin-left:6px;}
+.sub-tab.active .tab-count {background:var(--color-primary-tint);color:var(--color-primary);}
+.soon-badge {font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:var(--color-neutral-100);color:var(--color-text-muted);margin-left:6px;letter-spacing:.03em;}
 /* ── FILTER BAR ── */
     .filter-bar {display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
 .filter-search {flex:1;min-width:200px;padding:8px 14px 8px 36px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:var(--radius-btn);background:white;color:var(--color-text-primary);outline:none;transition:border-color .15s,box-shadow .15s;}
@@ -68,19 +68,19 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .gerencia-pill {font-size:10px;font-weight:600;padding:3px 8px;border-radius:var(--radius-btn);white-space:nowrap;}
 .freq-chip {font-size:11px;font-weight:500;color:var(--color-text-secondary);}
 .meta-val {font-size:12px;font-weight:600;color:var(--color-text-primary);white-space:nowrap;}
-.acum-icon {color:#16A34A;font-size:14px;}
-.dash-icon {color:#D1D5DB;}
+.acum-icon {color:var(--color-success);font-size:14px;}
+.dash-icon {color:var(--color-neutral-300);}
 .estado-pill {font-size:11px;font-weight:600;padding:3px 10px;border-radius:var(--radius-btn);}
-.estado-pill.activo {background:var(--color-success-tint);color:#16A34A;}
-.estado-pill.borrador {background:#FFF7ED;color:#EA580C;}
-.estado-pill.inactivo {background:#F3F4F6;color:var(--color-text-secondary);}
+.estado-pill.activo {background:var(--color-success-tint);color:var(--color-success);}
+.estado-pill.borrador {background:var(--color-observado-tint);color:var(--color-observado);}
+.estado-pill.inactivo {background:var(--color-neutral-100);color:var(--color-text-secondary);}
 .row-actions {display:flex;gap:4px;opacity:0;transition:opacity .1s;}
 tr:hover .row-actions {opacity:1;}
 .action-btn {width:28px;height:28px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s;}
 .action-btn svg {width:14px;height:14px;}
-.action-btn.edit {background:#F3F4F6;color:var(--color-text-secondary);}
+.action-btn.edit {background:var(--color-neutral-100);color:var(--color-text-secondary);}
 .action-btn.edit:hover {background:var(--color-info-tint);color:var(--color-info);}
-.action-btn.del {background:#F3F4F6;color:var(--color-text-secondary);}
+.action-btn.del {background:var(--color-neutral-100);color:var(--color-text-secondary);}
 .action-btn.del:hover {background:var(--color-danger-tint);color:var(--color-danger);}
 /* ── PAGINATION ── */
     .pagination-row {display:flex;align-items:center;justify-content:space-between;padding:4px 0 16px;}
@@ -88,7 +88,7 @@ tr:hover .row-actions {opacity:1;}
 .pagination-btns {display:flex;gap:4px;}
 .page-btn {min-width:32px;height:32px;padding:0 6px;border-radius:8px;border:1px solid var(--color-border);background:white;font-size:12px;font-weight:500;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;}
 .page-btn.active {background:var(--color-primary);color:white;border-color:var(--color-primary);}
-.page-btn:hover:not(.active) {background:#F3F4F6;}
+.page-btn:hover:not(.active) {background:var(--color-neutral-100);}
 .page-btn:disabled {opacity:.4;cursor:default;}
 /* ── MODAL ── */
     .modal-overlay {position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(3px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
@@ -98,8 +98,8 @@ tr:hover .row-actions {opacity:1;}
 .modal-tab .step-num {width:18px;height:18px;border-radius:50%;background:var(--color-border);color:var(--color-text-secondary);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .modal-tab.active {color:var(--color-primary);border-bottom-color:var(--color-primary);}
 .modal-tab.active .step-num {background:var(--color-primary);color:white;}
-.modal-tab.done .step-num {background:#16A34A;color:white;}
-.modal-tab.done {color:#16A34A;}
+.modal-tab.done .step-num {background:var(--color-success);color:white;}
+.modal-tab.done {color:var(--color-success);}
 .modal-body {flex:1;overflow-y:auto;padding:24px;}
 .tab-panel {display:none;}
 .tab-panel.active {display:block;}
@@ -107,25 +107,25 @@ tr:hover .row-actions {opacity:1;}
 /* ── FORM ── */
     .form-group {margin-bottom:16px;}
 .form-row {display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.form-divider {height:1px;background:#F3F4F6;margin:20px 0;}
+.form-divider {height:1px;background:var(--color-neutral-100);margin:20px 0;}
 .form-section-label {font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
 .inline-group {display:flex;gap:8px;}
 .inline-group .form-input {flex:1;}
-.unit-prefix {padding:9px 12px;font-size:13px;font-weight:600;background:#F9FAFB;border:1px solid var(--color-border);border-radius:10px 0 0 10px;border-right:none;color:var(--color-text-secondary);white-space:nowrap;}
+.unit-prefix {padding:9px 12px;font-size:13px;font-weight:600;background:var(--color-neutral-50);border:1px solid var(--color-border);border-radius:10px 0 0 10px;border-right:none;color:var(--color-text-secondary);white-space:nowrap;}
 .inline-group .form-input.with-prefix {border-radius:0 10px 10px 0;}
 /* ── TOGGLES ── */
     .toggle-section {display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
-.toggle-item {display:flex;align-items:center;justify-content:space-between;padding:13px 14px;background:#F9FAFB;border-radius:12px;border:1px solid var(--color-border);}
-.toggle-item.active {background:#FDF5F7;border-color:#F3C5D0;}
+.toggle-item {display:flex;align-items:center;justify-content:space-between;padding:13px 14px;background:var(--color-neutral-50);border-radius:12px;border:1px solid var(--color-border);}
+.toggle-item.active {background:var(--color-primary-tint);border-color:#F3C5D0;}
 .toggle-info {flex:1;}
 .toggle-label {font-size:13px;font-weight:600;color:var(--color-text-primary);}
 .toggle-desc {font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
-.toggle-switch {width:40px;height:22px;background:#D1D5DB;border-radius:999px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;}
+.toggle-switch {width:40px;height:22px;background:var(--color-neutral-300);border-radius:999px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;}
 .toggle-switch.on {background:var(--color-primary);}
 .toggle-knob {position:absolute;width:18px;height:18px;background:white;border-radius:50%;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
 .toggle-switch.on .toggle-knob {left:20px;}
 /* ── PERIOD GOALS ── */
-    .period-info-box {font-size:12px;color:var(--color-text-primary);padding:11px 14px;background:#F9FAFB;border:1px solid var(--color-border);border-radius:10px;margin-bottom:18px;line-height:1.6;}
+    .period-info-box {font-size:12px;color:var(--color-text-primary);padding:11px 14px;background:var(--color-neutral-50);border:1px solid var(--color-border);border-radius:10px;margin-bottom:18px;line-height:1.6;}
 .period-info-box strong {color:var(--color-primary);}
 .period-goals-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .period-goals-grid.cols-2 {grid-template-columns:repeat(2,1fr);}
@@ -135,26 +135,26 @@ tr:hover .row-actions {opacity:1;}
 .period-goal-input {padding:8px 10px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:8px;outline:none;text-align:right;width:100%;transition:border-color .15s,box-shadow .15s;}
 .period-goal-input:focus {border-color:var(--color-primary);box-shadow:0 0 0 2px rgba(139,29,58,.08);}
 .acum-total-row {margin-top:14px;padding:10px 14px;background:var(--color-success-tint);border-radius:10px;border:1px solid #BBFFD0;display:flex;align-items:center;justify-content:space-between;}
-.acum-total-label {font-size:12px;font-weight:600;color:#16A34A;}
-.acum-total-val {font-size:15px;font-weight:700;color:#16A34A;}
+.acum-total-label {font-size:12px;font-weight:600;color:var(--color-success);}
+.acum-total-val {font-size:15px;font-weight:700;color:var(--color-success);}
 .no-freq-msg {text-align:center;padding:40px;color:var(--color-text-secondary);font-size:13px;}
 /* ── MV RADIO ── */
     .mv-options {display:flex;gap:10px;}
 .mv-option {flex:1;}
 .mv-option input[type=radio] {display:none;}
 .mv-option label {display:block;text-align:center;padding:10px;border:1.5px solid var(--color-border);border-radius:10px;font-size:12px;font-weight:600;color:var(--color-text-secondary);cursor:pointer;transition:border-color .15s,background .15s,color .15s;}
-.mv-option input[type=radio]:checked + label {border-color:var(--color-primary);background:#FDF5F7;color:var(--color-primary);}
+.mv-option input[type=radio]:checked + label {border-color:var(--color-primary);background:var(--color-primary-tint);color:var(--color-primary);}
 /* ── NIVEL BUTTONS ── */
     .nivel-options {display:flex;gap:8px;}
 .nivel-option {flex:1;}
 .nivel-option input[type=radio] {display:none;}
 .nivel-option label {display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border:1.5px solid var(--color-border);border-radius:10px;font-size:11px;font-weight:600;color:var(--color-text-secondary);cursor:pointer;transition:all .15s;text-align:center;}
 .nivel-option .nivel-letter {font-size:16px;font-weight:700;}
-.nivel-option input[type=radio]:checked + label {border-color:var(--color-primary);background:#FDF5F7;color:var(--color-primary);}
+.nivel-option input[type=radio]:checked + label {border-color:var(--color-primary);background:var(--color-primary-tint);color:var(--color-primary);}
 /* ── TOAST ── */
     .toast {position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--color-text-primary);color:white;padding:10px 20px;border-radius:var(--radius-btn);font-size:13px;font-weight:600;z-index:9999;transition:transform .3s ease;box-shadow:0 4px 16px rgba(0,0,0,.2);}
 .toast.show {transform:translateX(-50%) translateY(0);}
-.toast.success {background:#16A34A;}
+.toast.success {background:var(--color-success);}
 @media(max-width:1200px) {
 .kpi-strip {grid-template-columns:repeat(2,1fr);}
 }
@@ -643,7 +643,7 @@ function renderTable() {
 
   if (slice.length === 0) {
     tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="32" height="32" style="color:#D1D5DB;margin:0 auto"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="32" height="32" style="color:var(--color-neutral-300);margin:0 auto"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
       <p>No hay indicadores que coincidan con los filtros seleccionados</p></div></td></tr>`;
     return;
   }
@@ -949,7 +949,7 @@ function renderPeriodGoals() {
     Anual:      '1 período anual · 2026',
   }[freq] || '';
 
-  var html = `<div class="period-info-box">Frecuencia: <strong>${freq}</strong> — ${freqInfo}${unidad ? ' · Unidad: <strong>' + unidad + '</strong>' : ''}${isAcum ? ' · <strong style="color:#16A34A">Acumulable</strong>: las metas se suman período a período' : ''}</div>`;
+  var html = `<div class="period-info-box">Frecuencia: <strong>${freq}</strong> — ${freqInfo}${unidad ? ' · Unidad: <strong>' + unidad + '</strong>' : ''}${isAcum ? ' · <strong style="color:var(--color-success)">Acumulable</strong>: las metas se suman período a período' : ''}</div>`;
 
   if (freq === 'Anual') {
     html += `<div class="period-goals-grid cols-1">
