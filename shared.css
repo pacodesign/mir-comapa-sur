@@ -25,9 +25,9 @@
    ───────────────────────────────────────────────────────────────────────────── */
 :root {
   /* Brand */
-  --color-primary:        #505050;
-  --color-accent:         #c5c5c5;
-  --color-accent-dark:    #000000;
+ --color-primary:        #8B1D3A;
+  --color-accent:         #8B1D3A;
+  --color-accent-dark:    #6B1630;
 
   /* Semantic */
   --color-danger:         #EF4444;
@@ -762,3 +762,73 @@ body {
 .pulse-dot.info    { background: var(--color-info); }
 .pulse-dot.warning { background: var(--color-warning); }
 .pulse-dot.danger  { background: var(--color-danger); }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   15. TOP NAVBAR (rol Enlace)
+   ───────────────────────────────────────────────────────────────────────────── */
+.top-navbar {
+  position: fixed; top: 0; left: 0; right: 0; height: 56px;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px 0 16px;
+  z-index: 300;
+}
+/* Sidebar y main-content desplazados cuando hay top-navbar */
+body.has-topnav .sidebar        { top: 56px; height: calc(100vh - 56px); }
+body.has-topnav .app-wrapper    { padding-top: 56px; }
+
+.topnav-brand   { display: flex; align-items: center; gap: 10px; }
+.topnav-logo-icon {
+  width: 32px; height: 32px;
+  background: var(--color-primary);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.topnav-logo-icon svg { width: 16px; height: 16px; stroke: white; }
+.topnav-title { font-size: 14px; font-weight: 700; color: var(--color-text-primary); }
+
+.topnav-right { display: flex; align-items: center; gap: 12px; }
+.topnav-bell {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: transparent; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-secondary); position: relative;
+  transition: background .15s;
+}
+.topnav-bell:hover  { background: var(--color-surface); }
+.topnav-bell svg    { width: 18px; height: 18px; }
+.topnav-notif-dot {
+  position: absolute; top: 4px; right: 4px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-danger);
+  border: 1.5px solid var(--color-bg);
+}
+.topnav-chip {
+  font-size: 10px; font-weight: 700; letter-spacing: .06em;
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+}
+.topnav-user    { display: flex; align-items: center; gap: 8px; }
+.topnav-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--color-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.topnav-name    { font-size: 12px; font-weight: 700; color: var(--color-text-primary); line-height: 1.3; }
+.topnav-role    { font-size: 10px; color: var(--color-text-secondary); }
+.topnav-exit {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: transparent; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-muted); transition: color .15s;
+}
+.topnav-exit:hover  { color: var(--color-text-primary); }
+.topnav-exit svg    { width: 16px; height: 16px; }
+
+@media (max-width: 640px) {
+  .topnav-user .topnav-name,
+  .topnav-user .topnav-role { display: none; }
+}
