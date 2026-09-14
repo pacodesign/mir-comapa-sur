@@ -21,10 +21,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .ap-title {font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
 .ap-divider {height:1px;background:var(--color-border);margin:14px 0;}
 /* BREADCRUMB */
-    .breadcrumb {display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;}
-    .breadcrumb a {color:var(--color-primary);text-decoration:none;font-weight:600;}
-.breadcrumb a:hover {text-decoration:underline;}
-.breadcrumb svg {width:14px;height:14px;}
 /* HEADER CARD */
     .header-card {background:var(--color-bg);border-radius:var(--radius-card);padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
 .hc-top {display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;}
@@ -184,6 +180,17 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .obs-quote-block {background:rgba(255,255,255,.7);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.65;color:var(--color-text-primary);}
 .obs-attr-name {font-size:12px;font-weight:700;color:var(--color-text-primary);}
 .obs-attr-date {font-size:11px;color:var(--color-text-muted);margin-top:2px;}
+.corr-resp-block {border-top:1px solid var(--color-border);padding-top:10px;}
+.corr-resp-inner {background:#fff;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;}
+.corr-resp-hdr {display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.corr-resp-title {font-size:11px;font-weight:700;color:var(--color-corregido,#7C3AED);}
+.corr-resp-date {font-size:10px;color:var(--color-text-muted);}
+.corr-resp-steps {display:flex;flex-direction:column;gap:4px;}
+.corr-resp-step {display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);padding:5px 0;}
+.corr-resp-step-mod {display:inline-flex;align-items:center;gap:4px;font-weight:600;color:var(--color-success);}
+.corr-resp-step-mod svg {width:11px;height:11px;}
+.corr-resp-step-none {color:var(--color-text-muted);font-style:italic;}
+.corr-resp-nota {font-size:12px;color:var(--color-text-primary);line-height:1.55;background:var(--color-corregido-tint,#F5F3FF);border-radius:8px;padding:10px 12px;}
 /* legacy styles kept for revisor panel */
 .obs-status {display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;margin-top:10px;}
 .obs-status.pendiente {color:var(--color-border);}
@@ -2026,6 +2033,27 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
       { label: 'Aprobado por Revisor', done: approved, current: false },
       { label: 'Validación del Admin', done: isCerrado, current: approved && !isCerrado },
     ] : [];
+    const cd = (isRevisor && isCorregido && act.correctionDetail) ? act.correctionDetail : null;
+    const corrRespHtml = cd ? `
+      <div class="corr-resp-block">
+        <div class="corr-resp-inner">
+          <div class="corr-resp-hdr">
+            <span class="corr-resp-title">Respuesta del Enlace</span>
+            <span class="corr-resp-date">${formatFecha(cd.fecha)} · ${cd.hora}</span>
+          </div>
+          <div class="corr-resp-steps">
+            ${[['Avance del período', cd.paso1], ['Medio de verificación', cd.paso2], ['Análisis de datos', cd.paso3]].map(([lbl, mod]) => `
+            <div class="corr-resp-step">
+              <span>${lbl}</span>
+              ${mod
+                ? `<span class="corr-resp-step-mod"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Corregido</span>`
+                : `<span class="corr-resp-step-none">Sin modificaciones</span>`}
+            </div>`).join('')}
+          </div>
+          ${cd.nota ? `<p class="corr-resp-nota">"${cd.nota}"</p>` : ''}
+        </div>
+      </div>` : '';
+
     const obsHtml = act.observaciones.length === 0
       ? '<p style="font-size:13px;color:var(--color-text-secondary);">Sin observaciones registradas.</p>'
       : act.observaciones.map(o => {
@@ -2043,6 +2071,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
               <p class="obs-attr-name">${o.autor} · ${o.rolAutor}</p>
               <p class="obs-attr-date">${formatFecha(o.fecha)} · ${o.hora}</p>
             </div>
+            ${corrRespHtml}
           </div>`;
         }).join('');
 
@@ -2170,12 +2199,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     }
 
     document.getElementById('mainContent').innerHTML = `
-      <div class="breadcrumb">
-        <a href="${isRevisor ? 'bandeja-revision.html' : 'mis-actividades.html'}">${isRevisor ? 'Bandeja de revisión' : 'Mis actividades'}</a>
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-        <span>${act.id}</span>
-      </div>
-
       <div class="detail-cols">
 
         <!-- COLUMNA IZQUIERDA: HEADER + MIR INFO -->
@@ -2203,15 +2226,15 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
             </div>
           </div>
 
-          ${!isRevisor && (isObs || isCorregido) && act.observaciones.length > 0 ? `
+          ${(isObs || isCorregido) && act.observaciones.length > 0 ? `
           <div class="obs-section-card">
             <div class="obs-section-hdr">
               <div class="obs-section-hdr-left">
                 ${ALERT_S}
-                <span class="obs-section-title">${isCorregido ? 'Corrección enviada' : 'Observaciones'}</span>
+                <span class="obs-section-title">${!isRevisor && isCorregido ? 'Corrección enviada' : 'Observaciones'}</span>
                 <span class="obs-count-badge">${act.observaciones.length}</span>
               </div>
-              ${isCorregido && act.correctionDetail ? `
+              ${!isRevisor && isCorregido && act.correctionDetail ? `
               <button class="btn-ver-correccion" onclick="openCorreccionDetalle()">
                 <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
                 Ver detalle
