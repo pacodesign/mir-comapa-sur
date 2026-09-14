@@ -18,14 +18,16 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .back-link:hover { color:var(--color-primary); }
 .back-link svg { width:14px; height:14px; }
 /* ── GERENCIA HEADER ── */
-    .ger-header { background:var(--color-bg); border-radius:var(--radius-card); padding:18px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,.06); display:flex; align-items:center; justify-content:space-between; gap:16px; }
-.ger-header-left { display:flex; align-items:center; gap:14px; min-width:0; flex:1; }
-.ger-icon { width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.ger-icon svg { width:22px; height:22px; stroke:white; }
-.ger-title-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.ger-title { font-size:18px; font-weight:700; line-height:1.2; }
-.ger-meta { font-size:12px; color:var(--color-text-secondary); margin-top:4px; }
-.ger-header-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+    .ger-header { background:var(--color-bg); border-radius:var(--radius-card); padding:18px 20px; box-shadow:0 1px 3px rgba(0,0,0,.06); display:flex; flex-direction:column; gap:14px; }
+.ger-hdr-top { display:flex; align-items:flex-start; gap:12px; }
+.ger-icon { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.ger-icon svg { width:20px; height:20px; stroke:white; }
+.ger-hdr-name { flex:1; min-width:0; }
+.ger-title { font-size:17px; font-weight:800; line-height:1.25; margin-bottom:6px; }
+.ger-hdr-period { display:flex; gap:8px; }
+.ger-hdr-period .period-dropdown { flex:1; }
+.ger-hdr-period .period-trigger { width:100%; box-sizing:border-box; }
+.ger-hdr-meta { font-size:11px; color:var(--color-text-muted); padding-top:12px; border-top:1px solid var(--color-border); }
 /* ── PERIOD DROPDOWNS ── */
     .period-dropdown { position:relative; }
 .period-trigger {
@@ -61,8 +63,12 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .g-estado-badge.listo_para_validar { background:var(--color-warning-tint); color:var(--color-warning-text); }
 .g-estado-badge.validado { background:var(--color-success-tint); color:var(--color-success-strong); }
 .g-estado-badge.regresado_correccion_parcial { background:var(--color-observado-tint); color:var(--color-observado); }
+/* ── SPLIT LAYOUT ── */
+    .detail-split { display:grid; grid-template-columns:380px 1fr; gap:24px; align-items:start; }
+.split-left { position:sticky; top:24px; display:flex; flex-direction:column; gap:16px; }
+.split-right { min-width:0; }
 /* ── KPI ROW ── */
-    .kpi-row { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-bottom:18px; }
+    .kpi-row { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
 .kpi-sub { font-size:10px; color:var(--color-text-secondary); }
 /* ── FILTER BAR ── */
     .filter-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
@@ -75,9 +81,12 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .fchip.active .fchip-count { background:rgba(255,255,255,.25); }
 .filter-count-label { font-size:11px; color:var(--color-text-secondary); margin-left:auto; }
 /* ── INDICATOR CARDS GRID ── */
-    .ind-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .ind-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
 /* ── INDICATOR CARD ── */
-    .ind-card { background:var(--color-bg); border-radius:14px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.06); display:flex; flex-direction:column; cursor:pointer; text-decoration:none; color:inherit; transition:box-shadow .15s, transform .15s; }
+    .ind-card { position:relative; background:var(--color-bg); border-radius:14px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.06); display:flex; flex-direction:column; cursor:pointer; text-decoration:none; color:inherit; transition:box-shadow .15s, transform .15s; }
+.sem-dot-badge { position:absolute; top:12px; right:12px; display:flex; align-items:center; gap:5px; }
+.sem-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.sem-dot-label { font-size:10px; font-weight:700; color:var(--color-text-secondary); }
 .ind-card:hover { box-shadow:0 4px 16px rgba(0,0,0,.12); transform:translateY(-1px); }
 .ind-top-bar { height:4px; flex-shrink:0; }
 .ind-body { padding:13px 14px; display:flex; flex-direction:column; gap:9px; flex:1; }
@@ -106,12 +115,18 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .ind-footer { display:flex; align-items:center; gap:5px; flex-wrap:wrap; padding-top:8px; border-top:1px solid var(--color-border); }
 .freq-tag { font-size:9px; font-weight:600; padding:2px 7px; border-radius:var(--radius-btn); background:var(--color-neutral-100); color:var(--color-text-secondary); }
 .no-corte-tag { font-size:9px; font-weight:600; padding:2px 7px; border-radius:var(--radius-btn); background:var(--color-neutral-100); color:var(--color-text-muted); font-style:italic; }
-/* ── VALIDAR BANNER ── */
-    .validar-banner { display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--color-success-tint); border:1px solid #BBF7D0; border-radius:var(--radius-card); padding:14px 20px; margin-bottom:18px; }
-.validar-banner-title { font-size:14px; font-weight:700; color:var(--color-success-dark); }
-.validar-banner-sub { font-size:12px; color:var(--color-success-dark); margin-top:2px; opacity:.8; }
-.validar-btn { padding:9px 20px; border-radius:var(--radius-btn); background:var(--color-primary); color:white; border:none; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer; transition:background .15s; white-space:nowrap; flex-shrink:0; }
-.validar-btn:hover { background:var(--color-accent-dark); }
+/* ── ACTION BAR (sticky bottom) ── */
+.action-bar { position:fixed; bottom:0; left:148px; right:0; background:var(--color-bg); border-top:1px solid var(--color-border); padding:14px 28px; display:flex; align-items:center; justify-content:space-between; gap:16px; z-index:99; box-shadow:0 -4px 20px rgba(0,0,0,.07); }
+.action-bar-context { display:flex; flex-direction:column; gap:2px; }
+.action-bar-title { font-size:13px; font-weight:700; color:var(--color-text-primary); }
+.action-bar-sub { font-size:11px; color:var(--color-text-secondary); }
+.action-bar-btns { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.btn-no-validar { padding:9px 18px; border-radius:var(--radius-btn); border:1.5px solid var(--color-danger); background:transparent; font-family:inherit; font-size:13px; font-weight:600; color:var(--color-danger); cursor:pointer; transition:all .15s; white-space:nowrap; }
+.btn-no-validar:hover { background:var(--color-danger-tint); }
+.btn-validar-cerrar { display:inline-flex; align-items:center; gap:7px; padding:9px 22px; border-radius:var(--radius-btn); background:var(--color-success); color:white; border:none; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer; transition:background .15s; white-space:nowrap; }
+.btn-validar-cerrar svg { width:15px; height:15px; }
+.btn-validar-cerrar:hover { background:var(--color-success-dark); }
+.main-content.has-action-bar { padding-bottom:80px; }
 .modal-box { background:var(--color-bg); border-radius:var(--radius-card); padding:28px; width:420px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,.2); }
 .modal-sub { font-size:13px; color:var(--color-text-secondary); margin-bottom:18px; line-height:1.5; }
 .modal-textarea { width:100%; min-height:88px; border:1px solid var(--color-border); border-radius:12px; padding:10px 14px; font-family:inherit; font-size:13px; resize:vertical; outline:none; transition:border-color .15s; }
@@ -221,7 +236,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
       <span class="nav-label">Configuración</span>
     </a>
-    <div class="avatar-xs">AD</div>
+    <div class="avatar-xs" id="avatarEl">AD</div>
   </div>
 </nav>
 
@@ -237,39 +252,46 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
       Volver al dashboard
     </a>
 
-    <!-- Gerencia header -->
-    <div class="ger-header" id="gerHeader"><!-- rendered --></div>
+    <div class="detail-split">
 
-    <!-- Validar banner (visible solo cuando listo_para_validar) -->
-    <div class="validar-banner" id="validarBanner" style="display:none">
-      <div>
-        <div class="validar-banner-title">Período listo para validar</div>
-        <div class="validar-banner-sub">Todos los indicadores revisados han sido aprobados por el revisor de la gerencia.</div>
+      <!-- COLUMNA IZQUIERDA: contexto de gerencia -->
+      <div class="split-left">
+        <div class="ger-header" id="gerHeader"><!-- rendered --></div>
+        <div class="kpi-row" id="kpiRow"><!-- rendered --></div>
       </div>
-      <button class="validar-btn" onclick="abrirModalValidar()">Validar período</button>
+
+      <!-- COLUMNA DERECHA: listado de indicadores -->
+      <div class="split-right">
+        <div class="section-row">
+          <span class="section-label">Indicadores del período</span>
+        </div>
+        <div class="filter-bar" id="filterBar">
+          <span class="filter-label">Filtrar:</span>
+          <div class="filter-chips" id="filterChips"><!-- rendered --></div>
+          <span class="filter-count-label" id="filterCount"></span>
+        </div>
+        <div class="ind-grid" id="indGrid"><!-- rendered --></div>
+      </div>
+
     </div>
-
-    <!-- KPI row -->
-    <div class="kpi-row" id="kpiRow"><!-- rendered --></div>
-
-    <!-- Filter bar -->
-    <div class="filter-bar" id="filterBar">
-      <span class="filter-label">Filtrar:</span>
-      <div class="filter-chips" id="filterChips"><!-- rendered --></div>
-      <span class="filter-count-label" id="filterCount"></span>
-    </div>
-
-    <!-- Section header -->
-    <div class="section-row">
-      <span class="section-label">Indicadores del período</span>
-      <button class="regresar-section-btn" id="btnRegresar" style="display:none" onclick="abrirModalRegresar()">↩ Regresar indicadores</button>
-    </div>
-
-    <!-- Indicator grid -->
-    <div class="ind-grid" id="indGrid"><!-- rendered --></div>
 
   </main>
 
+</div>
+
+<!-- ── ACTION BAR (sticky, visible solo cuando listo_para_validar) ── -->
+<div class="action-bar" id="actionBar" style="display:none">
+  <div class="action-bar-context">
+    <span class="action-bar-title">Período listo para validar</span>
+    <span class="action-bar-sub">Todos los indicadores han sido aprobados por el Revisor</span>
+  </div>
+  <div class="action-bar-btns">
+    <button class="btn-no-validar" onclick="abrirModalRegresar()">No validar — Emitir observaciones</button>
+    <button class="btn-validar-cerrar" onclick="abrirModalValidar()">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+      Validar y cerrar reporte
+    </button>
+  </div>
 </div>
 
 <!-- Modal: regresar indicadores a corrección -->
@@ -423,7 +445,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
     regresado_correccion: 'Regresado a corrección',
   };
 
-  var _semColorBar = { verde: '#22C55E', amarillo: '#F59E0B', rojo: '#EF4444', nd: '#E5E7EB' };
+  var _semColorBar  = { verde: '#22C55E', amarillo: '#F59E0B', rojo: '#EF4444', nd: '#E5E7EB' };
+  var _semLabels    = { verde: 'Cumplimiento', amarillo: 'Con alerta', rojo: 'Incumplimiento', nd: 'Sin datos' };
 
   var _estadoPGLabels = {
     en_captura:                   'En captura',
@@ -466,10 +489,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
     });
   }
 
-  function renderRegresarBtn() {
-    var btn = document.getElementById('btnRegresar');
-    if (btn) btn.style.display = _getRegresables().length > 0 ? '' : 'none';
-  }
+  function renderRegresarBtn() { /* btn consolidado en action-bar */ }
 
   function abrirModalRegresar() {
     var regresables = _getRegresables();
@@ -567,8 +587,11 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 
   function renderValidarBanner(d) {
     var pg = d.periodoGerencia;
-    var banner = document.getElementById('validarBanner');
-    if (banner) banner.style.display = (pg && pg.estado === 'listo_para_validar') ? '' : 'none';
+    var show = pg && pg.estado === 'listo_para_validar';
+    var bar = document.getElementById('actionBar');
+    var main = document.querySelector('.main-content');
+    if (bar) bar.style.display = show ? '' : 'none';
+    if (main) main.classList.toggle('has-action-bar', !!show);
   }
 
   function abrirModalValidar() {
@@ -613,34 +636,33 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
     var chevron   = '<svg class="period-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>';
 
     document.getElementById('gerHeader').innerHTML = [
-      '<div class="ger-header-left">',
+      // 1. Nombre + estado
+      '<div class="ger-hdr-top">',
       '  <div class="ger-icon" style="background:' + (g.color || 'var(--color-primary)') + '">',
       '    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg>',
       '  </div>',
-      '  <div>',
-      '    <div class="ger-title-row">',
-      '      <div class="ger-title">' + g.nombre + '</div>',
-      '      <span class="g-estado-badge ' + estadoKey + '"><span class="bdot"></span>' + estadoLbl + '</span>',
-      '    </div>',
-      '    <div class="ger-meta">' + d.unidades.length + ' unidades · ' + d.stats.total + ' indicadores asignados</div>',
+      '  <div class="ger-hdr-name">',
+      '    <div class="ger-title">' + g.nombre + '</div>',
+      '    <span class="g-estado-badge ' + estadoKey + '"><span class="bdot"></span>' + estadoLbl + '</span>',
       '  </div>',
       '</div>',
-      '<div class="ger-header-right">',
-      // Year dropdown
-      '  <div class="period-dropdown" id="pd-year">',
-      '    <button class="period-trigger" id="pt-year" onclick="toggleDropdown(\'year\')">',
-      '      ' + pd.year + chevron,
-      '    </button>',
-      '    <div class="period-panel" id="pp-year"></div>',
-      '  </div>',
-      // Month dropdown
+      // 2. Período
+      '<div class="ger-hdr-period">',
       '  <div class="period-dropdown" id="pd-month">',
       '    <button class="period-trigger" id="pt-month" onclick="toggleDropdown(\'month\')">',
       '      ' + MESES_ES[pd.month - 1] + chevron,
       '    </button>',
       '    <div class="period-panel" id="pp-month"></div>',
       '  </div>',
+      '  <div class="period-dropdown" id="pd-year">',
+      '    <button class="period-trigger" id="pt-year" onclick="toggleDropdown(\'year\')">',
+      '      ' + pd.year + chevron,
+      '    </button>',
+      '    <div class="period-panel" id="pp-year"></div>',
+      '  </div>',
       '</div>',
+      // 3. Unidades (sin conteo de indicadores)
+      '<div class="ger-hdr-meta">' + d.unidades.length + ' unidades administrativas</div>',
     ].join('\n');
   }
 
@@ -729,7 +751,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
     var rip   = item.reporte;
     var sem   = item.semaforo;
     var hasC  = item.hasCorte;
-    var barColor = _semColorBar[sem] || '#E5E7EB';
+    var barColor  = _semColorBar[sem] || '#E5E7EB';
+    var semLabel  = _semLabels[sem] || 'Sin datos';
 
     var estadoKey = (rip && hasC) ? rip.estado : 'pendiente';
     var estadoLbl = _estadoLabels[estadoKey] || estadoKey;
@@ -770,7 +793,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 
     return [
       '<a class="ind-card" href="' + url + '">',
-      '  <div class="ind-top-bar" style="background:' + barColor + '"></div>',
+      '  <div class="sem-dot-badge"><div class="sem-dot" style="background:' + barColor + '"></div><span class="sem-dot-label">' + semLabel + '</span></div>',
       '  <div class="ind-body">',
       '    <div class="ind-head-row">',
       '      <span class="ind-estado-badge ' + estadoKey + '">' + estadoLbl + '</span>',
