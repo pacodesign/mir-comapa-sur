@@ -189,3 +189,9 @@ const Session = {
     return user;
   }
 };
+
+function cerrarSesion() {
+  try { Session.clear(); } catch(e) {}
+  try { sessionStorage.removeItem('comapa-demo'); } catch(e) {}
+  window.location.href = 'login.html';
+}

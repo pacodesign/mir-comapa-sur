@@ -217,7 +217,7 @@ footer { animation: fadeIn .4s ease both .5s; }
           </div>
           <div class="info-text">
             <strong>Tu gerencia asignada es aleatoria</strong>
-            <p>Para esta prueba quedaste asignado/a a la <strong>Gerencia Técnica</strong>. Esto no representa tu asignación real una vez que la plataforma sea implementada y desplegada.</p>
+            <p>Para esta prueba quedaste asignado/a a la <strong>Gerencia Comercial</strong>. Esto no representa tu asignación real una vez que la plataforma sea implementada y desplegada.</p>
           </div>
         </div>
       </div>
@@ -245,15 +245,16 @@ footer { animation: fadeIn .4s ease both .5s; }
   <script>
     function iniciar() {
       var user = {
-        id: 'rev-001',
-        email: 'revisor@comapa.mx',
+        id: 'demo-rev-001',
+        email: 'carlos.mendoza@comapa.mx',
         nombre: 'Carlos Mendoza',
         iniciales: 'CM',
         rol: 'Revisor',
-        gerencia: 'Gerencia Técnica',
+        gerencia: 'Demo — Gerencia Comercial',
         redirect: 'dashboard-revisor.html'
       };
       try {
+        sessionStorage.setItem('comapa-demo', '1');
         localStorage.setItem('comapa_mir_session', JSON.stringify(user));
         localStorage.setItem('userGerencia', user.gerencia);
         localStorage.removeItem('userUnidad');

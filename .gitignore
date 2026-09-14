@@ -2,3 +2,7 @@
 .netlify
 .DS_Store
 .cs-wizard/
+
+# Datos institucionales reales — nunca commitear
+data/AGO 2026 MIR_COMAPA SUR_Completa.numbers
+data/COMSUR-Transparencia-Comercial-Q1.csv

@@ -9,20 +9,19 @@
   <script src="session.js"></script>
   <script src="mock-notifications.js"></script>
   <script src="mir-actividades-data.js"></script>
+  <script src="demo-data.js"></script>
   <script src="layout.js"></script>
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
 .detail-cols {display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:16px;align-items:start;}
 .detail-col {display:flex;flex-direction:column;}
-.detail-col .section-card:last-child {margin-bottom:0;}
 /* ACTION PANEL */
     .action-panel {width:280px;background:var(--color-bg);border-left:1px solid var(--color-border);padding:20px 18px;position:fixed;right:0;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
 .ap-title {font-size:11px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
 .ap-divider {height:1px;background:var(--color-border);margin:14px 0;}
 /* BREADCRUMB */
-    .breadcrumb {display:none;}
-align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;}
+    .breadcrumb {display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;}
     .breadcrumb a {color:var(--color-primary);text-decoration:none;font-weight:600;}
 .breadcrumb a:hover {text-decoration:underline;}
 .breadcrumb svg {width:14px;height:14px;}
@@ -49,8 +48,9 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
 .corregido::before {background:var(--color-corregido);}
 .aprobado_revisor {background:var(--color-success-tint);color:var(--color-success);}
 .aprobado_revisor::before {background:var(--color-success);}
-.listo_validar { background: var(--color-success-tint); color: var(--color-success); }
-.listo_validar::before { background: var(--color-success); }
+.listo_validar { background: var(--color-success-tint); color: #166534; }
+.listo_validar::before { background: #16A34A; }
+/* listo_validar → visual idéntico a aprobado_revisor */
 .cerrado { background: var(--color-success-tint); color: var(--color-success-dark); }
 .cerrado::before { background: var(--color-success); }
 .vencido {background:var(--color-danger-tint);color:var(--color-danger);}
@@ -169,14 +169,22 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
 .btn-send-justify:hover:not(:disabled) {background:var(--color-accent-dark);}
 .btn-send-justify:disabled {opacity:.45;cursor:not-allowed;}
 .btn-send-justify svg {width:15px;height:15px;}
-/* OBSERVACION */
-    .obs-card {background:var(--color-warning-tint);border:1px solid #FDE68A;border-radius:12px;padding:16px;}
-.obs-card-header {display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
-.obs-card-icon {width:32px;height:32px;background:var(--color-warning-tint);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.obs-card-icon svg {width:16px;height:16px;color:var(--color-border);}
-.obs-card-who {font-size:12px;font-weight:700;color:var(--color-text-primary);}
-.obs-card-when {font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
-.obs-card-text {font-size:13px;color:#78350F;line-height:1.65;background:rgba(255,255,255,.7);border-radius:8px;padding:12px 14px;border:1px solid #FDE68A;}
+/* OBSERVACIONES — diseño Figma */
+.obs-section-card {background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-card);overflow:hidden;margin-bottom:16px;}
+.obs-section-hdr {display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--color-border);}
+.obs-section-hdr-left {display:flex;align-items:center;gap:8px;}
+.obs-section-hdr svg {width:16px;height:16px;color:var(--color-observado);flex-shrink:0;}
+.obs-section-title {font-size:13px;font-weight:700;color:var(--color-text-primary);}
+.obs-count-badge {display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:var(--color-observado);color:white;font-size:10px;font-weight:700;}
+.obs-section-body {padding:18px 20px;display:flex;flex-direction:column;gap:10px;}
+.obs-enlace-card {background:var(--color-surface);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;}
+.obs-enlace-top {display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.obs-cat-label {font-size:12px;font-weight:700;color:var(--color-text-primary);}
+/* obs badge → .status-pill en shared.css */
+.obs-quote-block {background:rgba(255,255,255,.7);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.65;color:var(--color-text-primary);}
+.obs-attr-name {font-size:12px;font-weight:700;color:var(--color-text-primary);}
+.obs-attr-date {font-size:11px;color:var(--color-text-muted);margin-top:2px;}
+/* legacy styles kept for revisor panel */
 .obs-status {display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;margin-top:10px;}
 .obs-status.pendiente {color:var(--color-border);}
 .obs-status.atendida {color:var(--color-success);}
@@ -215,6 +223,30 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
 .btn-full.warning {background:var(--color-warning-tint);color:var(--color-warning-text);}
 .btn-full.success {background:var(--color-success-tint);color:var(--color-success-dark);}
 .send-hint {font-size:11px;color:var(--color-text-muted);text-align:center;line-height:1.4;margin-top:4px;margin-bottom:14px;}
+/* Accordion label */
+.accordion-eyebrow {font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-secondary);margin-bottom:10px;}
+/* Send action card */
+.send-action-card {background:var(--color-bg);border-radius:var(--radius-card);border:1px solid var(--color-border);padding:18px 20px;}
+.send-action-header {margin-bottom:14px;}
+.send-action-title {font-size:13px;font-weight:700;color:var(--color-text-primary);margin-bottom:3px;}
+.send-action-sub {font-size:12px;color:var(--color-text-secondary);line-height:1.5;}
+.btn-send-primary {width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--color-primary);color:white;border:none;border-radius:var(--radius-btn);padding:11px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s;margin-bottom:8px;}
+.btn-send-primary:hover:not(:disabled) {background:var(--color-accent-dark);}
+.btn-send-primary:disabled {opacity:.4;cursor:not-allowed;}
+.btn-send-primary svg {width:15px;height:15px;flex-shrink:0;}
+.btn-draft {width:100%;display:flex;align-items:center;justify-content:center;gap:6px;background:transparent;color:var(--color-text-secondary);border:1.5px solid var(--color-border);border-radius:var(--radius-btn);padding:8px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:border-color .15s,color .15s;}
+.btn-draft:hover {border-color:var(--color-text-secondary);color:var(--color-text-primary);}
+.btn-draft svg {width:13px;height:13px;flex-shrink:0;}
+.send-status-hint {font-size:11px;color:var(--color-text-muted);text-align:center;line-height:1.4;margin:8px 0 12px;}
+.btn-ver-correccion {display:inline-flex;align-items:center;gap:5px;background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:700;color:var(--color-text-primary);cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s;}
+.btn-ver-correccion:hover {background:var(--color-primary-tint,#F8EFF2);border-color:var(--color-primary);}
+.btn-ver-correccion svg {width:13px;height:13px;}
+.correccion-nota-box {background:var(--color-surface);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--color-text-primary);line-height:1.6;border:1px solid var(--color-border);}
+.modal-summary-val.muted {color:var(--color-text-muted);font-weight:400;}
+.correction-note-wrap {margin-bottom:12px;}
+.correction-note-label {display:block;font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+.correction-note-ta {width:100%;border:1.5px solid var(--color-border);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:13px;color:var(--color-text-primary);background:var(--color-bg);outline:none;resize:vertical;min-height:72px;transition:border-color .15s,box-shadow .15s;box-sizing:border-box;}
+.correction-note-ta:focus {border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
 .ap-assignee {display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--color-surface);border-radius:10px;}
 .ap-av {width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;}
 .ap-av.enlace {background:var(--color-primary);}
@@ -344,17 +376,23 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
 .ro-section-value {font-size:13px;color:var(--color-text-primary);line-height:1.55;}
 .avance-ro-val strong {color:var(--color-primary);font-size:18px;font-weight:700;}
 /* STEP ACCORDION */
-    .step-card {background:var(--color-bg);border-radius:var(--radius-card);margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;}
+    .step-card {background:var(--color-bg);border-radius:var(--radius-card);margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;transition:box-shadow .2s ease,opacity .2s ease,transform .2s ease;}
 .step-card:last-child {margin-bottom:0;}
+.step-card.is-active {box-shadow:0 6px 24px rgba(0,0,0,.10),0 1px 4px rgba(0,0,0,.06);transform:translateY(-1px);}
+.step-card.is-inactive {opacity:.55;box-shadow:0 1px 2px rgba(0,0,0,.04);}
 .step-hdr {display:flex;align-items:center;gap:12px;padding:15px 20px;}
 .step-badge {width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;line-height:1;}
 .step-badge.active {background:var(--color-primary);color:white;}
 .step-badge.done {background:var(--color-success-tint);color:var(--color-success);}
 .step-badge.done svg {width:13px;height:13px;}
 .step-badge.locked {background:var(--color-surface);border:1.5px solid var(--color-border);color:var(--color-text-muted);}
-.step-title-col {flex:1;min-width:0;}
-.step-card-name {font-size:13px;font-weight:700;color:var(--color-text-primary);}
+.step-title-col {flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.step-card-name {font-size:13px;font-weight:700;color:var(--color-text-primary);flex-shrink:0;}
 .step-card-name.locked {color:var(--color-text-secondary);}
+.step-chevron {background:transparent;border:none;padding:4px 6px;cursor:pointer;color:var(--color-text-muted);display:flex;align-items:center;flex-shrink:0;transition:color .15s,transform .2s ease;border-radius:6px;}
+.step-chevron:hover {color:var(--color-text-primary);background:var(--color-surface);}
+.step-chevron svg {width:16px;height:16px;}
+.step-chevron.open {color:var(--color-primary);}
 .step-done-chip {display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--color-success);background:var(--color-success-tint);padding:3px 9px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
 .step-done-chip svg {width:10px;height:10px;}
 .step-lock-icon {color:var(--color-neutral-300);flex-shrink:0;}
@@ -389,9 +427,19 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
 .ro-analisis-field:last-child {margin-bottom:0;}
 .ro-analisis-label {font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:4px;}
 .ro-analisis-value {font-size:13px;color:var(--color-text-primary);line-height:1.6;white-space:pre-wrap;}
-.step-body {padding:18px 20px;}
+.step-body {padding:18px 20px;animation:stepBodyIn .25s cubic-bezier(.4,0,.2,1);}
+.step-body.is-collapsing {animation:stepBodyOut .2s ease-in forwards;pointer-events:none;overflow:hidden;}
 .step-locked-body {padding:10px 20px 14px;display:flex;align-items:center;gap:7px;font-size:12px;color:var(--color-text-muted);}
 .step-locked-body svg {width:13px;height:13px;flex-shrink:0;}
+.step-saved-summary {font-size:12px;font-weight:700;color:var(--color-primary);background:var(--color-primary-tint,#EEF2FF);padding:3px 10px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
+@keyframes stepBodyIn {
+  from {opacity:0;transform:translateY(-7px);}
+  to   {opacity:1;transform:translateY(0);}
+}
+@keyframes stepBodyOut {
+  from {opacity:1;transform:translateY(0);}
+  to   {opacity:0;transform:translateY(-6px);}
+}
 /* SIN AVANCE */
     .sin-avance-banner {display:flex;align-items:flex-start;gap:10px;background:var(--color-warning-tint);border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;margin-top:14px;}
 .sin-avance-banner svg {width:15px;height:15px;color:var(--color-border);flex-shrink:0;margin-top:1px;}
@@ -416,6 +464,60 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
 .ph-ap {color:var(--color-success);font-size:11px;font-weight:600;white-space:nowrap;}
 .ph-obs {color:var(--color-border);font-size:11px;font-weight:600;}
 .ph-acum-val {color:var(--color-text-primary);font-weight:700;}
+/* REVISOR ACTION CARD */
+.revisor-action-card {background:var(--color-bg);border-radius:var(--radius-card);border:1px solid var(--color-border);padding:18px 20px;}
+.review-action-box {background:var(--color-surface);border-radius:14px;padding:16px;margin-bottom:10px;}
+.rab-title {font-size:12px;font-weight:700;margin-bottom:4px;}
+.rab-sub {font-size:11px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:12px;}
+.obs-revisor-list {display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.obs-revisor-item {background:var(--color-warning-tint,#FFFBEB);border:1px solid var(--color-warning,#F59E0B);border-radius:10px;padding:10px 12px;}
+.obs-revisor-top {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.obs-revisor-cat {font-size:11px;font-weight:700;color:var(--color-text-primary);}
+.obs-revisor-txt {font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin:0;}
+.obs-revisor-del {display:inline-flex;align-items:center;gap:4px;background:none;border:none;font-size:11px;font-weight:600;color:var(--color-danger);cursor:pointer;padding:2px 4px;border-radius:6px;font-family:inherit;transition:background .12s;}
+.obs-revisor-del:hover {background:var(--color-danger-tint,#FEF2F2);}
+.obs-revisor-del svg {width:12px;height:12px;}
+.approved-panel {background:linear-gradient(135deg,var(--color-success-tint) 0%,var(--color-success-tint) 100%);border:1.5px solid #A7F3D0;border-radius:14px;padding:16px;margin-bottom:12px;}
+.approved-check {width:40px;height:40px;border-radius:50%;background:var(--color-success);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+.approved-check svg {width:20px;height:20px;color:white;}
+.approved-title {font-size:13px;font-weight:700;color:var(--color-success-strong,var(--color-success-dark));text-align:center;margin-bottom:4px;}
+.approved-sub {font-size:11px;color:var(--color-success);text-align:center;line-height:1.5;margin-bottom:14px;}
+.approved-date {font-size:10px;color:var(--color-text-secondary);text-align:center;margin-bottom:14px;}
+.wf-steps {display:flex;flex-direction:column;gap:0;position:relative;}
+.wf-step {display:flex;align-items:flex-start;gap:10px;padding:7px 0;position:relative;}
+.wf-step-line {position:absolute;left:11px;top:26px;width:2px;bottom:-7px;background:var(--color-success-tint);}
+.wf-step:last-child .wf-step-line {display:none;}
+.wf-dot {width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.wf-dot.done {background:var(--color-success);}
+.wf-dot.done svg {width:11px;height:11px;color:white;}
+.wf-dot.active {background:var(--color-info);box-shadow:0 0 0 3px var(--color-info-tint);}
+.wf-dot.active svg {width:11px;height:11px;color:white;}
+.wf-dot.pending {background:var(--color-border);border:2px solid var(--color-neutral-300);}
+.wf-info {flex:1;padding-top:2px;}
+.wf-label {font-size:11px;font-weight:700;line-height:1.3;}
+.wf-label.done {color:var(--color-success-dark);}
+.wf-label.active {color:#1E3A8A;}
+.wf-label.pending {color:var(--color-text-muted);}
+.wf-actor {font-size:10px;margin-top:1px;}
+.wf-actor.done {color:var(--color-success);}
+.wf-actor.active {color:var(--color-info);}
+.wf-actor.pending {color:var(--color-text-muted);}
+.next-action {background:var(--color-info-tint);border:1px solid var(--color-info-tint);border-radius:10px;padding:11px 12px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;}
+.next-action svg {width:14px;height:14px;color:var(--color-info);flex-shrink:0;margin-top:1px;}
+.next-action-text {font-size:11px;color:var(--color-info);line-height:1.5;}
+.next-action-text strong {display:block;font-size:12px;margin-bottom:2px;}
+.closed-panel {background:linear-gradient(135deg,var(--color-success-tint) 0%,var(--color-success-tint) 100%);border:1.5px solid #86EFAC;border-radius:14px;padding:16px;margin-bottom:12px;}
+.closed-title {font-size:13px;font-weight:700;color:var(--color-success-dark);text-align:center;margin-bottom:4px;}
+.closed-sub {font-size:11px;color:var(--color-success);text-align:center;line-height:1.5;}
+.assignee-row {display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--color-surface);border-radius:10px;margin-bottom:6px;}
+.asgn-av {width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;}
+.asgn-av.revisor {background:var(--color-info);}
+.asgn-av.enlace {background:var(--color-primary);}
+.asgn-av.admin {background:var(--color-success);}
+.asgn-name {font-size:12px;font-weight:600;}
+.asgn-rol {font-size:10px;color:var(--color-text-secondary);}
+.correction-alert {display:flex;align-items:flex-start;gap:8px;background:var(--color-corregido-tint);border:1px solid #DDD6FE;border-radius:10px;padding:11px 12px;margin-bottom:10px;font-size:12px;color:var(--color-corregido);line-height:1.5;}
+.correction-alert svg {width:14px;height:14px;flex-shrink:0;margin-top:2px;color:var(--color-corregido);}
 </style>
   <script>
   (function (m, a, z, e) {
@@ -468,7 +570,7 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
         <p class="topnav-role" id="topnavRole">Gerencia Comercial</p>
       </div>
     </div>
-    <button class="topnav-exit" title="Cerrar sesión">
+    <button class="topnav-exit" title="Cerrar sesión" onclick="cerrarSesion()">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/>
       </svg>
@@ -538,9 +640,29 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
     <h3 class="modal-title" id="modalTitle">Confirmar envío</h3>
     <p class="modal-sub" id="modalSub"></p>
     <div class="modal-checklist" id="modalChecklist"></div>
+    <div id="modalCorreccionExtra" hidden style="margin-bottom:20px"></div>
     <div class="modal-actions">
       <button class="btn-modal cancel" onclick="closeModal()">Cancelar</button>
       <button class="btn-modal confirm" id="modalConfirmBtn" onclick="confirmarEnvio()">Confirmar envío</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETALLE DE CORRECCIÓN MODAL -->
+<div class="modal-overlay" id="correccionDetalleModal" onclick="if(event.target===this)cerrarCorreccionDetalle()">
+  <div class="modal-card">
+    <div class="modal-icon" style="background:var(--color-info-tint,#EFF6FF)">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="22" height="22" style="color:var(--color-info)"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125"/></svg>
+    </div>
+    <h3 class="modal-title">Detalle de corrección</h3>
+    <p class="modal-sub" id="correccionDetalleDate"></p>
+    <div class="modal-summary" id="correccionDetalleSteps"></div>
+    <div id="correccionDetalleNota" style="display:none">
+      <p style="font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Nota del enlace</p>
+      <div class="correccion-nota-box" id="correccionDetalleNotaTxt"></div>
+    </div>
+    <div class="modal-actions" style="margin-top:20px">
+      <button class="btn-modal confirm-primary" onclick="cerrarCorreccionDetalle()">Cerrar</button>
     </div>
   </div>
 </div>
@@ -591,6 +713,13 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
   let editingStep2      = false;
   let editingStep3      = false;
   let _editOverride     = null;
+  let _animStep1        = false;
+  let _animStep2        = false;
+  let _animStep3        = false;
+  let evidenciaSaved    = false;
+  let viewingStep1      = false;
+  let viewingStep2      = false;
+  let viewingStep3      = false;
   let metaLograda       = null;
   let analisisLogro     = '';
   let analisisCausas    = '';
@@ -598,6 +727,14 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
   let analisisOportunidades = '';
   let analisisAcciones  = '';
   let analisisSaved     = false;
+  let step1Dirty        = false;
+  let step2Dirty        = false;
+  let step3Dirty        = false;
+  let correctionMade    = false;
+  let correctionNote    = '';
+  let step1Modified     = false;
+  let step2Modified     = false;
+  let step3Modified     = false;
 
   const ALLOWED_EXT = ['pdf','xlsx','xls','docx','doc','jpg','jpeg','png'];
   const MAX_MB      = 20;
@@ -638,7 +775,9 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
   }
   function canSend() {
     if (!actividad) return false;
-    if (['enviado_revision','pendiente_revision','aprobado_revisor','validado_admin','publicado'].includes(actividad.estado)) return false;
+    if (['enviado_revision','pendiente_revision','aprobado_revisor','cerrado'].includes(actividad.estado)) return false;
+    if (!avanceSaved || !evidenciaSaved || !analisisSaved) return false;
+    if (actividad.estado === 'observado' && !correctionMade && !correctionNote.trim()) return false;
     return actividad.archivosEvidencia.length > 0 || justSaved;
   }
   function isEditable() {
@@ -687,9 +826,64 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
       ? 'Estás por enviar tu corrección. Asegúrate de haber atendido todas las observaciones.'
       : 'Esta acción enviará la evidencia al Revisor e iniciará el proceso de revisión técnica.';
     document.getElementById('modalConfirmBtn').textContent = isObs ? 'Enviar corrección' : 'Confirmar envío';
+    const extraEl = document.getElementById('modalCorreccionExtra');
+    if (isObs) {
+      const STEP_ROW = (label, modified) => `
+        <div class="modal-summary-row">
+          <span class="modal-summary-lbl">${label}</span>
+          <span class="modal-summary-val ${modified ? '' : 'muted'}">
+            ${modified
+              ? `<span style="display:inline-flex;align-items:center;gap:5px"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="13" height="13" style="color:var(--color-success)"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Modificado</span>`
+              : 'Sin cambios'}
+          </span>
+        </div>`;
+      let html = `<p style="font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;margin-top:16px">Cambios en el reporte</p>
+        <div class="modal-summary">
+          ${STEP_ROW('Paso 1 — Avance',           step1Modified)}
+          ${STEP_ROW('Paso 2 — Medio de verif.',  step2Modified)}
+          ${STEP_ROW('Paso 3 — Análisis',         step3Modified)}
+        </div>`;
+      if (correctionNote.trim()) {
+        html += `<p style="font-size:11px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Nota de corrección</p>
+          <div class="correccion-nota-box">${correctionNote.trim()}</div>`;
+      }
+      extraEl.innerHTML = html;
+      extraEl.hidden = false;
+    } else {
+      extraEl.hidden = true;
+    }
     document.getElementById('confirmModal').classList.add('open');
   }
   function closeModal() { document.getElementById('confirmModal').classList.remove('open'); }
+
+  function openCorreccionDetalle() {
+    if (!actividad || !actividad.correctionDetail) return;
+    const cd = actividad.correctionDetail;
+    const PASO_S = (n, mod) => `
+      <div class="modal-summary-row">
+        <span class="modal-summary-lbl">Paso ${n}</span>
+        <span class="modal-summary-val ${mod ? '' : 'muted'}">
+          ${mod
+            ? `<span style="display:inline-flex;align-items:center;gap:5px"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="13" height="13" style="color:var(--color-success)"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Corregido</span>`
+            : 'Sin modificaciones'}
+        </span>
+      </div>`;
+    document.getElementById('correccionDetalleDate').textContent = `Corrección enviada el ${formatFecha(cd.fecha)} a las ${cd.hora}`;
+    document.getElementById('correccionDetalleSteps').innerHTML =
+      PASO_S('1 — Avance del período', cd.paso1) +
+      PASO_S('2 — Medio de verificación', cd.paso2) +
+      PASO_S('3 — Análisis de datos', cd.paso3);
+    const notaWrap = document.getElementById('correccionDetalleNota');
+    const notaTxt  = document.getElementById('correccionDetalleNotaTxt');
+    if (cd.nota) {
+      notaTxt.textContent = cd.nota;
+      notaWrap.style.display = 'block';
+    } else {
+      notaWrap.style.display = 'none';
+    }
+    document.getElementById('correccionDetalleModal').classList.add('open');
+  }
+  function cerrarCorreccionDetalle() { document.getElementById('correccionDetalleModal').classList.remove('open'); }
 
   function confirmarEnvio() {
     closeModal();
@@ -702,10 +896,25 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
     actividad.historial.push({
       fecha: nowStr(), hora: nowTime(),
       usuario: 'Ana Torres', rol: 'Enlace',
-      accion: wasObs ? 'Corrección enviada al Revisor' : `Evidencia enviada a revisión (${actividad.archivosEvidencia.length} archivo${actividad.archivosEvidencia.length!==1?'s':''})`,
+      accion: wasObs
+        ? ('Corrección enviada al Revisor' + (correctionNote.trim() ? ` — ${correctionNote.trim()}` : ''))
+        : `Evidencia enviada a revisión (${actividad.archivosEvidencia.length} archivo${actividad.archivosEvidencia.length!==1?'s':''})`,
       estadoAnterior: prevState, estadoNuevo: actividad.estado
     });
+    if (wasObs) {
+      actividad.correctionDetail = {
+        nota: correctionNote.trim(),
+        paso1: step1Modified,
+        paso2: step2Modified,
+        paso3: step3Modified,
+        fecha: nowStr(),
+        hora: nowTime()
+      };
+      step1Modified = false; step2Modified = false; step3Modified = false;
+    }
     justOpen = false; justText = '';
+    correctionNote = '';
+    viewingStep1 = true; viewingStep2 = true; viewingStep3 = true;
     renderPage();
     showToast(wasObs ? 'Corrección enviada. El Revisor ha sido notificado.' : 'Enviado a revisión. El Revisor ha sido notificado.');
   }
@@ -763,6 +972,7 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
         actividad.archivosEvidencia.push(newFile);
       }
       uploadLoading = false;
+      if (actividad && actividad.estado === 'observado') step2Dirty = true;
       renderPage();
       showToast(`"${file.name}" cargado correctamente.`);
     };
@@ -792,6 +1002,7 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
   function replaceFile(id) { replaceTargetId = id; document.getElementById('fileUploadInput').click(); }
   function deleteFile(id) {
     actividad.archivosEvidencia = actividad.archivosEvidencia.filter(f => f.id !== id);
+    if (actividad && actividad.estado === 'observado') step2Dirty = true;
     renderPage();
   }
   function updateFileNotes(id, val) {
@@ -808,9 +1019,17 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
   function onJustifyInput(val) {
     justText = val;
     justErr  = false;
+    if (actividad && actividad.estado === 'observado') { step2Dirty = true; updateStep2Btn(); }
     updateSendBtn();
     const sendJustBtn = document.getElementById('btnSendJustify');
     if (sendJustBtn) sendJustBtn.disabled = val.trim().length === 0;
+  }
+  function updateStep2Btn() {
+    const btn = document.querySelector('#secEvidencia .btn-save-avance');
+    if (!btn || !actividad) return;
+    btn.disabled = actividad.estado === 'observado'
+      ? !step2Dirty
+      : actividad.archivosEvidencia.length === 0 && !justSaved;
   }
   function handleJustSupport(input) {
     if (input.files && input.files[0]) {
@@ -829,33 +1048,76 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
     }, 50);
   }
 
+  function onCorrectionNote(v) { correctionNote = v; updateSendBtn(); }
+
   function updateSendBtn() {
     const btn  = document.getElementById('btnEnviar');
     const hint = document.getElementById('sendHint');
     if (!btn) return;
     const ok = canSend();
     btn.disabled = !ok;
-    if (hint) hint.textContent = ok ? '' : 'Carga evidencia o agrega una justificación (mín. ' + MIN_JUSTIFY + ' chars).';
+    if (hint) {
+      hint.textContent = ok
+        ? (actividad && actividad.estado === 'observado' ? 'Todo listo. Puedes enviar la corrección.' : 'Todo listo. Puedes enviar el reporte a revisión.')
+        : !avanceSaved    ? 'Registra el avance del período (paso 1) para continuar.'
+        : !evidenciaSaved ? 'Guarda el medio de verificación (paso 2) para continuar.'
+        : !analisisSaved  ? 'Completa el análisis de datos (paso 3) para continuar.'
+        : (actividad && actividad.estado === 'observado' && !correctionMade && !correctionNote.trim())
+            ? 'Modifica al menos un paso, guárdalo, o escribe una nota de corrección para habilitar el envío.'
+            : 'Carga evidencia o agrega una justificación para habilitar el envío.';
+      hint.style.color = ok ? 'var(--color-success)' : '';
+    }
   }
 
   // ── Avance ───────────────────────────────────────────────────────────────
   function onAvanceInput(val) {
     avanceValue = val;
+    if (actividad && actividad.estado === 'observado') step1Dirty = true;
     if (val.trim() && sinAvance) { sinAvance = false; renderPage(); return; }
     if (warnTimer) clearTimeout(warnTimer);
-    const warnEl = document.getElementById('avanceCalcWarn');
-    if (warnEl) warnEl.classList.remove('warn-visible');
-    warnTimer = setTimeout(function() {
-      if (!actividad) return;
-      const mp      = calcMetaPeriodo(actividad.metaAnual, actividad.frecuenciaMedicion, actividad.acumulable);
-      const mpNum   = (mp ? parseFloat(mp.label) : null) || 100;
-      const v       = parseFloat(avanceValue);
-      const el      = document.getElementById('avanceCalcWarn');
-      if (el && !isNaN(v) && v < mpNum) el.classList.add('warn-visible');
-    }, 2000);
+    refreshAvanceSimple();
+  }
+
+  function refreshAvanceSimple() {
+    if (!actividad) return;
+    const v      = parseFloat(avanceValue);
+    const mp     = calcMetaPeriodo(actividad.metaAnual, actividad.frecuenciaMedicion, actividad.acumulable);
+    const mpNum  = mp ? parseFloat(mp.label) : null;
+    const hasRes = !isNaN(v) && mpNum != null && mpNum > 0;
+
+    const simpleValEl = document.getElementById('avanceSimpleVal');
+    const progWrap    = document.getElementById('avanceProgWrap');
+    const fillEl      = document.getElementById('avanceProgFill');
+    const lblEl       = document.getElementById('avanceProgLabel');
+    const warnEl      = document.getElementById('avanceCalcWarn');
+    const saveBtn     = document.querySelector('.btn-save-avance');
+
+    if (hasRes) {
+      const pct     = v / mpNum * 100;
+      const progPct = Math.min(pct, 100);
+      if (simpleValEl) {
+        simpleValEl.textContent = pct.toFixed(1) + '% de la meta del período';
+        simpleValEl.classList.remove('avance-calc-empty');
+      }
+      if (fillEl)    fillEl.style.width = progPct + '%';
+      if (lblEl)     lblEl.textContent  = pct.toFixed(1) + '% de la meta';
+      if (progWrap)  progWrap.style.display = 'block';
+      if (warnEl)    warnEl.classList.toggle('warn-visible', pct < 100);
+    } else {
+      if (simpleValEl) {
+        simpleValEl.textContent = mpNum
+          ? 'Ingresa un valor para ver el cumplimiento'
+          : 'Sin meta del período configurada';
+        simpleValEl.classList.add('avance-calc-empty');
+      }
+      if (progWrap) progWrap.style.display = 'none';
+      if (warnEl)   warnEl.classList.remove('warn-visible');
+    }
+    if (saveBtn) saveBtn.disabled = !avanceValue.trim() || (actividad && actividad.estado === 'observado' && !step1Dirty);
   }
   function onAvanceNum(val) {
     avanceNum = val;
+    if (actividad && actividad.estado === 'observado') step1Dirty = true;
     if (val.trim() && sinAvance) { sinAvance = false; renderPage(); return; }
     refreshAvanceCalc();
     if (warnTimer) clearTimeout(warnTimer);
@@ -873,12 +1135,14 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
   }
   function onAvanceDen(val) {
     avanceDen = val;
+    if (actividad && actividad.estado === 'observado') step1Dirty = true;
     if (val.trim() && sinAvance) { sinAvance = false; renderPage(); return; }
     refreshAvanceCalc();
   }
   function toggleSinAvance() {
     sinAvance = !sinAvance;
     if (sinAvance) { avanceNum = ''; avanceDen = ''; avanceValue = ''; avanceSaved = false; }
+    if (actividad && actividad.estado === 'observado') step1Dirty = true;
     renderPage();
   }
 
@@ -896,7 +1160,7 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
       const result = x / y * 100;
       calcEl.textContent = result.toFixed(2) + '%';
       calcEl.classList.remove('avance-calc-empty');
-      if (saveBtn) saveBtn.disabled = false;
+      if (saveBtn) saveBtn.disabled = actividad && actividad.estado === 'observado' && !step1Dirty;
       const mp = calcMetaPeriodo(actividad.metaAnual, actividad.frecuenciaMedicion, actividad.acumulable);
       const mpNum = mp ? parseFloat(mp.label) : null;
       if (fillEl && mpNum && mpNum > 0) {
@@ -914,6 +1178,16 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
   }
 
   function saveAvance() {
+    if (!_animStep1) {
+      const _sb = document.querySelector('.step-card:first-child .step-body');
+      if (_sb) {
+        _animStep1 = true;
+        _sb.classList.add('is-collapsing');
+        setTimeout(saveAvance, 220);
+        return;
+      }
+    }
+    _animStep1 = false;
     if (sinAvance) {
       avanceSaved = true;
       avanceValue = 'Sin avance';
@@ -923,6 +1197,10 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
         accion: 'Sin avance reportado para el período',
         estadoAnterior: null, estadoNuevo: null
       });
+      if (actividad.estado === 'pendiente_carga') actividad.estado = 'borrador';
+      if (actividad.estado === 'observado') { correctionMade = true; step1Dirty = false; step1Modified = true; }
+      editingStep1 = false;
+      editingStep2 = true;
       renderPage();
       showToast('Sin avance registrado. Recuerda agregar un comentario justificando el resultado.');
       return;
@@ -951,7 +1229,10 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
         estadoAnterior: null, estadoNuevo: null
       });
     }
+    if (actividad.estado === 'pendiente_carga') actividad.estado = 'borrador';
+    if (actividad.estado === 'observado') { correctionMade = true; step1Dirty = false; step1Modified = true; }
     editingStep1 = false;
+    editingStep2 = true;
     renderPage();
     showToast('Avance guardado correctamente.');
     if (actividad.tieneDenominador) {
@@ -960,14 +1241,6 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
       const mp = calcMetaPeriodo(actividad.metaAnual, actividad.frecuenciaMedicion, actividad.acumulable);
       const mpNum = mp ? parseFloat(mp.label) : null;
       if (!isNaN(x) && !isNaN(y) && y > 0 && mpNum && (x / y * 100) < mpNum) {
-        const el = document.getElementById('avanceCalcWarn');
-        if (el) el.classList.add('warn-visible');
-      }
-    } else {
-      const mp    = calcMetaPeriodo(actividad.metaAnual, actividad.frecuenciaMedicion, actividad.acumulable);
-      const mpNum = (mp ? parseFloat(mp.label) : null) || 100;
-      const v     = parseFloat(avanceValue);
-      if (!isNaN(v) && v < mpNum) {
         const el = document.getElementById('avanceCalcWarn');
         if (el) el.classList.add('warn-visible');
       }
@@ -1048,29 +1321,95 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
     renderPage();
     showToast('Observación enviada. El Enlace será notificado.');
   }
+  function eliminarObservacion(idx) {
+    if (!actividad) return;
+    const prevEstado = actividad.estado;
+    actividad.observaciones.splice(idx, 1);
+    actividad.historial.push({ fecha: nowStr(), hora: nowTime(), usuario: 'Carlos Mendoza', rol: 'Revisor',
+      accion: 'Observación eliminada', estadoAnterior: prevEstado, estadoNuevo: null });
+    const tieneActivas = actividad.observaciones.some(o => !o.atendida);
+    if (!tieneActivas) {
+      actividad.estado = 'enviado_revision';
+      actividad.historial[actividad.historial.length - 1].estadoNuevo = 'enviado_revision';
+    }
+    obsOpen = false; obsRevisorText = '';
+    renderPage();
+    showToast(tieneActivas ? 'Observación eliminada.' : 'Todas las observaciones eliminadas. El indicador vuelve a revisión.');
+  }
   function toggleEditStep(n) {
-    if (n === 1) editingStep1 = !editingStep1;
-    else if (n === 2) editingStep2 = !editingStep2;
-    else if (n === 3) editingStep3 = !editingStep3;
+    if (n === 1 && editingStep1 && !_animStep1) {
+      const _sb = document.querySelector('.step-card:first-child .step-body');
+      if (_sb) { _animStep1 = true; _sb.classList.add('is-collapsing'); setTimeout(() => toggleEditStep(1), 220); return; }
+    }
+    if (n === 2 && editingStep2 && !_animStep2) {
+      const _sb = document.querySelector('#secEvidencia .step-body');
+      if (_sb) { _animStep2 = true; _sb.classList.add('is-collapsing'); setTimeout(() => toggleEditStep(2), 220); return; }
+    }
+    if (n === 3 && editingStep3 && !_animStep3) {
+      const _sb = document.querySelector('#secComentarios .step-body');
+      if (_sb) { _animStep3 = true; _sb.classList.add('is-collapsing'); setTimeout(() => toggleEditStep(3), 220); return; }
+    }
+    _animStep1 = false; _animStep2 = false; _animStep3 = false;
+    if (n === 1) { editingStep1 = !editingStep1; if (editingStep1) viewingStep1 = false; }
+    else if (n === 2) { editingStep2 = !editingStep2; if (editingStep2) viewingStep2 = false; }
+    else if (n === 3) { editingStep3 = !editingStep3; if (editingStep3) viewingStep3 = false; }
+    renderPage();
+  }
+  function toggleViewStep(n) {
+    if (n === 1) viewingStep1 = !viewingStep1;
+    else if (n === 2) viewingStep2 = !viewingStep2;
+    else if (n === 3) viewingStep3 = !viewingStep3;
     renderPage();
   }
   function setMetaLograda(val) { metaLograda = val; renderPage(); }
-  function onAnalisisLogro(v)        { analisisLogro = v; }
-  function onAnalisisCausas(v)       { analisisCausas = v; }
-  function onAnalisisRiesgos(v)      { analisisRiesgos = v; }
-  function onAnalisisOportunidades(v){ analisisOportunidades = v; }
-  function onAnalisisAcciones(v)     { analisisAcciones = v; }
+  function updateAnalisisBtn() {
+    const btn = document.querySelector('#secComentarios .btn-save-avance');
+    if (!btn) return;
+    const mainOk   = analisisLogro.trim() || analisisCausas.trim();
+    const fieldsOk = mainOk && analisisRiesgos.trim() && analisisOportunidades.trim() && analisisAcciones.trim();
+    const dirtyOk  = !(actividad && actividad.estado === 'observado') || step3Dirty;
+    btn.disabled = !(fieldsOk && dirtyOk);
+  }
+  function onAnalisisLogro(v)        { analisisLogro = v; step3Dirty = true; updateAnalisisBtn(); }
+  function onAnalisisCausas(v)       { analisisCausas = v; step3Dirty = true; updateAnalisisBtn(); }
+  function onAnalisisRiesgos(v)      { analisisRiesgos = v; step3Dirty = true; updateAnalisisBtn(); }
+  function onAnalisisOportunidades(v){ analisisOportunidades = v; step3Dirty = true; updateAnalisisBtn(); }
+  function onAnalisisAcciones(v)     { analisisAcciones = v; step3Dirty = true; updateAnalisisBtn(); }
 
   function guardarEvidencia() {
-    editingStep2 = false;
+    if (!_animStep2) {
+      const _sb = document.querySelector('#secEvidencia .step-body');
+      if (_sb) {
+        _animStep2 = true;
+        _sb.classList.add('is-collapsing');
+        setTimeout(guardarEvidencia, 220);
+        return;
+      }
+    }
+    _animStep2 = false;
+    evidenciaSaved = true;
+    editingStep2   = false;
+    editingStep3   = true;
+    if (actividad && actividad.estado === 'observado') { correctionMade = true; step2Dirty = false; step2Modified = true; }
     renderPage();
-    showToast('Medio de verificación actualizado.');
+    showToast('Medio de verificación guardado. Continúa con el análisis.');
   }
 
   function guardarAnalisis() {
+    if (!_animStep3) {
+      const _sb = document.querySelector('#secComentarios .step-body');
+      if (_sb) {
+        _animStep3 = true;
+        _sb.classList.add('is-collapsing');
+        setTimeout(guardarAnalisis, 220);
+        return;
+      }
+    }
+    _animStep3 = false;
     analisisSaved = true;
     comentarioGuardado = true;
     editingStep3 = false;
+    if (actividad && actividad.estado === 'observado') { correctionMade = true; step3Dirty = false; step3Modified = true; }
     actividad.historial.push({
       fecha: nowStr(), hora: nowTime(),
       usuario: 'Ana Torres', rol: 'Enlace',
@@ -1078,7 +1417,7 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
       estadoAnterior: null, estadoNuevo: null
     });
     renderPage();
-    showToast('Análisis guardado.');
+    showToast('Análisis guardado correctamente.');
   }
 
   function renderHistorialPeriodos(act) {
@@ -1137,7 +1476,7 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
   function renderAvanceSection(act) {
     const editable  = isEditable();
     const isFrac    = !!act.tieneDenominador;
-    const isPercent = !isFrac && [(act.lineaBase||''), (act.metaAnual||'')].some(v => v.includes('%'));
+    const isPercent = !isFrac && [String(act.lineaBase||''), String(act.metaAnual||'')].some(v => v.includes('%'));
     const unitSuffix = (!isFrac && isPercent) ? '%' : '';
     const mp = calcMetaPeriodo(act.metaAnual, act.frecuenciaMedicion, act.acumulable);
     const acumTag = act.acumulable
@@ -1251,13 +1590,20 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
             <div class="avance-prog-fill" id="avanceProgFill" style="width:${progPct}%"></div>
           </div>
         </div>
-        <button class="btn-save-avance" id="btnSaveAvanceFrac" onclick="saveAvance()" ${hasResult ? '' : 'disabled'}>
+        <button class="btn-save-avance" id="btnSaveAvanceFrac" onclick="saveAvance()" ${hasResult && (act.estado !== 'observado' || step1Dirty) ? '' : 'disabled'}>
           ${SAVE_ICO} Guardar avance
         </button>
         ${sinAvanceSect}`;
     }
 
     // ── SIMPLE ──
+    const sv       = parseFloat(avanceValue);
+    const mpNum    = mp ? parseFloat(mp.label) : null;
+    const hasResS  = !isNaN(sv) && mpNum != null && mpNum > 0;
+    const pctS     = hasResS ? (sv / mpNum * 100) : null;
+    const progPctS = pctS != null ? Math.min(pctS, 100) : 0;
+    const notMetS  = pctS != null && pctS < 100;
+
     return `
       <div class="avance-ctx">${ctx}</div>
       ${histHtml}
@@ -1274,10 +1620,23 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
         ${unitSuffix ? `<span class="avance-unit">${unitSuffix}</span>` : ''}
       </div>
       <p class="avance-hint">Registra el valor obtenido para este período según el método de cálculo del indicador.</p>
-      <button class="btn-save-avance" onclick="saveAvance()" ${avanceValue.trim() ? '' : 'disabled'}>
+      <div class="avance-calc-block">
+        <p class="avance-calc-lbl">Cumplimiento de la meta del período</p>
+        <p class="avance-calc-val ${pctS != null ? '' : 'avance-calc-empty'}" id="avanceSimpleVal">${pctS != null ? pctS.toFixed(1) + '% de la meta del período' : (mpNum ? 'Ingresa un valor para ver el cumplimiento' : 'Sin meta del período configurada')}</p>
+        <p class="avance-no-meta-warn ${notMetS ? 'warn-visible' : ''}" id="avanceCalcWarn">${WARN_ICO}<span><strong>La meta del período no fue alcanzada.</strong> Deberás justificar el incumplimiento en el apartado de comentarios.</span></p>
+      </div>
+      <div id="avanceProgWrap" class="avance-prog" style="display:${hasResS && mpNum ? 'block' : 'none'}">
+        <div class="avance-prog-labels">
+          <span id="avanceProgLabel">${pctS != null ? pctS.toFixed(1) + '% de la meta' : ''}</span>
+          <span>Meta: ${mp ? mp.label : '—'}</span>
+        </div>
+        <div class="avance-prog-track">
+          <div class="avance-prog-fill" id="avanceProgFill" style="width:${progPctS}%"></div>
+        </div>
+      </div>
+      <button class="btn-save-avance" onclick="saveAvance()" ${avanceValue.trim() && (act.estado !== 'observado' || step1Dirty) ? '' : 'disabled'}>
         ${SAVE_ICO} Guardar avance
       </button>
-      <p class="avance-no-meta-warn" id="avanceCalcWarn">${WARN_ICO}<span><strong>La meta del período no fue alcanzada.</strong> Deberás justificar el incumplimiento en el apartado de comentarios.</span></p>
       ${sinAvanceSect}`;
   }
 
@@ -1288,7 +1647,7 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
     const step2Done      = act.archivosEvidencia.length > 0;
     const step3Done      = analisisSaved;
     const step2Accessible = !editable || step1Done;
-    const step3Accessible = !editable || (step1Done && (step2Done || justSaved));
+    const step3Accessible = !editable || (step1Done && (evidenciaSaved || justSaved));
 
     // Determinar si la meta del período se cumplió con base al avance registrado
     let metaCumplida = null;
@@ -1312,8 +1671,10 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
       }
     }
 
-    const isSent  = act.estado === 'enviado_revision';
-    const EDIT_S  = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/></svg>`;
+    const isSent      = act.estado === 'enviado_revision';
+    const EDIT_S      = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/></svg>`;
+    const CHEV_DOWN_S = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>`;
+    const CHEV_UP_S   = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5"/></svg>`;
     const editBtn = (n, active) => (isSent && !isRevisor)
       ? `<button class="step-edit-btn${active?' editing':''}" onclick="toggleEditStep(${n})">${EDIT_S} ${active ? 'Cancelar' : 'Editar'}</button>`
       : '';
@@ -1343,18 +1704,43 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
     const avanceContent = renderAvanceSection(act);
     _editOverride = null;
 
+
+    // readOnlyView: no editable + con datos → sin botones, sin elevación diferencial
+    const readOnlyView  = !editable && avanceSaved;
+    // expandAllSteps: incluye observado (editable, pero inicia con todos desplegados)
+    const expandAllSteps = readOnlyView || (act.estado === 'observado' && avanceSaved);
+
+    const s1Exp = expandAllSteps || !avanceSaved || editingStep1 || viewingStep1;
+    const s2Exp = step2Accessible && (expandAllSteps || !evidenciaSaved || editingStep2 || viewingStep2);
+    const s3Exp = step3Accessible && (expandAllSteps || !analisisSaved || editingStep3 || viewingStep3);
+    const anyExp = s1Exp || s2Exp || s3Exp;
+    // En readOnlyView sin elevación; en observado la elevación aplica sólo cuando el step
+    // está en modo edición (editingStepN) o el usuario ya modificó algo (stepNDirty).
+    const isObs = act.estado === 'observado';
+    const elCls = (active, done, editing, dirty) => {
+      if (readOnlyView || !anyExp) return '';
+      if (isObs) return (editing || dirty) ? 'is-active' : '';
+      return active ? 'is-active' : (done ? '' : 'is-inactive');
+    };
+
     const paso1 = `
-      <div class="step-card">
+      <div class="step-card ${elCls(s1Exp, avanceSaved, editingStep1, step1Dirty)}">
         <div class="step-hdr">
           ${badge(1, step1Done, true)}
           <div class="step-title-col">
             <p class="step-card-name">Meta del indicador</p>
+            ${avanceSaved && !editingStep1
+              ? `<span class="step-saved-summary">${avanceValue}</span>
+                 ${!readOnlyView ? `<button class="step-edit-btn" onclick="toggleEditStep(1)">${EDIT_S} Modificar</button>` : ''}`
+              : ''}
           </div>
-          ${step1Done ? doneChip('Completado') : ''}
-          ${editBtn(1, editingStep1)}
+          ${editingStep1
+            ? `<button class="step-edit-btn editing" onclick="toggleEditStep(1)">${EDIT_S} Cancelar</button>`
+            : !readOnlyView && avanceSaved
+              ? `<button class="step-chevron${viewingStep1 ? ' open' : ''}" onclick="toggleViewStep(1)">${viewingStep1 ? CHEV_UP_S : CHEV_DOWN_S}</button>`
+              : !readOnlyView ? editBtn(1, editingStep1) : ''}
         </div>
-        <div class="step-sep"></div>
-        <div class="step-body">${avanceContent}</div>
+        ${s1Exp ? `<div class="step-sep"></div><div class="step-body">${avanceContent}</div>` : ''}
       </div>`;
 
     // ── Paso 2: Medio de verificación + carga de evidencia ────────────────
@@ -1372,22 +1758,32 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
         <p>${act.reglasExtra || 'El documento debe estar firmado y validado por el responsable de la gerencia.'}</p>
       </div>
       ${evidenceContent}
-      ${editingStep2 ? `<button class="btn-save-avance" onclick="guardarEvidencia()" style="margin-top:14px">${SAVE_S} Guardar</button>` : ''}`;
+      ${!readOnlyView ? `<button class="btn-save-avance" onclick="guardarEvidencia()" style="margin-top:14px" ${(act.estado === 'observado' ? !step2Dirty : act.archivosEvidencia.length === 0 && !justSaved) ? 'disabled' : ''}>${SAVE_S} Guardar y continuar</button>` : ''}`;
+
+    const step2Collapsed = evidenciaSaved && !editingStep2;
 
     const paso2 = `
-      <div class="step-card" id="secEvidencia">
+      <div class="step-card ${elCls(s2Exp, evidenciaSaved, editingStep2, step2Dirty)}" id="secEvidencia">
         <div class="step-hdr">
-          ${badge(2, step2Done, step2Accessible)}
+          ${badge(2, evidenciaSaved, step2Accessible)}
           <div class="step-title-col">
             <p class="step-card-name ${step2Accessible ? '' : 'locked'}">Medio de verificación</p>
+            ${step2Collapsed
+              ? `<span class="step-saved-summary">${step2Done ? `${act.archivosEvidencia.length} archivo${act.archivosEvidencia.length !== 1 ? 's' : ''}` : 'Guardado'}</span>
+                 ${!readOnlyView ? `<button class="step-edit-btn" onclick="toggleEditStep(2)">${EDIT_S} Modificar</button>` : ''}`
+              : ''}
           </div>
-          ${step2Done ? doneChip(`${act.archivosEvidencia.length} archivo${act.archivosEvidencia.length !== 1 ? 's' : ''}`) : ''}
-          ${!step2Accessible ? `<span class="step-lock-icon">${LOCK_S}</span>` : ''}
-          ${editBtn(2, editingStep2)}
+          ${editingStep2
+            ? `<button class="step-edit-btn editing" onclick="toggleEditStep(2)">${EDIT_S} Cancelar</button>`
+            : !readOnlyView && evidenciaSaved
+              ? `<button class="step-chevron${viewingStep2 ? ' open' : ''}" onclick="toggleViewStep(2)">${viewingStep2 ? CHEV_UP_S : CHEV_DOWN_S}</button>`
+              : !readOnlyView && !step2Accessible
+                ? `<span class="step-lock-icon">${LOCK_S}</span>`
+                : !readOnlyView ? editBtn(2, editingStep2) : ''}
         </div>
-        ${step2Accessible
+        ${s2Exp
           ? `<div class="step-sep"></div><div class="step-body">${paso2Body}</div>`
-          : lockBody('Registra el valor del avance primero.')}
+          : !step2Accessible ? lockBody('Registra el valor del avance primero.') : ''}
       </div>`;
 
     // ── Paso 3: Análisis de datos ─────────────────────────────────────────
@@ -1401,6 +1797,10 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
       : 'Explica las causas por las que no se logró la meta';
     const analisisValue   = analisisExito ? analisisLogro : analisisCausas;
     const analisisChange  = analisisExito ? 'onAnalisisLogro' : 'onAnalisisCausas';
+    const analisisComplete = analisisValue.trim().length > 0
+      && analisisRiesgos.trim().length > 0
+      && analisisOportunidades.trim().length > 0
+      && analisisAcciones.trim().length > 0;
     const analisisHint    = analisisExito
       ? 'Describe qué acciones contribuyeron al cumplimiento de la meta…'
       : 'Describe los factores que impidieron alcanzar la meta…';
@@ -1424,7 +1824,7 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
          <span class="analisis-q">Toma de decisiones</span>
          <span class="analisis-caption">Explica las acciones implementadas y/o propuestas para mejorar el resultado del indicador:</span>
          <textarea class="txt-area" rows="3" oninput="onAnalisisAcciones(this.value)" placeholder="Describe las decisiones tomadas o acciones concretas en marcha o propuestas…">${analisisAcciones}</textarea>
-         <button class="btn-save-avance" onclick="guardarAnalisis()" style="margin-top:14px">
+         <button class="btn-save-avance" onclick="guardarAnalisis()" style="margin-top:14px" ${analisisComplete && (act.estado !== 'observado' || step3Dirty) ? '' : 'disabled'}>
            ${SAVE_S} Guardar análisis
          </button>`;
 
@@ -1437,23 +1837,40 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
 
     const analisisContent = step3Editable ? analisisEditForm : analisisReadOnly;
 
+    const step3Collapsed = analisisSaved && !editingStep3;
+
     const paso3 = `
-      <div class="step-card" id="secComentarios">
+      <div class="step-card ${elCls(s3Exp, analisisSaved, editingStep3, step3Dirty)}" id="secComentarios">
         <div class="step-hdr">
           ${badge(3, step3Done, step3Accessible)}
           <div class="step-title-col">
             <p class="step-card-name ${step3Accessible ? '' : 'locked'}">Análisis de datos</p>
+            ${step3Collapsed
+              ? `<span class="step-saved-summary">Análisis completado</span>
+                 ${!readOnlyView ? `<button class="step-edit-btn" onclick="toggleEditStep(3)">${EDIT_S} Modificar</button>` : ''}`
+              : ''}
           </div>
-          ${step3Done ? doneChip('Análisis completado') : ''}
-          ${!step3Accessible ? `<span class="step-lock-icon">${LOCK_S}</span>` : ''}
-          ${editBtn(3, editingStep3)}
+          ${editingStep3
+            ? `<button class="step-edit-btn editing" onclick="toggleEditStep(3)">${EDIT_S} Cancelar</button>`
+            : !readOnlyView && analisisSaved
+              ? `<button class="step-chevron${viewingStep3 ? ' open' : ''}" onclick="toggleViewStep(3)">${viewingStep3 ? CHEV_UP_S : CHEV_DOWN_S}</button>`
+              : !readOnlyView && !step3Accessible
+                ? `<span class="step-lock-icon">${LOCK_S}</span>`
+                : !readOnlyView ? editBtn(3, editingStep3) : ''}
         </div>
-        ${step3Accessible
+        ${s3Exp
           ? `<div class="step-sep"></div><div class="step-body">${analisisContent}</div>`
-          : lockBody('Carga evidencia o justifica la ausencia primero.')}
+          : !step3Accessible ? lockBody('Carga evidencia o justifica la ausencia primero.') : ''}
       </div>`;
 
-    return revisorBanner + paso1 + paso2 + paso3;
+    const eyebrowCopy = act.estado === 'enviado_revision' ? 'Avance enviado a revisión'
+      : act.estado === 'corregido'    ? 'Corrección enviada'
+      : act.estado === 'observado'    ? 'Atiende las observaciones'
+      : act.estado === 'aprobado_revisor' || act.estado === 'cerrado' ? 'Avance aprobado'
+      : 'Registro del período';
+    const eyebrow = `<p class="accordion-eyebrow">${eyebrowCopy}</p>`;
+
+    return revisorBanner + eyebrow + paso1 + paso2 + paso3;
   }
 
   // ── Toggle sections ───────────────────────────────────────────────────────
@@ -1587,35 +2004,47 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
     const editable = isEditable();
     const isObs    = act.estado === 'observado';
     const inReview = ['enviado_revision','pendiente_revision'].includes(act.estado);
-    const approved = ['aprobado_revisor','validado_admin','publicado'].includes(act.estado);
+    const approved = ['aprobado_revisor','cerrado'].includes(act.estado);
     const dias = diasRestantes(act.fechaLimite);
     const dCls = dias < 0 ? '' : dias <= 7 ? 'urgente' : dias <= 14 ? 'proximo' : 'normal';
     const dTxt = dias < 0 ? 'Vencida' : dias === 0 ? 'Hoy' : `${dias} días`;
     const enlaceSteps = !isRevisor ? [
-      { label:'Carga de evidencia',  done:!['borrador','pendiente_carga'].includes(act.estado), current:act.estado==='pendiente_carga' },
+      { label:'Carga de evidencia',  done:!['borrador','pendiente_carga'].includes(act.estado), current:['borrador','pendiente_carga'].includes(act.estado) },
       { label:'Enviada a revisión',  done:!['borrador','pendiente_carga','pendiente_envio'].includes(act.estado), current:act.estado==='pendiente_envio' },
-      { label:'En revisión',         done:['aprobado_revisor','validado_admin','publicado','observado','corregido'].includes(act.estado), current:inReview },
+      { label:'En revisión',         done:['aprobado_revisor','cerrado','observado'].includes(act.estado), current:inReview || act.estado === 'corregido' },
       { label:'Aprobada',            done:approved, current:false },
     ] : [];
 
+    const ALERT_S = `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>`;
+    const isCorregido = act.estado === 'corregido';
+    const isCerrado   = act.estado === 'cerrado';
+    const canRev      = isRevisor && ['enviado_revision','pendiente_revision','corregido'].includes(act.estado);
+    const revisorSteps = isRevisor ? [
+      { label: 'Enlace reportó avance', done: true, current: false },
+      { label: isCorregido ? 'Corrección recibida' : isObs ? 'Observación emitida' : 'En revisión técnica',
+        done: approved, current: canRev || isObs },
+      { label: 'Aprobado por Revisor', done: approved, current: false },
+      { label: 'Validación del Admin', done: isCerrado, current: approved && !isCerrado },
+    ] : [];
     const obsHtml = act.observaciones.length === 0
       ? '<p style="font-size:13px;color:var(--color-text-secondary);">Sin observaciones registradas.</p>'
-      : act.observaciones.map(o => `
-          <div class="obs-card">
-            <div class="obs-card-header">
-              <div class="obs-card-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></div>
-              <div><p class="obs-card-who">${o.autor} · ${o.rolAutor}</p><p class="obs-card-when">${formatFecha(o.fecha)} · ${o.hora}</p></div>
+      : act.observaciones.map(o => {
+          const catLabel   = (o.categoria && o.categoria.trim()) ? o.categoria : 'Observación general';
+          const badgeCls   = isCorregido ? 'status-pill info' : (o.atendida ? 'status-pill success' : 'status-pill warning');
+          const badgeTxt   = isCorregido ? 'Corrección en revisión' : (o.atendida ? 'Atendida' : 'Pendiente de corrección');
+          return `
+          <div class="obs-enlace-card">
+            <div class="obs-enlace-top">
+              <p class="obs-cat-label">${catLabel}</p>
+              <span class="${badgeCls}">${badgeTxt}</span>
             </div>
-            <p class="obs-card-text">"${o.texto}"</p>
-            <div class="obs-status ${o.atendida?'atendida':'pendiente'}">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                ${o.atendida
-                  ? '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>'
-                  : '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>'}
-              </svg>
-              ${o.atendida ? 'Observación atendida' : 'Pendiente de corrección'}
+            <p class="obs-quote-block">"${o.texto}"</p>
+            <div>
+              <p class="obs-attr-name">${o.autor} · ${o.rolAutor}</p>
+              <p class="obs-attr-date">${formatFecha(o.fecha)} · ${o.hora}</p>
             </div>
-          </div>`).join('');
+          </div>`;
+        }).join('');
 
     const histHtml = [...act.historial].reverse().map(h => `
       <div class="tl-item">
@@ -1630,9 +2059,119 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
         <p class="tl-actor">${h.usuario} · ${h.rol}</p>
       </div>`).join('');
 
+    // ── Revisor action card HTML (pre-computed) ──
+    const obsFormHtml = isRevisor && obsOpen ? `
+      <div class="revisor-obs-wrap">
+        <span class="revisor-obs-label">Tipo de observación</span>
+        <div class="obs-cat-dropdown" id="obsCatDropdown">
+          <button type="button" class="obs-cat-trigger" onclick="toggleObsCat(event)">
+            <span id="obsCatLabel">Sin categoría específica</span>
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+          </button>
+          <div class="obs-cat-menu" id="obsCatMenu">
+            ${[['','Sin categoría específica'],['Archivo incorrecto','Archivo incorrecto'],['Evidencia incompleta','Evidencia incompleta'],['Medio de verificación no corresponde','Medio de verificación no corresponde'],['Formato inválido','Formato inválido'],['Información ilegible','Información ilegible'],['Justificación insuficiente','Justificación insuficiente'],['Otro','Otro']].map(([v,l])=>`
+              <div class="obs-cat-option${obsCategoria===v?' selected':''}" onclick="selectObsCat('${v.replace(/'/g,"\\'")}','${l.replace(/'/g,"\\'")}')">
+                <svg class="opt-check" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+                ${l}
+              </div>`).join('')}
+          </div>
+        </div>
+        <span class="revisor-obs-label">Observación al enlace</span>
+        <textarea class="obs-ta" placeholder="Describe qué debe corregir o complementar el enlace en su reporte…" oninput="onObsInput(this.value)">${obsRevisorText}</textarea>
+        <button class="btn-full warning" onclick="enviarObservacion()" style="margin-top:8px" ${obsRevisorText.trim() ? '' : 'disabled'}>
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>
+          Enviar observación
+        </button>
+      </div>` : '';
+
+    let actionCardHtml = '';
+    if (isRevisor) {
+      if (canRev) {
+        actionCardHtml = `
+          <p class="ap-title" style="margin-bottom:12px">Resultado de revisión</p>
+          <div class="review-action-box">
+            <p class="rab-title">Emite tu resolución técnica</p>
+            <button class="btn-full primary" onclick="aprobarIndicador()" style="background:var(--color-success);margin-bottom:8px">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+              Aprobar reporte
+            </button>
+            <button class="btn-full secondary" onclick="toggleObs()" style="${obsOpen ? 'border-color:var(--color-observado);color:var(--color-observado)' : ''}">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+              ${obsOpen ? 'Cancelar observación' : 'Emitir observación'}
+            </button>
+            ${obsFormHtml}
+          </div>`;
+      } else if (isObs) {
+        const obsActivas = act.observaciones.filter(o => !o.atendida).map((o, idx) => `
+          <div class="obs-revisor-item">
+            <div class="obs-revisor-top">
+              <span class="obs-revisor-cat">${o.categoria || 'Observación general'}</span>
+              <button class="obs-revisor-del" onclick="eliminarObservacion(${act.observaciones.indexOf(o)})" title="Eliminar observación">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg>
+                Eliminar
+              </button>
+            </div>
+            <p class="obs-revisor-txt">"${o.texto}"</p>
+          </div>`).join('');
+        actionCardHtml = `
+          <p class="ap-title" style="margin-bottom:12px">Resultado de revisión</p>
+          <div class="review-action-box">
+            <p class="rab-title">Observación activa</p>
+            <p class="rab-sub">El Enlace aún no ha enviado corrección. Puedes agregar otra observación, eliminar la existente o aprobar el reporte.</p>
+            <div class="obs-revisor-list">${obsActivas}</div>
+            <button class="btn-full primary" onclick="aprobarIndicador()" style="background:var(--color-success);margin-top:4px;margin-bottom:8px">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+              Aprobar de todas formas
+            </button>
+            <button class="btn-full secondary" onclick="toggleObs()" style="${obsOpen ? 'border-color:var(--color-observado);color:var(--color-observado)' : ''}">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+              ${obsOpen ? 'Cancelar observación' : 'Agregar observación'}
+            </button>
+            ${obsFormHtml}
+          </div>`;
+      } else if (approved && !isCerrado) {
+        const approvedFecha = formatFecha((act.historial.filter(h => h.estadoNuevo === 'aprobado_revisor').slice(-1)[0] || {}).fecha || act.ultimaActualizacion || '');
+        actionCardHtml = `
+          <div class="approved-panel">
+            <div class="approved-check"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
+            <p class="approved-title">Reporte aprobado por ti</p>
+            <p class="approved-sub">Validación técnica completada.<br>Sin observaciones pendientes.</p>
+            <p class="approved-date">Aprobado el ${approvedFecha}</p>
+            <div class="wf-steps">
+              <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Enlace reportó avance</p><p class="wf-actor done">${act.responsableEnlace}</p></div></div>
+              <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Revisor aprobó</p><p class="wf-actor done">${act.responsableRevisor} · Tú</p></div></div>
+              <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot active"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div><div class="wf-info"><p class="wf-label active">Admin valida</p><p class="wf-actor active">Luis Sandoval · Pendiente</p></div></div>
+              <div class="wf-step"><div class="wf-dot pending"></div><div class="wf-info"><p class="wf-label pending">Reporte cerrado</p><p class="wf-actor pending">Completitud de período</p></div></div>
+            </div>
+          </div>
+          <div class="next-action">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>
+            <div class="next-action-text"><strong>Siguiente paso: Admin</strong>Luis Sandoval debe validar este reporte para cerrarlo.</div>
+          </div>`;
+      } else if (isCerrado) {
+        const cerradoFecha = formatFecha((act.historial.filter(h => h.estadoNuevo === 'cerrado').slice(-1)[0] || {}).fecha || act.ultimaActualizacion || '');
+        actionCardHtml = `
+          <div class="closed-panel">
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--color-success-dark);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" width="20" height="20" style="color:white"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+            </div>
+            <p class="closed-title">Reporte cerrado</p>
+            <p class="closed-sub">Validado por el Administrador.<br>Período completado oficialmente.</p>
+            <div style="margin-top:12px;" class="wf-steps">
+              <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Enlace reportó</p><p class="wf-actor done">${act.responsableEnlace}</p></div></div>
+              <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Revisor aprobó</p><p class="wf-actor done">${act.responsableRevisor}</p></div></div>
+              <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Admin validó</p><p class="wf-actor done">Luis Sandoval</p></div></div>
+              <div class="wf-step"><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Reporte cerrado</p><p class="wf-actor done">${cerradoFecha}</p></div></div>
+            </div>
+          </div>`;
+      } else {
+        actionCardHtml = `<p style="font-size:13px;color:var(--color-text-secondary);">Sin acciones disponibles para este estado.</p>`;
+      }
+    }
+
     document.getElementById('mainContent').innerHTML = `
       <div class="breadcrumb">
-        <a href="mis-actividades.html">Mis actividades</a>
+        <a href="${isRevisor ? 'bandeja-revision.html' : 'mis-actividades.html'}">${isRevisor ? 'Bandeja de revisión' : 'Mis actividades'}</a>
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
         <span>${act.id}</span>
       </div>
@@ -1652,24 +2191,46 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
               <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Frecuencia: <strong>${act.frecuenciaMedicion}</strong></div>
               <div class="hc-meta-item"><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></div>
             </div>
-            ${!isRevisor ? `<div class="ap-fecha-wrap" style="margin-top:14px;margin-bottom:0">
-              <div class="ap-fecha-item"><p class="ap-fecha-lbl">Fecha límite</p><p class="ap-fecha-val ${dCls}">${formatFecha(act.fechaLimite)}</p></div>
-              <div class="ap-fecha-item"><p class="ap-fecha-lbl">Tiempo restante</p><p class="ap-fecha-val ${dCls}">${dTxt}</p></div>
-            </div>` : ''}
+            <div style="margin-top:14px;margin-bottom:0">
+              ${approved ? `<p class="ap-fecha-lbl" style="margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:700">Próximo período · ${act.frecuenciaMedicion}</p>` : ''}
+              <div class="ap-fecha-wrap" style="margin-bottom:0">
+                ${approved
+                  ? `<div class="ap-fecha-item"><p class="ap-fecha-lbl">Apertura</p><p class="ap-fecha-val" style="color:var(--color-info)">${formatFecha(proximaApertura(act.frecuenciaMedicion, act.fechaLimite))}</p></div>
+                     <div class="ap-fecha-item"><p class="ap-fecha-lbl">Fecha límite</p><p class="ap-fecha-val" style="color:var(--color-info)">${formatFecha(proximaFechaLimite(act.frecuenciaMedicion, act.fechaLimite))}</p></div>`
+                  : `<div class="ap-fecha-item"><p class="ap-fecha-lbl">Fecha límite</p><p class="ap-fecha-val ${dCls}">${formatFecha(act.fechaLimite)}</p></div>
+                     <div class="ap-fecha-item"><p class="ap-fecha-lbl">Tiempo restante</p><p class="ap-fecha-val ${dCls}">${dTxt}</p></div>`}
+              </div>
+            </div>
           </div>
+
+          ${!isRevisor && (isObs || isCorregido) && act.observaciones.length > 0 ? `
+          <div class="obs-section-card">
+            <div class="obs-section-hdr">
+              <div class="obs-section-hdr-left">
+                ${ALERT_S}
+                <span class="obs-section-title">${isCorregido ? 'Corrección enviada' : 'Observaciones'}</span>
+                <span class="obs-count-badge">${act.observaciones.length}</span>
+              </div>
+              ${isCorregido && act.correctionDetail ? `
+              <button class="btn-ver-correccion" onclick="openCorreccionDetalle()">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+                Ver detalle
+              </button>` : `<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;color:var(--color-text-muted)"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5"/></svg>`}
+            </div>
+            <div class="obs-section-body">${obsHtml}</div>
+          </div>` : ''}
+
           <div class="section-card">
-            <div class="section-header open" data-sec="mir" onclick="toggleSection('mir')">
+            <div class="section-header" data-sec="mir" onclick="toggleSection('mir')">
               <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>Información MIR</div>
               <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
             </div>
-            <div class="section-body open" id="sec-mir">
+            <div class="section-body" id="sec-mir">
               <div class="info-grid single">
                 <div class="info-item"><label>Objetivo</label><p>${act.resumenNarrativo}</p></div>
                 <div class="info-divider"></div>
                 <div class="info-item"><label>Denominación del indicador</label><p>${act.nombreIndicador}</p></div>
                 <div class="info-divider"></div>
-                <div class="info-item"><label>Nivel MIR</label><p><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></p></div>
-                <div class="info-item"><label>Frecuencia de medición</label><p>${act.frecuenciaMedicion}</p></div>
                 <div class="info-item"><label>Línea base</label><p>${act.lineaBase ?? '—'}</p></div>
                 <div class="info-item"><label>Meta anual</label><p>${act.metaAnual ?? '—'}</p></div>
                 <div class="info-divider"></div>
@@ -1681,15 +2242,15 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
             </div>
           </div>
 
-          ${!isRevisor ? `
           <!-- FLUJO DE TRABAJO -->
           <div class="section-card">
-            <div class="section-header open" data-sec="flujo" onclick="toggleSection('flujo')">
+            <div class="section-header" data-sec="flujo" onclick="toggleSection('flujo')">
               <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Flujo de trabajo</div>
               <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
             </div>
-            <div class="section-body open" id="sec-flujo" style="padding:12px 16px;display:flex;flex-direction:column;gap:6px;">
-              ${enlaceSteps.map(s => `
+            <div class="section-body" id="sec-flujo" style="padding:12px 16px;">
+              <div style="display:flex;flex-direction:column;gap:6px;">
+              ${(isRevisor ? revisorSteps : enlaceSteps).map(s => `
                 <div class="ap-step ${s.done?'done':s.current?'current':''}">
                   <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                     ${s.done
@@ -1700,41 +2261,45 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
                   </svg>
                   ${s.label}
                 </div>`).join('')}
+              </div>
             </div>
           </div>
 
           <!-- RESPONSABLES -->
           <div class="section-card">
-            <div class="section-header open" data-sec="resp" onclick="toggleSection('resp')">
+            <div class="section-header" data-sec="resp" onclick="toggleSection('resp')">
               <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>Responsables</div>
               <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
             </div>
-            <div class="section-body open" id="sec-resp" style="padding:12px 16px;display:flex;flex-direction:column;gap:8px;">
-              <div class="ap-assignee"><div class="ap-av enlace">AT</div><div><p class="ap-av-name">${act.responsableEnlace}</p><p class="ap-av-rol">Enlace</p></div></div>
-              <div class="ap-assignee"><div class="ap-av revisor">CM</div><div><p class="ap-av-name">${act.responsableRevisor}</p><p class="ap-av-rol">Revisor</p></div></div>
+            <div class="section-body" id="sec-resp" style="padding:12px 16px;">
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                ${isRevisor ? `
+                <div class="assignee-row"><div class="asgn-av admin">LS</div><div><p class="asgn-name">Luis Sandoval</p><p class="asgn-rol">Admin</p></div></div>
+                <div class="assignee-row"><div class="asgn-av revisor">CM</div><div><p class="asgn-name">${act.responsableRevisor}</p><p class="asgn-rol">Revisor</p></div></div>
+                <div class="assignee-row"><div class="asgn-av enlace">AT</div><div><p class="asgn-name">${act.responsableEnlace}</p><p class="asgn-rol">Enlace · ${act.gerencia}</p></div></div>
+                ` : `
+                <div class="ap-assignee"><div class="ap-av enlace">AT</div><div><p class="ap-av-name">${act.responsableEnlace}</p><p class="ap-av-rol">Enlace</p></div></div>
+                <div class="ap-assignee"><div class="ap-av revisor">CM</div><div><p class="ap-av-name">${act.responsableRevisor}</p><p class="ap-av-rol">Revisor</p></div></div>
+                `}
+              </div>
             </div>
-          </div>` : ''}
+          </div>
 
-        </div>
-
-        <!-- COLUMNA DERECHA: REPORTE + EVIDENCIA + OBS + HISTORIAL -->
-        <div class="detail-col">
-
-          <!-- REPORTE DE AVANCE — ACORDEÓN 3 PASOS -->
-          ${renderReporteAccordion(act)}
-
-          <!-- OBSERVACIONES -->
+          <!-- OBSERVACIONES (sección histórica — sólo para Enlace) -->
+          ${!isRevisor && !isObs && !isCorregido ? `
           <div class="section-card">
-            <div class="section-header${isObs?' open':''}" data-sec="obs" onclick="toggleSection('obs')">
+            <div class="section-header" data-sec="obs" onclick="toggleSection('obs')">
               <div class="section-title">
-                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+                ${ALERT_S}
                 Observaciones
-                ${act.observaciones.length > 0 ? `<span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:var(--color-observado);color:white;font-size:10px;font-weight:700;">${act.observaciones.length}</span>` : ''}
+                ${act.observaciones.length > 0 ? `<span class="obs-count-badge" style="background:var(--color-text-muted)">${act.observaciones.length}</span>` : ''}
               </div>
               <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
             </div>
-            <div class="section-body${isObs?' open':''}" id="sec-obs">${obsHtml}</div>
-          </div>
+            <div class="section-body" id="sec-obs">
+              ${act.observaciones.length > 0 ? `<div style="display:flex;flex-direction:column;gap:10px;">${obsHtml}</div>` : '<p style="font-size:13px;color:var(--color-text-secondary);">Sin observaciones registradas.</p>'}
+            </div>
+          </div>` : ''}
 
           <!-- HISTORIAL -->
           <div class="section-card">
@@ -1745,23 +2310,47 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
             <div class="section-body" id="sec-hist"><div class="timeline">${histHtml}</div></div>
           </div>
 
-          ${!isRevisor && editable ? `
+        </div>
+
+        <!-- COLUMNA DERECHA: REPORTE + EVIDENCIA + ACCIONES -->
+        <div class="detail-col">
+
+          ${isRevisor && isCorregido ? `<div class="correction-alert"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"/></svg>El Enlace envió una corrección en respuesta a tu observación anterior. Revisa los archivos actualizados y emite tu resolución.</div>` : ''}
+
+          <!-- REPORTE DE AVANCE — ACORDEÓN 3 PASOS -->
+          ${renderReporteAccordion(act)}
+
+          ${isRevisor ? `
+          <!-- ACCIONES DEL REVISOR -->
+          <div class="revisor-action-card">
+            ${actionCardHtml}
+          </div>` : !isRevisor && editable ? `
           <!-- ACCIONES -->
-          <div class="section-card" style="padding:16px 20px;">
+          <div class="send-action-card">
             ${inReview ? `<div class="info-box info-blue" style="margin-bottom:0"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="28" height="28" style="color:var(--color-info);"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg><p class="ib-title">En revisión</p><p class="ib-sub">El Revisor está evaluando tu evidencia.</p></div>` : ''}
             ${approved  ? `<div class="info-box info-green" style="margin-bottom:0"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="28" height="28" style="color:var(--color-success);"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg><p class="ib-title">Aprobada</p><p class="ib-sub">El Revisor aprobó técnicamente esta actividad.</p></div>` : ''}
             ${!inReview && !approved ? `
-            <div style="display:flex;gap:10px;align-items:center;">
-              <button class="btn btn-secondary" style="flex:1" onclick="saveAsDraft()">
-                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"/></svg>
-                Guardar borrador
-              </button>
-              <button id="btnEnviar" class="btn btn-primary" style="flex:2" onclick="openModal()" disabled>
-                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>
-                ${isObs ? 'Enviar corrección' : 'Enviar a revisión'}
-              </button>
+            <div class="send-action-header">
+              <p class="send-action-title">${isObs ? 'Envía tu corrección al Revisor' : '¿Listo para enviar a revisión?'}</p>
+              <p class="send-action-sub">${isObs
+                ? 'Asegúrate de haber atendido todas las observaciones antes de enviar.'
+                : 'Revisa que los tres pasos estén completos. Una vez enviado, el Revisor evaluará tu evidencia.'}</p>
             </div>
-            <p class="send-hint" id="sendHint" style="margin-top:8px;margin-bottom:0">Carga evidencia o agrega una justificación (mín. ${MIN_JUSTIFY} chars).</p>` : ''}
+            ${isObs ? `
+            <div class="correction-note-wrap">
+              <label class="correction-note-label">Nota de corrección <span style="font-weight:400;text-transform:none;letter-spacing:0">(opcional)</span></label>
+              <textarea class="correction-note-ta" placeholder="Describe brevemente qué corregiste o qué cambios realizaste…" oninput="onCorrectionNote(this.value)">${correctionNote}</textarea>
+            </div>` : ''}
+            <button id="btnEnviar" class="btn-send-primary" onclick="openModal()" disabled>
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>
+              ${isObs ? 'Enviar corrección' : 'Enviar a revisión'}
+            </button>
+            <p class="send-status-hint" id="sendHint">Completa los tres pasos para habilitar el envío.</p>
+            ${!isObs ? `<button class="btn-draft" onclick="saveAsDraft()">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"/></svg>
+              Guardar borrador
+            </button>` : ''}
+          ` : ''}
           </div>` : ''}
 
         </div><!-- /detail-col right -->
@@ -1769,103 +2358,12 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
     `;
   }
 
-  // ── Panel del Revisor ─────────────────────────────────────────────────────
-  function renderRevisorPanel(act) {
-    const cfg   = ESTADO_CFG[act.estado] || { label: act.estado, cls: '' };
-    const dias  = diasRestantes(act.fechaLimite);
-    const dCls  = dias < 0 ? '' : dias <= 7 ? 'urgente' : dias <= 14 ? 'proximo' : 'normal';
-    const dTxt  = dias < 0 ? 'Vencida' : dias === 0 ? 'Hoy' : `${dias} días`;
-    const aprobado = act.estado === 'aprobado_revisor';
-    const observado = act.estado === 'observado';
-    const CHECK_S = `<svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>`;
-
-    const steps = [
-      { label: 'Reporte recibido',    done: true,     current: false },
-      { label: 'En revisión técnica', done: aprobado || observado, current: !aprobado && !observado },
-      { label: 'Dictamen emitido',    done: aprobado || observado, current: false },
-    ];
-
-    document.getElementById('actionPanel').innerHTML = `
-      <a class="ap-back" href="bandeja-revision.html"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>Bandeja de revisión</a>
-      <div class="ap-divider"></div>
-
-      <p class="ap-title">Estado del reporte</p>
-      <div class="ap-estado-wrap"><p class="ap-estado-lbl">Estado</p><span class="estado-badge ${cfg.cls}">${cfg.label}</span></div>
-
-      <p class="ap-title" style="margin-top:14px">Fechas</p>
-      <div class="ap-fecha-wrap">
-        <div class="ap-fecha-item"><p class="ap-fecha-lbl">Fecha límite</p><p class="ap-fecha-val ${dCls}">${formatFecha(act.fechaLimite)}</p></div>
-        <div class="ap-fecha-item"><p class="ap-fecha-lbl">Tiempo</p><p class="ap-fecha-val ${dCls}">${dTxt}</p></div>
-      </div>
-
-      ${!aprobado && !observado ? `
-        <div class="ap-divider"></div>
-        <p class="ap-title">Acciones del revisor</p>
-        <button class="btn-full primary" onclick="aprobarIndicador()" style="background:var(--color-success);margin-bottom:8px">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-          Aprobar reporte
-        </button>
-        <button class="btn-full secondary" onclick="toggleObs()" style="${obsOpen ? 'border-color:var(--color-observado);color:var(--color-observado)' : ''}">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
-          ${obsOpen ? 'Cancelar observación' : 'Enviar observación'}
-        </button>
-        ${obsOpen ? `
-          <div class="revisor-obs-wrap">
-            <span class="revisor-obs-label">Tipo de observación</span>
-            <div class="obs-cat-dropdown" id="obsCatDropdown">
-              <button type="button" class="obs-cat-trigger" onclick="toggleObsCat(event)">
-                <span id="obsCatLabel">Sin categoría específica</span>
-                <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-              </button>
-              <div class="obs-cat-menu" id="obsCatMenu">
-                ${[['','Sin categoría específica'],['Archivo incorrecto','Archivo incorrecto'],['Evidencia incompleta','Evidencia incompleta'],['Medio de verificación no corresponde','Medio de verificación no corresponde'],['Formato inválido','Formato inválido'],['Información ilegible','Información ilegible'],['Justificación insuficiente','Justificación insuficiente'],['Otro','Otro']].map(([v,l])=>`
-                  <div class="obs-cat-option${obsCategoria===v?' selected':''}" onclick="selectObsCat('${v.replace(/'/g,"\\'")}','${l.replace(/'/g,"\\'")}')">
-                    <svg class="opt-check" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
-                    ${l}
-                  </div>`).join('')}
-              </div>
-            </div>
-            <span class="revisor-obs-label">Observación al enlace</span>
-            <textarea class="obs-ta" placeholder="Describe qué debe corregir o complementar el enlace en su reporte…" oninput="onObsInput(this.value)">${obsRevisorText}</textarea>
-            <button class="btn-full warning" onclick="enviarObservacion()" style="margin-top:8px" ${obsRevisorText.trim() ? '' : 'disabled'}>
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>
-              Enviar observación
-            </button>
-          </div>` : ''}
-      ` : ''}
-
-      ${aprobado ? `<div class="info-box info-green"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="28" height="28" style="color:var(--color-success);"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg><p class="ib-title">Reporte aprobado</p><p class="ib-sub">Has aprobado técnicamente este reporte.</p></div>` : ''}
-      ${observado ? `<div class="info-box" style="background:var(--color-observado-tint);border-color:var(--color-observado-tint)"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="28" height="28" style="color:var(--color-observado);"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg><p class="ib-title">Observación enviada</p><p class="ib-sub">Esperando corrección del Enlace.</p></div>` : ''}
-
-      <div class="ap-divider"></div>
-      <p class="ap-title">Flujo de revisión</p>
-      ${steps.map(s => `
-        <div class="ap-step ${s.done?'done':s.current?'current':''}">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-            ${s.done ? '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>'
-              : s.current ? '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>'
-              : '<circle cx="12" cy="12" r="9" stroke-width="1.5"/>'}
-          </svg>
-          ${s.label}
-        </div>`).join('')}
-
-      <div class="ap-divider"></div>
-      <p class="ap-title">Responsables</p>
-      <div style="display:flex;flex-direction:column;gap:6px;">
-        <div class="ap-assignee"><div class="ap-av enlace">AT</div><div><p class="ap-av-name">${act.responsableEnlace}</p><p class="ap-av-rol">Enlace</p></div></div>
-        <div class="ap-assignee"><div class="ap-av revisor">CM</div><div><p class="ap-av-name">${act.responsableRevisor}</p><p class="ap-av-rol">Revisor</p></div></div>
-      </div>
-    `;
-  }
-
-  // ── Render action panel ───────────────────────────────────────────────────
+  // ── Render action panel — now a no-op for Revisor (content moved to renderMain) ──
   function renderActionPanel(act) {
-    if (isRevisor) { renderRevisorPanel(act); return; }
-    // Para Enlace: fecha, flujo y acciones ya están en renderMain — ocultar el panel
     const panel = document.getElementById('actionPanel');
     panel.innerHTML = '';
     panel.style.display = 'none';
-    setTimeout(updateSendBtn, 0);
+    if (!isRevisor) setTimeout(updateSendBtn, 0);
   }
 
   function renderPage() {
@@ -1934,7 +2432,17 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
       document.getElementById('actionPanel').innerHTML = '';
       return;
     }
-    renderPage();
+    try {
+      renderPage();
+    } catch(e) {
+      console.error('renderPage error:', e);
+      document.getElementById('mainContent').innerHTML =
+        `<div style="padding:32px;color:var(--color-danger);font-size:13px">
+          <strong>Error al cargar el indicador:</strong> ${e.message}
+          <pre style="margin-top:8px;font-size:11px;white-space:pre-wrap;opacity:.7">${e.stack||''}</pre>
+          <a href="mis-actividades.html" style="color:var(--color-primary);font-weight:700;display:block;margin-top:16px;">← Volver al listado</a>
+        </div>`;
+    }
   });
 
   document.getElementById('confirmModal').addEventListener('click', e => { if (e.target === document.getElementById('confirmModal')) closeModal(); });
@@ -1993,5 +2501,6 @@ align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);marg
   <div class="fv-content" id="fvContent"></div>
 </div>
 
+<script src="dev-toolbar.js"></script>
 </body>
 </html>

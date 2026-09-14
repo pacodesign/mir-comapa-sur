@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="shared.css">
   <script src="session.js"></script>
   <script src="mir-actividades-data.js"></script>
+  <script src="demo-data.js"></script>
   <script src="planeacion-data.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
   <style>
@@ -169,6 +170,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     <div class="avatar-xs">CM</div>
   </div>
 </nav>
+
 
 
 <div class="app-wrapper">
@@ -658,7 +660,8 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
 '+PDF_CSS+'
 </style>  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
-</head><body>'+content+paginateScript+'</body></html>';
+</head><body>'+content+paginateScript+'<script src="dev-toolbar.js"></script>
+</body></html>';
   }
 
   function refreshPDF() {
@@ -813,5 +816,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 
 })();
 </script>
+<script src="dev-toolbar.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
   <script src="session.js"></script>
   <script src="mock-notifications.js"></script>
   <script src="mir-actividades-data.js"></script>
+  <script src="demo-data.js"></script>
   <script src="layout.js"></script>
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
@@ -191,6 +192,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 </nav>
 
 
+
 <div class="app-wrapper">
   <main class="main-content" id="main"></main>
 </div>
@@ -201,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const pendientes  = actsRevisor.filter(a => ['enviado_revision','pendiente_revision'].includes(a.estado));
   const corregidas  = actsRevisor.filter(a => a.estado === 'corregido');
   const observadas  = actsRevisor.filter(a => a.estado === 'observado');
-  const aprobadas   = actsRevisor.filter(a => ['aprobado_revisor','validado_admin','publicado'].includes(a.estado));
+  const aprobadas   = actsRevisor.filter(a => ['aprobado_revisor','cerrado'].includes(a.estado));
   const urgentes    = actsRevisor.filter(a => {
     const d = diasRestantes(a.fechaLimite);
     return ['enviado_revision','pendiente_revision','corregido'].includes(a.estado) && (d <= 14);
@@ -508,5 +510,6 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 });
 </script>
+<script src="dev-toolbar.js"></script>
 </body>
 </html>

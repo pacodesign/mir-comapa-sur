@@ -389,6 +389,19 @@ body {
 .nivel-badge.componente { background: #F5F3FF; color: #5B21B6; }
 .nivel-badge.actividad  { background: var(--c-success-tint); color: #15803D; }
 
+/* Status pill — etiqueta semántica inline dentro de cards, sin dot */
+.status-pill {
+  display: inline-flex; align-items: center;
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 999px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.status-pill.warning { background: #FDE68A; color: #B17105; }
+.status-pill.success { background: var(--c-success-tint); color: #15803D; }
+.status-pill.danger  { background: var(--c-danger-tint); color: #B91C1C; }
+.status-pill.info    { background: var(--c-info-tint); color: #1D4ED8; }
+.status-pill.neutral { background: #F3F4F6; color: #374151; }
+
 /* FORMS */
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 .form-label { font-size: 12px; font-weight: 600; color: var(--c-text); }
@@ -1017,6 +1030,42 @@ body {
         </div>
       </div>
       <p style="font-size:12px;color:var(--c-text-2);margin-top:8px;">Los niveles MIR usan <code>border-radius: 6px</code> (rectangular), no pill, para diferenciarse visualmente de los badges de estado.</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Status pill — etiqueta semántica inline dentro de cards</div>
+      <p style="font-size:12px;color:var(--c-text-2);margin-bottom:14px;">
+        Para etiquetar el estado de un <em>atributo</em> dentro de una card o lista (ej. observación atendida/pendiente).
+        Sin dot, sin uppercase. Se diferencia de <code>.estado-badge</code> en que describe el estado de un dato
+        dentro de la UI, no el estado del indicador en el flujo.
+        Spec: <strong>11px / 700 / padding 3px 10px / radius 999px</strong>.
+      </p>
+      <div class="preview" style="gap:10px;flex-wrap:wrap;align-items:center">
+        <div style="text-align:center">
+          <span class="status-pill warning">Pendiente de corrección</span>
+          <div class="token-pill" style="margin-top:6px">.status-pill.warning</div>
+        </div>
+        <div style="text-align:center">
+          <span class="status-pill success">Atendida</span>
+          <div class="token-pill" style="margin-top:6px">.status-pill.success</div>
+        </div>
+        <div style="text-align:center">
+          <span class="status-pill danger">Con error</span>
+          <div class="token-pill" style="margin-top:6px">.status-pill.danger</div>
+        </div>
+        <div style="text-align:center">
+          <span class="status-pill info">En revisión</span>
+          <div class="token-pill" style="margin-top:6px">.status-pill.info</div>
+        </div>
+        <div style="text-align:center">
+          <span class="status-pill neutral">Sin estado</span>
+          <div class="token-pill" style="margin-top:6px">.status-pill.neutral</div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--c-text-2);margin-top:12px;">
+        Uso actual: <code>detalle-actividad.html</code> — observaciones del Revisor (badge de atendida/pendiente dentro de cada obs-enlace-card).
+        Clases disponibles: <code>.warning</code> · <code>.success</code> · <code>.danger</code> · <code>.info</code> · <code>.neutral</code>.
+      </p>
     </div>
   </section>
 

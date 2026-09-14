@@ -63,15 +63,17 @@ Cada indicador se extiende con campos de workflow para gestionar el ciclo de vid
 
 | Estado               | Descripción                                                              |
 |----------------------|--------------------------------------------------------------------------|
-| `borrador`           | Indicador registrado, sin acción del Enlace                              |
-| `pendiente_carga`    | Asignado al Enlace, esperando carga de evidencia                         |
-| `pendiente_envio`    | Evidencia cargada pero no enviada a revisión                             |
+| `borrador`           | Reporte en progreso: al menos el avance del período (paso 1) registrado; máximo con medio de verificación cargado (paso 2). Mostrado visualmente para `pendiente_carga` también. |
+| `pendiente_carga`    | Estado interno: período abierto sin ningún paso iniciado. Se presenta como `borrador` en la UI. |
+| `pendiente_envio`    | Los tres pasos del reporte completados; pendiente de envío a revisión    |
 | `enviado_revision`   | Enlace envió; en espera de que el Revisor lo tome                        |
 | `observado`          | Revisor emitió observación; requiere corrección del Enlace               |
 | `corregido`          | Enlace reenvió corrección; en espera de segunda revisión                 |
-| `listo_validar`      | Revisor aprobó técnicamente; en espera de validación del Administrador   |
-| `cerrado`            | Administrador validó el indicador — reporte del periodo cerrado          |
+| `aprobado_revisor`   | Revisor aprobó técnicamente; en espera de validación del Administrador. Badge: "Aprobado" |
+| `cerrado`            | Administrador cerró el indicador — reporte del período finalizado        |
 | `vencido`            | Fecha límite superada sin evidencia aprobada                             |
+
+> **Estados eliminados:** `validado_admin` y `publicado` fueron eliminados del flujo activo. Eran redundantes con `cerrado`. Cualquier dato existente con esos estados se muestra visualmente como "Cerrado". El único flujo real de cierre es `aprobado_revisor → cerrado` (acción del Administrador).
 
 ---
 
@@ -99,16 +101,18 @@ Cada indicador se extiende con campos de workflow para gestionar el ciclo de vid
 ### 2.2 Diagrama de estados
 
 ```
-borrador
-  └─► pendiente_carga
-        └─► pendiente_envio
+pendiente_carga (UI: borrador)
+  └─► borrador (paso 1 completado)
+        └─► pendiente_envio (los 3 pasos completados)
               └─► enviado_revision
-                    ├─► listo_validar ──► cerrado
+                    ├─► aprobado_revisor ──► cerrado (acción del Admin)
                     └─► observado
                           └─► corregido
                                 └─► enviado_revision (segunda vuelta)
 
-* Cualquier estado antes de listo_validar puede derivar en: vencido
+* aprobado_revisor conserva su estado hasta que el Admin cierre el período
+  o hasta que se abra la ventana del siguiente ciclo de reporte
+* Cualquier estado antes de aprobado_revisor puede derivar en: vencido
 ```
 
 ### 2.3 Responsabilidades por estado
@@ -120,7 +124,7 @@ borrador
 | `enviado_revision`  | Revisor       | Tomar el indicador y comenzar revisión         |
 | `observado`         | Enlace        | Leer observación y subir corrección            |
 | `corregido`         | Revisor       | Revisar la corrección                          |
-| `listo_validar`     | Administrador | Validar el indicador para cerrarlo             |
+| `aprobado_revisor`  | Administrador | Validar el indicador para cerrarlo             |
 | `vencido`           | Administrador | Registrar y notificar a la gerencia            |
 
 ---
@@ -147,7 +151,171 @@ Todos los indicadores, sin distinción de nivel, participan en el flujo de repor
 - El archivo `mir-actividades-data.js` es la única fuente de verdad del prototipo — todas las vistas consumen este archivo.
 - El campo `historial` sigue la estructura: `{ fecha, hora, usuario, rol, accion, estadoAnterior, estadoNuevo }`.
 - El campo `observaciones` sigue la estructura: `{ id, texto, autor, rolAutor, fecha, hora, atendida, categoria }`.
+  - `categoria` proviene del catálogo de tipos de observación que el Revisor selecciona al emitir una observación. Valores del catálogo:
+    - `Archivo incorrecto` — el archivo adjunto no corresponde al medio de verificación
+    - `Evidencia incompleta` — faltan documentos o datos requeridos
+    - `Medio de verificación no corresponde` — el archivo no es el documento oficial indicado en la MIR
+    - `Formato inválido` — el archivo tiene un formato no aceptado (ej. foto de pantalla en lugar de PDF oficial)
+    - `Información ilegible` — el documento está borroso, incompleto o no puede leerse
+    - `Justificación insuficiente` — la justificación de ausencia de evidencia no es válida o es muy escueta
+    - `Otro` — observación de tipo libre sin categoría específica
+  - El valor de `categoria` se usa como título de la observación en la UI del Enlace (vista `detalle-actividad.html`). Si no hay categoría, se muestra "Observación general".
+  - La observación aparece en la columna izquierda inmediatamente después del header-card cuando el estado es `observado`, con badge de estado ("Pendiente de corrección" / "Atendida").
 - El campo `archivosEvidencia` sigue la estructura: `{ id, nombre, tipo, url, tamanio, estado, fechaCarga, cargadoPor }`.
 - El estado `vencido` puede asignarse automáticamente comparando `fechaLimite` con la fecha mock (`2026-06-09`) al cargar cada vista.
 - La trazabilidad completa (historial) es un requisito transversal a los tres roles.
 - Los IDs siguen el esquema: `[PREFIJO-GERENCIA]-[NIVEL]-[NUMERO]` (ej. `PLA-ACT-1.1`, `COM-COMP-3`, `ADM-FIN-01`).
+
+---
+
+## 5. Flujo de corrección (estado `observado`)
+
+Cuando un indicador tiene estado `observado`, el Enlace debe corregir su reporte antes de re-enviarlo. El flujo en `detalle-actividad.html` es:
+
+### 5.1 Reglas de habilitación del botón "Enviar corrección"
+
+El botón **"Enviar corrección"** se habilita cuando se cumple **al menos una** de estas dos condiciones:
+
+1. **Paso modificado y guardado**: el Enlace modificó algún dato en cualquiera de los tres pasos y presionó el botón de guardar de ese paso. Internamente, `correctionMade` se establece en `true`.
+2. **Nota escrita**: el Enlace escribió texto en el campo opcional "Nota de corrección". Internamente, `correctionNote.trim()` tiene contenido.
+
+Si no se cumple ninguna de las dos condiciones, el botón permanece deshabilitado aunque los tres pasos estén completos.
+
+### 5.2 Nota de corrección (opcional)
+
+En el contenedor de envío (`send-action-card`), cuando el estado es `observado`, aparece un campo de texto opcional **"Nota de corrección"** que el Enlace puede usar para describir brevemente qué cambios realizó. Este campo:
+- No es obligatorio — el botón "Enviar corrección" se habilita independientemente de si está lleno.
+- Se registra en el historial del indicador si contiene texto, adjunto a la acción `'Corrección enviada al Revisor — [texto]'`.
+- Se limpia automáticamente al enviar la corrección.
+- El botón "Guardar borrador" no aparece en estado `observado` (reemplazado por el flujo de corrección).
+
+### 5.3 Transición de estado
+
+Al confirmar el envío desde estado `observado`:
+- El estado del indicador cambia de `observado` → `corregido`.
+- Los archivos de evidencia con estado `borrador` o `pendiente_envio` pasan a `enviado`.
+- Se registra un evento en el historial con `estadoAnterior: 'observado'`, `estadoNuevo: 'corregido'` y la nota de corrección si existe.
+- Se almacena un objeto `correctionDetail` en el indicador con la siguiente estructura:
+
+```json
+{
+  "nota":  "Texto libre (puede estar vacío)",
+  "paso1": true,
+  "paso2": true,
+  "paso3": false,
+  "fecha": "2026-06-12",
+  "hora":  "09:15"
+}
+```
+
+Los campos `paso1`, `paso2`, `paso3` son `true` si el Enlace **guardó** ese paso durante la corrección (variables internas `step1Modified`, `step2Modified`, `step3Modified`); `false` si no lo tocó.
+
+- El Revisor recibe el reporte corregido para una segunda revisión.
+
+---
+
+## 6. Vista del estado `corregido`
+
+Cuando el indicador tiene estado `corregido`, la vista del Enlace en `detalle-actividad.html` sigue las siguientes reglas:
+
+### 6.1 Flujo de trabajo (step tracker)
+
+El tracker del panel izquierdo muestra:
+- ✓ Carga de evidencia — completado
+- ✓ Enviada a revisión — completado
+- ● **En revisión** — activo (igual que `enviado_revision`; el indicador volvió al circuito de revisión)
+- ○ Aprobada — pendiente
+
+### 6.2 Card de observación del Revisor
+
+El card de observaciones (que en `observado` sube al top de la columna izquierda) **permanece visible** en estado `corregido`. Los cambios respecto al estado `observado` son:
+
+| Elemento | Estado `observado` | Estado `corregido` |
+|---|---|---|
+| Título del card | "Observaciones" | "Corrección enviada" |
+| Badge por observación | `status-pill warning` "Pendiente de corrección" | `status-pill info` "Corrección en revisión" |
+| Botón adicional | — | "Ver detalle" (si existe `correctionDetail`) |
+
+El botón **"Ver detalle"** abre un modal con el detalle de la corrección enviada (ver 6.3).
+
+La sección histórica "Observaciones" en el panel lateral se oculta cuando `corregido` (igual que cuando `observado`), porque el card principal ya tiene la información.
+
+### 6.3 Modal "Detalle de corrección"
+
+El modal (`correccionDetalleModal`) muestra al Enlace:
+
+1. **Fecha y hora** del envío de la corrección (de `correctionDetail.fecha` y `correctionDetail.hora`).
+2. **Pasos corregidos**: lista de los 3 pasos con indicador "Corregido" / "Sin modificaciones" según los campos `paso1`, `paso2`, `paso3` de `correctionDetail`.
+3. **Nota del enlace**: si `correctionDetail.nota` tiene contenido, se muestra en una caja de texto. Si está vacío, el bloque se oculta.
+
+El modal se cierra con el botón "Cerrar" o haciendo clic fuera del card.
+
+---
+
+## 7. Layout de la vista del Revisor (`detalle-actividad.html?rol=revisor`)
+
+El Revisor accede al detalle de un indicador desde `bandeja-revision.html` mediante el parámetro `?rol=revisor`. **El archivo es `detalle-actividad.html`** — el mismo que usa el Enlace — con contenido condicional controlado por el flag global `isRevisor`. El panel lateral fijo (`action-panel`) se oculta para el Revisor; todo el contenido migró al grid de dos columnas.
+
+### 7.1 Estructura de columnas
+
+```
+<div class="detail-cols">   ← grid 2fr / 3fr
+  <div class="detail-col"> ← columna izquierda (contexto)
+  <div class="detail-col"> ← columna derecha (reporte + acción)
+```
+
+**Columna izquierda — contexto del indicador:**
+1. `header-card` — ID, título, badge de estado, meta (Enlace, Período, Frecuencia, Recibida, Nivel), y bloque de fechas (`ap-fecha-wrap`: Fecha límite + Tiempo restante). Las fechas se muestran para ambos roles (Enlace y Revisor).
+2. **Información MIR** — section-card colapsada por default
+3. **Flujo de trabajo** — section-card colapsada (ver 7.2); el Revisor ve 4 pasos usando `revisorSteps`
+4. **Responsables** — section-card colapsada; el Revisor ve Admin · Revisor · Enlace con `.asgn-av` avatares
+5. **Historial completo** — section-card colapsada
+
+**Columna derecha — reporte del Enlace y acciones:**
+1. `correction-alert` — visible solo cuando `isRevisor && estado === 'corregido'`
+2. **Reporte del Enlace** — accordion expandido (`renderReporteAccordion`)
+3. `revisor-action-card` — panel de acción del Revisor, contenido según estado (ver 7.3); sustituye el `send-action-card` del Enlace
+
+> Las secciones de observaciones activas/históricas del Enlace (`.obs-*`) se ocultan con `!isRevisor` para no duplicar contenido que el Revisor ya ve en el `revisor-action-card`.
+
+### 7.2 Flujo de trabajo del Revisor
+
+El section-card "Flujo de trabajo" muestra 4 pasos usando la variable `revisorSteps` (tipo `{label, done, current}`). Los puntos se renderizan con `.wf-dot.done` / `.wf-dot.active` / `.wf-dot.pending`:
+
+| Paso | Etiqueta dinámica | `done` cuando | `current` cuando |
+|------|-------------------|---------------|------------------|
+| 1 | Enlace reportó avance | siempre | nunca |
+| 2 | "En revisión técnica" / "Corrección recibida" / "Observación emitida" | `approved` | `canRev` o `isObs` |
+| 3 | Aprobado por Revisor | `approved` | nunca |
+| 4 | Validación del Admin | `isCerrado` | `approved && !isCerrado` |
+
+La etiqueta del Paso 2 cambia según el estado actual:
+- Estado `corregido` → "Corrección recibida"
+- Estado `observado` (`isObs`) → "Observación emitida"
+- Cualquier otro → "En revisión técnica"
+
+Variables locales en `renderMain`: `canRev = isRevisor && ['enviado_revision','pendiente_revision','corregido'].includes(act.estado)` · `isCerrado = act.estado === 'cerrado'`
+
+### 7.3 `revisor-action-card` — contenido por estado
+
+El `div.revisor-action-card` es un card de ancho completo al fondo de la columna derecha. Su contenido interno (`actionCardHtml`) se pre-computa antes del `innerHTML` principal:
+
+| Condición | Contenido del card |
+|-----------|--------------------|
+| `canRev` (`enviado_revision` / `corregido`) | `review-action-box`: botones **Aprobar reporte** (success) + **Emitir observación** (toggle `obsOpen`) + formulario inline si `obsOpen` |
+| `isObs` (`observado`) | Lista de observaciones activas con botón Eliminar por cada una + botones **Aprobar de todas formas** + **Agregar obs** (toggle `obsOpen`) + formulario inline si `obsOpen` |
+| `approved && !isCerrado` | `approved-panel` (check verde, fecha de aprobación, wf-steps 4 pasos) + `next-action` callout "Siguiente paso: Admin" |
+| `isCerrado` | `closed-panel` (check verde oscuro, wf-steps 4 pasos todos done) |
+| ninguno | Texto "Sin acciones disponibles para este estado." |
+
+### 7.4 Interacciones del Revisor en estado `observado`
+
+Cuando el indicador está `observado`, el Revisor puede desde el `revisor-action-card`:
+
+- **Eliminar observación** (`eliminarObservacion(idx)`): eliminación por índice (`splice(idx, 1)`). Si quedan observaciones activas → sigue en `observado`. Si se eliminan todas → estado regresa a `enviado_revision` automáticamente.
+- **Aprobar de todas formas** (`confirmarAprobacion()`): estado pasa a `aprobado_revisor` sin eliminar las observaciones existentes.
+- **Agregar observación** (toggle `obsOpen = true` → `renderPage()`): muestra formulario inline con campo de texto y selector de categoría. El envío llama a `enviarObservacion()`.
+
+### 7.5 Cambio desde layout anterior
+
+El layout previo usaba `<aside class="action-panel" id="actionPanel">` de posición fija (`position:fixed;right:0;width:280px`) con la función `renderRevisorPanel`. Ambos fueron eliminados. `renderActionPanel` ahora es una función trivial que oculta el panel (`display:none`) para todos los usuarios. Todo el contenido del Revisor migró a la columna derecha del grid de `detail-cols`.

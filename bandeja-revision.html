@@ -9,6 +9,7 @@
   <script src="session.js"></script>
   <script src="mock-notifications.js"></script>
   <script src="mir-actividades-data.js"></script>
+  <script src="demo-data.js"></script>
   <script src="layout.js"></script>
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
@@ -145,6 +146,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 </nav>
 
 
+
 <div class="app-wrapper">
   <main class="main-content">
     <div class="page-header">
@@ -238,7 +240,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
       return ['enviado_revision','pendiente_revision','corregido'].includes(a.estado) && d <= 14;
     });
     else if (activeChip === 'observadas') data = data.filter(a => a.estado === 'observado');
-    else if (activeChip === 'aprobadas')  data = data.filter(a => ['aprobado_revisor','validado_admin','publicado'].includes(a.estado));
+    else if (activeChip === 'aprobadas')  data = data.filter(a => ['aprobado_revisor','cerrado'].includes(a.estado));
 
     if (q)  data = data.filter(a => a.nombreIndicador.toLowerCase().includes(q) || a.id.toLowerCase().includes(q));
     if (fe) data = data.filter(a => a.estado === fe);
@@ -305,5 +307,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     else applyFilters();
   });
 </script>
+<script src="dev-toolbar.js"></script>
 </body>
 </html>

@@ -9,13 +9,14 @@
   <script src="session.js"></script>
   <script src="mock-notifications.js"></script>
   <script src="mir-actividades-data.js"></script>
+  <script src="demo-data.js"></script>
   <script src="planeacion-data.js"></script>
   <script src="layout.js"></script>
   <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-surface); color: var(--color-text-primary); display: flex; min-height: 100vh; }
 /* TYPE SWITCHER */
-    .tipo-switcher { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .tipo-switcher { display: flex; align-items: center; gap: 12px; }
 .tipo-tabs { display: inline-flex; background: var(--color-border); border-radius: 12px; padding: 3px; gap: 2px; }
 .tipo-tab { padding: 7px 20px; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; background: transparent; color: var(--color-text-secondary); transition: background .15s, color .15s, box-shadow .15s; white-space: nowrap; }
 .tipo-tab.active { background: var(--color-bg); color: var(--color-text-primary); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
@@ -23,8 +24,11 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .tipo-tag.mir { background: var(--color-info-tint); color: var(--color-info); }
 .tipo-tag.ger { background: var(--color-success-tint); color: var(--color-success-dark); }
 /* FILTER BAR */
-    .filter-bar { background: var(--color-bg); border-radius: var(--radius-card); padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); display: flex; flex-direction: column; gap: 12px; }
-.filter-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .filter-bar { background: var(--color-bg); border-radius: var(--radius-card); padding: 20px 20px 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); display: flex; flex-direction: column; gap: 12px; }
+    .filter-bar .page-header { margin-bottom: 0; align-items: center; }
+    .filter-divider { height: 1px; background: white; margin: 0 -20px; }
+.filter-controls { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.filter-row { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
 .filter-select { padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 10px; font-family: inherit; font-size: 13px; color: var(--color-text-primary); background: var(--color-surface); outline: none; cursor: pointer; transition: border-color .15s; }
 .filter-select:focus { border-color: var(--color-primary); }
 .sort-btn { display: flex; align-items: center; gap: 5px; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 10px; font-size: 12px; font-weight: 600; color: var(--color-text-secondary); background: var(--color-surface); cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s; }
@@ -40,8 +44,10 @@ thead th { padding: 11px 14px; text-align: left; font-size: 10px; font-weight: 7
 thead th.sortable { cursor: pointer; user-select: none; }
 thead th.sortable:hover { color: var(--color-primary); }
 thead th.sorted { color: var(--color-primary); }
-thead th .sort-icon { display: inline-block; margin-left: 4px; opacity: .5; }
+thead th.sortable .sort-icon { display: inline-block; margin-left: 4px; opacity: .3; font-style: normal; }
+thead th.sortable .sort-icon::before { content: '⇅'; }
 thead th.sorted .sort-icon { opacity: 1; }
+thead th.sorted .sort-icon::before { content: none; }
 tbody tr { border-bottom: 1px solid var(--color-border); transition: background .1s; }
 tbody tr:last-child { border-bottom: none; }
 tbody tr:hover { background: var(--color-neutral-50); }
@@ -178,7 +184,7 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
         <p class="topnav-role" id="topnavRole">Gerencia Comercial</p>
       </div>
     </div>
-    <button class="topnav-exit" title="Cerrar sesión">
+    <button class="topnav-exit" title="Cerrar sesión" onclick="cerrarSesion()">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/>
       </svg>
@@ -221,74 +227,55 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
 <div class="app-wrapper">
   <main class="main-content">
 
-    <div class="page-header">
-      <div>
-        <h1 class="page-title">Mis indicadores</h1>
-        <p class="page-subtitle" id="pageSubtitle">Gerencia Comercial · Período 2026 · Indicadores asignados</p>
-      </div>
-      <button class="btn btn-primary" onclick="window.location.href='dashboard-enlace.html'">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
-        Volver al dashboard
-      </button>
-    </div>
-
-    <!-- TYPE SWITCHER -->
-    <div class="tipo-switcher">
-      <div class="tipo-tabs">
-        <button class="tipo-tab" id="tabMIR" onclick="switchTipo('mir')">
-          Indicadores MIR <span class="tipo-tag mir" id="tagMIR"></span>
-        </button>
-        <button class="tipo-tab" id="tabGerencia" onclick="switchTipo('gerencia')">
-          De gerencia <span class="tipo-tag ger" id="tagGer"></span>
-        </button>
-        <button class="tipo-tab active" id="tabTodos" onclick="switchTipo('todos')">
-          Todos <span class="tipo-tag" id="tagTodos" style="background:var(--color-neutral-100);color:var(--color-text-primary);"></span>
-        </button>
-      </div>
-    </div>
-
-    <!-- FILTER BAR -->
+    <!-- FILTER BAR (incluye page-header) -->
     <div class="filter-bar">
-      <div class="filter-row">
-        <div class="search-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
-          <input type="text" class="search-input" id="searchInput" placeholder="Buscar por nombre o clave…" oninput="applyFilters()">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Mis indicadores</h1>
+          <p class="page-subtitle" id="pageSubtitle">Gerencia Comercial · Período 2026 · Indicadores asignados</p>
         </div>
-        <select class="filter-select" id="filterEstado" onchange="applyFilters()">
-          <option value="">Todos los estados</option>
-          <option value="pendiente_carga">Pendiente de carga</option>
-          <option value="borrador">Borrador</option>
-          <option value="pendiente_envio">Listo para enviar</option>
-          <option value="enviado_revision">En revisión</option>
-          <option value="observado">Observada</option>
-          <option value="aprobado_revisor">Aprobada por revisor</option>
-          <option value="listo_validar">Listo para validar</option>
-          <option value="cerrado">Validado</option>
-          <option value="vencido">Vencida</option>
-        </select>
-        <select class="filter-select" id="filterNivel" onchange="applyFilters()">
-          <option value="">Todos los niveles</option>
-          <option value="Fin">Fin</option>
-          <option value="Propósito">Propósito</option>
-          <option value="Componente">Componente</option>
-          <option value="Actividad">Actividad</option>
-        </select>
-        <select class="filter-select" id="filterUnidad" onchange="applyFilters()">
-          <option value="">Todas las unidades</option>
-        </select>
-        <button class="sort-btn" id="sortBtn" onclick="toggleSort()">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"/></svg>
-          Fecha límite
-        </button>
+        <!-- TYPE SWITCHER -->
+        <div class="tipo-switcher">
+          <div class="tipo-tabs">
+            <button class="tipo-tab" id="tabMIR" onclick="switchTipo('mir')">
+              Indicadores MIR <span class="tipo-tag mir" id="tagMIR"></span>
+            </button>
+            <button class="tipo-tab" id="tabGerencia" onclick="switchTipo('gerencia')">
+              De gerencia <span class="tipo-tag ger" id="tagGer"></span>
+            </button>
+            <button class="tipo-tab active" id="tabTodos" onclick="switchTipo('todos')">
+              Todos <span class="tipo-tag" id="tagTodos" style="background:var(--color-neutral-100);color:var(--color-text-primary);"></span>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="chips-row" id="chipsRow">
-        <div class="chip active" data-filter="todas" onclick="setChip(this,'todas')">Todas <span class="chip-count" id="cntTodas">12</span></div>
-        <div class="chip" data-filter="pendiente" onclick="setChip(this,'pendiente')">Pendientes <span class="chip-count" id="cntPendiente">3</span></div>
-        <div class="chip" data-filter="observadas" onclick="setChip(this,'observadas')">Observadas <span class="chip-count" id="cntObservadas">1</span></div>
-        <div class="chip" data-filter="en_revision" onclick="setChip(this,'en_revision')">En revisión <span class="chip-count" id="cntRevision">2</span></div>
-        <div class="chip" data-filter="aprobadas" onclick="setChip(this,'aprobadas')">Aprobadas <span class="chip-count" id="cntAprobadas">5</span></div>
-        <div class="chip" data-filter="validadas" onclick="setChip(this,'validadas')">Validadas <span class="chip-count" id="cntValidadas">0</span></div>
-        <div class="chip" data-filter="vencidas" onclick="setChip(this,'vencidas')">Vencidas <span class="chip-count" id="cntVencidas">0</span></div>
+
+      <div class="filter-divider"></div>
+      <div class="filter-controls">
+        <div class="filter-row">
+          <div class="search-wrap">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Buscar por nombre o clave…" oninput="applyFilters()">
+          </div>
+          <select class="filter-select" id="filterNivel" onchange="applyFilters()">
+            <option value="">Todos los niveles</option>
+            <option value="Fin">Fin</option>
+            <option value="Propósito">Propósito</option>
+            <option value="Componente">Componente</option>
+            <option value="Actividad">Actividad</option>
+          </select>
+        </div>
+        <div class="chips-row" id="chipsRow">
+          <div class="chip active" data-filter="todas" onclick="setChip(this,'todas')">Todas <span class="chip-count" id="cntTodas">12</span></div>
+          <div class="chip" data-filter="pendiente" onclick="setChip(this,'pendiente')">Borrador <span class="chip-count" id="cntPendiente">3</span></div>
+          <div class="chip" data-filter="observadas" onclick="setChip(this,'observadas')">Observadas <span class="chip-count" id="cntObservadas">1</span></div>
+          <div class="chip" data-filter="en_revision" onclick="setChip(this,'en_revision')">En revisión <span class="chip-count" id="cntRevision">2</span></div>
+          <div class="chip" data-filter="aprobadas" onclick="setChip(this,'aprobadas')">Aprobadas <span class="chip-count" id="cntAprobadas">5</span></div>
+          <div class="chip" data-filter="validadas" onclick="setChip(this,'validadas')">Validadas <span class="chip-count" id="cntValidadas">0</span></div>
+          <div class="chip" data-filter="proximos" onclick="setChip(this,'proximos')">Próximos <span class="chip-count" id="cntProximos">0</span></div>
+          <div class="chip" data-filter="vencidas" onclick="setChip(this,'vencidas')">Vencidas <span class="chip-count" id="cntVencidas">0</span></div>
+        </div>
       </div>
     </div>
 
@@ -314,12 +301,18 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
             <th>Unidad responsable</th>
             <th>Tipo de indicador</th>
             <th class="td-mv">Medio de verificación</th>
-            <th>Frecuencia</th>
-            <th class="sortable sorted" id="thFecha" onclick="toggleSort()">
-              Fecha límite <span class="sort-icon" id="sortIcon">↑</span>
+            <th class="sortable" id="thFrecuencia" onclick="sortBy('frecuenciaMedicion')">
+              Frecuencia <span class="sort-icon" id="iconFrecuencia"></span>
             </th>
-            <th>Estado</th>
-            <th>Últ. actualización</th>
+            <th class="sortable sorted" id="thFecha" onclick="sortBy('fechaLimite')">
+              Fecha límite <span class="sort-icon" id="iconFecha">↑</span>
+            </th>
+            <th class="sortable" id="thEstado" onclick="sortBy('estado')">
+              Estado <span class="sort-icon" id="iconEstado"></span>
+            </th>
+            <th class="sortable" id="thActualizacion" onclick="sortBy('ultimaActualizacion')">
+              Últ. actualización <span class="sort-icon" id="iconActualizacion"></span>
+            </th>
           </tr>
         </thead>
         <tbody id="tableBody">
@@ -365,15 +358,13 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
     document.querySelector('[data-filter="todas"]').classList.add('active');
     document.getElementById('searchInput').value = '';
-    document.getElementById('filterEstado').value = '';
     document.getElementById('filterNivel').value = '';
-    document.getElementById('filterUnidad').value = '';
-    populateUnidades(DISPLAY_ACTIVIDADES);
 
     applyFilters();
   }
 
   let sortAsc = true;
+  let sortField = 'fechaLimite';
   let activeChip = 'todas';
 
   // Inicializar contadores del switcher
@@ -394,7 +385,8 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
   }
 
   function renderRow(act) {
-    const cfg   = ESTADO_CFG[act.estado] || { label: act.estado, cls: '', accion: 'Ver detalle', btnCls: 'neutral' };
+    const vistaKey = (typeof estadoVista === 'function') ? estadoVista(act) : act.estado;
+    const cfg      = ESTADO_CFG[vistaKey] || { label: vistaKey, cls: '', accion: 'Ver detalle', btnCls: 'neutral' };
     const NIVEL_LABELS = { 'Fin': { label: 'Fin', cls: 'nivel-fin' }, 'Propósito': { label: 'Propósito', cls: 'nivel-proposito' }, 'Componente': { label: 'Componente', cls: 'nivel-componente' }, 'Actividad': { label: 'Actividad', cls: 'nivel-actividad' } };
     const nivel = NIVEL_LABELS[act.nivel] || { label: act.nivel || '—', cls: 'nivel-actividad' };
     const esGerencial = act.id.startsWith('GER-');
@@ -403,7 +395,12 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
       : (tipoActivo === 'todos'
           ? `<div style="display:flex;flex-direction:column;gap:3px;align-items:flex-start;"><span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-info);">MIR</span><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></div>`
           : `<span class="nivel-badge ${nivel.cls}">${nivel.label}</span>`);
-    const dias  = diasRestantes(act.fechaLimite);
+    // Para proximo_periodo mostramos la fecha del próximo período, no la del período cerrado
+    const esProximo = vistaKey === 'proximo_periodo';
+    const fechaMostrar = esProximo
+      ? (typeof proximaFechaLimite === 'function' ? proximaFechaLimite(act.frecuenciaMedicion, act.fechaLimite) : act.fechaLimite)
+      : act.fechaLimite;
+    const dias  = diasRestantes(fechaMostrar);
     const dLbl  = diasLabel(dias);
     const url   = esGerencial ? `detalle-indicador-gerencial.html?id=${act.id}` : `detalle-actividad.html?id=${act.id}`;
     return `
@@ -421,7 +418,7 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
           : '<p class="mv-text">'+act.medioVerificacion+'</p>'}</td>
         <td><span class="frec-badge">${act.frecuenciaMedicion}</span></td>
         <td class="td-fecha">
-          <p class="fecha-val">${formatFecha(act.fechaLimite)}</p>
+          <p class="fecha-val">${formatFecha(fechaMostrar)}${esProximo ? '<span style="font-size:9px;color:var(--color-text-muted);display:block;margin-top:1px">próximo período</span>' : ''}</p>
           <p class="fecha-dias ${dLbl.cls}">${dLbl.text}</p>
         </td>
         <td><span class="estado-badge ${cfg.cls}">${cfg.label}</span></td>
@@ -430,11 +427,16 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
   }
 
   function renderCard(act) {
-    const cfg = ESTADO_CFG[act.estado] || { label: act.estado, cls: '', accion: 'Ver detalle', btnCls: 'neutral' };
+    const vistaKey = (typeof estadoVista === 'function') ? estadoVista(act) : act.estado;
+    const cfg = ESTADO_CFG[vistaKey] || { label: vistaKey, cls: '', accion: 'Ver detalle', btnCls: 'neutral' };
     const NIVEL_LABELS = { 'Fin': { label: 'Fin', cls: 'nivel-fin' }, 'Propósito': { label: 'Propósito', cls: 'nivel-proposito' }, 'Componente': { label: 'Componente', cls: 'nivel-componente' }, 'Actividad': { label: 'Actividad', cls: 'nivel-actividad' } };
     const nivel = NIVEL_LABELS[act.nivel] || { label: act.nivel || '—', cls: 'nivel-actividad' };
     const esGerencial = act.id.startsWith('GER-');
-    const dias = diasRestantes(act.fechaLimite);
+    const esProximo = vistaKey === 'proximo_periodo';
+    const fechaMostrar = esProximo
+      ? (typeof proximaFechaLimite === 'function' ? proximaFechaLimite(act.frecuenciaMedicion, act.fechaLimite) : act.fechaLimite)
+      : act.fechaLimite;
+    const dias = diasRestantes(fechaMostrar);
     const dLbl = diasLabel(dias);
     const url = esGerencial ? `detalle-indicador-gerencial.html?id=${act.id}` : `detalle-actividad.html?id=${act.id}`;
     const nivelBadge = esGerencial
@@ -469,8 +471,8 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
             <p class="ind-card-meta-val">${act.frecuenciaMedicion}</p>
           </div>
           <div class="ind-card-meta-item">
-            <p class="ind-card-meta-label">Fecha límite</p>
-            <p class="ind-card-meta-val">${formatFecha(act.fechaLimite)}</p>
+            <p class="ind-card-meta-label">${esProximo ? 'Próximo período' : 'Fecha límite'}</p>
+            <p class="ind-card-meta-val">${formatFecha(fechaMostrar)}</p>
             <p class="ind-card-meta-sub ${dLbl.cls}">${dLbl.text}</p>
           </div>
           <div class="ind-card-meta-item">
@@ -494,43 +496,45 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
 
   function updateCounts() {
     const all = DISPLAY_ACTIVIDADES;
+    const vistas = all.map(a => (typeof estadoVista === 'function') ? estadoVista(a) : a.estado);
     document.getElementById('cntTodas').textContent     = all.length;
-    document.getElementById('cntPendiente').textContent = all.filter(a => ['pendiente_carga','pendiente_envio','borrador'].includes(a.estado)).length;
-    document.getElementById('cntObservadas').textContent= all.filter(a => a.estado === 'observado').length;
-    document.getElementById('cntRevision').textContent  = all.filter(a => ['enviado_revision','pendiente_revision','corregido'].includes(a.estado)).length;
-    document.getElementById('cntAprobadas').textContent = all.filter(a => ['aprobado_revisor','listo_validar'].includes(a.estado)).length;
-    document.getElementById('cntValidadas').textContent = all.filter(a => ['cerrado','validado_admin','publicado'].includes(a.estado)).length;
-    document.getElementById('cntVencidas').textContent  = all.filter(a => a.estado === 'vencido').length;
+    document.getElementById('cntPendiente').textContent = vistas.filter(v => v === 'borrador').length;
+    document.getElementById('cntObservadas').textContent= vistas.filter(v => v === 'observado').length;
+    document.getElementById('cntRevision').textContent  = vistas.filter(v => ['enviado_revision','corregido'].includes(v)).length;
+    document.getElementById('cntAprobadas').textContent = vistas.filter(v => v === 'aprobado_revisor').length;
+    document.getElementById('cntValidadas').textContent = vistas.filter(v => v === 'cerrado').length;
+    document.getElementById('cntProximos').textContent  = vistas.filter(v => v === 'proximo_periodo').length;
+    document.getElementById('cntVencidas').textContent  = vistas.filter(v => v === 'vencido').length;
   }
 
   function applyFilters() {
     try { updateCounts(); } catch(e) { console.error('updateCounts error:', e); }
     const q       = document.getElementById('searchInput').value.trim().toLowerCase();
-    const estado  = document.getElementById('filterEstado').value;
     const nivel   = document.getElementById('filterNivel').value;
-    const unidad  = document.getElementById('filterUnidad').value;
 
     let data = [...DISPLAY_ACTIVIDADES];
 
-    // chip quick filter
-    if (activeChip === 'pendiente')   data = data.filter(a => ['pendiente_carga','pendiente_envio','borrador'].includes(a.estado));
-    if (activeChip === 'observadas')  data = data.filter(a => a.estado === 'observado');
-    if (activeChip === 'en_revision') data = data.filter(a => ['enviado_revision','pendiente_revision','corregido'].includes(a.estado));
-    if (activeChip === 'aprobadas')   data = data.filter(a => ['aprobado_revisor','listo_validar'].includes(a.estado));
-    if (activeChip === 'validadas')   data = data.filter(a => ['cerrado','validado_admin','publicado'].includes(a.estado));
-    if (activeChip === 'vencidas')    data = data.filter(a => a.estado === 'vencido');
+    // chip quick filter (usa estadoVista para derivar el estado de display)
+    const _ev = (typeof estadoVista === 'function') ? estadoVista : (a => a.estado);
+    if (activeChip === 'pendiente')   data = data.filter(a => _ev(a) === 'borrador');
+    if (activeChip === 'observadas')  data = data.filter(a => _ev(a) === 'observado');
+    if (activeChip === 'en_revision') data = data.filter(a => ['enviado_revision','corregido'].includes(_ev(a)));
+    if (activeChip === 'aprobadas')   data = data.filter(a => _ev(a) === 'aprobado_revisor');
+    if (activeChip === 'validadas')   data = data.filter(a => _ev(a) === 'cerrado');
+    if (activeChip === 'proximos')    data = data.filter(a => _ev(a) === 'proximo_periodo');
+    if (activeChip === 'vencidas')    data = data.filter(a => _ev(a) === 'vencido');
 
     // select filters
-    if (estado) data = data.filter(a => a.estado === estado || (estado === 'enviado_revision' && a.estado === 'pendiente_revision'));
-    if (nivel)  data = data.filter(a => a.nivel === nivel);
-    if (unidad) data = data.filter(a => (a.unidadResponsable || '') === unidad);
+    if (nivel) data = data.filter(a => a.nivel === nivel);
 
     // search
     if (q) data = data.filter(a => a.nombreIndicador.toLowerCase().includes(q) || a.id.toLowerCase().includes(q) || a.nombreIndicador.toLowerCase().includes(q));
 
     // sort
     data.sort((a, b) => {
-      const cmp = a.fechaLimite.localeCompare(b.fechaLimite);
+      const va = (a[sortField] || '');
+      const vb = (b[sortField] || '');
+      const cmp = va.localeCompare(vb);
       return sortAsc ? cmp : -cmp;
     });
 
@@ -562,10 +566,34 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
     document.getElementById('resultsCount').innerHTML = `<strong>${data.length}</strong> de <strong>${DISPLAY_ACTIVIDADES.length}</strong> indicador${DISPLAY_ACTIVIDADES.length !== 1 ? 'es' : ''}`;
   }
 
-  function toggleSort() {
-    sortAsc = !sortAsc;
-    document.getElementById('sortIcon').textContent = sortAsc ? '↑' : '↓';
-    document.getElementById('thFecha').classList.add('sorted');
+  function toggleSort() { sortBy('fechaLimite'); }
+
+  const SORT_COLS = {
+    fechaLimite:         { th: 'thFecha',         icon: 'iconFecha' },
+    estado:              { th: 'thEstado',         icon: 'iconEstado' },
+    frecuenciaMedicion:  { th: 'thFrecuencia',     icon: 'iconFrecuencia' },
+    ultimaActualizacion: { th: 'thActualizacion',  icon: 'iconActualizacion' },
+  };
+
+  function sortBy(field) {
+    if (sortField === field) {
+      sortAsc = !sortAsc;
+    } else {
+      sortField = field;
+      sortAsc = true;
+    }
+    // actualizar clases e iconos
+    Object.entries(SORT_COLS).forEach(([f, col]) => {
+      const th   = document.getElementById(col.th);
+      const icon = document.getElementById(col.icon);
+      if (f === sortField) {
+        th.classList.add('sorted');
+        icon.textContent = sortAsc ? '↑' : '↓';
+      } else {
+        th.classList.remove('sorted');
+        icon.textContent = '';
+      }
+    });
     applyFilters();
   }
 
@@ -573,25 +601,16 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
     el.classList.add('active');
     activeChip = filter;
-    document.getElementById('filterEstado').value = '';
     applyFilters();
-  }
-
-  function populateUnidades(list) {
-    const sel = document.getElementById('filterUnidad');
-    const prev = sel.value;
-    const uniques = [...new Set(list.map(a => a.unidadResponsable).filter(Boolean))].sort();
-    sel.innerHTML = '<option value="">Todas las unidades</option>' +
-      uniques.map(u => `<option value="${u}"${u === prev ? ' selected' : ''}>${u}</option>`).join('');
   }
 
   document.addEventListener('DOMContentLoaded', function() {
     const sub = document.getElementById('pageSubtitle');
     var gerNombre = (typeof getNombreGerenciaEnlace === 'function') ? getNombreGerenciaEnlace() : 'Gerencia Comercial';
     if (sub) sub.textContent = gerNombre + ' · Período 2026 · ' + DISPLAY_ACTIVIDADES.length + ' indicadores asignados';
-    populateUnidades(DISPLAY_ACTIVIDADES);
     applyFilters();
   });
 </script>
+<script src="dev-toolbar.js"></script>
 </body>
 </html>

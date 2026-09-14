@@ -9,11 +9,19 @@
   <script src="session.js"></script>
   <script src="mock-notifications.js"></script>
   <script src="mir-actividades-data.js"></script>
+  <script src="demo-data.js"></script>
   <script src="layout.js"></script>
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
-.review-panel {width:300px;background:var(--color-bg);border-left:1px solid var(--color-border);padding:20px 18px;position:fixed;right:0;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+.detail-cols {display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:16px;align-items:start;}
+.detail-col {display:flex;flex-direction:column;}
+.ap-fecha-wrap {display:flex;gap:10px;}
+.ap-step {display:flex;align-items:center;gap:7px;font-size:11px;color:var(--color-text-secondary);margin-bottom:5px;}
+.ap-step svg {width:14px;height:14px;flex-shrink:0;}
+.ap-step.done {color:var(--color-success);}
+.ap-step.current {color:var(--color-primary);font-weight:700;}
+.revisor-action-card {background:var(--color-bg);border-radius:var(--radius-card);border:1px solid var(--color-border);padding:18px 20px;}
 /* BREADCRUMB */
     .breadcrumb {display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;}
 .breadcrumb a {color:var(--color-info);text-decoration:none;font-weight:600;}
@@ -133,7 +141,16 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .ap-fecha-val.normal {color:var(--color-success);}
 /* REVIEW ACTIONS */
     .review-action-box {background:var(--color-surface);border-radius:14px;padding:16px;margin-bottom:10px;}
-.rab-title {font-size:12px;font-weight:700;margin-bottom:12px;}
+.rab-title {font-size:12px;font-weight:700;margin-bottom:4px;}
+.rab-sub {font-size:11px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:12px;}
+.obs-revisor-list {display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.obs-revisor-item {background:var(--color-warning-tint,#FFFBEB);border:1px solid var(--color-warning,#F59E0B);border-radius:10px;padding:10px 12px;}
+.obs-revisor-top {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.obs-revisor-cat {font-size:11px;font-weight:700;color:var(--color-text-primary);}
+.obs-revisor-txt {font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin:0;}
+.obs-revisor-del {display:inline-flex;align-items:center;gap:4px;background:none;border:none;font-size:11px;font-weight:600;color:var(--color-danger);cursor:pointer;padding:2px 4px;border-radius:6px;font-family:inherit;transition:background .12s;}
+.obs-revisor-del:hover {background:var(--color-danger-tint,#FEF2F2);}
+.obs-revisor-del svg {width:12px;height:12px;}
 .btn-full {width:100%;border:none;border-radius:10px;padding:12px 16px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .12s,transform .08s;margin-bottom:8px;}
 .btn-full:hover {opacity:.88;}
 .btn-full:active {transform:scale(.98);}
@@ -303,9 +320,9 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 </nav>
 
 
+
 <div class="app-wrapper">
   <main class="main-content" id="mainContent"></main>
-  <aside class="review-panel" id="reviewPanel"></aside>
 </div>
 
 <!-- APPROVE MODAL (5.6) -->
@@ -438,13 +455,14 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     closeAllModals();
     const prev = actividad.estado;
     const tieneObs = actividad.observaciones.length > 0;
-    actividad.estado = 'listo_validar';
+    actividad.estado = 'aprobado_revisor';
     actividad.archivosEvidencia.forEach(f => { if (f.estado !== 'aprobado') f.estado = 'aprobado'; });
+    actividad.observaciones.forEach(o => { o.atendida = true; });
     actividad.historial.push({
       fecha: nowStr(), hora: nowTime(),
       usuario: 'Carlos Mendoza', rol: 'Revisor',
       accion: tieneObs ? 'Aprobada técnicamente — pasa a validación del Administrador' : 'Aprobada técnicamente — sin observaciones — pasa a validación del Administrador',
-      estadoAnterior: prev, estadoNuevo: 'listo_validar'
+      estadoAnterior: prev, estadoNuevo: 'aprobado_revisor'
     });
     renderPage();
     showToast('Reporte aprobado. Listo para validación del Administrador.', 'green');
@@ -492,6 +510,24 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     });
     renderPage();
     showToast('Observación enviada. El Enlace ha sido notificado.', 'orange');
+  }
+
+  function eliminarObservacion(id) {
+    if (!actividad) return;
+    actividad.observaciones = actividad.observaciones.filter(o => o.id !== id);
+    actividad.historial.push({
+      fecha: nowStr(), hora: nowTime(),
+      usuario: 'Carlos Mendoza', rol: 'Revisor',
+      accion: 'Observación eliminada',
+      estadoAnterior: actividad.estado, estadoNuevo: null
+    });
+    const tieneActivas = actividad.observaciones.some(o => !o.atendida);
+    if (!tieneActivas) {
+      actividad.estado = 'enviado_revision';
+      actividad.historial[actividad.historial.length - 1].estadoNuevo = 'enviado_revision';
+    }
+    renderPage();
+    showToast(tieneActivas ? 'Observación eliminada.' : 'Todas las observaciones eliminadas. El indicador vuelve a revisión.', tieneActivas ? '' : 'green');
   }
 
   // ── Meta del período ─────────────────────────────────────────────────────────
@@ -606,9 +642,19 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 
   // ── Render ──────────────────────────────────────────────────────────────────
   function renderMain(act) {
-    const cfg  = ESTADO_CFG[act.estado] || { label: act.estado, cls: act.estado };
-    const nivel = NIVEL_CFG[act.nivelCodigo] || { label: act.nivelCodigo, cls: '' };
-    const isCorr = act.estado === 'corregido';
+    const cfg        = ESTADO_CFG[act.estado] || { label: act.estado, cls: act.estado };
+    const nivel      = NIVEL_CFG[act.nivelCodigo] || { label: act.nivelCodigo, cls: '' };
+    const isCorr     = act.estado === 'corregido';
+    const canRev     = canReview();
+    const isApproved = ['aprobado_revisor','cerrado'].includes(act.estado);
+    const isCerrado  = act.estado === 'cerrado';
+    const isObs      = act.estado === 'observado';
+
+    const dias = diasRestantes(act.fechaLimite);
+    const dCls = dias < 0 ? '' : dias <= 7 ? 'urgente' : dias <= 14 ? 'proximo' : 'normal';
+    const dTxt = dias < 0 ? 'Vencida' : dias === 0 ? 'Hoy' : `${dias} días`;
+
+    const CHEV = `<svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>`;
 
     const filesHtml = act.archivosEvidencia.length === 0
       ? '<p style="font-size:13px;color:var(--color-text-secondary);">Sin archivos de evidencia adjuntos.</p>'
@@ -639,7 +685,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
             </div>`;
         }).join('')}</div>`;
 
-    const prevObsHtml = act.observaciones.filter(o => !o.atendida === false || true).map(o => `
+    const prevObsHtml = act.observaciones.map(o => `
       <div class="obs-prev">
         <div class="obs-prev-who">${o.autor} · ${o.rolAutor} · ${formatFecha(o.fecha)} ${o.hora}${o.categoria ? ' · ' + o.categoria : ''}</div>
         <p class="obs-prev-text">"${o.texto}"</p>
@@ -652,125 +698,29 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
         <p class="tl-accion">${h.accion}</p>
         ${(h.estadoAnterior||h.estadoNuevo) ? `
           <p class="tl-estado">
-            ${h.estadoAnterior?`<span>${ESTADO_CFG[h.estadoAnterior]?.label||h.estadoAnterior}</span><span style="color:var(--color-neutral-300);">→</span>`:''}
-            ${h.estadoNuevo?`<span>${ESTADO_CFG[h.estadoNuevo]?.label||h.estadoNuevo}</span>`:''}
+            ${h.estadoAnterior ? `<span>${ESTADO_CFG[h.estadoAnterior]?.label||h.estadoAnterior}</span><span style="color:var(--color-neutral-300);">→</span>` : ''}
+            ${h.estadoNuevo ? `<span>${ESTADO_CFG[h.estadoNuevo]?.label||h.estadoNuevo}</span>` : ''}
           </p>` : ''}
         <p class="tl-actor">${h.usuario ? h.usuario + ' · ' : ''}${h.rol}</p>
       </div>`).join('');
 
-    document.getElementById('mainContent').innerHTML = `
-      <div class="breadcrumb">
-        <a href="bandeja-revision.html">Bandeja de revisión</a>
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-        <span>${act.id}</span>
-      </div>
+    // Revisor workflow steps for Flujo de trabajo section
+    const revisorSteps = [
+      { label: 'Enlace reportó avance',
+        done: true, current: false },
+      { label: isCorr ? 'Corrección recibida' : isObs ? 'Observación emitida' : 'En revisión técnica',
+        done: isApproved, current: canRev || isObs },
+      { label: 'Aprobado por Revisor',
+        done: isApproved, current: false },
+      { label: 'Validación del Admin',
+        done: isCerrado, current: isApproved && !isCerrado },
+    ];
 
-      <div class="header-card">
-        <div class="hc-top">
-          <div><p class="hc-id">${act.id}</p><h1 class="hc-title">${act.nombreIndicador}</h1></div>
-          <span class="estado-badge ${cfg.cls}" style="flex-shrink:0;margin-top:4px;">${cfg.label}</span>
-        </div>
-        <div class="hc-meta">
-          <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>Enlace: <strong>${act.responsableEnlace}</strong></div>
-          <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>Período: <strong>${act.periodo}</strong></div>
-          <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Frecuencia: <strong>${act.frecuenciaMedicion}</strong></div>
-          <div class="hc-meta-item">Recibida: <strong>${formatFecha(fechaEnvio(act))}</strong></div>
-          <div class="hc-meta-item"><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></div>
-        </div>
-      </div>
-
-      ${isCorr ? `<div class="correction-alert"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"/></svg>El Enlace envió una corrección en respuesta a tu observación anterior. Revisa los archivos actualizados y emite tu resolución.</div>` : ''}
-
-      <div class="section-card">
-        <div class="section-header open" data-sec="mir" onclick="toggleSection('mir')">
-          <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>Información MIR</div>
-          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-        </div>
-        <div class="section-body open" id="sec-mir">
-          <div class="info-grid single"><div class="info-item"><label>Objetivo</label><p>${act.resumenNarrativo}</p></div><div class="info-divider"></div><div class="info-item"><label>Denominación del indicador</label><p>${act.nombreIndicador}</p></div></div>
-          <div class="info-grid" style="margin-top:14px;">
-            <div class="info-item"><label>Método de cálculo</label><p class="mono">${act.metodoCalculo}</p></div>
-            <div class="info-item"><label>Numerador</label><p>${act.numerador}</p></div>
-            <div class="info-item"><label>Denominador</label><p>${act.denominador}</p></div>
-            <div class="info-item"><label>Línea base</label><p>${act.lineaBase}</p></div>
-            <div class="info-item"><label>Meta anual</label><p>${act.metaAnual}</p></div>
-            ${renderMetaPeriodo(act)}
-            <div class="info-divider"></div>
-          </div>
-          <div class="mv-box">
-            <div class="mv-box-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>Medio de verificación requerido</div>
-            <p>${act.medioVerificacion}</p>
-            <span class="format-badge">Formato: ${act.medioVerificacion}</span>
-          </div>
-          ${act.reglasExtra ? `<div style="background:var(--color-surface);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--color-text-secondary);">${act.reglasExtra}</div>` : ''}
-        </div>
-      </div>
-
-      ${renderAvanceReportado(act)}
-
-      <div class="section-card">
-        <div class="section-header open" data-sec="ev" onclick="toggleSection('ev')">
-          <div class="section-title">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"/></svg>
-            Evidencia recibida
-            <span style="min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:var(--color-info);color:white;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;">${act.archivosEvidencia.length}</span>
-          </div>
-          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-        </div>
-        <div class="section-body open" id="sec-ev">${filesHtml}</div>
-      </div>
-
-      ${act.observaciones.length > 0 ? `
-        <div class="section-card">
-          <div class="section-header open" data-sec="obs" onclick="toggleSection('obs')">
-            <div class="section-title">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
-              Observaciones previas
-              <span style="min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:var(--color-observado);color:white;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;">${act.observaciones.length}</span>
-            </div>
-            <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-          </div>
-          <div class="section-body open" id="sec-obs">${prevObsHtml}</div>
-        </div>` : ''}
-
-      <div class="section-card">
-        <div class="section-header" data-sec="hist" onclick="toggleSection('hist')">
-          <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Historial completo</div>
-          <svg class="section-chevron" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
-        </div>
-        <div class="section-body" id="sec-hist"><div class="timeline">${histHtml}</div></div>
-      </div>
-    `;
-  }
-
-  function renderPanel(act) {
-    const cfg  = ESTADO_CFG[act.estado] || { label: act.estado, cls: act.estado };
-    const dias = diasRestantes(act.fechaLimite);
-    const dCls = dias < 0 ? '' : dias <= 7 ? 'urgente' : dias <= 14 ? 'proximo' : 'normal';
-    const dTxt = dias < 0 ? 'Vencida' : dias === 0 ? 'Hoy' : `${dias} días`;
-    const canRev = canReview();
-    const isApproved = ['listo_validar','aprobado_revisor','cerrado','validado_admin','publicado'].includes(act.estado);
-    const isCerrado = act.estado === 'cerrado';
-    const isObs = act.estado === 'observado';
-
-    document.getElementById('reviewPanel').innerHTML = `
-      <a class="ap-back" href="bandeja-revision.html"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>Bandeja de revisión</a>
-      <div class="ap-divider"></div>
-
-      <p class="ap-title">Estado de la actividad</p>
-      <div class="ap-estado-wrap">
-        <p class="ap-estado-lbl">Estado actual</p>
-        <span class="estado-badge ${cfg.cls}">${cfg.label}</span>
-      </div>
-
-      <p class="ap-title">Fechas</p>
-      <div class="ap-fecha-row">
-        <div class="ap-fecha-item"><p class="ap-fecha-lbl">Fecha límite</p><p class="ap-fecha-val ${dCls}">${formatFecha(act.fechaLimite)}</p></div>
-        <div class="ap-fecha-item"><p class="ap-fecha-lbl">Tiempo</p><p class="ap-fecha-val ${dCls}">${dTxt}</p></div>
-      </div>
-
-      ${canRev ? `
-        <p class="ap-title">Resultado de revisión</p>
+    // Action card content — pre-computed to keep template literal flat
+    let actionCardHtml;
+    if (canRev) {
+      actionCardHtml = `
+        <p class="ap-title" style="margin-bottom:12px">Resultado de revisión</p>
         <div class="review-action-box">
           <p class="rab-title">Emite tu resolución técnica</p>
           <button class="btn-full success" onclick="openApproveModal()">
@@ -785,59 +735,29 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
             Ver historial
           </button>
-        </div>` : ''}
-
-      ${isApproved && !isCerrado ? `
+        </div>`;
+    } else if (isApproved && !isCerrado) {
+      const approvedFecha = formatFecha(act.historial.filter(h => h.estadoNuevo === 'aprobado_revisor').slice(-1)[0]?.fecha || act.ultimaActualizacion);
+      actionCardHtml = `
         <div class="approved-panel">
-          <div class="approved-check">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-          </div>
+          <div class="approved-check"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
           <p class="approved-title">Reporte aprobado por ti</p>
           <p class="approved-sub">Validación técnica completada.<br>Sin observaciones pendientes.</p>
-          <p class="approved-date">Aprobado el ${formatFecha(act.historial.filter(h=>h.estadoNuevo==='listo_validar').slice(-1)[0]?.fecha || act.ultimaActualizacion)}</p>
+          <p class="approved-date">Aprobado el ${approvedFecha}</p>
           <div class="wf-steps">
-            <div class="wf-step">
-              <div class="wf-step-line"></div>
-              <div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
-              <div class="wf-info">
-                <p class="wf-label done">Enlace reportó avance</p>
-                <p class="wf-actor done">${act.responsableEnlace}</p>
-              </div>
-            </div>
-            <div class="wf-step">
-              <div class="wf-step-line"></div>
-              <div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
-              <div class="wf-info">
-                <p class="wf-label done">Revisor aprobó</p>
-                <p class="wf-actor done">${act.responsableRevisor} · Tú</p>
-              </div>
-            </div>
-            <div class="wf-step">
-              <div class="wf-step-line"></div>
-              <div class="wf-dot active"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
-              <div class="wf-info">
-                <p class="wf-label active">Admin valida</p>
-                <p class="wf-actor active">Luis Sandoval · Pendiente</p>
-              </div>
-            </div>
-            <div class="wf-step">
-              <div class="wf-dot pending"></div>
-              <div class="wf-info">
-                <p class="wf-label pending">Reporte cerrado</p>
-                <p class="wf-actor pending">Completitud de período</p>
-              </div>
-            </div>
+            <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Enlace reportó avance</p><p class="wf-actor done">${act.responsableEnlace}</p></div></div>
+            <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Revisor aprobó</p><p class="wf-actor done">${act.responsableRevisor} · Tú</p></div></div>
+            <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot active"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div><div class="wf-info"><p class="wf-label active">Admin valida</p><p class="wf-actor active">Luis Sandoval · Pendiente</p></div></div>
+            <div class="wf-step"><div class="wf-dot pending"></div><div class="wf-info"><p class="wf-label pending">Reporte cerrado</p><p class="wf-actor pending">Completitud de período</p></div></div>
           </div>
         </div>
         <div class="next-action">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>
-          <div class="next-action-text">
-            <strong>Siguiente paso: Admin</strong>
-            Luis Sandoval debe validar este reporte en la vista de gerencia para cerrarlo.
-          </div>
-        </div>` : ''}
-
-      ${isCerrado ? `
+          <div class="next-action-text"><strong>Siguiente paso: Admin</strong>Luis Sandoval debe validar este reporte en la vista de gerencia para cerrarlo.</div>
+        </div>`;
+    } else if (isCerrado) {
+      const cerradoFecha = formatFecha(act.historial.filter(h => h.estadoNuevo === 'cerrado').slice(-1)[0]?.fecha || act.ultimaActualizacion);
+      actionCardHtml = `
         <div class="closed-panel">
           <div style="width:40px;height:40px;border-radius:50%;background:var(--color-success-dark);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" width="20" height="20" style="color:white"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
@@ -848,38 +768,188 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
             <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Enlace reportó</p><p class="wf-actor done">${act.responsableEnlace}</p></div></div>
             <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Revisor aprobó</p><p class="wf-actor done">${act.responsableRevisor}</p></div></div>
             <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Admin validó</p><p class="wf-actor done">Luis Sandoval</p></div></div>
-            <div class="wf-step"><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Reporte cerrado</p><p class="wf-actor done">${formatFecha(act.historial.filter(h=>h.estadoNuevo==='cerrado').slice(-1)[0]?.fecha || act.ultimaActualizacion)}</p></div></div>
+            <div class="wf-step"><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Reporte cerrado</p><p class="wf-actor done">${cerradoFecha}</p></div></div>
           </div>
-        </div>` : ''}
+        </div>`;
+    } else if (isObs) {
+      const obsActivas = act.observaciones.filter(o => !o.atendida).map(o => `
+        <div class="obs-revisor-item">
+          <div class="obs-revisor-top">
+            <span class="obs-revisor-cat">${o.categoria || 'Observación general'}</span>
+            <button class="obs-revisor-del" onclick="eliminarObservacion('${o.id}')" title="Eliminar observación">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg>
+              Eliminar
+            </button>
+          </div>
+          <p class="obs-revisor-txt">"${o.texto}"</p>
+        </div>`).join('');
+      actionCardHtml = `
+        <p class="ap-title" style="margin-bottom:12px">Resultado de revisión</p>
+        <div class="review-action-box">
+          <p class="rab-title">Observación activa</p>
+          <p class="rab-sub">El Enlace aún no ha enviado corrección. Puedes agregar otra observación, eliminar la existente o aprobar el reporte.</p>
+          <div class="obs-revisor-list">${obsActivas}</div>
+          <button class="btn-full success" onclick="openApproveModal()" style="margin-top:4px">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            Aprobar de todas formas
+          </button>
+          <button class="btn-full warning" onclick="openObserveModal()">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+            Agregar observación
+          </button>
+        </div>`;
+    } else {
+      actionCardHtml = `<p style="font-size:13px;color:var(--color-text-secondary);">Sin acciones disponibles para este estado.</p>`;
+    }
 
-      ${isObs ? `<div class="info-box info-orange"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="28" height="28" style="color:var(--color-warning);"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg><p class="ib-title">Observación emitida</p><p class="ib-sub">Esperando que el Enlace cargue la corrección correspondiente.</p></div>` : ''}
-
-      <div class="ap-divider"></div>
-      <p class="ap-title">Resumen de evidencia</p>
-      <div style="background:var(--color-surface);border-radius:10px;padding:10px 12px;margin-bottom:10px;">
-        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--color-border);">
-          <span style="color:var(--color-text-secondary);">Archivos adjuntos</span><strong>${act.archivosEvidencia.length}</strong>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--color-border);">
-          <span style="color:var(--color-text-secondary);">Observaciones</span><strong>${act.observaciones.length}</strong>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;">
-          <span style="color:var(--color-text-secondary);">Formato requerido</span><strong>${act.medioVerificacion}</strong>
-        </div>
+    document.getElementById('mainContent').innerHTML = `
+      <div class="breadcrumb">
+        <a href="bandeja-revision.html">Bandeja de revisión</a>
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+        <span>${act.id}</span>
       </div>
 
-      <div class="ap-divider"></div>
-      <p class="ap-title">Responsables</p>
-      <div class="assignee-row"><div class="asgn-av admin">LS</div><div><p class="asgn-name">Luis Sandoval</p><p class="asgn-rol">Admin${act.estado === 'listo_validar' ? ' · Acción pendiente' : ''}</p></div></div>
-      <div class="assignee-row"><div class="asgn-av revisor">CM</div><div><p class="asgn-name">${act.responsableRevisor}</p><p class="asgn-rol">Revisor</p></div></div>
-      <div class="assignee-row"><div class="asgn-av enlace">AT</div><div><p class="asgn-name">${act.responsableEnlace}</p><p class="asgn-rol">Enlace · ${act.gerencia}</p></div></div>
+      <div class="detail-cols">
+
+        <!-- COLUMNA IZQUIERDA: Header + MIR + Flujo + Responsables + Historial -->
+        <div class="detail-col">
+
+          <div class="header-card">
+            <div class="hc-top">
+              <div><p class="hc-id">${act.id}</p><h1 class="hc-title">${act.nombreIndicador}</h1></div>
+              <span class="estado-badge ${cfg.cls}" style="flex-shrink:0;margin-top:4px;">${cfg.label}</span>
+            </div>
+            <div class="hc-meta">
+              <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>Enlace: <strong>${act.responsableEnlace}</strong></div>
+              <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>Período: <strong>${act.periodo}</strong></div>
+              <div class="hc-meta-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Frecuencia: <strong>${act.frecuenciaMedicion}</strong></div>
+              <div class="hc-meta-item">Recibida: <strong>${formatFecha(fechaEnvio(act))}</strong></div>
+              <div class="hc-meta-item"><span class="nivel-badge ${nivel.cls}">${nivel.label}</span></div>
+            </div>
+            <div style="margin-top:14px;">
+              <div class="ap-fecha-wrap">
+                <div class="ap-fecha-item"><p class="ap-fecha-lbl">Fecha límite</p><p class="ap-fecha-val ${dCls}">${formatFecha(act.fechaLimite)}</p></div>
+                <div class="ap-fecha-item"><p class="ap-fecha-lbl">Tiempo</p><p class="ap-fecha-val ${dCls}">${dTxt}</p></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header" data-sec="mir" onclick="toggleSection('mir')">
+              <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>Información MIR</div>
+              ${CHEV}
+            </div>
+            <div class="section-body" id="sec-mir">
+              <div class="info-grid single"><div class="info-item"><label>Objetivo</label><p>${act.resumenNarrativo}</p></div><div class="info-divider"></div><div class="info-item"><label>Denominación del indicador</label><p>${act.nombreIndicador}</p></div></div>
+              <div class="info-grid" style="margin-top:14px;">
+                <div class="info-item"><label>Método de cálculo</label><p class="mono">${act.metodoCalculo}</p></div>
+                <div class="info-item"><label>Numerador</label><p>${act.numerador}</p></div>
+                <div class="info-item"><label>Denominador</label><p>${act.denominador}</p></div>
+                <div class="info-item"><label>Línea base</label><p>${act.lineaBase}</p></div>
+                <div class="info-item"><label>Meta anual</label><p>${act.metaAnual}</p></div>
+                ${renderMetaPeriodo(act)}
+                <div class="info-divider"></div>
+              </div>
+              <div class="mv-box">
+                <div class="mv-box-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>Medio de verificación requerido</div>
+                <p>${act.medioVerificacion}</p>
+                <span class="format-badge">Formato: ${act.medioVerificacion}</span>
+              </div>
+              ${act.reglasExtra ? `<div style="background:var(--color-surface);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--color-text-secondary);">${act.reglasExtra}</div>` : ''}
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header" data-sec="flujo" onclick="toggleSection('flujo')">
+              <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Flujo de trabajo</div>
+              ${CHEV}
+            </div>
+            <div class="section-body" id="sec-flujo" style="padding:12px 16px;">
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                ${revisorSteps.map(s => `
+                  <div class="ap-step ${s.done ? 'done' : s.current ? 'current' : ''}">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                      ${s.done
+                        ? '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>'
+                        : s.current
+                        ? '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>'
+                        : '<circle cx="12" cy="12" r="9" stroke-width="1.5"/>'}
+                    </svg>
+                    ${s.label}
+                  </div>`).join('')}
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header" data-sec="resp" onclick="toggleSection('resp')">
+              <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>Responsables</div>
+              ${CHEV}
+            </div>
+            <div class="section-body" id="sec-resp" style="padding:12px 16px;">
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div class="assignee-row"><div class="asgn-av admin">LS</div><div><p class="asgn-name">Luis Sandoval</p><p class="asgn-rol">Admin</p></div></div>
+                <div class="assignee-row"><div class="asgn-av revisor">CM</div><div><p class="asgn-name">${act.responsableRevisor}</p><p class="asgn-rol">Revisor</p></div></div>
+                <div class="assignee-row"><div class="asgn-av enlace">AT</div><div><p class="asgn-name">${act.responsableEnlace}</p><p class="asgn-rol">Enlace · ${act.gerencia}</p></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header" data-sec="hist" onclick="toggleSection('hist')">
+              <div class="section-title"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Historial completo</div>
+              ${CHEV}
+            </div>
+            <div class="section-body" id="sec-hist"><div class="timeline">${histHtml}</div></div>
+          </div>
+
+        </div><!-- /col izquierda -->
+
+        <!-- COLUMNA DERECHA: Reporte del Enlace + Acción del Revisor -->
+        <div class="detail-col">
+
+          ${isCorr ? `<div class="correction-alert"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"/></svg>El Enlace envió una corrección en respuesta a tu observación anterior. Revisa los archivos actualizados y emite tu resolución.</div>` : ''}
+
+          ${renderAvanceReportado(act)}
+
+          <div class="section-card">
+            <div class="section-header open" data-sec="ev" onclick="toggleSection('ev')">
+              <div class="section-title">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"/></svg>
+                Evidencia recibida
+                <span style="min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:var(--color-info);color:white;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;">${act.archivosEvidencia.length}</span>
+              </div>
+              ${CHEV}
+            </div>
+            <div class="section-body open" id="sec-ev">${filesHtml}</div>
+          </div>
+
+          ${act.observaciones.length > 0 ? `
+          <div class="section-card">
+            <div class="section-header open" data-sec="obs" onclick="toggleSection('obs')">
+              <div class="section-title">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+                Observaciones previas
+                <span style="min-width:18px;height:18px;border-radius:9px;padding:0 5px;background:var(--color-observado);color:white;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;">${act.observaciones.length}</span>
+              </div>
+              ${CHEV}
+            </div>
+            <div class="section-body open" id="sec-obs">${prevObsHtml}</div>
+          </div>` : ''}
+
+          <div class="revisor-action-card">
+            ${actionCardHtml}
+          </div>
+
+        </div><!-- /col derecha -->
+
+      </div><!-- /detail-cols -->
     `;
   }
 
   function renderPage() {
     if (!actividad) return;
     renderMain(actividad);
-    renderPanel(actividad);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -896,5 +966,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     m.addEventListener('click', e => { if (e.target === m) closeAllModals(); });
   });
 </script>
+<script src="dev-toolbar.js"></script>
 </body>
 </html>

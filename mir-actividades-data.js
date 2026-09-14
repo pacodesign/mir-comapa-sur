@@ -4244,16 +4244,49 @@ function getNombreCortoGerenciaEnlace() {
 
 // ── Configuraciones de visualización (usadas en múltiples páginas) ──────────
 var ESTADO_CFG = {
-  pendiente_carga:  { label: 'Sin capturar',       cls: 'pendiente_carga',  accion: 'Capturar avance', btnCls: 'primary'  },
+  pendiente_carga:  { label: 'Borrador',            cls: 'borrador',         accion: 'Capturar avance', btnCls: 'primary'  },
+  borrador:         { label: 'Borrador',            cls: 'borrador',         accion: 'Continuar',       btnCls: 'primary'  },
   enviado_revision: { label: 'En revisión',         cls: 'enviado_revision', accion: 'Ver detalle',     btnCls: 'neutral'  },
   observado:        { label: 'Observado',            cls: 'observado',        accion: 'Atender',         btnCls: 'warning'  },
   corregido:        { label: 'Corregido',            cls: 'corregido',        accion: 'Ver detalle',     btnCls: 'neutral'  },
-  listo_validar:    { label: 'Listo para validar',  cls: 'listo_validar',   accion: 'Ver detalle',     btnCls: 'neutral'  },
+  listo_validar:    { label: 'Aprobado',             cls: 'aprobado_revisor', accion: 'Ver detalle',     btnCls: 'neutral'  },
+  aprobado_revisor: { label: 'Aprobado',             cls: 'aprobado_revisor', accion: 'Ver detalle',     btnCls: 'neutral'  },
+  validado_admin:   { label: 'Cerrado',              cls: 'cerrado',          accion: 'Ver detalle',     btnCls: 'neutral'  },
+  publicado:        { label: 'Cerrado',              cls: 'cerrado',          accion: 'Ver detalle',     btnCls: 'neutral'  },
   cerrado:          { label: 'Cerrado',              cls: 'cerrado',          accion: 'Ver detalle',     btnCls: 'neutral'  },
-  aprobado_revisor: { label: 'Aprobado revisor',    cls: 'aprobado_revisor', accion: 'Ver detalle',     btnCls: 'neutral'  },
-  validado_admin:   { label: 'Validado',             cls: 'cerrado',          accion: 'Ver detalle',     btnCls: 'neutral'  },
-  publicado:        { label: 'Publicado',            cls: 'cerrado',          accion: 'Ver detalle',     btnCls: 'neutral'  },
+  vencido:          { label: 'Vencida',              cls: 'vencido',          accion: 'Capturar avance', btnCls: 'danger'   },
+  proximo_periodo:  { label: 'Próximo período',      cls: 'proximo_periodo',  accion: 'Ver detalle',     btnCls: 'neutral'  },
 };
+
+// ── Lógica de ciclo de reporte ────────────────────────────────────────────────
+var FREC_MESES = { 'Mensual': 1, 'Bimestral': 2, 'Trimestral': 3, 'Semestral': 6, 'Anual': 12 };
+
+function proximaFechaLimite(frecuencia, fechaLimite) {
+  var meses = FREC_MESES[frecuencia] || 1;
+  var d = new Date(fechaLimite);
+  d.setMonth(d.getMonth() + meses);
+  return d.toISOString().slice(0, 10);
+}
+
+function proximaApertura(frecuencia, fechaLimite) {
+  var next = proximaFechaLimite(frecuencia, fechaLimite);
+  return next.slice(0, 8) + '01';
+}
+
+function estadoVista(act) {
+  var PASS_THROUGH = ['incompleto', 'enviado_revision', 'observado', 'corregido',
+                      'listo_validar', 'aprobado_revisor'];
+  if (PASS_THROUGH.indexOf(act.estado) !== -1) return act.estado;
+  if (act.estado === 'pendiente_carga') {
+    return diasRestantes(act.fechaLimite) < 0 ? 'vencido' : 'borrador';
+  }
+  if (act.estado === 'cerrado') {
+    var apertura = proximaApertura(act.frecuenciaMedicion, act.fechaLimite);
+    if (MOCK_DATE < apertura) return 'proximo_periodo';
+    return 'borrador';
+  }
+  return act.estado;
+}
 
 var NIVEL_CFG = {
   'FIN':  { label: 'Fin',        cls: 'nivel-fin' },

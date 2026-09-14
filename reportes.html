@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="shared.css">
   <script src="session.js"></script>
   <script src="mir-actividades-data.js"></script>
+  <script src="demo-data.js"></script>
   <script src="planeacion-data.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
   <style>
@@ -130,6 +131,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
     <div class="avatar-xs">AD</div>
   </div>
 </nav>
+
 
 
 <div class="app-wrapper">
@@ -1324,7 +1326,8 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
 '+PDF_CSS+'
 </style>  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
-</head><body>'+pages+paginateScript+'</body></html>';
+</head><body>'+pages+paginateScript+'<script src="dev-toolbar.js"></script>
+</body></html>';
         }
 
         function dbRefreshPDF() {
@@ -2449,7 +2452,8 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
 '+TR_PDF_CSS+'
 </style>  <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
-</head><body>'+content+paginateScript+'</body></html>';
+</head><body>'+content+paginateScript+'<script src="dev-toolbar.js"></script>
+</body></html>';
         }
 
         function trRefreshPDF() {
@@ -3089,7 +3093,8 @@ tr.data:nth-child(4n+3) td {background:var(--color-neutral-50);}
             + '<th class="res">Variable 1</th><th class="res">Variable 2</th><th class="res">Resultado</th></tr>'
             + '</thead><tbody>' + rows + '</tbody></table>'
             + '<script>window.onload=function(){window.print();}<\/script>'
-            + '</body></html>');
+            + '<script src="dev-toolbar.js"></script>
+</body></html>');
           win.document.close();
         }
 
@@ -3622,5 +3627,6 @@ tr.data:nth-child(4n+3) td {background:var(--color-neutral-50);}
     _toastTimer = setTimeout(function() { el.classList.remove('show', 'success'); }, 2500);
   }
 </script>
+<script src="dev-toolbar.js"></script>
 </body>
 </html>

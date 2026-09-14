@@ -245,19 +245,20 @@ footer { animation: fadeIn .4s ease both .5s; }
   <script>
     function iniciar() {
       var user = {
-        id: 'enl-com-cg',
-        email: 'enlace.cg.comercial@comapa.mx',
-        nombre: 'Sandra Vega',
-        iniciales: 'SV',
+        id: 'demo-enl-001',
+        email: 'ana.torres@comapa.mx',
+        nombre: 'Ana Torres',
+        iniciales: 'AT',
         rol: 'Enlace',
-        gerencia: 'Gerencia Comercial',
+        gerencia: 'Demo — Gerencia Comercial',
         unidadResponsable: 'Coordinación General Comercial',
         redirect: 'dashboard-enlace.html'
       };
       try {
+        sessionStorage.setItem('comapa-demo', '1');
         localStorage.setItem('comapa_mir_session', JSON.stringify(user));
         localStorage.setItem('userGerencia', user.gerencia);
-        localStorage.setItem('userUnidad', user.unidadResponsable);
+        localStorage.removeItem('userUnidad');
         localStorage.removeItem('comapa-ciclo');
       } catch (e) {}
       window.location.href = 'dashboard-enlace.html';
