@@ -336,6 +336,42 @@ function getActividad(id) {
   return ACTIVIDADES_ENLACE.find(function(a) { return a.id === id; }) || null;
 }
 
+// Mapa de nivel a etiqueta y clase CSS para badges.
+var NIVEL_CFG = {
+  'Fin':        { label: 'Fin',        cls: 'nivel-fin' },
+  'Propósito':  { label: 'Propósito',  cls: 'nivel-proposito' },
+  'Componente': { label: 'Componente', cls: 'nivel-componente' },
+  'Actividad':  { label: 'Actividad',  cls: 'nivel-actividad' }
+};
+
+// Calcula prioridad de un indicador según días restantes y estado.
+function prioridad(act) {
+  var d = diasRestantes(act.fechaLimite);
+  if (d < 0) return 'vencida';
+  var activos = ['pendiente_carga','enviado_revision','pendiente_revision','corregido','observado'];
+  if (activos.indexOf(act.estado) === -1) return 'normal';
+  if (d <= 7)  return 'alta';
+  if (d <= 14) return 'media';
+  return 'normal';
+}
+
+// Fecha en que el indicador fue enviado a revisión por última vez (desde historial).
+function fechaEnvio(act) {
+  if (!act || !act.historial || !act.historial.length) return null;
+  var envios = act.historial.filter(function(h) { return h.estadoNuevo === 'enviado_revision'; });
+  if (!envios.length) return null;
+  return envios[envios.length - 1].fecha;
+}
+
+// Devuelve todos los indicadores de la gerencia del Revisor activo.
+function getActividadesRevisor() {
+  if (typeof ACTIVIDADES_ENLACE === 'undefined') return [];
+  var user = Session.getUser();
+  if (!user) return ACTIVIDADES_ENLACE;
+  var ger = user.gerencia;
+  return ACTIVIDADES_ENLACE.filter(function(a) { return a.gerencia === ger; });
+}
+
 // Devuelve los indicadores MIR del usuario enlace activo.
 // La gerencia y unidad se toman primero de localStorage (overrides del picker de login),
 // y si no existen, del objeto de sesión del usuario.

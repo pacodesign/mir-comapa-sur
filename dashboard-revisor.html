@@ -246,7 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
     return `<span class="dias-chip ${cls}">${txt}</span>`;
   }
   function estadoBadge(e) {
-    const cfg = ESTADO_CFG[e] || { label: e, cls: e };
+    const _ecfg = (typeof ESTADO_CFG_MIR !== 'undefined' ? ESTADO_CFG_MIR : (typeof ESTADO_CFG !== 'undefined' ? ESTADO_CFG : {}));
+    const cfg = _ecfg[e] || { label: e, cls: e };
     return `<span class="estado-badge ${cfg.cls}">${cfg.label}</span>`;
   }
   function prioBadge(a) {
@@ -255,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return `<span class="prio-badge ${c.cls}">${c.label}</span>`;
   }
   function nivelBadge(a) {
-    const n = NIVEL_CFG[a.nivelCodigo] || { label: a.nivelCodigo, cls: 'nivel-actividad' };
+    const n = (typeof NIVEL_CFG !== 'undefined' && NIVEL_CFG[a.nivel]) || { label: a.nivel || '—', cls: 'nivel-actividad' };
     return `<span class="nivel-badge ${n.cls}">${n.label}</span>`;
   }
   function rolDotCls(rol) {
