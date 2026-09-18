@@ -227,6 +227,23 @@ document.addEventListener('DOMContentLoaded', function () {
     el.textContent = user.iniciales;
   });
 
+  // ── ACTUALIZAR TOP-NAVBAR (páginas enlace/revisor) ───────────────────────
+  const tnName   = document.querySelector('.topnav-name');
+  const tnAvatar = document.querySelector('.topnav-avatar');
+  const tnRole   = document.getElementById('topnavRole');
+  if (tnName)   tnName.textContent   = user.nombre;
+  if (tnAvatar) tnAvatar.textContent = user.iniciales;
+  if (tnRole) {
+    var _tnDisplay = null;
+    try {
+      _tnDisplay = localStorage.getItem('userUnidad')
+                || localStorage.getItem('userGerencia')
+                || user.unidadResponsable
+                || user.gerencia;
+    } catch(e) { _tnDisplay = user.gerencia; }
+    tnRole.textContent = _tnDisplay || user.gerencia;
+  }
+
   // ── EVENTOS: NOTIFICACIONES ──────────────────────────────────────────────
   const notifBtn   = document.getElementById('hNotifBtn');
   const notifPanel = document.getElementById('hNotifPanel');

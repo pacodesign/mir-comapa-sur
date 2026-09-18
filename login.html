@@ -972,12 +972,17 @@ body {
     }
 
     function loginAsGeneral() {
-      try { localStorage.removeItem('userUnidad'); } catch(e) {}
+      var ger = null;
+      try { ger = localStorage.getItem('userGerencia'); } catch(e) {}
+      if (ger) Session.loginByUnit(ger, null);
       window.location.href = 'dashboard-enlace.html';
     }
 
     function loginAsCoordinacion(coordinacion) {
-      try { localStorage.setItem('userUnidad', coordinacion); } catch(e) {}
+      var ger = null;
+      try { ger = localStorage.getItem('userGerencia'); } catch(e) {}
+      if (ger) Session.loginByUnit(ger, coordinacion);
+      else { try { localStorage.setItem('userUnidad', coordinacion); } catch(e) {} }
       window.location.href = 'dashboard-enlace.html';
     }
 
@@ -1023,12 +1028,7 @@ body {
 
     function hintLoginAsGerencia(gerencia, evt, unidad) {
       if (evt) evt.stopPropagation();
-      var user = Session.login('enlace@comapa.mx', 'enlace123');
-      if (!user) return;
-      try {
-        localStorage.setItem('userGerencia', gerencia);
-        if (unidad) localStorage.setItem('userUnidad', unidad);
-      } catch(e) {}
+      if (!Session.loginByUnit(gerencia, unidad)) return;
       window.location.href = 'dashboard-enlace.html';
     }
 

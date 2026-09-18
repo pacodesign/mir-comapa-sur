@@ -264,6 +264,66 @@ const Session = {
   }
 };
 
+// ── Utilidades de fecha e indicadores ─────────────────────────────────────
+function formatFecha(dateStr) {
+  if (!dateStr) return '—';
+  var p = String(dateStr).split('-');
+  if (p.length < 3) return dateStr;
+  var meses = ['ene.','feb.','mar.','abr.','may.','jun.','jul.','ago.','sep.','oct.','nov.','dic.'];
+  return +p[2]+' '+(meses[+p[1]-1]||p[1])+' '+p[0];
+}
+
+function diasRestantes(fechaLimite) {
+  if (!fechaLimite) return 0;
+  var p = String(fechaLimite).split('-');
+  var hoy = new Date(); hoy.setHours(0,0,0,0);
+  var lim = new Date(+p[0], +p[1]-1, +p[2]);
+  return Math.round((lim - hoy) / (1000*60*60*24));
+}
+
+// Configuración de visualización de estados MIR.
+// La clase CSS se corresponde directamente con la clase .estado-badge.{estado} en shared.css.
+var ESTADO_CFG_MIR = {
+  pendiente_carga:  { label:'Sin capturar',      cls:'pendiente_carga',  accion:'Cargar evidencia',    btnCls:'primary' },
+  pendiente_envio:  { label:'Listo para enviar', cls:'pendiente_carga',  accion:'Enviar a revisión',   btnCls:'primary' },
+  borrador:         { label:'En borrador',        cls:'borrador',         accion:'Continuar captura',   btnCls:'primary' },
+  enviado_revision: { label:'En revisión',        cls:'enviado_revision', accion:'Ver seguimiento',     btnCls:'neutral' },
+  corregido:        { label:'Corregido',          cls:'corregido',        accion:'Ver seguimiento',     btnCls:'neutral' },
+  observado:        { label:'Con observaciones',  cls:'observado',        accion:'Atender observación', btnCls:'warning' },
+  aprobado_revisor: { label:'Aprobado',           cls:'aprobado_revisor', accion:'Ver detalle',         btnCls:'neutral' },
+  cerrado:          { label:'Validado',           cls:'cerrado',          accion:'Ver detalle',         btnCls:'neutral' },
+  listo_validar:    { label:'Listo para validar', cls:'listo_validar',    accion:'Ver detalle',         btnCls:'neutral' },
+  vencido:          { label:'Vencido',            cls:'vencido',          accion:'Ver detalle',         btnCls:'danger'  },
+  proximo_periodo:  { label:'Próximo período',    cls:'proximo_periodo',  accion:'Ver calendario',      btnCls:'neutral' },
+};
+
+// Normaliza el estado raw de un indicador al estado de visualización.
+function estadoVista(act) {
+  var e = act.estado;
+  if (['pendiente_carga','pendiente_envio','incompleto'].includes(e)) return 'borrador';
+  return e;
+}
+
+// Encuentra y registra el usuario correcto según gerencia+unidad.
+// Usado por el picker de login para guardar un usuario realista en sesión.
+Session.loginByUnit = function(gerencia, unidad) {
+  var match = MOCK_USERS.find(function(u) {
+    if (u.gerencia !== gerencia) return false;
+    if (u.rol !== 'Enlace') return false;
+    if (unidad) return u.unidadResponsable === unidad;
+    return !u.unidadResponsable;
+  });
+  var user = match || MOCK_USERS.find(function(u) { return u.email === 'enlace@comapa.mx'; });
+  if (!user) return null;
+  Session.setUser(user);
+  try {
+    localStorage.setItem('userGerencia', gerencia);
+    if (unidad) localStorage.setItem('userUnidad', unidad);
+    else localStorage.removeItem('userUnidad');
+  } catch(e) {}
+  return user;
+};
+
 function cerrarSesion() {
   try { Session.clear(); } catch(e) {}
   try { sessionStorage.removeItem('comapa-demo'); } catch(e) {}
