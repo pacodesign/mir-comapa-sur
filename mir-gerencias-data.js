@@ -1,6 +1,18 @@
 // mir-gerencias-data.js — Metadatos de gerencias MIR COMAPA Sur
-// Todas las gerencias usan datos reales de ACTIVIDADES_ENLACE
+// Actualizado desde 2026.09.14 MIR COMAPA_UNIFICADA.xlsx · 5 gerencias
 const GERENCIAS_MIR = [
+  {
+    id: 'general',
+    nombre: 'Gerencia General',
+    gerenciaName: 'Gerencia General',
+    descripcion: 'Indicadores institucionales de Fin y Propósito del MIR.',
+    color: '#374151',
+    frecuencias: ['Anual'],
+    enlace:  { nombre: 'Ana Torres',     iniciales: 'AT' },
+    revisor: { nombre: 'Carlos Mendoza', iniciales: 'CM' },
+    periodo: 'T3-2026', fechaLimite: '2026-09-30',
+    usaDataReal: true,
+  },
   {
     id: 'planeacion',
     nombre: 'Planeación Estratégica',
@@ -10,7 +22,7 @@ const GERENCIAS_MIR = [
     frecuencias: ['Mensual', 'Trimestral', 'Semestral', 'Anual'],
     enlace:  { nombre: 'Ana Torres',     iniciales: 'AT' },
     revisor: { nombre: 'Carlos Mendoza', iniciales: 'CM' },
-    periodo: 'T2-2026', fechaLimite: '2026-06-30',
+    periodo: 'T3-2026', fechaLimite: '2026-09-30',
     usaDataReal: true,
   },
   {
@@ -20,9 +32,9 @@ const GERENCIAS_MIR = [
     descripcion: 'Ingresos, medición, facturación, cobranza y atención comercial.',
     color: '#8B1D3A',
     frecuencias: ['Mensual', 'Trimestral', 'Semestral', 'Anual'],
-    enlace:  { nombre: 'Ana Torres',     iniciales: 'AT' },
-    revisor: { nombre: 'Carlos Mendoza', iniciales: 'CM' },
-    periodo: 'T2-2026', fechaLimite: '2026-07-01',
+    enlace:  { nombre: 'Pedro Sánchez',  iniciales: 'PS' },
+    revisor: { nombre: 'Rosario Díaz',   iniciales: 'RD' },
+    periodo: 'T3-2026', fechaLimite: '2026-09-30',
     usaDataReal: true,
   },
   {
@@ -34,7 +46,7 @@ const GERENCIAS_MIR = [
     frecuencias: ['Mensual', 'Trimestral', 'Semestral', 'Anual'],
     enlace:  { nombre: 'María López',    iniciales: 'ML' },
     revisor: { nombre: 'Laura Vega',     iniciales: 'LV' },
-    periodo: 'T2-2026', fechaLimite: '2026-06-30',
+    periodo: 'T3-2026', fechaLimite: '2026-09-30',
     usaDataReal: true,
   },
   {
@@ -46,7 +58,7 @@ const GERENCIAS_MIR = [
     frecuencias: ['Mensual', 'Trimestral', 'Semestral', 'Anual'],
     enlace:  { nombre: 'Jorge Reyes',        iniciales: 'JR' },
     revisor: { nombre: 'Miguel Ángel Pérez', iniciales: 'MP' },
-    periodo: 'T2-2026', fechaLimite: '2026-06-30',
+    periodo: 'T3-2026', fechaLimite: '2026-09-30',
     usaDataReal: true,
   },
 ];
