@@ -64,6 +64,14 @@ const MOCK_USERS = [
     gerencia: 'Gerencia de Planeación Estratégica'
   },
 
+  // ── Enlace — Gerencia General ────────────────────────────────────────────
+  {
+    id: 'enl-gen-001', email: 'enlace.general@comapa.mx', password: 'enlace123',
+    nombre: 'Ana Torres', iniciales: 'AT', rol: 'Enlace',
+    gerencia: 'Gerencia General',
+    unidadResponsable: 'Gerencia General'
+  },
+
   // ── Enlaces específicos — Gerencia Comercial ─────────────────────────────
   {
     id: 'enl-com-fac', email: 'enlace.facturacion@comapa.mx', password: 'enlace123',
@@ -95,6 +103,12 @@ const MOCK_USERS = [
     gerencia: 'Gerencia Comercial',
     unidadResponsable: 'Coordinación de Atención a la Industria y Comercio'
   },
+  {
+    id: 'enl-com-acc', email: 'enlace.accesible@comapa.mx', password: 'enlace123',
+    nombre: 'Norma Ibáñez', iniciales: 'NI', rol: 'Enlace',
+    gerencia: 'Gerencia Comercial',
+    unidadResponsable: 'Coordinación Módulo de Atención Accesible'
+  },
 
   // ── Enlaces específicos — Gerencia Técnica ───────────────────────────────
   {
@@ -114,6 +128,12 @@ const MOCK_USERS = [
     nombre: 'Gabriela Torres', iniciales: 'GT', rol: 'Enlace',
     gerencia: 'Gerencia Técnica',
     unidadResponsable: 'Coordinación de Plantas Potabilizadoras y Cárcamos'
+  },
+  {
+    id: 'enl-tec-esp', email: 'enlace.especiales@comapa.mx', password: 'enlace123',
+    nombre: 'Humberto Nava', iniciales: 'HN', rol: 'Enlace',
+    gerencia: 'Gerencia Técnica',
+    unidadResponsable: 'Coordinación de Proyectos Especiales'
   },
 
   // ── Enlaces específicos — Gerencia Administrativa ────────────────────────
@@ -135,6 +155,48 @@ const MOCK_USERS = [
     gerencia: 'Gerencia Administrativa',
     unidadResponsable: 'Coordinación de Informática'
   },
+  {
+    id: 'enl-adm-jur', email: 'enlace.juridica@comapa.mx', password: 'enlace123',
+    nombre: 'Alejandro Medina', iniciales: 'AM', rol: 'Enlace',
+    gerencia: 'Gerencia Administrativa',
+    unidadResponsable: 'Coordinación Jurídica'
+  },
+  {
+    id: 'enl-adm-adq', email: 'enlace.adquisiciones@comapa.mx', password: 'enlace123',
+    nombre: 'Carmen Valdez', iniciales: 'CV', rol: 'Enlace',
+    gerencia: 'Gerencia Administrativa',
+    unidadResponsable: 'Coordinación de Adquisiciones'
+  },
+  {
+    id: 'enl-adm-con', email: 'enlace.contabilidad@comapa.mx', password: 'enlace123',
+    nombre: 'Ernesto Lozano', iniciales: 'EL', rol: 'Enlace',
+    gerencia: 'Gerencia Administrativa',
+    unidadResponsable: 'Coordinación de Contabilidad'
+  },
+  {
+    id: 'enl-adm-pol', email: 'enlace.politica@comapa.mx', password: 'enlace123',
+    nombre: 'Silvia Paredes', iniciales: 'SP', rol: 'Enlace',
+    gerencia: 'Gerencia Administrativa',
+    unidadResponsable: 'Coordinación de Política de Ingresos'
+  },
+  {
+    id: 'enl-adm-ssh', email: 'enlace.seguridad@comapa.mx', password: 'enlace123',
+    nombre: 'Gustavo Núñez', iniciales: 'GN', rol: 'Enlace',
+    gerencia: 'Gerencia Administrativa',
+    unidadResponsable: 'Coordinación de Seguridad, Salud e Higiene'
+  },
+  {
+    id: 'enl-adm-srv', email: 'enlace.servicios@comapa.mx', password: 'enlace123',
+    nombre: 'Lorena Espinoza', iniciales: 'LE', rol: 'Enlace',
+    gerencia: 'Gerencia Administrativa',
+    unidadResponsable: 'Coordinación de Servicios Generales'
+  },
+  {
+    id: 'enl-adm-vin', email: 'enlace.vinculacion@comapa.mx', password: 'enlace123',
+    nombre: 'Marisol Delgado', iniciales: 'MD', rol: 'Enlace',
+    gerencia: 'Gerencia Administrativa',
+    unidadResponsable: 'Coordinación de Vinculación Social'
+  },
 
   // ── Enlaces específicos — Gerencia de Planeación Estratégica ────────────
   {
@@ -148,6 +210,18 @@ const MOCK_USERS = [
     nombre: 'Andrés Peña', iniciales: 'AP', rol: 'Enlace',
     gerencia: 'Gerencia de Planeación Estratégica',
     unidadResponsable: 'Coordinación de Seguimiento a Plantas de Tratamiento'
+  },
+  {
+    id: 'enl-pla-mc', email: 'enlace.mejora@comapa.mx', password: 'enlace123',
+    nombre: 'Rocío Fuentes', iniciales: 'RF', rol: 'Enlace',
+    gerencia: 'Gerencia de Planeación Estratégica',
+    unidadResponsable: 'Departamento de Mejora Continua y Calidad'
+  },
+  {
+    id: 'enl-pla-dsp', email: 'enlace.deptoseguimiento@comapa.mx', password: 'enlace123',
+    nombre: 'Héctor Villanueva', iniciales: 'HV', rol: 'Enlace',
+    gerencia: 'Gerencia de Planeación Estratégica',
+    unidadResponsable: 'Departamento de Seguimiento a Plantas de Tratamiento'
   },
 ];
 
@@ -194,4 +268,57 @@ function cerrarSesion() {
   try { Session.clear(); } catch(e) {}
   try { sessionStorage.removeItem('comapa-demo'); } catch(e) {}
   window.location.href = 'login.html';
+}
+
+// Devuelve los indicadores MIR del usuario enlace activo.
+// La gerencia y unidad se toman primero de localStorage (overrides del picker de login),
+// y si no existen, del objeto de sesión del usuario.
+// Coordinación General → todos los de la gerencia.
+// Coordinación específica → solo los de esa unidad.
+// Sin unidad asignada → todos los de la gerencia.
+function getActividadesEnlace() {
+  if (typeof ACTIVIDADES_ENLACE === 'undefined') return [];
+  var user = Session.getUser();
+  if (!user) return ACTIVIDADES_ENLACE;
+
+  var ger, unidad;
+  try {
+    ger    = localStorage.getItem('userGerencia') || user.gerencia;
+    unidad = localStorage.getItem('userUnidad')   || user.unidadResponsable || null;
+  } catch(e) {
+    ger    = user.gerencia;
+    unidad = user.unidadResponsable || null;
+  }
+
+  var byGerencia = ACTIVIDADES_ENLACE.filter(function(a) {
+    return a.gerencia === ger;
+  });
+
+  if (!unidad || unidad.toLowerCase().indexOf('general') !== -1) {
+    return byGerencia;
+  }
+
+  return byGerencia.filter(function(a) {
+    return a.unidadResponsable === unidad;
+  });
+}
+
+// Devuelve el nombre de la unidad/gerencia del usuario activo para mostrar en la UI.
+function getNombreGerenciaEnlace() {
+  var user = Session.getUser();
+  if (!user) return 'Gerencia';
+  var unidad, ger;
+  try {
+    unidad = localStorage.getItem('userUnidad')   || user.unidadResponsable || null;
+    ger    = localStorage.getItem('userGerencia') || user.gerencia || 'Gerencia';
+  } catch(e) {
+    unidad = user.unidadResponsable || null;
+    ger    = user.gerencia || 'Gerencia';
+  }
+  return unidad || ger;
+}
+
+// Devuelve indicadores de planeación de gerencia (reservado para uso futuro).
+function getActividadesGerencia() {
+  return [];
 }
