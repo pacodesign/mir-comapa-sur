@@ -330,6 +330,12 @@ function cerrarSesion() {
   window.location.href = 'login.html';
 }
 
+// Busca un indicador por id en ACTIVIDADES_ENLACE (incluye datos demo).
+function getActividad(id) {
+  if (typeof ACTIVIDADES_ENLACE === 'undefined') return null;
+  return ACTIVIDADES_ENLACE.find(function(a) { return a.id === id; }) || null;
+}
+
 // Devuelve los indicadores MIR del usuario enlace activo.
 // La gerencia y unidad se toman primero de localStorage (overrides del picker de login),
 // y si no existen, del objeto de sesión del usuario.

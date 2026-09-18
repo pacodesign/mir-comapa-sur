@@ -2005,7 +2005,8 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 
   // ── Render main ───────────────────────────────────────────────────────────
   function renderMain(act) {
-    const cfg   = ESTADO_CFG[act.estado] || { label: act.estado, cls: '' };
+    const _ECFG = (typeof ESTADO_CFG_MIR !== 'undefined' ? ESTADO_CFG_MIR : (typeof ESTADO_CFG !== 'undefined' ? ESTADO_CFG : {}));
+    const cfg   = _ECFG[act.estado] || { label: act.estado, cls: '' };
     const _NIVEL_MAP = { 'Fin': { label: 'Fin', cls: 'nivel-fin' }, 'Propósito': { label: 'Propósito', cls: 'nivel-proposito' }, 'Componente': { label: 'Componente', cls: 'nivel-componente' }, 'Actividad': { label: 'Actividad', cls: 'nivel-actividad' } };
     const nivel = _NIVEL_MAP[act.nivel] || { label: act.nivel || '—', cls: 'nivel-actividad' };
     const editable = isEditable();
@@ -2082,8 +2083,8 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
         <p class="tl-accion">${h.accion}</p>
         ${(h.estadoAnterior || h.estadoNuevo) ? `
           <p class="tl-estado">
-            ${h.estadoAnterior ? `<span>${ESTADO_CFG[h.estadoAnterior]?.label||h.estadoAnterior}</span><span class="tl-arrow">→</span>` : ''}
-            ${h.estadoNuevo ? `<span>${ESTADO_CFG[h.estadoNuevo]?.label||h.estadoNuevo}</span>` : ''}
+            ${h.estadoAnterior ? `<span>${_ECFG[h.estadoAnterior]?.label||h.estadoAnterior}</span><span class="tl-arrow">→</span>` : ''}
+            ${h.estadoNuevo ? `<span>${_ECFG[h.estadoNuevo]?.label||h.estadoNuevo}</span>` : ''}
           </p>` : ''}
         <p class="tl-actor">${h.usuario} · ${h.rol}</p>
       </div>`).join('');
