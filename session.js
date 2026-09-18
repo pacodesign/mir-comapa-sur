@@ -364,11 +364,14 @@ function fechaEnvio(act) {
 }
 
 // Devuelve todos los indicadores de la gerencia del Revisor activo.
+// Respeta localStorage.userGerencia para soportar el picker de gerencia del login.
 function getActividadesRevisor() {
   if (typeof ACTIVIDADES_ENLACE === 'undefined') return [];
   var user = Session.getUser();
   if (!user) return ACTIVIDADES_ENLACE;
-  var ger = user.gerencia;
+  var ger;
+  try { ger = localStorage.getItem('userGerencia') || user.gerencia; }
+  catch(e) { ger = user.gerencia; }
   return ACTIVIDADES_ENLACE.filter(function(a) { return a.gerencia === ger; });
 }
 

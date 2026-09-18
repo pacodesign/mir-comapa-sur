@@ -171,10 +171,10 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
         </select>
         <select class="filter-select" id="fNivel" onchange="applyFilters()">
           <option value="">Todos los niveles</option>
-          <option value="F">Fin</option>
-          <option value="P">Propósito</option>
-          <option value="C">Componente</option>
-          <option value="A">Actividad</option>
+          <option value="Fin">Fin</option>
+          <option value="Propósito">Propósito</option>
+          <option value="Componente">Componente</option>
+          <option value="Actividad">Actividad</option>
         </select>
         <select class="filter-select" id="fSort" onchange="applyFilters()">
           <option value="prio">Por prioridad</option>
@@ -244,13 +244,13 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 
     if (q)  data = data.filter(a => a.nombreIndicador.toLowerCase().includes(q) || a.id.toLowerCase().includes(q));
     if (fe) data = data.filter(a => a.estado === fe);
-    if (fn) data = data.filter(a => a.nivelCodigo === fn);
+    if (fn) data = data.filter(a => a.nivel === fn);
 
     if (fs === 'prio')       data.sort((a, b) => prioOrder(a) - prioOrder(b) || diasRestantes(a.fechaLimite) - diasRestantes(b.fechaLimite));
     else if (fs === 'fecha_asc')  data.sort((a, b) => diasRestantes(a.fechaLimite) - diasRestantes(b.fechaLimite));
     else if (fs === 'fecha_desc') data.sort((a, b) => diasRestantes(b.fechaLimite) - diasRestantes(a.fechaLimite));
-    else if (fs === 'envio_desc') data.sort((a, b) => fechaEnvio(b).localeCompare(fechaEnvio(a)));
-    else if (fs === 'envio_asc')  data.sort((a, b) => fechaEnvio(a).localeCompare(fechaEnvio(b)));
+    else if (fs === 'envio_desc') data.sort((a, b) => (fechaEnvio(b)||'').localeCompare(fechaEnvio(a)||''));
+    else if (fs === 'envio_asc')  data.sort((a, b) => (fechaEnvio(a)||'').localeCompare(fechaEnvio(b)||''));
 
     document.getElementById('countChip').textContent = data.length;
     document.getElementById('resultsCount').textContent = `${data.length} resultado${data.length !== 1 ? 's' : ''}`;
@@ -264,8 +264,9 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
   }
 
   function renderRow(a) {
-    const cfg  = ESTADO_CFG[a.estado] || { label: a.estado, cls: a.estado };
-    const niv  = NIVEL_CFG[a.nivelCodigo] || { label: a.nivelCodigo, cls: 'nivel-actividad' };
+    const _ecfg = (typeof ESTADO_CFG_MIR !== 'undefined' ? ESTADO_CFG_MIR : (typeof ESTADO_CFG !== 'undefined' ? ESTADO_CFG : {}));
+    const cfg  = _ecfg[a.estado] || { label: a.estado, cls: a.estado };
+    const niv  = (typeof NIVEL_CFG !== 'undefined' && NIVEL_CFG[a.nivel]) || { label: a.nivel || '—', cls: 'nivel-actividad' };
     const p    = prioridad(a);
     const pCls = { alta: 'prio-alta', media: 'prio-media', normal: 'prio-normal', vencida: 'prio-vencida' }[p] || 'prio-normal';
     const pLbl = { alta: 'Alta', media: 'Media', normal: 'Normal', vencida: 'Vencida' }[p] || 'Normal';
