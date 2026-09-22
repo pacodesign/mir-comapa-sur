@@ -114,8 +114,56 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .detail-layout { grid-template-columns: 1fr; }
 .info-panel { position: static; }
 }
+/* ── WORKFLOW COMPONENTS ────────────────────────────────── */
+.ger-estado-badge { display:inline-flex; align-items:center; padding:5px 12px; border-radius:var(--radius-btn); font-size:11px; font-weight:700; white-space:nowrap; gap:2px; }
+.ger-send-card { background:var(--color-bg); border-radius:var(--radius-card); padding:18px 20px; box-shadow:0 1px 3px rgba(0,0,0,.06); display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.ger-send-card-info { flex:1; min-width:0; }
+.ger-send-card-title { font-size:13px; font-weight:700; color:var(--color-text-primary); margin-bottom:4px; }
+.ger-send-card-sub { font-size:11px; color:var(--color-text-secondary); line-height:1.5; }
+.ger-status-info-card { background:var(--color-bg); border-radius:var(--radius-card); padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.ger-status-info--info { }
+.ger-status-info--neutral { border-left:3px solid var(--color-border); }
+.ger-status-info-title { font-size:13px; font-weight:700; color:var(--color-text-primary); display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+.ger-status-info-sub { font-size:12px; color:var(--color-text-secondary); line-height:1.5; margin-bottom:14px; }
+.ger-status-info-val { background:var(--color-surface); border-radius:10px; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; }
+.ger-status-info-lbl { font-size:11px; font-weight:600; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; }
+.ger-status-info-num { font-size:24px; font-weight:700; color:var(--color-text-primary); }
+.obs-received-card { background:var(--color-warning-tint); border:1px solid var(--color-warning); border-radius:var(--radius-card); padding:16px 18px; }
+.obs-received-title { font-size:12px; font-weight:700; color:var(--color-warning-dark); display:flex; align-items:center; gap:6px; margin-bottom:8px; }
+.obs-received-text { font-size:13px; color:var(--color-text-primary); line-height:1.6; margin-bottom:8px; }
+.obs-received-meta { font-size:11px; color:var(--color-text-secondary); }
+.ger-valor-card { background:var(--color-bg); border-radius:var(--radius-card); padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.06); display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.ger-valor-lbl { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--color-text-secondary); margin-bottom:6px; }
+.ger-valor-num { font-size:32px; font-weight:700; color:var(--color-text-primary); line-height:1.1; }
+.ger-valor-unit { font-size:16px; font-weight:500; color:var(--color-text-secondary); }
+.ger-valor-meta { text-align:right; font-size:12px; color:var(--color-text-secondary); display:flex; flex-direction:column; gap:3px; }
+.ger-admin-review-card { background:var(--color-bg); border-radius:var(--radius-card); padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.06); border-left:3px solid var(--color-primary); }
+.ger-admin-review-title { font-size:14px; font-weight:700; color:var(--color-text-primary); margin-bottom:6px; }
+.ger-admin-review-sub { font-size:12px; color:var(--color-text-secondary); line-height:1.5; margin-bottom:16px; }
+.ger-admin-review-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.ger-approved-panel { background:var(--color-success-tint); border:1px solid #BBF7D0; border-radius:var(--radius-card); padding:28px 20px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; }
+.ger-approved-icon { width:40px; height:40px; background:var(--color-success); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; margin-bottom:4px; }
+.ger-approved-icon svg { width:20px; height:20px; }
+.ger-approved-title { font-size:16px; font-weight:700; color:var(--color-success-dark); }
+.ger-approved-sub { font-size:12px; color:var(--color-text-secondary); }
+.ger-approved-val { font-size:22px; font-weight:700; color:var(--color-success-dark); margin-top:6px; }
+.ger-modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9000; align-items:center; justify-content:center; padding:20px; }
+.ger-modal { background:var(--color-bg); border-radius:16px; padding:28px; width:100%; max-width:440px; box-shadow:0 20px 60px rgba(0,0,0,.2); }
+.ger-modal-icon { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
+.ger-modal-icon svg { width:22px; height:22px; }
+.ger-modal-icon--send { background:rgba(139,29,58,.1); color:var(--color-primary); }
+.ger-modal-icon--approve { background:var(--color-success-tint); color:var(--color-success-dark); }
+.ger-modal-icon--obs { background:var(--color-warning-tint); color:var(--color-warning-dark); }
+.ger-modal-title { font-size:16px; font-weight:700; color:var(--color-text-primary); margin-bottom:8px; }
+.ger-modal-body { font-size:13px; color:var(--color-text-secondary); line-height:1.6; margin-bottom:20px; }
+.ger-modal-actions { display:flex; justify-content:flex-end; gap:8px; }
+.ger-modal-textarea { width:100%; border:2px solid var(--color-border); border-radius:10px; padding:12px 14px; font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; color:var(--color-text-primary); background:var(--color-surface); outline:none; resize:vertical; min-height:100px; margin-bottom:16px; transition:border-color .15s; }
+.ger-modal-textarea:focus { border-color:var(--color-primary); }
+.ger-toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(12px); background:var(--color-text-primary); color:var(--color-bg); padding:10px 20px; border-radius:40px; font-size:13px; font-weight:600; opacity:0; pointer-events:none; z-index:9999; transition:opacity .25s,transform .25s; white-space:nowrap; }
+.ger-toast--show { opacity:1; transform:translateX(-50%) translateY(0); }
 </style>
 <script src="mir-actividades-data.js"></script>
+<script src="mir-gerencial-data.js"></script>
   <script src="demo-data.js"></script>
 <script>
 (function (m, a, z, e) {
@@ -193,54 +241,13 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 
 <script>
 (function () {
-  var avanceVal = '';
-
-  window.onAvanceInput = function (val) {
-    avanceVal = val;
-    var btn = document.getElementById('saveBtn');
-    if (btn) btn.disabled = !val.trim();
-  };
-
-  window.saveAvance = function () {
-    if (!avanceVal.trim()) return;
-    var btn = document.getElementById('saveBtn');
-    var msg = document.getElementById('savedMsg');
-    var valEl = document.getElementById('savedVal');
-    if (btn) { btn.disabled = true; btn.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Guardado'; }
-    if (valEl) valEl.textContent = avanceVal;
-    if (msg) msg.style.display = 'flex';
-
-    /* push saved value into history list with micro-animation */
-    var newItem = document.createElement('div');
-    newItem.className = 'hist-period-item hist-period-item--new';
-    newItem.innerHTML =
-      '<div>' +
-        '<p class="hist-period-num">' + periodoLabel + '</p>' +
-      '</div>' +
-      '<span class="hist-period-value-ok">' + avanceVal + (r.unidadMedida ? ' ' + r.unidadMedida : '') + '</span>';
-
-    var list = document.querySelector('.hist-period-list');
-    if (list) {
-      list.appendChild(newItem);
-    } else {
-      var section = document.createElement('div');
-      section.className = 'history-section';
-      section.innerHTML =
-        '<p class="section-heading">' +
-          '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>' +
-          'Avances registrados' +
-        '</p>' +
-        '<div class="hist-period-list"></div>';
-      var panel = document.querySelector('.report-panel');
-      if (panel) panel.appendChild(section);
-      section.querySelector('.hist-period-list').appendChild(newItem);
-    }
-  };
-
-  var params = new URLSearchParams(window.location.search);
-  var id = params.get('id') || 'GER-COM-001';
-  var r = (typeof ACTIVIDADES_GERENCIA !== 'undefined' ? ACTIVIDADES_GERENCIA : []).find(function (x) { return x.id === id; });
-  var page = document.getElementById('pageContent');
+  /* ── params & role ───────────────────────────────────────── */
+  var params  = new URLSearchParams(window.location.search);
+  var id      = params.get('id') || 'GER-COM-001';
+  var isAdmin = params.get('rol') === 'admin';
+  var page    = document.getElementById('pageContent');
+  var r       = (typeof ACTIVIDADES_GERENCIA !== 'undefined' ? ACTIVIDADES_GERENCIA : [])
+                  .find(function (x) { return x.id === id; });
 
   if (!r) {
     page.innerHTML = '<p style="padding:48px 24px;color:var(--color-text-secondary);text-align:center">Indicador no encontrado: ' + id + '</p>';
@@ -249,199 +256,427 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 
   document.title = r.id + ' — Indicador Gerencial · COMAPA Sur';
 
-  var frecMap = { Mensual: '12', Trimestral: '4', Semestral: '2', Anual: '1', Bimestral: '6' };
-  var frecN = frecMap[r.frecuenciaMedicion] || '—';
-  var periodoLabel = { Mensual: 'Agosto 2026', Bimestral: 'Jul–Ago 2026', Trimestral: 'Q3 2026', Semestral: 'Segundo semestre 2026', Anual: '2026' }[r.frecuenciaMedicion] || 'Agosto 2026';
-  var isPercent = (r.unidadMedida || '').toLowerCase().includes('porcentaje') || (r.unidadMedida || '').includes('%');
-  var uShort = isPercent ? '%' : '';
-  var indExample = isPercent ? '78.5' : '142';
+  /* ── derived display values ─────────────────────────────── */
+  var frecMap      = { Mensual:'12', Trimestral:'4', Semestral:'2', Anual:'1', Bimestral:'6' };
+  var frecN        = frecMap[r.frecuenciaMedicion] || '—';
+  var periodoLabel = { Mensual:'Agosto 2026', Bimestral:'Jul–Ago 2026', Trimestral:'Q3 2026', Semestral:'Segundo semestre 2026', Anual:'2026' }[r.frecuenciaMedicion] || 'Agosto 2026';
+  var isPercent    = (r.unidadMedida || '').toLowerCase().includes('porcentaje') || (r.unidadMedida || '').includes('%');
+  var indExample   = isPercent ? '78.5' : '142';
+  var MESES        = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  var HOY          = { year: 2026, month: 7 };
 
-  var PENDING = '<span class="pending-tag"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Pendiente</span>';
+  /* ── state ──────────────────────────────────────────────── */
+  var estado         = r.estado || 'pendiente_carga';
+  var valorReportado = null;
+  var inputVal       = '';
+  var obsText        = '';
+  var observaciones  = [];
+  var historial      = [];
 
-  /* ── frequency-aware past periods ── */
-  var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  var HOY = { year: 2026, month: 7 }; // August 2026 (0-indexed)
+  /* ── estado config ──────────────────────────────────────── */
+  var ESTADO_CFG = {
+    pendiente_carga:  { label:'Sin capturar',         bg:'var(--color-warning-tint)',  color:'var(--color-warning-dark)',    dot:'var(--color-warning)' },
+    borrador:         { label:'Borrador',              bg:'var(--color-neutral-100)',   color:'var(--color-text-secondary)',  dot:'var(--color-neutral-400)' },
+    enviado_revision: { label:'En validación',         bg:'var(--color-info-tint)',     color:'var(--color-info)',            dot:'var(--color-info)' },
+    observado:        { label:'Con observación',       bg:'var(--color-warning-tint)', color:'var(--color-warning-dark)',    dot:'var(--color-warning)' },
+    corregido:        { label:'Corregido · Revisión',  bg:'var(--color-info-tint)',     color:'var(--color-info)',            dot:'var(--color-info)' },
+    aprobado:         { label:'Aprobado',              bg:'var(--color-success-tint)', color:'var(--color-success-dark)',    dot:'var(--color-success)' }
+  };
 
+  /* ── icons ──────────────────────────────────────────────── */
+  var ICON_CLOCK  = '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>';
+  var ICON_CHECK  = '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>';
+  var ICON_EDIT   = '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"/></svg>';
+  var ICON_SEND   = '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>';
+  var ICON_OBS    = '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>';
+  var ICON_SHIELD = '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>';
+  var ICON_WARN   = '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>';
+
+  /* ── past periods ───────────────────────────────────────── */
   function getPastPeriods(freq) {
     var periods = [];
     if (freq === 'Mensual') {
-      for (var i = 0; i < HOY.month; i++) {
-        periods.push(MESES[i] + ' ' + HOY.year);
-      }
+      for (var i = 0; i < HOY.month; i++) { periods.push(MESES[i] + ' ' + HOY.year); }
     } else if (freq === 'Bimestral') {
       var bimLabels = ['Ene–Feb','Mar–Abr','May–Jun','Jul–Ago','Sep–Oct','Nov–Dic'];
       var curBim = Math.floor(HOY.month / 2);
-      for (var i = 0; i < curBim; i++) {
-        periods.push('Bimestre ' + (i + 1) + ' ' + HOY.year + ' · ' + bimLabels[i]);
-      }
+      for (var j = 0; j < curBim; j++) { periods.push('Bimestre ' + (j+1) + ' ' + HOY.year + ' · ' + bimLabels[j]); }
     } else if (freq === 'Trimestral') {
       var qLabels = ['Ene–Mar','Abr–Jun','Jul–Sep','Oct–Dic'];
       var curQ = Math.floor(HOY.month / 3);
-      for (var i = 0; i < curQ; i++) {
-        periods.push('Q' + (i + 1) + ' ' + HOY.year + ' · ' + qLabels[i]);
-      }
+      for (var k = 0; k < curQ; k++) { periods.push('Q' + (k+1) + ' ' + HOY.year + ' · ' + qLabels[k]); }
     } else if (freq === 'Semestral') {
-      if (HOY.month >= 6) {
-        periods.push('Semestre 1 ' + HOY.year + ' · Ene–Jun');
-      }
+      if (HOY.month >= 6) { periods.push('Semestre 1 ' + HOY.year + ' · Ene–Jun'); }
     }
     return periods;
   }
-
   var pastPeriods = getPastPeriods(r.frecuenciaMedicion);
-  var histHTML = '';
-  if (pastPeriods.length > 0) {
-    var itemsHTML = pastPeriods.map(function (p) {
-      var parts = p.split(' · ');
-      var main = parts[0];
-      var sub = parts[1] || '';
-      return '<div class="hist-period-item">' +
-        '<div>' +
-          '<p class="hist-period-num">' + main + '</p>' +
-          (sub ? '<p class="hist-period-meta">' + sub + '</p>' : '') +
-        '</div>' +
-        PENDING +
-      '</div>';
-    }).join('');
-    histHTML =
-      '<div class="history-section">' +
-        '<p class="section-heading">' +
-          '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>' +
-          'Avances registrados' +
-        '</p>' +
-        '<div class="hist-period-list">' + itemsHTML + '</div>' +
-      '</div>';
-  }
 
-  /* ── left panel: variable blocks ── */
-  var varBlocks;
-  if (r.tieneDenominador) {
-    varBlocks =
-      '<div class="var-block" style="margin-bottom:6px">' +
-        '<p class="var-label x">Variable X — Numerador</p>' +
-        '<p class="var-val">' + (r.numerador || '—') + '</p>' +
-      '</div>' +
+  /* ── left panel variable blocks ─────────────────────────── */
+  var varBlocks = r.tieneDenominador
+    ? '<div class="var-block" style="margin-bottom:6px"><p class="var-label x">Variable X — Numerador</p><p class="var-val">' + (r.numerador || '—') + '</p></div>' +
       '<div style="text-align:center;font-size:18px;font-weight:700;color:var(--color-text-secondary);padding:2px 0">÷</div>' +
-      '<div class="var-block" style="margin-top:6px">' +
-        '<p class="var-label y">Variable Y — Denominador</p>' +
-        '<p class="var-val">' + (r.denominador || '—') + '</p>' +
-      '</div>';
-  } else {
-    varBlocks =
-      '<div class="var-block">' +
-        '<p class="var-label x">Variable X — Valor directo</p>' +
-        '<p class="var-val">' + (r.numerador || '—') + '</p>' +
-      '</div>' +
+      '<div class="var-block" style="margin-top:6px"><p class="var-label y">Variable Y — Denominador</p><p class="var-val">' + (r.denominador || '—') + '</p></div>'
+    : '<div class="var-block"><p class="var-label x">Variable X — Valor directo</p><p class="var-val">' + (r.numerador || '—') + '</p></div>' +
       '<p style="font-size:10px;color:var(--color-text-secondary);margin-top:6px">Sin denominador — se reporta el valor absoluto</p>';
+
+  /* ── toast ──────────────────────────────────────────────── */
+  window.gerShowToast = function (msg) {
+    var t = document.getElementById('gerToast');
+    if (!t) return;
+    t.textContent = msg;
+    t.className = 'ger-toast ger-toast--show';
+    setTimeout(function () { t.className = 'ger-toast'; }, 2800);
+  };
+
+  /* ── modal helpers ──────────────────────────────────────── */
+  function openModal(modalId)  { var el = document.getElementById(modalId); if (el) el.style.display = 'flex'; }
+  function closeModal(modalId) { var el = document.getElementById(modalId); if (el) el.style.display = 'none'; }
+  window.gerCloseModalEnviar  = function () { closeModal('gerModalEnviar'); };
+  window.gerCloseModalAprobar = function () { closeModal('gerModalAprobar'); };
+  window.gerCloseModalObs     = function () { closeModal('gerModalObs'); obsText = ''; };
+
+  /* ── transitions ────────────────────────────────────────── */
+  window.onAvanceInput = function (val) {
+    inputVal = val;
+    var btn = document.getElementById('saveBtn');
+    if (btn) btn.disabled = !val.trim();
+  };
+
+  window.saveAvance = function () {
+    var inp = document.getElementById('avanceInput');
+    var val = (inp ? inp.value : inputVal).trim();
+    if (!val) return;
+    valorReportado = val;
+    inputVal = val;
+    if (estado === 'pendiente_carga') estado = 'borrador';
+    renderPage();
+    window.gerShowToast('Valor guardado como borrador.');
+  };
+
+  window.gerOpenEnviar = function () {
+    if (!valorReportado) return;
+    openModal('gerModalEnviar');
+  };
+
+  window.gerConfirmarEnvio = function () {
+    closeModal('gerModalEnviar');
+    estado = 'enviado_revision';
+    historial.push({ periodo: periodoLabel, valor: valorReportado, fecha: '31 ago 2026', accion: 'Enviado para validación' });
+    renderPage();
+    window.gerShowToast('Reporte enviado para validación.');
+  };
+
+  window.gerOpenAprobar   = function () { openModal('gerModalAprobar'); };
+
+  window.gerConfirmarAprobacion = function () {
+    closeModal('gerModalAprobar');
+    estado = 'aprobado';
+    historial.push({ periodo: periodoLabel, valor: valorReportado, fecha: '31 ago 2026', accion: 'Aprobado' });
+    renderPage();
+    window.gerShowToast('Indicador aprobado correctamente.');
+  };
+
+  window.gerOpenObservacion = function () { obsText = ''; openModal('gerModalObs'); };
+
+  window.gerOnObsInput = function (val) {
+    obsText = val;
+    var btn = document.getElementById('gerObsEnviarBtn');
+    if (btn) btn.disabled = !val.trim();
+  };
+
+  window.gerEnviarObservacion = function () {
+    if (!obsText.trim()) return;
+    observaciones.push({ texto: obsText, fecha: '31 ago 2026', autor: 'Administración' });
+    estado = 'observado';
+    closeModal('gerModalObs');
+    obsText = '';
+    renderPage();
+    window.gerShowToast('Observación enviada a la gerencia.');
+  };
+
+  window.gerEnviarCorreccion = function () {
+    var inp = document.getElementById('avanceInput');
+    var val = (inp ? inp.value : inputVal).trim();
+    if (val) { valorReportado = val; inputVal = val; }
+    if (!valorReportado) return;
+    estado = 'corregido';
+    historial.push({ periodo: periodoLabel, valor: valorReportado, fecha: '31 ago 2026', accion: 'Corrección enviada' });
+    renderPage();
+    window.gerShowToast('Corrección enviada para validación.');
+  };
+
+  /* ── render helpers ─────────────────────────────────────── */
+  function estadoBadge(e) {
+    var cfg = ESTADO_CFG[e] || { label: e, bg: 'var(--color-neutral-100)', color: 'var(--color-text-secondary)', dot: 'var(--color-neutral-400)' };
+    return '<span class="ger-estado-badge" style="background:' + cfg.bg + ';color:' + cfg.color + '">' +
+      '<i style="width:6px;height:6px;border-radius:50%;background:' + cfg.dot + ';display:inline-block;flex-shrink:0"></i>' +
+      cfg.label + '</span>';
   }
 
-  var html =
-/* breadcrumb */
-'<div class="breadcrumb">' +
-  '<a href="dashboard-enlace.html">Inicio</a>' +
-  '<span class="sep">›</span>' +
-  '<a href="mis-actividades.html">Mis indicadores</a>' +
-  '<span class="sep">›</span>' +
-  '<span class="current">' + r.id + '</span>' +
-'</div>' +
+  function renderHistorial() {
+    var PENDING = '<span class="pending-tag">' + ICON_CLOCK + 'Pendiente</span>';
+    var html = '<div class="history-section">' +
+      '<p class="section-heading">' + ICON_CLOCK + 'Avances registrados</p>' +
+      '<div class="hist-period-list">';
+    if (pastPeriods.length === 0 && historial.length === 0) {
+      html += '<div style="padding:18px;text-align:center;color:var(--color-text-secondary);font-size:12px">Sin registros anteriores</div>';
+    }
+    pastPeriods.forEach(function (p) {
+      var parts = p.split(' · '), main = parts[0], sub = parts[1] || '';
+      html += '<div class="hist-period-item"><div><p class="hist-period-num">' + main + '</p>' +
+        (sub ? '<p class="hist-period-meta">' + sub + '</p>' : '') + '</div>' + PENDING + '</div>';
+    });
+    historial.forEach(function (h) {
+      html += '<div class="hist-period-item hist-period-item--new">' +
+        '<div><p class="hist-period-num">' + h.periodo + '</p>' +
+        '<p class="hist-period-meta">' + h.accion + ' · ' + h.fecha + '</p></div>' +
+        '<span class="hist-period-value-ok">' + h.valor + (r.unidadMedida ? ' ' + r.unidadMedida : '') + '</span>' +
+      '</div>';
+    });
+    html += '</div></div>';
+    return html;
+  }
 
-/* two-column */
-'<div class="detail-layout">' +
-
-  /* ══ LEFT PANEL ══ */
-  '<div class="info-panel">' +
-
-    '<div class="ind-id-row">' +
-      '<span class="ind-id">' + r.id + '</span>' +
-      '<span class="ger-badge">Gerencial</span>' +
-    '</div>' +
-
-    '<div class="ind-name-card">' +
-      '<p class="ind-name-label">Nombre del indicador</p>' +
-      '<p class="ind-name-text">' + r.nombreIndicador + '</p>' +
-    '</div>' +
-
-    '<div class="meta-card">' +
-      '<div class="meta-row">' +
-        '<p class="meta-lbl">Unidad Responsable</p>' +
-        '<p class="meta-val"><span class="g-chip">' + (r.area || '—') + '</span></p>' +
-        '<p class="meta-val muted" style="margin-top:4px">' + r.gerencia + '</p>' +
-      '</div>' +
-      '<div class="meta-row">' +
-        '<p class="meta-lbl">Frecuencia</p>' +
-        '<div class="chip-row"><span class="freq-chip">' + r.frecuenciaMedicion + '</span></div>' +
-        '<p class="meta-val muted" style="margin-top:4px">' + frecN + ' reporte' + (frecN !== '1' ? 's' : '') + ' al año</p>' +
-      '</div>' +
-      '<div class="meta-row">' +
-        '<p class="meta-lbl">Unidad de medida</p>' +
-        '<p class="meta-val">' + r.unidadMedida + '</p>' +
-      '</div>' +
-      '<div class="meta-row">' +
-        '<p class="meta-lbl">Variables de medición</p>' +
-        '<div style="margin-top:6px">' + varBlocks + '</div>' +
-      '</div>' +
-    '</div>' +
-
-  '</div>' +
-
-  /* ══ RIGHT PANEL ══ */
-  '<div class="report-panel">' +
-
-    /* period header */
-    '<div class="period-header">' +
-      '<div>' +
-        '<p class="period-title">Período: ' + periodoLabel + '</p>' +
-        '<p class="period-meta">Reporte ' + r.frecuenciaMedicion.toLowerCase() + ' · Fecha límite: ' + r.fechaLimite + '</p>' +
-      '</div>' +
-      '<span class="status-badge status-pending">Pendiente de carga</span>' +
-    '</div>' +
-
-    /* avance form */
-    '<div class="avance-section">' +
-      '<p class="section-heading">' +
-        '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" /></svg>' +
-        'Reportar avance' +
-      '</p>' +
-      '<div class="avance-input-wrap">' +
-        '<label class="avance-input-label">Valor de avance</label>' +
-        '<div class="avance-inp-row">' +
-          '<input type="text" class="avance-inp" id="avanceInput" oninput="onAvanceInput(this.value)" placeholder="Ej: ' + indExample + '" autocomplete="off">' +
-          '<span class="avance-unit">' + (r.unidadMedida || '—') + '</span>' +
+  function renderRightPanel() {
+    var html = '';
+    /* period header with dynamic estado badge */
+    html +=
+      '<div class="period-header">' +
+        '<div>' +
+          '<p class="period-title">Período: ' + periodoLabel + '</p>' +
+          '<p class="period-meta">Reporte ' + r.frecuenciaMedicion.toLowerCase() + ' · Fecha límite: ' + r.fechaLimite + '</p>' +
         '</div>' +
-        '<p class="avance-hint">Registra el valor obtenido al cierre del período según el método de cálculo del indicador.</p>' +
+        estadoBadge(estado) +
+      '</div>';
+
+    /* ── GERENCIA VIEW ───────────────────────────────────── */
+    if (!isAdmin) {
+      var canEdit = (estado === 'pendiente_carga' || estado === 'borrador' || estado === 'observado');
+
+      /* observation received */
+      if (estado === 'observado' && observaciones.length > 0) {
+        var obs = observaciones[observaciones.length - 1];
+        html +=
+          '<div class="obs-received-card">' +
+            '<p class="obs-received-title">' + ICON_WARN + 'Observación del administrador</p>' +
+            '<p class="obs-received-text">' + obs.texto + '</p>' +
+            '<p class="obs-received-meta">' + obs.autor + ' · ' + obs.fecha + '</p>' +
+          '</div>';
+      }
+
+      /* avance form */
+      if (canEdit) {
+        var isCorrecting = (estado === 'observado');
+        var saveEnabled  = !!(inputVal.trim() || valorReportado);
+        html +=
+          '<div class="avance-section">' +
+            '<p class="section-heading">' + ICON_EDIT + (isCorrecting ? 'Corregir valor' : 'Reportar valor') + '</p>' +
+            '<div class="avance-input-wrap">' +
+              '<label class="avance-input-label">Valor del período</label>' +
+              '<div class="avance-inp-row">' +
+                '<input type="text" class="avance-inp" id="avanceInput" oninput="onAvanceInput(this.value)"' +
+                  ' value="' + (valorReportado || '') + '"' +
+                  ' placeholder="Ej: ' + indExample + '" autocomplete="off">' +
+                '<span class="avance-unit">' + (r.unidadMedida || '—') + '</span>' +
+              '</div>' +
+              '<p class="avance-hint">Registra el valor obtenido al cierre del período según el método de cálculo del indicador.</p>' +
+            '</div>' +
+            '<div class="avance-actions">' +
+              (isCorrecting
+                ? '<button class="btn btn-primary" id="saveBtn" onclick="gerEnviarCorreccion()">' + ICON_SEND + 'Enviar corrección</button>'
+                : '<button class="btn btn-primary" id="saveBtn" onclick="saveAvance()"' + (saveEnabled ? '' : ' disabled') + '>' + ICON_CHECK + 'Guardar valor</button>'
+              ) +
+            '</div>' +
+          '</div>';
+      }
+
+      /* send to admin card */
+      if (estado === 'borrador' && valorReportado) {
+        html +=
+          '<div class="ger-send-card">' +
+            '<div class="ger-send-card-info">' +
+              '<p class="ger-send-card-title">El valor ha sido guardado como borrador.</p>' +
+              '<p class="ger-send-card-sub">Al enviarlo, el administrador podrá revisar y aprobar o emitir observaciones.</p>' +
+            '</div>' +
+            '<button class="btn btn-primary" onclick="gerOpenEnviar()">' + ICON_SEND + 'Enviar para validación</button>' +
+          '</div>';
+      }
+
+      /* in-review read-only */
+      if (estado === 'enviado_revision' || estado === 'corregido') {
+        html +=
+          '<div class="ger-status-info-card ger-status-info--info">' +
+            '<p class="ger-status-info-title">' + ICON_SEND + 'Reporte enviado para validación</p>' +
+            '<p class="ger-status-info-sub">El administrador revisará el valor y emitirá su resolución.</p>' +
+            '<div class="ger-status-info-val">' +
+              '<span class="ger-status-info-lbl">Valor reportado</span>' +
+              '<span class="ger-status-info-num">' + valorReportado + '<span style="font-size:13px;font-weight:500"> ' + (r.unidadMedida || '') + '</span></span>' +
+            '</div>' +
+          '</div>';
+      }
+
+      /* approved */
+      if (estado === 'aprobado') {
+        html +=
+          '<div class="ger-approved-panel">' +
+            '<div class="ger-approved-icon">' + ICON_SHIELD + '</div>' +
+            '<p class="ger-approved-title">Indicador aprobado</p>' +
+            '<p class="ger-approved-sub">El valor reportado fue validado por el administrador.</p>' +
+            '<div class="ger-approved-val">' + valorReportado + ' ' + (r.unidadMedida || '') + '</div>' +
+          '</div>';
+      }
+    }
+
+    /* ── ADMIN VIEW ──────────────────────────────────────── */
+    if (isAdmin) {
+      if (valorReportado) {
+        html +=
+          '<div class="ger-valor-card">' +
+            '<div><p class="ger-valor-lbl">Valor reportado por la gerencia</p>' +
+            '<p class="ger-valor-num">' + valorReportado + '<span class="ger-valor-unit"> ' + (r.unidadMedida || '') + '</span></p></div>' +
+            '<div class="ger-valor-meta"><p>' + r.area + '</p><p>' + periodoLabel + '</p></div>' +
+          '</div>';
+      } else {
+        html +=
+          '<div class="ger-status-info-card ger-status-info--neutral">' +
+            '<p class="ger-status-info-title">' + ICON_CLOCK + 'Sin valor reportado</p>' +
+            '<p class="ger-status-info-sub">La gerencia aún no ha registrado el valor para este período.</p>' +
+          '</div>';
+      }
+
+      if (estado === 'enviado_revision' || estado === 'corregido') {
+        html +=
+          '<div class="ger-admin-review-card">' +
+            '<p class="ger-admin-review-title">Revisión del reporte gerencial</p>' +
+            '<p class="ger-admin-review-sub">Revisa el valor reportado y decide si aprueba o emite una observación para corrección.</p>' +
+            '<div class="ger-admin-review-actions">' +
+              '<button class="btn btn-primary" onclick="gerOpenAprobar()">' + ICON_CHECK + 'Aprobar</button>' +
+              '<button class="btn btn-ghost" onclick="gerOpenObservacion()">' + ICON_OBS + 'Enviar observación</button>' +
+            '</div>' +
+          '</div>';
+      }
+
+      if (observaciones.length > 0) {
+        html += '<div class="history-section"><p class="section-heading">' + ICON_OBS + 'Observaciones enviadas</p><div class="hist-period-list">';
+        observaciones.forEach(function (o) {
+          html += '<div class="hist-period-item" style="flex-direction:column;align-items:flex-start;gap:6px">' +
+            '<p style="font-size:12px;color:var(--color-text-primary);line-height:1.5">' + o.texto + '</p>' +
+            '<p class="hist-period-meta">' + o.autor + ' · ' + o.fecha + '</p></div>';
+        });
+        html += '</div></div>';
+      }
+
+      if (estado === 'aprobado') {
+        html +=
+          '<div class="ger-approved-panel">' +
+            '<div class="ger-approved-icon">' + ICON_SHIELD + '</div>' +
+            '<p class="ger-approved-title">Indicador aprobado</p>' +
+            '<p class="ger-approved-sub">Aprobado el 31 ago 2026 por Administración.</p>' +
+            '<div class="ger-approved-val">' + valorReportado + ' ' + (r.unidadMedida || '') + '</div>' +
+          '</div>';
+      }
+    }
+
+    html += renderHistorial();
+    return html;
+  }
+
+  function renderPage() {
+    var panel = document.getElementById('gerRightPanel');
+    if (panel) {
+      panel.innerHTML = renderRightPanel();
+      var inp = document.getElementById('avanceInput');
+      if (inp && inputVal) inp.value = inputVal;
+    }
+  }
+
+  /* ── initial HTML (static frame + empty right panel) ─────── */
+  page.innerHTML =
+    '<div class="breadcrumb">' +
+      '<a href="dashboard-enlace.html">Inicio</a><span class="sep">›</span>' +
+      '<a href="mis-actividades.html">Mis indicadores</a><span class="sep">›</span>' +
+      '<span class="current">' + r.id + '</span>' +
+    '</div>' +
+    '<div class="detail-layout">' +
+      '<div class="info-panel">' +
+        '<div class="ind-id-row"><span class="ind-id">' + r.id + '</span><span class="ger-badge">Gerencial</span></div>' +
+        '<div class="ind-name-card">' +
+          '<p class="ind-name-label">Nombre del indicador</p>' +
+          '<p class="ind-name-text">' + isoBadge(r) + r.nombreIndicador + '</p>' +
+        '</div>' +
+        '<div class="meta-card">' +
+          '<div class="meta-row"><p class="meta-lbl">Unidad Responsable</p>' +
+            '<p class="meta-val"><span class="g-chip">' + (r.area || '—') + '</span></p>' +
+            '<p class="meta-val muted" style="margin-top:4px">' + r.gerencia + '</p></div>' +
+          '<div class="meta-row"><p class="meta-lbl">Frecuencia</p>' +
+            '<div class="chip-row"><span class="freq-chip">' + r.frecuenciaMedicion + '</span></div>' +
+            '<p class="meta-val muted" style="margin-top:4px">' + frecN + ' reporte' + (frecN !== '1' ? 's' : '') + ' al año</p></div>' +
+          '<div class="meta-row"><p class="meta-lbl">Unidad de medida</p><p class="meta-val">' + r.unidadMedida + '</p></div>' +
+          '<div class="meta-row"><p class="meta-lbl">Variables de medición</p><div style="margin-top:6px">' + varBlocks + '</div></div>' +
+        '</div>' +
       '</div>' +
-      '<div class="avance-actions">' +
-        '<button class="btn btn-primary" id="saveBtn" onclick="saveAvance()" disabled>' +
-          '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>' +
-          'Guardar avance' +
+      '<div class="report-panel" id="gerRightPanel"></div>' +
+    '</div>' +
+    '<div class="bottom-bar">' +
+      '<p class="bottom-bar-info">Indicador <strong>' + r.id + '</strong> · ' + r.area + ' · ' + r.gerencia + '</p>' +
+      '<div class="bottom-bar-actions">' +
+        '<button class="btn btn-ghost" onclick="history.back()">' +
+          '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>' +
+          'Volver a mis indicadores' +
         '</button>' +
       '</div>' +
-      '<div class="saved-msg" id="savedMsg">' +
-        '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>' +
-        'Avance registrado: <strong style="margin-left:3px"><span id="savedVal"></span>' + uShort + '</strong>' +
-      '</div>' +
-    '</div>' +
+    '</div>';
 
-    histHTML +
-
-  '</div>' + /* end right panel */
-
-'</div>' + /* end detail-layout */
-
-/* bottom bar */
-'<div class="bottom-bar">' +
-  '<p class="bottom-bar-info">Indicador <strong>' + r.id + '</strong> · ' + r.area + ' · ' + r.gerencia + '</p>' +
-  '<div class="bottom-bar-actions">' +
-    '<button class="btn btn-ghost" onclick="history.back()">' +
-      '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>' +
-      'Volver a mis indicadores' +
-    '</button>' +
-  '</div>' +
-'</div>';
-
-  page.innerHTML = html;
+  renderPage();
 })();
 </script>
+<!-- ═══ MODALES GERENCIAL ═══ -->
+<div class="ger-modal-overlay" id="gerModalEnviar">
+  <div class="ger-modal">
+    <div class="ger-modal-icon ger-modal-icon--send">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>
+    </div>
+    <p class="ger-modal-title">¿Enviar para validación?</p>
+    <p class="ger-modal-body">El valor reportado será enviado al administrador para su revisión. Una vez enviado, no podrás modificarlo hasta que se emita una resolución.</p>
+    <div class="ger-modal-actions">
+      <button class="btn btn-ghost" onclick="gerCloseModalEnviar()">Cancelar</button>
+      <button class="btn btn-primary" onclick="gerConfirmarEnvio()">Sí, enviar</button>
+    </div>
+  </div>
+</div>
+
+<div class="ger-modal-overlay" id="gerModalAprobar">
+  <div class="ger-modal">
+    <div class="ger-modal-icon ger-modal-icon--approve">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+    </div>
+    <p class="ger-modal-title">¿Aprobar indicador?</p>
+    <p class="ger-modal-body">Confirma que el valor reportado es correcto y cumple con los criterios establecidos para el período.</p>
+    <div class="ger-modal-actions">
+      <button class="btn btn-ghost" onclick="gerCloseModalAprobar()">Cancelar</button>
+      <button class="btn btn-primary" onclick="gerConfirmarAprobacion()">Aprobar</button>
+    </div>
+  </div>
+</div>
+
+<div class="ger-modal-overlay" id="gerModalObs">
+  <div class="ger-modal">
+    <div class="ger-modal-icon ger-modal-icon--obs">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
+    </div>
+    <p class="ger-modal-title">Enviar observación</p>
+    <p class="ger-modal-body">Describe la observación o corrección requerida. La gerencia recibirá esta información para ajustar el valor reportado.</p>
+    <textarea class="ger-modal-textarea" id="gerObsTextarea" oninput="gerOnObsInput(this.value)" placeholder="Describe la observación…"></textarea>
+    <div class="ger-modal-actions">
+      <button class="btn btn-ghost" onclick="gerCloseModalObs()">Cancelar</button>
+      <button class="btn btn-primary" id="gerObsEnviarBtn" onclick="gerEnviarObservacion()" disabled>Enviar observación</button>
+    </div>
+  </div>
+</div>
+
+<div class="ger-toast" id="gerToast"></div>
+
 <script src="dev-toolbar.js"></script>
 </body>
 </html>

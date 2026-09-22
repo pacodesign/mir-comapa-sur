@@ -15,28 +15,72 @@
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
-.ph-left h1 {font-size:22px;font-weight:700;margin-bottom:2px;}
-.ph-left p {font-size:13px;color:var(--color-text-secondary);}
-.count-chip {display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;background:var(--color-info-tint);color:var(--color-info);margin-left:8px;}
 /* FILTER BAR */
-    .filter-bar {background:var(--color-bg);border-radius:var(--radius-card);padding:14px 18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:10px;}
-.filter-row {display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.filter-select {display:none;}
-.sort-btn {display:inline-flex;align-items:center;gap:5px;padding:8px 12px;border:1px solid var(--color-border);border-radius:10px;font-size:12px;font-weight:600;font-family:inherit;background:var(--color-surface);cursor:pointer;white-space:nowrap;transition:background .12s;}
-.sort-btn:hover {background:var(--color-border);}
-.sort-btn svg {width:14px;height:14px;}
+.filter-bar {background:var(--color-bg);border-radius:var(--radius-card);padding:20px 20px 16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:12px;}
+.filter-bar .page-header {margin-bottom:0;align-items:center;}
+.filter-divider {height:1px;background:var(--color-border);margin:0 -20px;}
+.filter-controls {display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.filter-row {display:flex;gap:10px;align-items:center;flex-shrink:0;}
+.search-wrap {flex:1;min-width:200px;}
+.filter-select {padding:8px 12px;border:1px solid var(--color-border);border-radius:10px;font-family:inherit;font-size:13px;color:var(--color-text-primary);background:var(--color-surface);outline:none;cursor:pointer;transition:border-color .15s;}
+.filter-select:focus {border-color:var(--color-primary);}
+.chip-count {display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 4px;border-radius:999px;font-size:10px;font-weight:700;margin-left:4px;background:var(--color-border);color:var(--color-text-secondary);}
+.chip.active .chip-count {background:rgba(255,255,255,.3);color:white;}
+/* KPI GRID */
+.kpi-grid {display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px;}
+.kpi-card {background:var(--color-bg);border-radius:var(--radius-card);padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer;border:1.5px solid transparent;text-decoration:none;color:inherit;display:block;transition:box-shadow .15s,border-color .15s,transform .1s;}
+.kpi-card:hover {box-shadow:0 4px 14px rgba(0,0,0,.1);transform:translateY(-1px);}
+.kpi-card.active-kpi {border-color:var(--color-info);box-shadow:0 0 0 3px rgba(59,130,246,.12);}
+.kpi-icon {width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;flex-shrink:0;}
+.kpi-icon svg {width:17px;height:17px;}
+.kpi-icon.neutral {background:var(--color-neutral-100);}
+.kpi-icon.neutral svg {color:var(--color-text-secondary);}
+.kpi-icon.blue {background:var(--color-info-tint);}
+.kpi-icon.blue svg {color:var(--color-info);}
+.kpi-icon.purple {background:var(--color-corregido-tint);}
+.kpi-icon.purple svg {color:var(--color-corregido);}
+.kpi-icon.orange {background:var(--color-observado-tint);}
+.kpi-icon.orange svg {color:var(--color-observado);}
+.kpi-icon.green {background:var(--color-success-tint);}
+.kpi-icon.green svg {color:var(--color-success);}
+.kpi-value {font-size:28px;font-weight:700;line-height:1;margin-bottom:4px;}
+.kpi-value.neutral {color:var(--color-text-primary);}
+.kpi-value.blue {color:var(--color-info);}
+.kpi-value.purple {color:var(--color-corregido);}
+.kpi-value.orange {color:var(--color-observado);}
+.kpi-value.green {color:var(--color-success);}
+.kpi-label-text {font-size:12px;font-weight:600;color:var(--color-text-primary);margin-bottom:2px;}
+.kpi-sub {font-size:11px;color:var(--color-text-secondary);}
+/* RESULTS META */
+.results-meta {display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.results-count {font-size:12px;color:var(--color-text-secondary);}
+.results-count strong {color:var(--color-text-primary);}
 /* TABLE */
-    .table-card {background:var(--color-bg);border-radius:var(--radius-card);box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;}
-.rev-table {width:100%;border-collapse:collapse;}
-.rev-table th {font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);padding:10px 12px;text-align:left;white-space:nowrap;background:var(--color-surface);border-bottom:1px solid var(--color-border);}
-.rev-table th.sortable {cursor:pointer;user-select:none;}
-.rev-table th.sortable:hover {color:var(--color-info);}
-.rev-table td {padding:12px;border-bottom:1px solid var(--color-border);vertical-align:middle;}
-.rev-table tr:last-child td {border-bottom:none;}
-.rev-table tr:hover td {background:var(--color-neutral-50);}
-.act-id {font-size:10px;font-weight:700;font-family:monospace;color:var(--color-primary);}
-.act-name {font-size:13px;font-weight:600;color:var(--color-text-primary);}
-.act-sub {font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+table {width:100%;border-collapse:collapse;}
+thead th {padding:11px 14px;text-align:left;font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--color-border);background:var(--color-surface);white-space:nowrap;}
+thead th.sortable {cursor:pointer;user-select:none;}
+thead th.sortable:hover {color:var(--color-primary);}
+thead th.sorted {color:var(--color-primary);}
+thead th.sortable .sort-icon {display:inline-block;margin-left:4px;opacity:.3;font-style:normal;}
+thead th.sortable .sort-icon::before {content:'⇅';}
+thead th.sorted .sort-icon {opacity:1;}
+thead th.sorted .sort-icon::before {content:none;}
+tbody tr {border-bottom:1px solid var(--color-border);transition:background .1s;}
+tbody tr:last-child {border-bottom:none;}
+tbody tr:hover {background:var(--color-neutral-50);}
+tbody td {padding:12px 14px;font-size:13px;vertical-align:middle;}
+.act-id {font-size:9px;font-weight:700;color:var(--color-primary);font-family:monospace;margin-bottom:3px;}
+.act-name {font-size:13px;font-weight:600;color:var(--color-text-primary);line-height:1.3;}
+.act-sub {font-size:11px;color:var(--color-text-secondary);margin-top:3px;}
+.td-fecha {white-space:nowrap;}
+.fecha-val {font-size:12px;font-weight:600;color:var(--color-text-primary);}
+.fecha-dias {font-size:11px;margin-top:2px;}
+.fecha-dias.urgente {color:var(--color-danger);font-weight:700;}
+.fecha-dias.proximo {color:var(--color-warning);font-weight:600;}
+.fecha-dias.normal {color:var(--color-success);}
+.fecha-dias.pasado {color:var(--color-text-secondary);}
+.td-action {text-align:right;white-space:nowrap;}
+/* STATUS BADGES */
 .corregido {background:var(--color-corregido-tint);color:var(--color-corregido);}
 .corregido::before {background:var(--color-corregido);}
 .enviado_revision {background:var(--color-info-tint);color:var(--color-info);}
@@ -45,37 +89,101 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .observado::before {background:var(--color-observado);}
 .aprobado_revisor {background:var(--color-success-tint);color:var(--color-success);}
 .aprobado_revisor::before {background:var(--color-success);}
-.listo_validar { background: var(--color-success-tint); color: var(--color-success); }
-.listo_validar::before { background: var(--color-success); }
-.cerrado { background: var(--color-success-tint); color: var(--color-success-dark); }
-.cerrado::before { background: var(--color-success); }
+.listo_validar {background:var(--color-success-tint);color:var(--color-success);}
+.listo_validar::before {background:var(--color-success);}
+.cerrado {background:var(--color-success-tint);color:var(--color-success-dark);}
+.cerrado::before {background:var(--color-success);}
 .vencido {background:var(--color-danger-tint);color:var(--color-danger);}
 .vencido::before {background:var(--color-danger);}
-.prio-badge {display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;}
-.prio-badge::before {content:'';width:5px;height:5px;border-radius:50%;}
-.prio-alta {background:var(--color-danger-tint);color:var(--color-danger);}
-.prio-alta::before {background:var(--color-danger);}
-.prio-media {background:var(--color-warning-tint);color:var(--color-warning-dark);}
-.prio-media::before {background:var(--color-warning-dark);}
-.prio-normal {background:var(--color-neutral-100);color:var(--color-text-secondary);}
-.prio-normal::before {background:var(--color-text-muted);}
-.prio-vencida {background:var(--color-text-primary);color:white;}
-.prio-vencida::before {background:white;}
 .nivel-fin {background:var(--color-corregido-tint);color:var(--color-corregido);}
 .nivel-proposito {background:var(--color-info-tint);color:var(--color-info);}
 .nivel-componente {background:var(--color-success-tint);color:var(--color-info);}
 .nivel-actividad {background:var(--color-neutral-100);color:var(--color-text-primary);}
-.dias-val {font-size:12px;font-weight:700;}
-.dias-val.urgente {color:var(--color-danger);}
-.dias-val.proximo {color:var(--color-warning);}
-.dias-val.normal {color:var(--color-success);}
-.btn-rev {display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;border:none;cursor:pointer;text-decoration:none;font-family:inherit;white-space:nowrap;transition:opacity .12s;}
-.btn-rev:hover {opacity:.80;}
-.btn-rev.blue {background:var(--color-info-tint);color:var(--color-info);}
-.btn-rev.purple {background:var(--color-corregido-tint);color:var(--color-corregido);}
-.btn-rev.green {background:var(--color-success-tint);color:var(--color-success-dark);}
-.btn-rev svg {width:12px;height:12px;}
-.results-count {font-size:12px;color:var(--color-text-secondary);padding:8px 12px;border-bottom:1px solid var(--color-border);background:var(--color-surface);}
+/* ACTION BUTTONS */
+.btn-act {border:none;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .12s;white-space:nowrap;text-decoration:none;}
+.btn-act:hover {opacity:.85;}
+.btn-act svg {width:12px;height:12px;}
+.btn-act.primary {background:var(--color-primary);color:white;}
+.btn-act.blue {background:var(--color-info-tint);color:var(--color-info);}
+.btn-act.purple {background:var(--color-corregido-tint);color:var(--color-corregido);}
+.btn-act.green {background:var(--color-success-tint);color:var(--color-success-dark);}
+.btn-act.neutral {background:var(--color-surface);color:var(--color-text-primary);border:1px solid var(--color-border);}
+.empty-title {font-size:14px;font-weight:700;color:var(--color-text-primary);margin-bottom:4px;}
+.empty-sub {font-size:13px;color:var(--color-text-secondary);}
+/* ── CIERRE PANEL ── */
+.cierre-panel {background:var(--color-bg);border-radius:var(--radius-card);padding:20px 24px;margin-top:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1.5px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.cierre-panel-left {display:flex;align-items:flex-start;gap:14px;flex:1;min-width:0;}
+.cierre-icon {width:40px;height:40px;border-radius:10px;background:var(--color-primary-tint);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cierre-icon svg {width:20px;height:20px;color:var(--color-primary);}
+.cierre-title {font-size:14px;font-weight:700;color:var(--color-text-primary);margin-bottom:3px;}
+.cierre-sub {font-size:12px;color:var(--color-text-secondary);line-height:1.5;}
+.cierre-panel-right {display:flex;align-items:center;gap:12px;flex-shrink:0;flex-wrap:wrap;}
+.cierre-stats {display:flex;gap:6px;flex-wrap:wrap;}
+.cierre-stat {display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;}
+.cierre-stat svg {width:10px;height:10px;}
+.cierre-stat.green {background:var(--color-success-tint);color:var(--color-success-dark);}
+.cierre-stat.gray {background:var(--color-neutral-100);color:var(--color-text-secondary);}
+.btn-cierre {display:inline-flex;align-items:center;gap:8px;background:var(--color-primary);color:white;font-size:13px;font-weight:700;font-family:inherit;padding:10px 20px;border-radius:999px;border:none;cursor:pointer;transition:background .15s;white-space:nowrap;}
+.btn-cierre:hover {background:var(--color-accent-dark);}
+.btn-cierre svg {width:14px;height:14px;}
+/* ── MODAL ── */
+.modal-overlay {position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;}
+.modal-overlay.open {opacity:1;visibility:visible;}
+.modal {background:var(--color-bg);border-radius:20px;width:100%;max-width:560px;box-shadow:0 24px 60px rgba(0,0,0,.2);transform:translateY(14px);transition:transform .2s;overflow:hidden;}
+.modal-overlay.open .modal {transform:translateY(0);}
+.modal-header {padding:22px 24px 18px;border-bottom:1px solid var(--color-border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.modal-htitle {font-size:16px;font-weight:700;color:var(--color-text-primary);margin-bottom:3px;}
+.modal-hsub {font-size:12px;color:var(--color-text-secondary);line-height:1.4;}
+.modal-close {width:28px;height:28px;border-radius:8px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);flex-shrink:0;transition:background .12s,color .12s;}
+.modal-close:hover {background:var(--color-neutral-100);color:var(--color-text-primary);}
+.modal-close svg {width:16px;height:16px;}
+.modal-body {padding:20px 24px;display:flex;flex-direction:column;gap:20px;max-height:calc(100vh - 230px);overflow-y:auto;}
+.modal-footer {padding:14px 24px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:flex-end;gap:10px;}
+.modal-section-label {font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-secondary);margin-bottom:10px;}
+.cm-period-row {display:flex;align-items:center;gap:8px;font-size:12px;color:var(--color-text-secondary);margin-bottom:12px;flex-wrap:wrap;}
+.cm-period-row strong {color:var(--color-text-primary);font-weight:700;}
+.cm-period-dot {width:4px;height:4px;border-radius:50%;background:var(--color-border);flex-shrink:0;}
+.cm-stats-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.cm-stat-card {background:var(--color-surface);border:1px solid var(--color-border);border-radius:10px;padding:10px 12px;text-align:center;}
+.cm-stat-num {font-size:22px;font-weight:700;line-height:1;}
+.cm-stat-lbl {font-size:10px;color:var(--color-text-secondary);margin-top:3px;font-weight:500;}
+.cm-stat-card.green .cm-stat-num {color:var(--color-success-dark);}
+.cm-stat-card.orange .cm-stat-num {color:var(--color-observado);}
+.cm-stat-card.blue .cm-stat-num {color:var(--color-info);}
+.cm-stat-card.purple .cm-stat-num {color:var(--color-corregido);}
+.cm-stat-card.gray .cm-stat-num {color:var(--color-text-secondary);}
+.cm-alert {display:flex;align-items:flex-start;gap:10px;background:var(--color-warning-tint);border-radius:10px;padding:11px 14px;margin-top:10px;}
+.cm-alert svg {width:16px;height:16px;color:var(--color-warning-text);flex-shrink:0;margin-top:1px;}
+.cm-alert-text {font-size:12px;color:var(--color-warning-text);line-height:1.5;}
+.cm-alert-text strong {font-weight:700;}
+.upload-zone {border:2px dashed var(--color-border);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;}
+.upload-zone:hover,.upload-zone.dragover {border-color:var(--color-primary);background:var(--color-primary-tint);}
+.upload-zone-icon {width:36px;height:36px;color:var(--color-text-muted);margin:0 auto 10px;}
+.upload-zone-title {font-size:13px;font-weight:600;color:var(--color-text-primary);margin-bottom:4px;}
+.upload-zone-title span {color:var(--color-primary);text-decoration:underline;text-underline-offset:2px;}
+.upload-zone-sub {font-size:11px;color:var(--color-text-secondary);}
+.file-chip {display:flex;align-items:center;gap:10px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:10px;padding:10px 14px;}
+.file-chip-icon {width:34px;height:34px;background:var(--color-danger-tint);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.file-chip-icon svg {width:16px;height:16px;color:var(--color-danger);}
+.file-chip-info {flex:1;min-width:0;}
+.file-chip-name {font-size:12px;font-weight:600;color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.file-chip-size {font-size:10px;color:var(--color-text-secondary);margin-top:1px;}
+.file-chip-remove {background:none;border:none;cursor:pointer;color:var(--color-text-muted);padding:4px;border-radius:6px;display:flex;transition:background .12s,color .12s;}
+.file-chip-remove:hover {background:var(--color-danger-tint);color:var(--color-danger);}
+.file-chip-remove svg {width:14px;height:14px;}
+.btn-modal-cancel {background:none;border:1px solid var(--color-border);border-radius:999px;padding:9px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;color:var(--color-text-primary);transition:border-color .15s,background .15s;}
+.btn-modal-cancel:hover {border-color:var(--color-neutral-300);background:var(--color-surface);}
+.btn-modal-send {display:inline-flex;align-items:center;gap:7px;background:var(--color-primary);color:white;border:none;border-radius:999px;padding:9px 20px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s,opacity .15s;}
+.btn-modal-send:hover:not(:disabled) {background:var(--color-accent-dark);}
+.btn-modal-send:disabled {opacity:.38;cursor:not-allowed;}
+.btn-modal-send svg {width:14px;height:14px;}
+.cm-success {display:flex;flex-direction:column;align-items:center;padding:32px 24px;text-align:center;gap:12px;}
+.cm-success-icon {width:56px;height:56px;background:var(--color-success-tint);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.cm-success-icon svg {width:28px;height:28px;color:var(--color-success-dark);}
+.cm-success-title {font-size:16px;font-weight:700;color:var(--color-text-primary);}
+.cm-success-sub {font-size:13px;color:var(--color-text-secondary);line-height:1.5;max-width:380px;}
+@keyframes spin {to{transform:rotate(360deg);}}
+.spin {animation:spin .7s linear infinite;}
 </style>
   <script>
   (function (m, a, z, e) {
@@ -100,12 +208,42 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
   </script>
   <script src="https://t.contentsquare.net/uxa/65746f564a7b3.js" defer></script>
 </head>
-<body>
+<body class="has-topnav">
+
+<!-- ═══ TOP NAVBAR ═══ -->
+<header class="top-navbar">
+  <div class="topnav-brand">
+    <div class="topnav-logo-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/>
+      </svg>
+    </div>
+    <span class="topnav-title">MIR COMAPA Sur</span>
+  </div>
+  <div class="topnav-right">
+    <button class="topnav-bell" title="Notificaciones">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
+      </svg>
+      <span class="topnav-notif-dot"></span>
+    </button>
+    <span class="topnav-chip">REVISOR</span>
+    <div class="topnav-user">
+      <div class="topnav-avatar">CM</div>
+      <div>
+        <p class="topnav-name">Carlos Méndez</p>
+        <p class="topnav-role">Gerencia Comercial</p>
+      </div>
+    </div>
+    <button class="topnav-exit" title="Cerrar sesión" onclick="cerrarSesion()">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/>
+      </svg>
+    </button>
+  </div>
+</header>
 
 <nav class="sidebar">
-  <div class="sidebar-logo">
-    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
-  </div>
   <div class="sidebar-nav">
     <a class="nav-item" href="dashboard-revisor.html" title="Inicio">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>
@@ -115,10 +253,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859M12 3v8.25m0 0-3-3m3 3 3-3"/></svg>
       <span class="nav-label">Bandeja de revisión</span>
     </a>
-    <a class="nav-item" href="historial-revisor.html" title="Historial">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-      <span class="nav-label">Historial</span>
-    </a>
     <a class="nav-item" href="planeacion-metas-revisor.html" title="Planeación">
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
       <span class="nav-label">Planeación</span>
@@ -127,14 +261,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
       <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
       <span class="nav-label">Reportes</span>
     </a>
-    <div class="nav-item" title="Notificaciones">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg>
-      <span class="nav-label">Notificaciones</span>
-    </div>
-    <div class="nav-item" title="Ayuda">
-      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
-      <span class="nav-label">Ayuda</span>
-    </div>
   </div>
   <div class="sidebar-bottom">
     <a class="nav-item" href="configuracion.html" title="Configuración">
@@ -149,91 +275,225 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 
 <div class="app-wrapper">
   <main class="main-content">
-    <div class="page-header">
-      <div class="ph-left">
-        <h1>Bandeja de revisión <span class="count-chip" id="countChip">0</span></h1>
-        <p>Evidencias recibidas de los Enlace para revisión técnica · Gerencia Comercial</p>
-      </div>
-    </div>
 
+    <!-- FILTER BAR -->
     <div class="filter-bar">
-      <div class="filter-row">
-        <div class="search-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
-          <input class="search-input" id="searchInput" placeholder="Buscar por nombre o ID…" oninput="applyFilters()">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Bandeja de revisión</h1>
+          <p class="page-subtitle">Evidencias recibidas de los Enlace para revisión técnica · Gerencia Comercial</p>
         </div>
-        <select class="filter-select" id="fEstado" onchange="applyFilters()">
-          <option value="">Todos los estados</option>
-          <option value="enviado_revision">En revisión</option>
-          <option value="corregido">Corrección recibida</option>
-          <option value="observado">Observada</option>
-          <option value="aprobado_revisor">Aprobada</option>
-        </select>
-        <select class="filter-select" id="fNivel" onchange="applyFilters()">
-          <option value="">Todos los niveles</option>
-          <option value="Fin">Fin</option>
-          <option value="Propósito">Propósito</option>
-          <option value="Componente">Componente</option>
-          <option value="Actividad">Actividad</option>
-        </select>
-        <select class="filter-select" id="fSort" onchange="applyFilters()">
-          <option value="prio">Por prioridad</option>
-          <option value="fecha_asc">Más próximas a vencer</option>
-          <option value="fecha_desc">Más lejanas</option>
-          <option value="envio_desc">Más recientes primero</option>
-          <option value="envio_asc">Más antiguas primero</option>
-        </select>
       </div>
-      <div class="chips-row">
-        <button class="chip active" data-chip="todas" onclick="setChip('todas')">Todas</button>
-        <button class="chip" data-chip="pendiente" onclick="setChip('pendiente')">Pendientes de revisión</button>
-        <button class="chip" data-chip="corregidas" onclick="setChip('corregidas')">Correcciones</button>
-        <button class="chip" data-chip="urgentes" onclick="setChip('urgentes')">Próximas a vencer</button>
-        <button class="chip" data-chip="observadas" onclick="setChip('observadas')">Observadas</button>
-        <button class="chip" data-chip="aprobadas" onclick="setChip('aprobadas')">Aprobadas</button>
+      <div class="filter-divider"></div>
+      <div class="filter-controls">
+        <div class="filter-row">
+          <div class="search-wrap">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
+            <input class="search-input" id="searchInput" placeholder="Buscar por nombre o ID…" oninput="applyFilters()">
+          </div>
+          <select class="filter-select" id="fNivel" onchange="applyFilters()">
+            <option value="">Todos los niveles</option>
+            <option value="Fin">Fin</option>
+            <option value="Propósito">Propósito</option>
+            <option value="Componente">Componente</option>
+            <option value="Actividad">Actividad</option>
+          </select>
+        </div>
+        <div class="chips-row" id="chipsRow">
+          <div class="chip active" data-chip="todas" onclick="setChip(this,'todas')">Todas <span class="chip-count" id="cntTodas">0</span></div>
+          <div class="chip" data-chip="pendiente" onclick="setChip(this,'pendiente')">Pendientes <span class="chip-count" id="cntPendiente">0</span></div>
+          <div class="chip" data-chip="corregidas" onclick="setChip(this,'corregidas')">Correcciones <span class="chip-count" id="cntCorregidas">0</span></div>
+          <div class="chip" data-chip="urgentes" onclick="setChip(this,'urgentes')">Próximas a vencer <span class="chip-count" id="cntUrgentes">0</span></div>
+          <div class="chip" data-chip="observadas" onclick="setChip(this,'observadas')">Observadas <span class="chip-count" id="cntObservadas">0</span></div>
+          <div class="chip" data-chip="aprobadas" onclick="setChip(this,'aprobadas')">Aprobadas <span class="chip-count" id="cntAprobadas">0</span></div>
+        </div>
       </div>
     </div>
 
-    <div class="table-card">
-      <div class="results-count" id="resultsCount"></div>
-      <table class="rev-table">
-        <thead><tr>
-          <th style="padding-left:20px;">Indicador</th>
-          <th>Enlace</th>
-          <th>Medio de verificación</th>
-          <th>Estado</th>
-          <th>Prioridad</th>
-          <th class="sortable" onclick="toggleSort()">Fecha límite ↕</th>
-          <th>Recibida</th>
-          <th>Acción</th>
-        </tr></thead>
+    <!-- KPI GRID -->
+    <div class="kpi-grid" id="kpiGrid">
+      <div class="kpi-card" id="kpiTodas" onclick="filterByChip('todas')">
+        <div class="kpi-icon neutral">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z"/></svg>
+        </div>
+        <div class="kpi-value neutral" id="kpiValTodas">—</div>
+        <div class="kpi-label-text">Total asignados</div>
+        <div class="kpi-sub">Indicadores en tu bandeja</div>
+      </div>
+      <div class="kpi-card" id="kpiPendiente" onclick="filterByChip('pendiente')">
+        <div class="kpi-icon blue">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg>
+        </div>
+        <div class="kpi-value blue" id="kpiValPendiente">—</div>
+        <div class="kpi-label-text">En revisión</div>
+        <div class="kpi-sub">Nuevas evidencias recibidas</div>
+      </div>
+      <div class="kpi-card" id="kpiCorregidas" onclick="filterByChip('corregidas')">
+        <div class="kpi-icon purple">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"/></svg>
+        </div>
+        <div class="kpi-value purple" id="kpiValCorregidas">—</div>
+        <div class="kpi-label-text">Correcciones recibidas</div>
+        <div class="kpi-sub">Reenvíos del Enlace</div>
+      </div>
+      <div class="kpi-card" id="kpiObservadas" onclick="filterByChip('observadas')">
+        <div class="kpi-icon orange">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+        </div>
+        <div class="kpi-value orange" id="kpiValObservadas">—</div>
+        <div class="kpi-label-text">Observadas</div>
+        <div class="kpi-sub">Esperando corrección del Enlace</div>
+      </div>
+      <div class="kpi-card" id="kpiAprobadas" onclick="filterByChip('aprobadas')">
+        <div class="kpi-icon green">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        </div>
+        <div class="kpi-value green" id="kpiValAprobadas">—</div>
+        <div class="kpi-label-text">Aprobadas</div>
+        <div class="kpi-sub">Evidencias aprobadas técnicamente</div>
+      </div>
+    </div>
+
+    <!-- CIERRE DE PERIODO -->
+    <div class="cierre-panel">
+      <div class="cierre-panel-left">
+        <div class="cierre-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+        </div>
+        <div>
+          <p class="cierre-title">Cerrar reporte y enviar a revisión</p>
+          <p class="cierre-sub">Una vez revisados los indicadores de tu gerencia, firma y adjunta el documento de validación para enviar el reporte al Administrador y cerrar el proceso del periodo.</p>
+        </div>
+      </div>
+      <div class="cierre-panel-right">
+        <div class="cierre-stats" id="cierreStatsChips"></div>
+        <button class="btn-cierre" onclick="openCierreModal()">
+          Enviar validación al Administrador
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- RESULTS META -->
+    <div class="results-meta">
+      <p class="results-count" id="resultsCount"><strong>0</strong> indicadores encontrados</p>
+      <select class="filter-select" id="fSort" onchange="applyFilters()" style="font-size:12px;padding:6px 10px;">
+        <option value="prio">Por prioridad</option>
+        <option value="fecha_asc">Más próximas a vencer</option>
+        <option value="fecha_desc">Más lejanas</option>
+        <option value="envio_desc">Recibidas más recientes</option>
+        <option value="envio_asc">Recibidas más antiguas</option>
+      </select>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap" id="tableWrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Enlace</th>
+            <th>Medio de verificación</th>
+            <th class="sortable sorted" id="thFecha" onclick="sortByFecha()">
+              Fecha límite <span class="sort-icon" id="iconFecha">↑</span>
+            </th>
+            <th>Estado</th>
+            <th>Recibida</th>
+            <th></th>
+          </tr>
+        </thead>
         <tbody id="tableBody"></tbody>
       </table>
     </div>
+
   </main>
+</div>
+
+<!-- ═══ MODAL CIERRE ═══ -->
+<div class="modal-overlay" id="cierreOverlay" onclick="closeCierreModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <h2 class="modal-htitle">Cerrar reporte de validación</h2>
+        <p class="modal-hsub">Este reporte será enviado al Administrador para finalizar el proceso de validación del periodo.</p>
+      </div>
+      <button class="modal-close" onclick="closeCierreModal()">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="cierreModalBody"></div>
+    <div class="modal-footer" id="cierreModalFooter">
+      <button class="btn-modal-cancel" onclick="closeCierreModal()">Cancelar</button>
+      <button class="btn-modal-send" id="btnEnviarCierre" onclick="submitCierre()" disabled>
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>
+        Enviar validación
+      </button>
+    </div>
+  </div>
 </div>
 
 <script>
   let activeChip = 'todas';
   let sortAsc    = true;
 
-  function setChip(c) {
+  function renderKPIs() {
+    const all = getActividadesRevisor();
+    document.getElementById('kpiValTodas').textContent     = all.length;
+    document.getElementById('kpiValPendiente').textContent = all.filter(a => ['enviado_revision','pendiente_revision'].includes(a.estado)).length;
+    document.getElementById('kpiValCorregidas').textContent= all.filter(a => a.estado === 'corregido').length;
+    document.getElementById('kpiValObservadas').textContent= all.filter(a => a.estado === 'observado').length;
+    document.getElementById('kpiValAprobadas').textContent = all.filter(a => ['aprobado_revisor','cerrado'].includes(a.estado)).length;
+  }
+
+  function highlightKPI(chip) {
+    const map = { todas: 'kpiTodas', pendiente: 'kpiPendiente', corregidas: 'kpiCorregidas', observadas: 'kpiObservadas', aprobadas: 'kpiAprobadas' };
+    document.querySelectorAll('.kpi-card').forEach(c => c.classList.remove('active-kpi'));
+    const id = map[chip];
+    if (id) document.getElementById(id)?.classList.add('active-kpi');
+  }
+
+  function filterByChip(chipId) {
+    const el = document.querySelector(`[data-chip="${chipId}"]`);
+    if (el) setChip(el, chipId);
+  }
+
+  function setChip(el, c) {
     activeChip = c;
     document.querySelectorAll('.chip').forEach(b => b.classList.toggle('active', b.dataset.chip === c));
+    highlightKPI(c);
     applyFilters();
   }
-  function toggleSort() { sortAsc = !sortAsc; applyFilters(); }
+
+  function sortByFecha() {
+    sortAsc = !sortAsc;
+    document.getElementById('iconFecha').textContent = sortAsc ? '↑' : '↓';
+    applyFilters();
+  }
 
   function prioOrder(a) { const p = prioridad(a); return { alta: 0, media: 1, normal: 2, vencida: 3 }[p] ?? 2; }
 
+  function updateCounts(all) {
+    document.getElementById('cntTodas').textContent     = all.length;
+    document.getElementById('cntPendiente').textContent = all.filter(a => ['enviado_revision','pendiente_revision'].includes(a.estado)).length;
+    document.getElementById('cntCorregidas').textContent= all.filter(a => a.estado === 'corregido').length;
+    document.getElementById('cntUrgentes').textContent  = all.filter(a => {
+      const d = diasRestantes(a.fechaLimite);
+      return ['enviado_revision','pendiente_revision','corregido'].includes(a.estado) && d <= 14;
+    }).length;
+    document.getElementById('cntObservadas').textContent= all.filter(a => a.estado === 'observado').length;
+    document.getElementById('cntAprobadas').textContent = all.filter(a => ['aprobado_revisor','cerrado'].includes(a.estado)).length;
+  }
+
   function applyFilters() {
-    let data = getActividadesRevisor();
+    const all = getActividadesRevisor();
+    updateCounts(all);
+
+    let data = [...all];
     const q  = document.getElementById('searchInput').value.toLowerCase();
-    const fe = document.getElementById('fEstado').value;
     const fn = document.getElementById('fNivel').value;
     const fs = document.getElementById('fSort').value;
 
-    if (activeChip === 'pendiente') data = data.filter(a => ['enviado_revision','pendiente_revision'].includes(a.estado));
+    if (activeChip === 'pendiente')  data = data.filter(a => ['enviado_revision','pendiente_revision'].includes(a.estado));
     else if (activeChip === 'corregidas') data = data.filter(a => a.estado === 'corregido');
     else if (activeChip === 'urgentes')  data = data.filter(a => {
       const d = diasRestantes(a.fechaLimite);
@@ -243,22 +503,22 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     else if (activeChip === 'aprobadas')  data = data.filter(a => ['aprobado_revisor','cerrado'].includes(a.estado));
 
     if (q)  data = data.filter(a => a.nombreIndicador.toLowerCase().includes(q) || a.id.toLowerCase().includes(q));
-    if (fe) data = data.filter(a => a.estado === fe);
     if (fn) data = data.filter(a => a.nivel === fn);
 
-    if (fs === 'prio')       data.sort((a, b) => prioOrder(a) - prioOrder(b) || diasRestantes(a.fechaLimite) - diasRestantes(b.fechaLimite));
-    else if (fs === 'fecha_asc')  data.sort((a, b) => diasRestantes(a.fechaLimite) - diasRestantes(b.fechaLimite));
-    else if (fs === 'fecha_desc') data.sort((a, b) => diasRestantes(b.fechaLimite) - diasRestantes(a.fechaLimite));
-    else if (fs === 'envio_desc') data.sort((a, b) => (fechaEnvio(b)||'').localeCompare(fechaEnvio(a)||''));
-    else if (fs === 'envio_asc')  data.sort((a, b) => (fechaEnvio(a)||'').localeCompare(fechaEnvio(b)||''));
+    if (fs === 'prio')         data.sort((a, b) => prioOrder(a) - prioOrder(b) || diasRestantes(a.fechaLimite) - diasRestantes(b.fechaLimite));
+    else if (fs === 'fecha_asc')   data.sort((a, b) => sortAsc ? diasRestantes(a.fechaLimite) - diasRestantes(b.fechaLimite) : diasRestantes(b.fechaLimite) - diasRestantes(a.fechaLimite));
+    else if (fs === 'fecha_desc')  data.sort((a, b) => diasRestantes(b.fechaLimite) - diasRestantes(a.fechaLimite));
+    else if (fs === 'envio_desc')  data.sort((a, b) => (fechaEnvio(b)||'').localeCompare(fechaEnvio(a)||''));
+    else if (fs === 'envio_asc')   data.sort((a, b) => (fechaEnvio(a)||'').localeCompare(fechaEnvio(b)||''));
+    else data.sort((a, b) => sortAsc ? diasRestantes(a.fechaLimite) - diasRestantes(b.fechaLimite) : diasRestantes(b.fechaLimite) - diasRestantes(a.fechaLimite));
 
-    document.getElementById('countChip').textContent = data.length;
-    document.getElementById('resultsCount').textContent = `${data.length} resultado${data.length !== 1 ? 's' : ''}`;
+    document.getElementById('resultsCount').innerHTML = `<strong>${data.length}</strong> de <strong>${all.length}</strong> indicador${all.length !== 1 ? 'es' : ''}`;
     document.getElementById('tableBody').innerHTML = data.length ? data.map(renderRow).join('') : `
-      <tr><td colspan="8">
+      <tr><td colspan="7">
         <div class="empty-state">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"/></svg>
-          <p>No hay actividades que coincidan con los filtros aplicados.</p>
+          <p class="empty-title">Sin resultados</p>
+          <p class="empty-sub">No hay indicadores que coincidan con los filtros aplicados.</p>
         </div>
       </td></tr>`;
   }
@@ -267,33 +527,29 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     const _ecfg = (typeof ESTADO_CFG_MIR !== 'undefined' ? ESTADO_CFG_MIR : (typeof ESTADO_CFG !== 'undefined' ? ESTADO_CFG : {}));
     const cfg  = _ecfg[a.estado] || { label: a.estado, cls: a.estado };
     const niv  = (typeof NIVEL_CFG !== 'undefined' && NIVEL_CFG[a.nivel]) || { label: a.nivel || '—', cls: 'nivel-actividad' };
-    const p    = prioridad(a);
-    const pCls = { alta: 'prio-alta', media: 'prio-media', normal: 'prio-normal', vencida: 'prio-vencida' }[p] || 'prio-normal';
-    const pLbl = { alta: 'Alta', media: 'Media', normal: 'Normal', vencida: 'Vencida' }[p] || 'Normal';
     const dias = diasRestantes(a.fechaLimite);
-    const dCls = dias < 0 ? '' : dias <= 7 ? 'urgente' : dias <= 14 ? 'proximo' : 'normal';
-    const dTxt = dias < 0 ? 'Vencida' : dias === 0 ? 'Hoy' : `${dias}d`;
+    const dCls = dias < 0 ? 'pasado' : dias <= 7 ? 'urgente' : dias <= 14 ? 'proximo' : 'normal';
+    const dTxt = dias < 0 ? 'Vencida' : dias === 0 ? 'Hoy' : `${dias} días`;
     const isEditable = ['enviado_revision','pendiente_revision','corregido'].includes(a.estado);
     const btnCls = a.estado === 'corregido' ? 'purple' : isEditable ? 'blue' : 'green';
     const btnLbl = a.estado === 'corregido' ? 'Revisar corrección' : isEditable ? 'Revisar' : 'Ver detalle';
 
-    return `<tr>
-      <td style="padding-left:20px;max-width:260px;">
-        <div class="act-id">${a.id}</div>
-        <div class="act-name">${a.nombreIndicador}</div>
-        <div class="act-sub"><span class="nivel-badge ${niv.cls}">${niv.label}</span> · ${a.periodo}</div>
+    return `<tr style="cursor:pointer" onclick="window.location.href='detalle-actividad.html?id=${a.id}&rol=revisor'">
+      <td style="min-width:200px;max-width:260px;">
+        <p class="act-id">${a.id}</p>
+        <p class="act-name">${isoBadge(a)}${a.nombreIndicador}</p>
+        <p class="act-sub"><span class="nivel-badge ${niv.cls}">${niv.label}</span> · ${a.periodo}</p>
       </td>
       <td style="font-size:12px;white-space:nowrap;">${a.responsableEnlace}<br><span style="color:var(--color-text-secondary);">${a.gerencia}</span></td>
       <td style="font-size:11px;color:var(--color-text-secondary);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${a.medioVerificacion}">${a.medioVerificacion}</td>
-      <td><span class="estado-badge ${cfg.cls}">${cfg.label}</span></td>
-      <td><span class="prio-badge ${pCls}">${pLbl}</span></td>
-      <td>
-        <div class="dias-val ${dCls}">${dTxt}</div>
-        <div style="font-size:10px;color:var(--color-text-secondary);">${formatFecha(a.fechaLimite)}</div>
+      <td class="td-fecha">
+        <p class="fecha-val">${formatFecha(a.fechaLimite)}</p>
+        <p class="fecha-dias ${dCls}">${dTxt}</p>
       </td>
+      <td><span class="estado-badge ${cfg.cls}">${cfg.label}</span></td>
       <td style="font-size:11px;color:var(--color-text-secondary);white-space:nowrap;">${formatFecha(fechaEnvio(a))}</td>
-      <td>
-        <a class="btn-rev ${btnCls}" href="detalle-actividad.html?id=${a.id}&rol=revisor">
+      <td class="td-action">
+        <a class="btn-act ${btnCls}" href="detalle-actividad.html?id=${a.id}&rol=revisor" onclick="event.stopPropagation()">
           ${btnLbl}
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
         </a>
@@ -301,11 +557,170 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     </tr>`;
   }
 
+  // ── CIERRE DE PERIODO ──────────────────────────────────────────────────────
+  var _cierreFile = null;
+
+  function _getGerencia() {
+    var user = Session.getUser();
+    try { return localStorage.getItem('userGerencia') || (user && user.gerencia) || 'Gerencia'; }
+    catch(e) { return (user && user.gerencia) || 'Gerencia'; }
+  }
+
+  function renderCierreStats() {
+    var all = getActividadesRevisor();
+    var aprobados  = all.filter(function(a){ return ['aprobado_revisor','cerrado'].includes(a.estado); }).length;
+    var pendientes = all.length - aprobados;
+    var el = document.getElementById('cierreStatsChips');
+    if (!el) return;
+    el.innerHTML =
+      '<span class="cierre-stat green"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg> ' + aprobados + ' aprobado' + (aprobados !== 1 ? 's' : '') + '</span>'
+      + (pendientes > 0 ? '<span class="cierre-stat gray">' + pendientes + ' pendiente' + (pendientes !== 1 ? 's' : '') + '</span>' : '');
+  }
+
+  function openCierreModal() {
+    var all = getActividadesRevisor();
+    var aprobados  = all.filter(function(a){ return ['aprobado_revisor','cerrado'].includes(a.estado); }).length;
+    var observados = all.filter(function(a){ return a.estado === 'observado'; }).length;
+    var pendientes = all.filter(function(a){ return ['enviado_revision','pendiente_revision'].includes(a.estado); }).length;
+    var corregidos = all.filter(function(a){ return a.estado === 'corregido'; }).length;
+    var sinCaptura = all.filter(function(a){ return ['pendiente_carga','borrador'].includes(a.estado); }).length;
+    var total      = all.length;
+    var noAprobados = total - aprobados;
+    var ger = _getGerencia();
+
+    document.getElementById('cierreModalBody').innerHTML =
+      '<div>'
+      + '<p class="modal-section-label">Información del reporte</p>'
+      + '<div class="cm-period-row">'
+      +   '<strong>' + ger + '</strong>'
+      +   '<span class="cm-period-dot"></span>'
+      +   '<span>Ejercicio fiscal 2026</span>'
+      +   '<span class="cm-period-dot"></span>'
+      +   '<span>Corte mayo 2026</span>'
+      + '</div>'
+      + '<div class="cm-stats-grid">'
+      +   '<div class="cm-stat-card green"><div class="cm-stat-num">' + aprobados  + '</div><div class="cm-stat-lbl">Aprobados</div></div>'
+      +   '<div class="cm-stat-card orange"><div class="cm-stat-num">' + observados + '</div><div class="cm-stat-lbl">Observados</div></div>'
+      +   '<div class="cm-stat-card blue"><div class="cm-stat-num">' + pendientes + '</div><div class="cm-stat-lbl">En revisión</div></div>'
+      +   '<div class="cm-stat-card purple"><div class="cm-stat-num">' + corregidos + '</div><div class="cm-stat-lbl">Con correcciones</div></div>'
+      +   '<div class="cm-stat-card gray"><div class="cm-stat-num">' + sinCaptura + '</div><div class="cm-stat-lbl">Sin capturar</div></div>'
+      +   '<div class="cm-stat-card gray" style="background:var(--color-bg)"><div class="cm-stat-num">' + total + '</div><div class="cm-stat-lbl">Total</div></div>'
+      + '</div>'
+      + (noAprobados > 0
+          ? '<div class="cm-alert" style="margin-top:10px">'
+            + '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>'
+            + '<p class="cm-alert-text"><strong>' + noAprobados + ' indicador' + (noAprobados !== 1 ? 'es' : '') + ' aún no ' + (noAprobados !== 1 ? 'están aprobados' : 'está aprobado') + '.</strong> Puedes enviar el reporte de todas formas, pero el Administrador verá el estado incompleto del periodo.</p>'
+            + '</div>'
+          : '')
+      + '</div>'
+      + '<div>'
+      + '<p class="modal-section-label">Documento firmado de validación</p>'
+      + '<p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px;line-height:1.5;">Adjunta el documento con firma del Revisor que certifica la validación de los indicadores reportados en este periodo. Formato aceptado: PDF.</p>'
+      + '<div class="upload-zone" id="uploadZone"'
+      +     ' onclick="document.getElementById(\'cierreFileInput\').click()"'
+      +     ' ondragover="event.preventDefault();this.classList.add(\'dragover\')"'
+      +     ' ondragleave="this.classList.remove(\'dragover\')"'
+      +     ' ondrop="handleFileDrop(event)">'
+      +   '<svg class="upload-zone-icon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/></svg>'
+      +   '<p class="upload-zone-title">Arrastra el archivo aquí o <span>selecciona desde tu dispositivo</span></p>'
+      +   '<p class="upload-zone-sub">PDF · máx. 10 MB</p>'
+      + '</div>'
+      + '<input type="file" id="cierreFileInput" accept=".pdf" onchange="handleFileSelect(this)" style="display:none">'
+      + '<div class="file-chip" id="fileChip" style="display:none;margin-top:8px;">'
+      +   '<div class="file-chip-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg></div>'
+      +   '<div class="file-chip-info"><p class="file-chip-name" id="fileChipName">—</p><p class="file-chip-size" id="fileChipSize">—</p></div>'
+      +   '<button class="file-chip-remove" onclick="removeFile()" title="Quitar archivo"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg></button>'
+      + '</div>'
+      + '</div>';
+
+    document.getElementById('cierreModalFooter').innerHTML =
+      '<button class="btn-modal-cancel" onclick="closeCierreModal()">Cancelar</button>'
+      + '<button class="btn-modal-send" id="btnEnviarCierre" onclick="submitCierre()" disabled>'
+      + '<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>'
+      + 'Enviar validación'
+      + '</button>';
+
+    _cierreFile = null;
+    document.getElementById('cierreOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCierreModal() {
+    document.getElementById('cierreOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleFileSelect(input) {
+    if (input.files && input.files[0]) { setFile(input.files[0]); input.value = ''; }
+  }
+
+  function handleFileDrop(e) {
+    e.preventDefault();
+    var zone = document.getElementById('uploadZone');
+    if (zone) zone.classList.remove('dragover');
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]);
+  }
+
+  function setFile(file) {
+    _cierreFile = file;
+    var zone = document.getElementById('uploadZone');
+    if (zone) zone.style.display = 'none';
+    var chip = document.getElementById('fileChip');
+    if (chip) chip.style.display = 'flex';
+    var nameEl = document.getElementById('fileChipName');
+    var sizeEl = document.getElementById('fileChipSize');
+    if (nameEl) nameEl.textContent = file.name;
+    if (sizeEl) sizeEl.textContent = file.size > 1024*1024
+      ? (file.size/(1024*1024)).toFixed(1) + ' MB'
+      : Math.round(file.size/1024) + ' KB';
+    var btn = document.getElementById('btnEnviarCierre');
+    if (btn) btn.disabled = false;
+  }
+
+  function removeFile() {
+    _cierreFile = null;
+    var zone = document.getElementById('uploadZone');
+    if (zone) zone.style.display = '';
+    var chip = document.getElementById('fileChip');
+    if (chip) chip.style.display = 'none';
+    var btn = document.getElementById('btnEnviarCierre');
+    if (btn) btn.disabled = true;
+  }
+
+  function submitCierre() {
+    if (!_cierreFile) return;
+    var btn = document.getElementById('btnEnviarCierre');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<svg class="spin" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> Enviando…';
+    }
+    setTimeout(function() {
+      var body = document.getElementById('cierreModalBody');
+      var footer = document.getElementById('cierreModalFooter');
+      if (body) body.innerHTML =
+        '<div class="cm-success">'
+        + '<div class="cm-success-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></div>'
+        + '<p class="cm-success-title">Reporte enviado al Administrador</p>'
+        + '<p class="cm-success-sub">El reporte de validación del periodo ha sido enviado correctamente. El Administrador recibirá una notificación para proceder con el cierre del proceso.</p>'
+        + '</div>';
+      if (footer) footer.innerHTML =
+        '<button class="btn-cierre" onclick="closeCierreModal()">Entendido, cerrar</button>';
+    }, 1200);
+  }
+
+  // ── INIT ───────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
-    // Honor URL chip param
+    renderKPIs();
+    renderCierreStats();
     const urlChip = new URLSearchParams(window.location.search).get('chip');
-    if (urlChip) setChip(urlChip);
-    else applyFilters();
+    if (urlChip) {
+      const el = document.querySelector(`[data-chip="${urlChip}"]`);
+      if (el) setChip(el, urlChip);
+      else { highlightKPI('todas'); applyFilters(); }
+    } else {
+      highlightKPI('todas');
+      applyFilters();
+    }
   });
 </script>
 <script src="dev-toolbar.js"></script>

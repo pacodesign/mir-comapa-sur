@@ -307,6 +307,7 @@ var ValidationAdminStore = (function () {
         nivel:                  act.nivel || null,
         tipoIndicador:          act.tipoIndicador || 'Gestión',
         unidadMedida:           act.unidadMedida || null,
+        iso:                    act.iso || null,
         aplicaAcumulado:        freq !== 'Mensual',
         rangosSemaforo:         { verdeMin: 95, amarilloMin: 80 },
         revisorId:              revisor ? revisor.id : null,

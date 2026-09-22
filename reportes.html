@@ -2272,7 +2272,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
               '<span class="db-proceso-chip" title="'+esc(act.unidadResponsable)+'">'+esc(act.unidadResponsable)+'</span>'+
               '<span class="mt-freq-badge">'+esc(act.frecuenciaMedicion||'—')+'</span>'+
             '</div>'+
-            '<div class="db-card-name">'+esc(act.nombreIndicador)+'</div>'+
+            '<div class="db-card-name">'+isoBadge(act)+esc(act.nombreIndicador)+'</div>'+
             '<div class="mt-card-desc">'+
               '<span class="mt-card-desc-lbl">Descripción del objetivo</span>'+
               '<span class="mt-card-desc-val">'+esc(act.resumenNarrativo||'—')+'</span>'+
@@ -2330,7 +2330,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             }).join('');
             rows +=
               '<tr>'+
-                '<td class="td-indicador">'+esc(a.nombreIndicador)+'</td>'+
+                '<td class="td-indicador">'+isoBadge(a)+esc(a.nombreIndicador)+'</td>'+
                 '<td class="td-meta" style="text-align:center;font-size:12px;font-weight:700;color:var(--color-primary)">'+fmtMeta(getDemoMeta(a),a)+'</td>'+
                 periodCells+
               '</tr>';

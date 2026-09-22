@@ -18,6 +18,7 @@
  * 12. Modals
  * 13. Right panel
  * 14. Utility classes
+ * 15. ISO badge
  */
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -951,6 +952,24 @@ body.has-topnav .app-wrapper    { padding-top: 56px; }
 }
 .topnav-exit:hover  { color: var(--color-text-primary); }
 .topnav-exit svg    { width: 16px; height: 16px; }
+
+/* ISO badge — prefijo visual para indicadores certificados ISO */
+.iso-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--color-neutral-100);
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  vertical-align: middle;
+  margin-right: 5px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
 
 @media (max-width: 640px) {
   .topnav-user .topnav-name,

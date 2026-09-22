@@ -164,6 +164,22 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
 .badge-orange { background:var(--color-observado-tint); color:var(--color-observado); }
 .badge-yellow { background:var(--color-warning-tint); color:var(--color-warning-dark); }
 .badge-gray { background:var(--color-neutral-100); color:var(--color-text-secondary); }
+/* ── DOC CARD ── */
+.doc-card {background:var(--color-bg);border-radius:var(--radius-card);padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.doc-card-title {font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-secondary);margin-bottom:10px;}
+.doc-file-row {display:flex;align-items:center;gap:10px;}
+.doc-file-icon {width:34px;height:34px;background:var(--color-danger-tint);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.doc-file-icon svg {width:16px;height:16px;color:var(--color-danger);}
+.doc-file-info {flex:1;min-width:0;}
+.doc-file-name {font-size:12px;font-weight:700;color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.doc-file-meta {font-size:10px;color:var(--color-text-secondary);margin-top:2px;}
+.doc-btn {display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-btn);padding:7px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;color:var(--color-text-primary);transition:border-color .15s,color .15s,background .15s;width:100%;}
+.doc-btn:hover {border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-tint);}
+.doc-btn svg {width:13px;height:13px;}
+.doc-pending {display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 0 4px;text-align:center;}
+.doc-pending-icon {width:32px;height:32px;background:var(--color-neutral-100);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.doc-pending-icon svg {width:16px;height:16px;color:var(--color-text-muted);}
+.doc-pending-txt {font-size:11px;color:var(--color-text-secondary);line-height:1.4;}
 /* ── REGRESAR SECTION BUTTON ── */
     .regresar-section-btn { padding:6px 14px; border-radius:var(--radius-btn); border:1px solid var(--color-border); background:transparent; font-family:inherit; font-size:12px; font-weight:600; cursor:pointer; color:var(--color-text-secondary); transition:all .15s; }
 .regresar-section-btn:hover { border-color:var(--color-danger); color:var(--color-danger); background:var(--color-danger-tint); }
@@ -272,6 +288,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
       <div class="split-left">
         <div class="ger-header" id="gerHeader"><!-- rendered --></div>
         <div class="kpi-row" id="kpiRow"><!-- rendered --></div>
+        <div class="doc-card" id="docCard"><!-- rendered --></div>
       </div>
 
       <!-- COLUMNA DERECHA: listado de indicadores -->
@@ -476,6 +493,48 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
   var _detalle = null;
 
   // ── RENDER ────────────────────────────────────────────────────────────────
+  // ── DOCUMENTO DE VALIDACIÓN ─────────────────────────────────────────────
+
+  function renderDocCard(d) {
+    var el = document.getElementById('docCard');
+    if (!el) return;
+    var estado = d.periodoGerencia ? d.periodoGerencia.estado : null;
+    var hasDoc = estado === 'listo_para_validar' || estado === 'validado';
+
+    if (!hasDoc) {
+      el.innerHTML =
+        '<p class="doc-card-title">Documento de validación</p>' +
+        '<div class="doc-pending">' +
+          '<div class="doc-pending-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2h6l3 3v9a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M10 2v3h3"/><path d="M5.5 9h5M5.5 11.5h3"/></svg></div>' +
+          '<p class="doc-pending-txt">Pendiente de recepción<br>del Revisor</p>' +
+        '</div>';
+      return;
+    }
+
+    var slug = d.gerencia.id.replace(/_/g, '-');
+    var fileName = 'validacion-' + slug + '-mayo2026.pdf';
+    var REVISOR_DEMO = { planeacion: 'Lic. Carlos Méndez Ríos', tecnica: 'Ing. Ana Herrera Soto', comercial: 'Lic. Roberto Vega Luna', administrativa: 'Lic. Patricia Torres Gil' };
+    var revisorName = REVISOR_DEMO[d.gerencia.id] || 'Revisor de gerencia';
+    var fechaEnvio = estado === 'validado' && d.periodoGerencia.fechaValidacion ? d.periodoGerencia.fechaValidacion : '20 sep. 2026';
+
+    el.innerHTML =
+      '<p class="doc-card-title">Documento de validación</p>' +
+      '<div class="doc-file-row">' +
+        '<div class="doc-file-icon">' +
+          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2h6l3 3v9a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M10 2v3h3"/><path d="M5.5 9h5M5.5 11.5h3"/></svg>' +
+        '</div>' +
+        '<div class="doc-file-info">' +
+          '<p class="doc-file-name">' + fileName + '</p>' +
+          '<p class="doc-file-meta">Enviado el ' + fechaEnvio + ' · 1.4 MB</p>' +
+          '<p class="doc-file-meta" style="margin-top:2px">Por ' + revisorName + '</p>' +
+        '</div>' +
+      '</div>' +
+      '<button class="doc-btn" onclick="return false;">' +
+        '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" style="width:13px;height:13px"><path d="M7 2v7M4 6.5l3 3 3-3M2 11h10"/></svg>' +
+        'Descargar documento' +
+      '</button>';
+  }
+
   function renderAll() {
     _detalle = ValidationAdminStore.getGerenciaDetalle(_gerId, _periodo);
     if (!_detalle) {
@@ -490,6 +549,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
     renderValidarBanner(_detalle);
     renderRegresarBtn();
     renderKPIs(_detalle);
+    renderDocCard(_detalle);
     renderFilterChips(_detalle);
     renderCards(_detalle);
   }
@@ -519,7 +579,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
         '  <input type="checkbox" class="modal-ind-check ind-checkbox" id="chk-ind-' + i + '"',
         '    value="' + item.indicador.id + '" checked onchange="updateRegresarCount()">',
         '  <div class="modal-ind-info">',
-        '    <div class="modal-ind-nombre">' + item.indicador.nombre + '</div>',
+        '    <div class="modal-ind-nombre">' + isoBadge(item.indicador) + item.indicador.nombre + '</div>',
         '    <div class="modal-ind-unidad">' + (item.unidadNombre || '—') + '</div>',
         '  </div>',
         '  <span class="modal-ind-badge ' + estado + '">' + (BADGE[estado] || estado) + '</span>',
@@ -829,7 +889,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
       '      <span class="ind-estado-badge ' + estadoKey + '">' + estadoLbl + '</span>',
       '      ' + forzadoTag,
       '    </div>',
-      '    <div class="ind-nombre">' + ind.nombre + '</div>',
+      '    <div class="ind-nombre">' + isoBadge(ind) + ind.nombre + '</div>',
       '    <div class="ind-unidad">' + (item.unidadNombre || '—') + '</div>',
       '    <div class="ind-avance-row">',
       '      <div class="ind-pct-block">',

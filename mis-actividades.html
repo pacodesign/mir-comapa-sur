@@ -9,6 +9,7 @@
   <script src="session.js"></script>
   <script src="mock-notifications.js"></script>
   <script src="mir-actividades-data.js"></script>
+  <script src="mir-gerencial-data.js"></script>
   <script src="demo-data.js"></script>
   <script src="planeacion-data.js"></script>
   <script src="layout.js"></script>
@@ -409,7 +410,7 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
           <p class="act-id">
             ${act.id}
           </p>
-          <p class="act-nombre">${act.nombreIndicador}</p>
+          <p class="act-nombre">${isoBadge(act)}${act.nombreIndicador}</p>
         </td>
         <td><span style="font-size:12px;color:var(--color-text-secondary);line-height:1.4;">${esGerencial ? (act.area || '—') : (act.unidadResponsable || '—')}</span></td>
         <td>${tipoBadge}</td>
@@ -462,7 +463,7 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
           </div>
         </div>
         <div class="ind-card-body">
-          <p class="ind-card-nombre">${act.nombreIndicador}</p>
+          <p class="ind-card-nombre">${isoBadge(act)}${act.nombreIndicador}</p>
           <p class="ind-card-area">${area}</p>
         </div>
         <div class="ind-card-meta">

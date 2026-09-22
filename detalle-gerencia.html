@@ -368,7 +368,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
     pendingValidarId = id;
     const dias = diasRestantes(act.fechaLimite);
     document.getElementById('validarSummary').innerHTML = [
-      { l: 'Indicador',    v: act.nombreIndicador },
+      { l: 'Indicador',    v: isoBadge(act) + act.nombreIndicador },
       { l: 'ID',           v: act.id },
       { l: 'Enlace',       v: act.responsableEnlace },
       { l: 'Revisor',      v: act.responsableRevisor },
@@ -414,7 +414,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--color-sur
           <div class="vc-top">
             <div>
               <p class="vc-id">${act.id}</p>
-              <p class="vc-nombre">${act.nombreIndicador}</p>
+              <p class="vc-nombre">${isoBadge(act)}${act.nombreIndicador}</p>
             </div>
             <span class="nivel-badge nivel-${act.nivelCodigo}" style="flex-shrink:0">${{F:'Fin',P:'Propósito',C:'Componente',A:'Actividad'}[act.nivelCodigo]||act.nivelCodigo}</span>
           </div>

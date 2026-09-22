@@ -447,7 +447,7 @@ function renderTable(rows) {
       <td><span class="row-id">${r.id}</span></td>
       <td><span class="g-chip ${gClass(r.gerencia)}">${gShort(r.gerencia)}</span></td>
       <td><span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span></td>
-      <td class="td-ind"><p>${r.nombreIndicador}</p></td>
+      <td class="td-ind"><p>${isoBadge(r)}${r.nombreIndicador}</p></td>
       <td class="td-obj"><p>${r.resumenNarrativo || r.objetivo}</p></td>
       <td><span class="freq-tag ${frClass(r.frecuenciaMedicion)}">${r.frecuenciaMedicion}</span></td>
       <td style="font-size:11px;color:var(--color-text-secondary)">${r.unidadMedida}</td>
@@ -475,7 +475,7 @@ function renderTree(rows) {
       grouped[g][n].map(r => `
         <div class="tree-item ${lvIndent(r.nivel)}${state.selected===r.id?' selected':''}" onclick="openDetail('${r.id}')">
           <div class="tree-item-content">
-            <p class="tree-item-name">${r.nombreIndicador}</p>
+            <p class="tree-item-name">${isoBadge(r)}${r.nombreIndicador}</p>
             <div class="tree-item-meta">
               <span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span>
               <span class="tree-item-id">${r.id}</span>
@@ -537,7 +537,7 @@ function openDetail(id) {
       <span class="level-tag ${lvClass(r.nivel)}">${r.nivel}</span>
       <span class="g-chip ${gClass(r.gerencia)}">${gShort(r.gerencia)}</span>
     </div>
-    <p class="drawer-name">${r.nombreIndicador}</p>
+    <p class="drawer-name">${isoBadge(r)}${r.nombreIndicador}</p>
     <div class="d-divider"></div>
     <div class="d-field">
       <span class="d-label">Gerencia</span>

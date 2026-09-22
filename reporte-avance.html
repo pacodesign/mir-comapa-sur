@@ -683,7 +683,7 @@ uploadArea.addEventListener('drop', function(e) {
 
     '<div class="ind-summary">' +
       '<span class="ind-sum-id">' + r.id + '</span>' +
-      '<p class="ind-sum-name">' + r.nombreIndicador + '</p>' +
+      '<p class="ind-sum-name">' + isoBadge(r) + r.nombreIndicador + '</p>' +
       '<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px">' +
         '<span class="level-tag ' + lvCls(r.nivel) + '">' + r.nivel + '</span>' +
         '<span class="g-chip ' + gCls(r.gerencia) + '">' + r.gerencia + '</span>' +
@@ -721,7 +721,7 @@ uploadArea.addEventListener('drop', function(e) {
     modalRow.innerHTML =
       '<span class="ind-compact-id">' + r.id + '</span>' +
       '<div class="ind-compact-info">' +
-        '<p class="ind-compact-name">' + r.nombreIndicador + '</p>' +
+        '<p class="ind-compact-name">' + isoBadge(r) + r.nombreIndicador + '</p>' +
         '<div class="ind-compact-meta">' +
           '<span class="level-tag ' + lvCls(r.nivel) + '">' + r.nivel + '</span>' +
           '<span class="g-chip ' + gCls(r.gerencia) + '">' + r.gerencia + '</span>' +

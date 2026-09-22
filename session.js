@@ -364,6 +364,11 @@ function fechaEnvio(act) {
   return envios[envios.length - 1].fecha;
 }
 
+// Devuelve un badge HTML "ISO" si el indicador está marcado como ISO.
+function isoBadge(act) {
+  return (act && act.iso && act.iso.toLowerCase() === 'x') ? '<span class="iso-badge">ISO</span> ' : '';
+}
+
 // Devuelve todos los indicadores de la gerencia del Revisor activo.
 // Respeta localStorage.userGerencia para soportar el picker de gerencia del login.
 function getActividadesRevisor() {
@@ -424,7 +429,7 @@ function getNombreGerenciaEnlace() {
   return unidad || ger;
 }
 
-// Devuelve indicadores de planeación de gerencia (reservado para uso futuro).
+// Devuelve los indicadores gerenciales de las 4 gerencias generales.
 function getActividadesGerencia() {
-  return [];
+  return (typeof ACTIVIDADES_GERENCIA !== 'undefined') ? ACTIVIDADES_GERENCIA : [];
 }
