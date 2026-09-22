@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="shared.css">
   <script src="session.js"></script>
+  <script src="shared-ui.js"></script>
   <script src="mock-notifications.js"></script>
   <script src="mir-actividades-data.js"></script>
   <script src="demo-data.js"></script>
@@ -20,8 +21,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 /* FILTER BAR */
     .filter-bar {background:var(--color-bg);border-radius:var(--radius-card);padding:14px 18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:10px;}
 .filter-row {display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.filter-select {padding:8px 12px;border:1px solid var(--color-border);border-radius:10px;font-size:12px;font-family:inherit;outline:none;background:var(--color-surface);color:var(--color-text-primary);cursor:pointer;}
-.filter-select:focus {border-color:var(--color-info);}
+.filter-select {display:none;}
 .sort-btn {display:inline-flex;align-items:center;gap:5px;padding:8px 12px;border:1px solid var(--color-border);border-radius:10px;font-size:12px;font-weight:600;font-family:inherit;background:var(--color-surface);cursor:pointer;white-space:nowrap;transition:background .12s;}
 .sort-btn:hover {background:var(--color-border);}
 .sort-btn svg {width:14px;height:14px;}

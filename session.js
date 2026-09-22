@@ -287,7 +287,8 @@ var ESTADO_CFG_MIR = {
   pendiente_carga:  { label:'Sin capturar',      cls:'pendiente_carga',  accion:'Cargar evidencia',    btnCls:'primary' },
   pendiente_envio:  { label:'Listo para enviar', cls:'pendiente_carga',  accion:'Enviar a revisión',   btnCls:'primary' },
   borrador:         { label:'En borrador',        cls:'borrador',         accion:'Continuar captura',   btnCls:'primary' },
-  enviado_revision: { label:'En revisión',        cls:'enviado_revision', accion:'Ver seguimiento',     btnCls:'neutral' },
+  enviado_revision:  { label:'En revisión',           cls:'enviado_revision', accion:'Ver seguimiento',     btnCls:'neutral' },
+  pendiente_revision:{ label:'Pendiente de revisión', cls:'enviado_revision', accion:'Revisar ahora',       btnCls:'primary' },
   corregido:        { label:'Corregido',          cls:'corregido',        accion:'Ver seguimiento',     btnCls:'neutral' },
   observado:        { label:'Con observaciones',  cls:'observado',        accion:'Atender observación', btnCls:'warning' },
   aprobado_revisor: { label:'Aprobado',           cls:'aprobado_revisor', accion:'Ver detalle',         btnCls:'neutral' },
@@ -300,7 +301,7 @@ var ESTADO_CFG_MIR = {
 // Normaliza el estado raw de un indicador al estado de visualización.
 function estadoVista(act) {
   var e = act.estado;
-  if (['pendiente_carga','pendiente_envio','incompleto'].includes(e)) return 'borrador';
+  if (['pendiente_envio','incompleto'].includes(e)) return 'borrador';
   return e;
 }
 

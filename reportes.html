@@ -9,6 +9,7 @@
   <script src="session.js"></script>
   <script src="mir-actividades-data.js"></script>
   <script src="demo-data.js"></script>
+  <script src="shared-ui.js"></script>
   <script src="planeacion-data.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
   <style>
@@ -30,8 +31,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .btn-outline svg {width:13px;height:13px;}
 /* ── Filter bar ── */
     .filter-bar {display:flex;gap:8px;align-items:center;margin-bottom:24px;flex-wrap:wrap;}
-.filter-select {padding:8px 12px;font-size:12px;font-family:inherit;border:1px solid var(--color-border);border-radius:var(--radius-btn);background:white;outline:none;cursor:pointer;color:var(--color-text-primary);}
-.filter-select:focus {border-color:var(--color-primary);}
+.filter-select {display:none;}
 .filter-label {font-size:12px;font-weight:600;color:var(--color-text-secondary);}
 /* ── Report cards grid ── */
     .reports-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:32px;}
@@ -157,6 +157,10 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5"/></svg>
         Presentación ante el consejo
       </button>
+      <button class="sec-nav-item" id="snav-metas" onclick="switchSection('metas')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+        Reporte de metas
+      </button>
       <button class="sec-nav-item" id="snav-transparencia" onclick="switchSection('transparencia')">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
         Reporte de transparencia
@@ -201,20 +205,26 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           <h1 class="page-title">Por gerencia</h1>
           <p class="page-subtitle">Detalle de avance desglosado por gerencia y período</p>
         </div>
-        <div style="display:flex;gap:8px;">
-          <select class="filter-select">
-            <option>Todas las gerencias</option>
-            <option>Gerencia Comercial</option>
-            <option>Gerencia Técnica</option>
-            <option>Gerencia Administrativa</option>
-            <option>Gerencia de Planeación Estratégica</option>
-          </select>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div class="db-view-toggle" style="margin-bottom:0">
+            <button class="db-vt-btn active" id="avance-vt-cards" onclick="avanceSetView('cards')">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
+              Tarjetas
+            </button>
+            <button class="db-vt-btn" id="avance-vt-table" onclick="avanceSetView('table')">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m2.25-2.25h7.5m-7.5 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m8.625-2.25c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m7.5 0h2.25"/></svg>
+              Vista tabla
+            </button>
+          </div>
           <button class="btn btn-secondary" onclick="toast('Generando reporte…')">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
             Exportar
           </button>
         </div>
       </div>
+
+      <!-- Cards view -->
+      <div id="avance-cards-view">
       <div class="reports-grid">
         <div class="report-card">
           <div class="report-card-header">
@@ -317,6 +327,66 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           </div>
         </div>
       </div>
+      </div><!-- /avance-cards-view -->
+
+      <!-- Table view -->
+      <div id="avance-table-view" style="display:none">
+        <div class="table-card">
+          <div class="table-card-header">
+            <span class="table-card-title">Avance por gerencia — Mayo 2026</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Gerencia</th>
+                <th style="text-align:center">Indicadores</th>
+                <th style="text-align:center">Capturados</th>
+                <th style="text-align:center">Pendientes</th>
+                <th style="min-width:160px">Avance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-bold">Gerencia Comercial</td>
+                <td style="text-align:center">35</td>
+                <td style="text-align:center">28</td>
+                <td style="text-align:center">7</td>
+                <td><div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:80%"></div></div><span class="prog-pct">80%</span></div></td>
+              </tr>
+              <tr>
+                <td class="td-bold">Gerencia Técnica</td>
+                <td style="text-align:center">43</td>
+                <td style="text-align:center">30</td>
+                <td style="text-align:center">13</td>
+                <td><div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:70%"></div></div><span class="prog-pct">70%</span></div></td>
+              </tr>
+              <tr>
+                <td class="td-bold">Gerencia Administrativa</td>
+                <td style="text-align:center">39</td>
+                <td style="text-align:center">35</td>
+                <td style="text-align:center">4</td>
+                <td><div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:90%"></div></div><span class="prog-pct">90%</span></div></td>
+              </tr>
+              <tr>
+                <td class="td-bold">Gerencia de Planeación Estratégica</td>
+                <td style="text-align:center">15</td>
+                <td style="text-align:center">12</td>
+                <td style="text-align:center">3</td>
+                <td><div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:80%"></div></div><span class="prog-pct">80%</span></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div><!-- /avance-table-view -->
+
+      <script>
+        window.avanceSetView = function(view) {
+          document.getElementById('avance-vt-cards').classList.toggle('active', view === 'cards');
+          document.getElementById('avance-vt-table').classList.toggle('active', view === 'table');
+          document.getElementById('avance-cards-view').style.display = view === 'cards' ? '' : 'none';
+          document.getElementById('avance-table-view').style.display = view === 'table'  ? '' : 'none';
+        };
+      </script>
     </div>
 
     <!-- ── Sección: Estado de indicadores ── -->
@@ -2049,6 +2119,433 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
       </script>
     </div>
 
+    <!-- ── Sección: Reporte de metas ── -->
+    <div class="section" id="sec-metas">
+      <style>
+#sec-metas {padding-bottom:48px;}
+.mt-card-desc {display:flex;flex-direction:column;gap:3px;}
+.mt-card-desc-lbl {font-size:9px;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.08em;}
+.mt-card-desc-val {font-size:12px;color:var(--color-text-primary);line-height:1.5;}
+.mt-formula-wrap {background:var(--color-neutral-50);border:1px solid var(--color-border);border-radius:8px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;}
+.mt-formula-num {font-size:11px;color:var(--color-text-primary);border-bottom:1px solid var(--color-neutral-200);padding-bottom:4px;margin-bottom:2px;line-height:1.4;}
+.mt-formula-den {font-size:11px;color:var(--color-text-secondary);line-height:1.4;}
+.mt-freq-badge {display:inline-flex;align-items:center;font-size:10px;font-weight:700;color:var(--color-primary);background:var(--color-primary-tint);padding:3px 9px;border-radius:999px;white-space:nowrap;}
+.mt-table td.td-desc {max-width:220px;white-space:normal;line-height:1.4;font-size:11px;}
+.mt-table td.td-formula {max-width:200px;white-space:normal;line-height:1.4;font-size:11px;}
+.mt-table td.td-freq {text-align:center;white-space:nowrap;font-size:11px;font-weight:600;color:var(--color-primary);}
+      </style>
+
+      <!-- Page Header -->
+      <div class="db-hdr">
+        <div>
+          <h1 class="db-hdr-title">Reporte de metas</h1>
+          <p class="db-hdr-sub">Metas anuales por indicador · Ejercicio fiscal 2026</p>
+        </div>
+        <span class="db-period-badge">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 18.75A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75M3 18.75v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+          Enero – Diciembre 2026
+        </span>
+      </div>
+
+      <!-- Filter bar: gerencia dropdown + view toggle -->
+      <div class="tr-filter-bar" style="margin-bottom:16px">
+        <div class="tr-filter-group">
+          <label class="tr-filter-label">Gerencia</label>
+          <div class="tr-dd-wrap" id="mtDDGer" style="min-width:230px">
+            <div class="tr-dd-trigger" id="mtDDGerTrigger" onclick="mtToggleDD()">
+              <span id="mtDDGerLabel">Todas las gerencias</span>
+              <svg class="tr-dd-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="tr-dd-panel" id="mtDDGerPanel">
+              <div class="tr-dd-opt selected" data-val="" onclick="mtPickGer('','Todas las gerencias')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Todas las gerencias
+              </div>
+              <div class="tr-dd-opt" data-val="Gerencia General" onclick="mtPickGer('Gerencia General','Gerencia General')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Gerencia General
+              </div>
+              <div class="tr-dd-opt" data-val="Gerencia Administrativa" onclick="mtPickGer('Gerencia Administrativa','Gerencia Administrativa')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Gerencia Administrativa
+              </div>
+              <div class="tr-dd-opt" data-val="Gerencia Comercial" onclick="mtPickGer('Gerencia Comercial','Gerencia Comercial')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Gerencia Comercial
+              </div>
+              <div class="tr-dd-opt" data-val="Gerencia Técnica" onclick="mtPickGer('Gerencia Técnica','Gerencia Técnica')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Gerencia Técnica
+              </div>
+              <div class="tr-dd-opt" data-val="Gerencia de Planeación Estratégica" onclick="mtPickGer('Gerencia de Planeación Estratégica','Gerencia de Planeación Estratégica')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Gerencia de Planeación Estratégica
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+          <div class="db-view-toggle" style="margin-bottom:0">
+            <button class="db-vt-btn active" id="mt-vt-cards" onclick="mtSetView('cards')">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
+              Tarjetas
+            </button>
+            <button class="db-vt-btn" id="mt-vt-table" onclick="mtSetView('table')">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m2.25-2.25h7.5m-7.5 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m8.625-2.25c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m7.5 0h2.25"/></svg>
+              Vista tabla
+            </button>
+          </div>
+          <button class="tr-dl-btn" onclick="mtDownloadExcel()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Excel
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary ribbon -->
+      <div class="db-summary" id="mt-summary-row"></div>
+
+      <!-- Cards container -->
+      <div id="mt-panels-container"></div>
+
+      <!-- Table container -->
+      <div id="mt-table-container" style="display:none"></div>
+
+      <script>
+      (function() {
+        var src = (typeof ACTIVIDADES_ENLACE !== 'undefined') ? ACTIVIDADES_ENLACE : [];
+        var _mtGer = '';
+        var _mtView = 'cards';
+
+        // Period labels per frequency
+        var FREQ_PERIODS = {
+          'Anual':         ['Anual'],
+          'Semestral':     ['S1','S2'],
+          'Trimestral':    ['T1','T2','T3','T4'],
+          'Cuatrimestral': ['C1','C2','C3'],
+          'Bimestral':     ['B1','B2','B3','B4','B5','B6'],
+          'Mensual':       ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
+        };
+
+        // Ordered list so tables appear in a consistent, logical order
+        var FREQ_ORDER = ['Mensual','Bimestral','Trimestral','Cuatrimestral','Semestral','Anual'];
+
+        function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+        function isPct(act) { return act.unidadMedida === 'Porcentaje' || act.unidadMedida === 'Variación'; }
+
+        // Generate plausible demo meta when metaAnual is null
+        function getDemoMeta(act) {
+          if (act.metaAnual !== null && act.metaAnual !== undefined) return act.metaAnual;
+          var n = act.no || 1;
+          if (act.unidadMedida === 'Porcentaje') return 0.75 + ((n * 7) % 24) * 0.01;
+          if (act.unidadMedida === 'Variación')  return 0.03 + ((n * 3) % 8) * 0.01;
+          return 50 + ((n * 17) % 451);
+        }
+
+        function fmtMeta(val, act) {
+          if (val === null || val === undefined) return '—';
+          if (isPct(act)) return (val * 100).toFixed(1) + '%';
+          return Math.round(val).toLocaleString('es-MX');
+        }
+
+        // Returns array of per-period meta values
+        function getPeriodMetas(act) {
+          var annual = getDemoMeta(act);
+          var periods = FREQ_PERIODS[act.frecuenciaMedicion] || ['Anual'];
+          if (isPct(act)) {
+            // Porcentaje: maintain the same target every period
+            return periods.map(function() { return annual; });
+          } else {
+            // Número: distribute annual total across periods
+            var perPeriod = annual / periods.length;
+            return periods.map(function() { return perPeriod; });
+          }
+        }
+
+        function buildMtCard(act) {
+          var num = act.numerador || '—';
+          var den = act.denominador || '—';
+          var annual = getDemoMeta(act);
+          return '<div class="db-card">'+
+            '<div class="db-card-top">'+
+              '<span class="db-proceso-chip" title="'+esc(act.unidadResponsable)+'">'+esc(act.unidadResponsable)+'</span>'+
+              '<span class="mt-freq-badge">'+esc(act.frecuenciaMedicion||'—')+'</span>'+
+            '</div>'+
+            '<div class="db-card-name">'+esc(act.nombreIndicador)+'</div>'+
+            '<div class="mt-card-desc">'+
+              '<span class="mt-card-desc-lbl">Descripción del objetivo</span>'+
+              '<span class="mt-card-desc-val">'+esc(act.resumenNarrativo||'—')+'</span>'+
+            '</div>'+
+            '<div>'+
+              '<span class="mt-card-desc-lbl" style="margin-bottom:5px;display:block">Fórmula utilizada</span>'+
+              '<div class="mt-formula-wrap">'+
+                '<div class="mt-formula-num">'+esc(num)+'</div>'+
+                '<div class="mt-formula-den">'+esc(den)+'</div>'+
+              '</div>'+
+            '</div>'+
+            '<div class="db-card-footer">'+
+              '<span class="mt-card-desc-lbl" style="margin:0">Meta anual:</span>'+
+              '<span style="font-size:14px;font-weight:700;color:var(--color-primary)">'+fmtMeta(annual,act)+'</span>'+
+            '</div>'+
+          '</div>';
+        }
+
+        function buildMtPanel(acts) {
+          var byU = {};
+          acts.forEach(function(a) {
+            var u = a.unidadResponsable || 'Sin unidad';
+            if (!byU[u]) byU[u] = [];
+            byU[u].push(a);
+          });
+          var html = '';
+          Object.keys(byU).sort().forEach(function(u) {
+            html += '<div class="db-proceso-hdr">'+esc(u)+'</div>';
+            html += '<div class="db-grid">';
+            byU[u].forEach(function(a){ html += buildMtCard(a); });
+            html += '</div>';
+          });
+          return html;
+        }
+
+        function nivelBadge(nivel) {
+          return '<span style="background:var(--color-neutral-100);color:var(--color-text-secondary);font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap">'+esc(nivel||'—')+'</span>';
+        }
+
+        // Build one sub-table for a specific frequency group within a gerencia
+        function buildFreqTable(freqLabel, acts) {
+          var periods = FREQ_PERIODS[freqLabel] || ['Anual'];
+          var nCols = 2 + periods.length; // Indicador + Meta anual + N period cols
+          var rows = '';
+          var lastU = null;
+          acts.forEach(function(a) {
+            var u = a.unidadResponsable || 'Sin unidad';
+            if (u !== lastU) {
+              rows += '<tr class="tr-proceso-hdr"><td colspan="'+nCols+'">'+esc(u)+'</td></tr>';
+              lastU = u;
+            }
+            var metas = getPeriodMetas(a);
+            var periodCells = metas.map(function(v) {
+              return '<td class="td-meta" style="text-align:center;font-variant-numeric:tabular-nums">'+fmtMeta(v,a)+'</td>';
+            }).join('');
+            rows +=
+              '<tr>'+
+                '<td class="td-indicador">'+esc(a.nombreIndicador)+'</td>'+
+                '<td class="td-meta" style="text-align:center;font-size:12px;font-weight:700;color:var(--color-primary)">'+fmtMeta(getDemoMeta(a),a)+'</td>'+
+                periodCells+
+              '</tr>';
+            // Metadata sub-row
+            rows +=
+              '<tr class="tr-meta-row">'+
+                '<td colspan="'+nCols+'" class="tr-td-meta">'+
+                  '<div class="tr-meta-grid" style="grid-template-columns:auto 1fr 1fr">'+
+                    '<div class="tr-meta-item tr-meta-short">'+
+                      '<span class="tr-meta-label">Nivel MIR</span>'+
+                      nivelBadge(a.nivel)+
+                    '</div>'+
+                    '<div class="tr-meta-item">'+
+                      '<span class="tr-meta-label">Descripción del objetivo</span>'+
+                      '<span class="tr-meta-value">'+esc(a.resumenNarrativo||'—')+'</span>'+
+                    '</div>'+
+                    '<div class="tr-meta-item">'+
+                      '<span class="tr-meta-label">Fórmula utilizada</span>'+
+                      '<span class="tr-meta-value tr-meta-formula">'+
+                        '<span style="display:block;border-bottom:1px solid var(--color-border);padding-bottom:3px;margin-bottom:3px;">'+esc(a.numerador||'—')+'</span>'+
+                        '<span style="display:block">'+esc(a.denominador||'—')+'</span>'+
+                      '</span>'+
+                    '</div>'+
+                  '</div>'+
+                '</td>'+
+              '</tr>';
+          });
+
+          var periodHeaders = periods.map(function(p){
+            return '<th class="th-month" style="min-width:60px;text-align:center">'+esc(p)+'</th>';
+          }).join('');
+
+          return '<div style="margin-bottom:4px;display:flex;align-items:center;gap:8px;padding:10px 0 4px">'+
+              '<span class="mt-freq-badge">'+esc(freqLabel)+'</span>'+
+              '<span style="font-size:11px;color:var(--color-text-secondary)">'+acts.length+' indicador'+(acts.length!==1?'es':'')+'</span>'+
+            '</div>'+
+            '<div class="db-table-wrap" style="margin-bottom:20px;overflow-x:auto">'+
+              '<table class="db-excel-table">'+
+                '<thead><tr>'+
+                  '<th style="min-width:220px;text-align:left;position:sticky;left:0;z-index:2;background:var(--color-text-primary)">Indicador</th>'+
+                  '<th style="min-width:80px;text-align:center">Meta anual</th>'+
+                  periodHeaders+
+                '</tr></thead>'+
+                '<tbody>'+rows+'</tbody>'+
+              '</table>'+
+            '</div>';
+        }
+
+        function buildMtTableSection(ger, acts) {
+          // Group acts by frecuenciaMedicion
+          var byFreq = {};
+          acts.forEach(function(a) {
+            var f = a.frecuenciaMedicion || 'Anual';
+            if (!byFreq[f]) byFreq[f] = [];
+            byFreq[f].push(a);
+          });
+
+          // Sort frequencies: use FREQ_ORDER if available, then alphabetically
+          var freqKeys = Object.keys(byFreq).sort(function(a, b) {
+            var ia = FREQ_ORDER.indexOf(a), ib = FREQ_ORDER.indexOf(b);
+            if (ia === -1) ia = 99;
+            if (ib === -1) ib = 99;
+            return ia - ib;
+          });
+
+          var inner = freqKeys.map(function(f) { return buildFreqTable(f, byFreq[f]); }).join('');
+
+          return '<div class="db-table-wrap" style="margin-bottom:28px;border:none;background:none;">'+
+            '<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0 10px;border-bottom:2px solid var(--color-border);margin-bottom:16px">'+
+              '<div>'+
+                '<div class="db-table-ger-title">'+esc(ger)+'</div>'+
+                '<div class="db-table-ger-sub">'+acts.length+' indicadores · '+freqKeys.length+' frecuencia'+(freqKeys.length!==1?'s':'')+'</div>'+
+              '</div>'+
+            '</div>'+
+            inner+
+          '</div>';
+        }
+
+        function getFiltered() {
+          return _mtGer ? src.filter(function(a){ return a.gerencia === _mtGer; }) : src;
+        }
+
+        function byGerencia(acts) {
+          var map = {};
+          acts.forEach(function(a) {
+            var g = a.gerencia || 'Sin gerencia';
+            if (!map[g]) map[g] = [];
+            map[g].push(a);
+          });
+          return map;
+        }
+
+        function renderCards() {
+          var filtered = getFiltered();
+          var container = document.getElementById('mt-panels-container');
+          if (!filtered.length) { container.innerHTML = '<p style="color:var(--color-text-secondary);padding:24px 0;font-size:13px;">Sin indicadores para esta gerencia.</p>'; return; }
+          var map = byGerencia(filtered);
+          var html = '';
+          Object.keys(map).sort().forEach(function(ger) {
+            if (Object.keys(map).length > 1) {
+              html += '<h2 style="font-size:15px;font-weight:700;color:var(--color-text-primary);margin:24px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--color-border)">'+esc(ger)+'</h2>';
+            }
+            html += buildMtPanel(map[ger]);
+          });
+          container.innerHTML = html;
+        }
+
+        function renderTable() {
+          var filtered = getFiltered();
+          var container = document.getElementById('mt-table-container');
+          if (!filtered.length) { container.innerHTML = '<p style="color:var(--color-text-secondary);padding:24px 0;font-size:13px;">Sin indicadores para esta gerencia.</p>'; return; }
+          var map = byGerencia(filtered);
+          var html = '';
+          Object.keys(map).sort().forEach(function(ger) {
+            html += buildMtTableSection(ger, map[ger]);
+          });
+          container.innerHTML = html;
+        }
+
+        function renderSummary() {
+          var total = getFiltered().length;
+          var freqs = {};
+          getFiltered().forEach(function(a) { var f = a.frecuenciaMedicion||'Sin dato'; freqs[f]=(freqs[f]||0)+1; });
+          var chips = [
+            { n:total, l:'Total indicadores', bg:'#F5E8EC', ic:'#8B1D3A', svg:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"/></svg>' }
+          ];
+          FREQ_ORDER.concat(Object.keys(freqs).filter(function(f){ return FREQ_ORDER.indexOf(f)===-1; })).forEach(function(f) {
+            if (!freqs[f]) return;
+            chips.push({ n:freqs[f], l:f, bg:'var(--color-primary-tint)', ic:'var(--color-primary)', svg:'<svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>' });
+          });
+          document.getElementById('mt-summary-row').innerHTML = chips.map(function(c){
+            return '<div class="db-sum-card">'+
+              '<div class="db-sum-icon" style="background:'+c.bg+';color:'+c.ic+'">'+c.svg+'</div>'+
+              '<div><div class="db-sum-num" style="color:'+c.ic+'">'+c.n+'</div><div class="db-sum-lbl">'+c.l+'</div></div>'+
+            '</div>';
+          }).join('');
+        }
+
+        function render() {
+          renderSummary();
+          if (_mtView === 'cards') { renderCards(); }
+          else { renderTable(); }
+        }
+
+        window.mtToggleDD = function() {
+          var trigger = document.getElementById('mtDDGerTrigger');
+          var panel   = document.getElementById('mtDDGerPanel');
+          var open    = panel.classList.contains('open');
+          panel.classList.toggle('open', !open);
+          trigger.classList.toggle('open', !open);
+        };
+
+        window.mtPickGer = function(ger, label) {
+          document.getElementById('mtDDGerLabel').textContent = label;
+          document.getElementById('mtDDGerPanel').querySelectorAll('.tr-dd-opt').forEach(function(opt){
+            opt.classList.toggle('selected', opt.dataset.val === ger);
+          });
+          document.getElementById('mtDDGerPanel').classList.remove('open');
+          document.getElementById('mtDDGerTrigger').classList.remove('open');
+          _mtGer = ger;
+          render();
+        };
+
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('#mtDDGer')) {
+            var panel   = document.getElementById('mtDDGerPanel');
+            var trigger = document.getElementById('mtDDGerTrigger');
+            if (panel)   panel.classList.remove('open');
+            if (trigger) trigger.classList.remove('open');
+          }
+        });
+
+        window.mtSetView = function(view) {
+          _mtView = view;
+          document.getElementById('mt-vt-cards').classList.toggle('active', view==='cards');
+          document.getElementById('mt-vt-table').classList.toggle('active', view==='table');
+          document.getElementById('mt-panels-container').style.display = view==='cards' ? '' : 'none';
+          document.getElementById('mt-table-container').style.display  = view==='table'  ? '' : 'none';
+          render();
+        };
+
+        window.mtDownloadExcel = function() {
+          if (typeof XLSX === 'undefined') { alert('La librería de Excel aún no ha cargado. Intenta de nuevo en un momento.'); return; }
+          var filtered = getFiltered();
+          // Build one sheet per frequency group
+          var wb = XLSX.utils.book_new();
+          var byFreq = {};
+          filtered.forEach(function(a) {
+            var f = a.frecuenciaMedicion || 'Anual';
+            if (!byFreq[f]) byFreq[f] = [];
+            byFreq[f].push(a);
+          });
+          FREQ_ORDER.concat(Object.keys(byFreq).filter(function(f){ return FREQ_ORDER.indexOf(f)===-1; })).forEach(function(f) {
+            if (!byFreq[f]) return;
+            var periods = FREQ_PERIODS[f] || ['Anual'];
+            var header = ['Gerencia','Unidad Responsable','Indicador','Meta Anual'].concat(periods);
+            var rows = [header];
+            byFreq[f].forEach(function(a) {
+              var metas = getPeriodMetas(a);
+              var fmtd = metas.map(function(v){ return fmtMeta(v,a); });
+              rows.push([a.gerencia||'', a.unidadResponsable||'', a.nombreIndicador||'', fmtMeta(getDemoMeta(a),a)].concat(fmtd));
+            });
+            var ws = XLSX.utils.aoa_to_sheet(rows);
+            ws['!cols'] = [{wch:28},{wch:28},{wch:40},{wch:14}].concat(periods.map(function(){ return {wch:10}; }));
+            var sheetName = f.substring(0,31);
+            XLSX.utils.book_append_sheet(wb, ws, sheetName);
+          });
+          XLSX.writeFile(wb, 'COMSUR-Reporte-Metas-2026.xlsx');
+        };
+
+        render();
+      })();
+      </script>
+    </div>
+
     <!-- ── Sección: Reporte de transparencia ── -->
     <div class="section" id="sec-transparencia">
 
@@ -2112,9 +2609,9 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 /* Metadata sub-row */
         .tr-meta-row td {border-top:none;padding:0;}
 .tr-td-meta {padding:0 0 10px 0!important;background:inherit;}
-.tr-meta-grid {display:grid;grid-template-columns:1fr 1fr auto auto;gap:0;border-top:1px dashed var(--color-border);padding:8px 16px;background:var(--color-bg);}
+.tr-meta-grid {display:grid;grid-template-columns:1fr 1fr auto auto;gap:0;border-top:1px dashed var(--color-border);padding:8px 16px;background:var(--color-neutral-50);}
 .tr-meta-item {display:flex;flex-direction:column;gap:2px;padding:4px 12px 4px 0;}
-.tr-meta-short {min-width:160px;max-width:200px;}
+.tr-meta-short {max-width:200px;}
 .tr-meta-label {font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);}
 .tr-meta-value {font-size:12px;color:var(--color-text-primary);line-height:1.4;}
 .tr-meta-formula {font-style:italic;color:var(--color-text-primary);}

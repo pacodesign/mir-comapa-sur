@@ -484,12 +484,14 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .obs-revisor-del {display:inline-flex;align-items:center;gap:4px;background:none;border:none;font-size:11px;font-weight:600;color:var(--color-danger);cursor:pointer;padding:2px 4px;border-radius:6px;font-family:inherit;transition:background .12s;}
 .obs-revisor-del:hover {background:var(--color-danger-tint,#FEF2F2);}
 .obs-revisor-del svg {width:12px;height:12px;}
-.approved-panel {background:linear-gradient(135deg,var(--color-success-tint) 0%,var(--color-success-tint) 100%);border:1.5px solid #A7F3D0;border-radius:14px;padding:16px;margin-bottom:12px;}
-.approved-check {width:40px;height:40px;border-radius:50%;background:var(--color-success);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+.approved-panel {background:var(--color-success-tint);border-radius:14px;padding:16px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start;}
+.approved-left {display:flex;flex-direction:column;align-items:flex-start;flex-shrink:0;width:120px;}
+.approved-panel .wf-steps {flex:1;}
+.approved-check {width:40px;height:40px;border-radius:50%;background:var(--color-success);display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
 .approved-check svg {width:20px;height:20px;color:white;}
-.approved-title {font-size:13px;font-weight:700;color:var(--color-success-strong,var(--color-success-dark));text-align:center;margin-bottom:4px;}
-.approved-sub {font-size:11px;color:var(--color-success);text-align:center;line-height:1.5;margin-bottom:14px;}
-.approved-date {font-size:10px;color:var(--color-text-secondary);text-align:center;margin-bottom:14px;}
+.approved-title {font-size:13px;font-weight:700;color:var(--color-success-strong,var(--color-success-dark));margin-bottom:4px;}
+.approved-sub {font-size:11px;color:var(--color-success);line-height:1.5;margin-bottom:8px;}
+.approved-date {font-size:10px;color:var(--color-text-secondary);}
 .wf-steps {display:flex;flex-direction:column;gap:0;position:relative;}
 .wf-step {display:flex;align-items:flex-start;gap:10px;padding:7px 0;position:relative;}
 .wf-step-line {position:absolute;left:11px;top:26px;width:2px;bottom:-7px;background:var(--color-success-tint);}
@@ -1310,11 +1312,45 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
   }
   function confirmarAprobacion() {
     cerrarAprobarModal();
+    var fecha = nowStr();
+    var hora  = nowTime();
     actividad.estado = 'aprobado_revisor';
-    actividad.historial.push({ fecha: nowStr(), hora: nowTime(), usuario: 'Carlos Mendoza', rol: 'Revisor',
-      accion: 'Reporte aprobado por el Revisor', estadoAnterior: 'enviado_revision', estadoNuevo: 'aprobado_revisor' });
+    actividad.historial = actividad.historial || [];
+    actividad.historial.push({ fecha: fecha, hora: hora, usuario: 'Carlos Mendoza', rol: 'Revisor',
+      accion: 'Reporte aprobado por el Revisor', estadoAnterior: 'pendiente_revision', estadoNuevo: 'aprobado_revisor' });
     obsOpen = false;
-    renderPage();
+
+    // Actualizar badge de estado
+    var badge = document.querySelector('.estado-badge');
+    if (badge) {
+      badge.className = 'estado-badge aprobado_revisor';
+      badge.textContent = 'Aprobado';
+    }
+
+    // Actualizar panel de acción del revisor
+    var card = document.querySelector('.revisor-action-card');
+    if (card) {
+      card.innerHTML = `
+        <div class="approved-panel">
+          <div class="approved-left">
+            <div class="approved-check"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
+            <p class="approved-title">Reporte aprobado por ti</p>
+            <p class="approved-sub">Validación técnica completada.<br>Sin observaciones pendientes.</p>
+            <p class="approved-date">Aprobado el ${formatFecha(fecha)} · ${hora}</p>
+          </div>
+          <div class="wf-steps">
+            <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Enlace reportó avance</p><p class="wf-actor done">${actividad.responsableEnlace || '—'}</p></div></div>
+            <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Revisor aprobó</p><p class="wf-actor done">${actividad.responsableRevisor || 'Carlos Mendoza'} · Tú</p></div></div>
+            <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot active"><svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div><div class="wf-info"><p class="wf-label active">Admin valida</p><p class="wf-actor active">Luis Sandoval · Pendiente</p></div></div>
+            <div class="wf-step"><div class="wf-dot pending"></div><div class="wf-info"><p class="wf-label pending">Reporte cerrado</p><p class="wf-actor pending">Completitud de período</p></div></div>
+          </div>
+        </div>
+        <div class="next-action">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>
+          <div class="next-action-text"><strong>Siguiente paso: Admin</strong>Luis Sandoval debe validar este reporte para cerrarlo.</div>
+        </div>`;
+    }
+
     showToast('Reporte aprobado. El Enlace ha sido notificado.');
   }
   function enviarObservacion() {
@@ -2163,10 +2199,12 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
         const approvedFecha = formatFecha((act.historial.filter(h => h.estadoNuevo === 'aprobado_revisor').slice(-1)[0] || {}).fecha || act.ultimaActualizacion || '');
         actionCardHtml = `
           <div class="approved-panel">
-            <div class="approved-check"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
-            <p class="approved-title">Reporte aprobado por ti</p>
-            <p class="approved-sub">Validación técnica completada.<br>Sin observaciones pendientes.</p>
-            <p class="approved-date">Aprobado el ${approvedFecha}</p>
+            <div class="approved-left">
+              <div class="approved-check"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
+              <p class="approved-title">Reporte aprobado por ti</p>
+              <p class="approved-sub">Validación técnica completada.<br>Sin observaciones pendientes.</p>
+              <p class="approved-date">Aprobado el ${approvedFecha}</p>
+            </div>
             <div class="wf-steps">
               <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Enlace reportó avance</p><p class="wf-actor done">${act.responsableEnlace}</p></div></div>
               <div class="wf-step"><div class="wf-step-line"></div><div class="wf-dot done"><svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div><div class="wf-info"><p class="wf-label done">Revisor aprobó</p><p class="wf-actor done">${act.responsableRevisor} · Tú</p></div></div>
@@ -2436,11 +2474,14 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
       actividad.periodosAnteriores = computePeriodosAnteriores(actividad);
     }
     if (isRevisor && actividad) {
-      actividad.estado = 'enviado_revision';
+      actividad.estado = 'pendiente_revision';
       avanceSaved = true;
       avanceNum = '4982000';
       avanceDen = String(actividad.denomFijoVal || 5400000);
       avanceValue = '92.26%';
+      actividad.archivosEvidencia = actividad.archivosEvidencia || [];
+      actividad.historial         = actividad.historial         || [];
+      actividad.observaciones     = actividad.observaciones     || [];
       if (!actividad.archivosEvidencia.length) {
         actividad.archivosEvidencia = [{ id:'demo-rev-1', nombre:'Reporte_facturacion_Q2_2026.pdf', tipo:'PDF', peso:'1.2 MB', fecha:'2026-06-09', estado:'cargado' }];
       }

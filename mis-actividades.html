@@ -498,7 +498,7 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
     const all = DISPLAY_ACTIVIDADES;
     const vistas = all.map(a => (typeof estadoVista === 'function') ? estadoVista(a) : a.estado);
     document.getElementById('cntTodas').textContent     = all.length;
-    document.getElementById('cntPendiente').textContent = vistas.filter(v => v === 'borrador').length;
+    document.getElementById('cntPendiente').textContent = vistas.filter(v => ['borrador','pendiente_carga'].includes(v)).length;
     document.getElementById('cntObservadas').textContent= vistas.filter(v => v === 'observado').length;
     document.getElementById('cntRevision').textContent  = vistas.filter(v => ['enviado_revision','corregido'].includes(v)).length;
     document.getElementById('cntAprobadas').textContent = vistas.filter(v => v === 'aprobado_revisor').length;
@@ -516,7 +516,7 @@ tbody td { padding: 12px 14px; font-size: 13px; vertical-align: middle; }
 
     // chip quick filter (usa estadoVista para derivar el estado de display)
     const _ev = (typeof estadoVista === 'function') ? estadoVista : (a => a.estado);
-    if (activeChip === 'pendiente')   data = data.filter(a => _ev(a) === 'borrador');
+    if (activeChip === 'pendiente')   data = data.filter(a => ['borrador','pendiente_carga'].includes(_ev(a)));
     if (activeChip === 'observadas')  data = data.filter(a => _ev(a) === 'observado');
     if (activeChip === 'en_revision') data = data.filter(a => ['enviado_revision','corregido'].includes(_ev(a)));
     if (activeChip === 'aprobadas')   data = data.filter(a => _ev(a) === 'aprobado_revisor');

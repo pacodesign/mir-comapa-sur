@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="shared.css">
   <script src="session.js"></script>
+  <script src="shared-ui.js"></script>
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
@@ -33,8 +34,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .filter-search {width:100%;padding:8px 14px 8px 36px;font-size:13px;font-family:inherit;border:1px solid var(--color-border);border-radius:var(--radius-btn);background:white;outline:none;transition:border-color .15s;}
 .filter-search:focus {border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
 .search-icon {position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);pointer-events:none;}
-.filter-select {padding:8px 12px;font-size:12px;font-family:inherit;border:1px solid var(--color-border);border-radius:var(--radius-btn);background:white;outline:none;cursor:pointer;color:var(--color-text-primary);}
-.filter-select:focus {border-color:var(--color-primary);}
+.filter-select {display:none;}
 .filter-clear {font-size:11px;font-weight:600;color:var(--color-text-secondary);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:var(--radius-btn);}
 .filter-clear:hover {background:var(--color-surface);}
 /* ── Users table ── */
@@ -124,6 +124,30 @@ td {padding:12px 16px;vertical-align:middle;}
 .confirm-title {font-size:16px;font-weight:700;margin-bottom:8px;}
 .confirm-body {font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:20px;}
 .confirm-actions {display:flex;justify-content:flex-end;gap:8px;}
+/* ── Ventana de captura ── */
+    .vt-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.vt-card {background:var(--color-bg);border-radius:var(--radius-card);padding:20px;display:flex;flex-direction:column;gap:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.vt-card-header {display:flex;align-items:center;gap:10px;}
+.vt-freq-dot {width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.vt-freq-dot.mensual      {background:#3B82F6;}
+.vt-freq-dot.bimestral    {background:#06B6D4;}
+.vt-freq-dot.trimestral   {background:#F59E0B;}
+.vt-freq-dot.cuatrimestral{background:#8B5CF6;}
+.vt-freq-dot.semestral    {background:#10B981;}
+.vt-freq-dot.anual        {background:#8B1D3A;}
+.vt-freq-name {font-size:13px;font-weight:700;color:var(--color-text-primary);}
+.vt-freq-periods {font-size:11px;color:var(--color-text-secondary);margin-top:1px;}
+.vt-stepper-wrap {display:flex;flex-direction:column;gap:6px;}
+.vt-col-label {font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;}
+.vt-stepper {display:flex;align-items:center;border:1.5px solid var(--color-border);border-radius:10px;overflow:hidden;transition:border-color .15s;}
+.vt-stepper:focus-within {border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.08);}
+.vt-step-btn {width:38px;height:40px;border:none;background:var(--color-surface);cursor:pointer;font-size:17px;font-weight:700;color:var(--color-text-secondary);transition:background .1s;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.vt-step-btn:hover {background:var(--color-border);}
+.vt-days-input {flex:1;height:40px;border:none;border-left:1.5px solid var(--color-border);border-right:1.5px solid var(--color-border);text-align:center;font-size:16px;font-weight:700;font-family:inherit;color:var(--color-text-primary);outline:none;-moz-appearance:textfield;min-width:0;}
+.vt-days-input::-webkit-inner-spin-button,.vt-days-input::-webkit-outer-spin-button{-webkit-appearance:none;}
+.vt-unit-row {display:flex;justify-content:center;font-size:11px;color:var(--color-text-secondary);font-weight:600;margin-top:2px;}
+.vt-preview-chip {display:flex;align-items:center;gap:6px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-btn);padding:6px 10px;font-size:11px;font-weight:500;color:var(--color-text-secondary);}
+.vt-preview-chip svg {width:12px;height:12px;flex-shrink:0;opacity:.5;}
 /* ── Placeholder sections ── */
     .section {display:none;}
 .section.active {display:block;}
@@ -274,6 +298,10 @@ td {padding:12px 16px;vertical-align:middle;}
       <button class="config-nav-item" id="cnav-ciclo" onclick="switchSection('ciclo')">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
         Ciclo de planeación
+      </button>
+      <button class="config-nav-item" id="cnav-ventana" onclick="switchSection('ventana')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        Ventana de captura
       </button>
       <button class="config-nav-item" id="cnav-notificaciones" onclick="switchSection('notificaciones')">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg>
@@ -597,6 +625,170 @@ td {padding:12px 16px;vertical-align:middle;}
       <!-- Acciones -->
       <div class="ciclo-actions">
         <button class="btn-save" onclick="saveCiclo()">Guardar configuración</button>
+      </div>
+    </div>
+
+    <!-- ─── SECCIÓN: VENTANA DE CAPTURA ────────────────────────────── -->
+    <div class="section" id="secVentana">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Ventana de captura de avance</h1>
+          <p class="page-subtitle">Define cuántos días tiene el enlace para registrar el avance de sus indicadores desde el inicio de cada período</p>
+        </div>
+      </div>
+
+      <p class="config-card-subtitle" style="margin-bottom:16px;">La ventana se abre automáticamente el primer día de cada período y se cierra al cumplirse el número de días configurado. Fuera de esta ventana, el enlace no podrá registrar ni modificar avances.</p>
+
+      <div class="vt-grid">
+
+          <!-- Mensual -->
+          <div class="vt-card">
+            <div class="vt-card-header">
+              <div class="vt-freq-dot mensual"></div>
+              <div>
+                <div class="vt-freq-name">Mensual</div>
+                <div class="vt-freq-periods">12 períodos · día 1 de cada mes</div>
+              </div>
+            </div>
+            <div class="vt-stepper-wrap">
+              <span class="vt-col-label">Días desde el inicio del período</span>
+              <div class="vt-stepper">
+                <button type="button" class="vt-step-btn" onclick="vtStep('mensual',-1)">−</button>
+                <input class="vt-days-input" type="number" id="vt-dias-mensual" value="10" min="1" max="28" oninput="vtUpdate('mensual')">
+                <button type="button" class="vt-step-btn" onclick="vtStep('mensual',1)">+</button>
+              </div>
+              <div class="vt-unit-row">días hábiles</div>
+            </div>
+            <div class="vt-preview-chip" id="vt-prev-mensual">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+              Del 1 al 10 de cada mes
+            </div>
+          </div>
+
+          <!-- Bimestral -->
+          <div class="vt-card">
+            <div class="vt-card-header">
+              <div class="vt-freq-dot bimestral"></div>
+              <div>
+                <div class="vt-freq-name">Bimestral</div>
+                <div class="vt-freq-periods">6 períodos · Ene, Mar, May, Jul, Sep, Nov</div>
+              </div>
+            </div>
+            <div class="vt-stepper-wrap">
+              <span class="vt-col-label">Días desde el inicio del período</span>
+              <div class="vt-stepper">
+                <button type="button" class="vt-step-btn" onclick="vtStep('bimestral',-1)">−</button>
+                <input class="vt-days-input" type="number" id="vt-dias-bimestral" value="12" min="1" max="59" oninput="vtUpdate('bimestral')">
+                <button type="button" class="vt-step-btn" onclick="vtStep('bimestral',1)">+</button>
+              </div>
+              <div class="vt-unit-row">días hábiles</div>
+            </div>
+            <div class="vt-preview-chip" id="vt-prev-bimestral">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+              Del 1 al 12 de cada bimestre
+            </div>
+          </div>
+
+          <!-- Trimestral -->
+          <div class="vt-card">
+            <div class="vt-card-header">
+              <div class="vt-freq-dot trimestral"></div>
+              <div>
+                <div class="vt-freq-name">Trimestral</div>
+                <div class="vt-freq-periods">4 períodos · Ene, Abr, Jul, Oct</div>
+              </div>
+            </div>
+            <div class="vt-stepper-wrap">
+              <span class="vt-col-label">Días desde el inicio del período</span>
+              <div class="vt-stepper">
+                <button type="button" class="vt-step-btn" onclick="vtStep('trimestral',-1)">−</button>
+                <input class="vt-days-input" type="number" id="vt-dias-trimestral" value="15" min="1" max="90" oninput="vtUpdate('trimestral')">
+                <button type="button" class="vt-step-btn" onclick="vtStep('trimestral',1)">+</button>
+              </div>
+              <div class="vt-unit-row">días hábiles</div>
+            </div>
+            <div class="vt-preview-chip" id="vt-prev-trimestral">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+              Del 1 al 15 de cada trimestre
+            </div>
+          </div>
+
+          <!-- Cuatrimestral -->
+          <div class="vt-card">
+            <div class="vt-card-header">
+              <div class="vt-freq-dot cuatrimestral"></div>
+              <div>
+                <div class="vt-freq-name">Cuatrimestral</div>
+                <div class="vt-freq-periods">3 períodos · Ene, May, Sep</div>
+              </div>
+            </div>
+            <div class="vt-stepper-wrap">
+              <span class="vt-col-label">Días desde el inicio del período</span>
+              <div class="vt-stepper">
+                <button type="button" class="vt-step-btn" onclick="vtStep('cuatrimestral',-1)">−</button>
+                <input class="vt-days-input" type="number" id="vt-dias-cuatrimestral" value="18" min="1" max="120" oninput="vtUpdate('cuatrimestral')">
+                <button type="button" class="vt-step-btn" onclick="vtStep('cuatrimestral',1)">+</button>
+              </div>
+              <div class="vt-unit-row">días hábiles</div>
+            </div>
+            <div class="vt-preview-chip" id="vt-prev-cuatrimestral">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+              Del 1 al 18 de cada cuatrimestre
+            </div>
+          </div>
+
+          <!-- Semestral -->
+          <div class="vt-card">
+            <div class="vt-card-header">
+              <div class="vt-freq-dot semestral"></div>
+              <div>
+                <div class="vt-freq-name">Semestral</div>
+                <div class="vt-freq-periods">2 períodos · Ene, Jul</div>
+              </div>
+            </div>
+            <div class="vt-stepper-wrap">
+              <span class="vt-col-label">Días desde el inicio del período</span>
+              <div class="vt-stepper">
+                <button type="button" class="vt-step-btn" onclick="vtStep('semestral',-1)">−</button>
+                <input class="vt-days-input" type="number" id="vt-dias-semestral" value="20" min="1" max="180" oninput="vtUpdate('semestral')">
+                <button type="button" class="vt-step-btn" onclick="vtStep('semestral',1)">+</button>
+              </div>
+              <div class="vt-unit-row">días hábiles</div>
+            </div>
+            <div class="vt-preview-chip" id="vt-prev-semestral">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+              Del 1 al 20 de cada semestre
+            </div>
+          </div>
+
+          <!-- Anual -->
+          <div class="vt-card">
+            <div class="vt-card-header">
+              <div class="vt-freq-dot anual"></div>
+              <div>
+                <div class="vt-freq-name">Anual</div>
+                <div class="vt-freq-periods">1 período · inicia el 1 de enero</div>
+              </div>
+            </div>
+            <div class="vt-stepper-wrap">
+              <span class="vt-col-label">Días desde el inicio del período</span>
+              <div class="vt-stepper">
+                <button type="button" class="vt-step-btn" onclick="vtStep('anual',-1)">−</button>
+                <input class="vt-days-input" type="number" id="vt-dias-anual" value="30" min="1" max="365" oninput="vtUpdate('anual')">
+                <button type="button" class="vt-step-btn" onclick="vtStep('anual',1)">+</button>
+              </div>
+              <div class="vt-unit-row">días hábiles</div>
+            </div>
+            <div class="vt-preview-chip" id="vt-prev-anual">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+              Del 1 al 30 de enero
+            </div>
+          </div>
+
+      </div><!-- /vt-grid -->
+
+      <div class="ciclo-actions">
+        <button class="btn-save" onclick="saveVentana()">Guardar configuración</button>
       </div>
     </div>
 
@@ -964,7 +1156,7 @@ var USUARIOS = [
 // ════════════════════════════════════════
 // SECTION NAVIGATION
 // ════════════════════════════════════════
-var SECTIONS = ['usuarios','medios','ciclo','notificaciones','reportes'];
+var SECTIONS = ['usuarios','medios','ciclo','ventana','notificaciones','reportes'];
 
 function switchSection(name){
   SECTIONS.forEach(function(s){
@@ -976,6 +1168,45 @@ function switchSection(name){
 }
 
 function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+// ════════════════════════════════════════
+// VENTANA DE CAPTURA
+// ════════════════════════════════════════
+var VT_FREQS = [
+  { key:'mensual',       label:'cada mes',         max:28  },
+  { key:'bimestral',     label:'cada bimestre',     max:59  },
+  { key:'trimestral',    label:'cada trimestre',    max:90  },
+  { key:'cuatrimestral', label:'cada cuatrimestre', max:120 },
+  { key:'semestral',     label:'cada semestre',     max:180 },
+  { key:'anual',         label:'de enero',          max:365 }
+];
+
+function vtUpdate(key) {
+  var freq = VT_FREQS.find(function(f){ return f.key === key; });
+  if (!freq) return;
+  var inp = document.getElementById('vt-dias-' + key);
+  var val = parseInt(inp.value, 10);
+  if (isNaN(val) || val < 1) val = 1;
+  if (val > freq.max) val = freq.max;
+  inp.value = val;
+  var chip = document.getElementById('vt-prev-' + key);
+  if (chip) {
+    var svg = chip.querySelector('svg');
+    chip.textContent = 'Del 1 al ' + val + ' ' + freq.label;
+    if (svg) chip.insertBefore(svg, chip.firstChild);
+  }
+}
+
+function vtStep(key, delta) {
+  var inp = document.getElementById('vt-dias-' + key);
+  if (!inp) return;
+  inp.value = (parseInt(inp.value, 10) || 0) + delta;
+  vtUpdate(key);
+}
+
+function saveVentana() {
+  showToast('Configuración de ventana guardada', 'success');
+}
 
 // ════════════════════════════════════════
 // STATS
