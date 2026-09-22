@@ -377,6 +377,11 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .analisis-q {font-size:12px;font-weight:700;color:var(--color-text-primary);display:block;margin-bottom:4px;margin-top:18px;}
 .analisis-q:first-child {margin-top:0;}
 .analisis-caption {font-size:11px;color:var(--color-text-secondary);line-height:1.5;display:block;margin-bottom:8px;}
+.yn-toggle {display:flex;gap:6px;margin-bottom:12px;}
+.yn-btn {padding:5px 18px;border-radius:8px;border:1.5px solid var(--color-border);background:var(--color-bg);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;color:var(--color-text-secondary);transition:border-color .15s,background .15s,color .15s;}
+.yn-btn:hover {border-color:var(--color-primary);color:var(--color-primary);}
+.yn-btn.yn-si.active {border-color:var(--color-primary);background:var(--color-primary-tint);color:var(--color-primary);}
+.yn-btn.yn-no.active {border-color:var(--color-border);background:var(--color-neutral-100,#f3f4f6);color:var(--color-text-secondary);}
 .analisis-sep {margin-top:16px;padding-top:16px;border-top:1px solid var(--color-border);}
 .content-badge {display:inline-flex;align-items:center;gap:4px;background:#E0F2FE;color:#0369A1;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px;}
 .ro-section-label {font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
@@ -732,9 +737,11 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
   let metaLograda       = null;
   let analisisLogro     = '';
   let analisisCausas    = '';
-  let analisisRiesgos   = '';
-  let analisisOportunidades = '';
-  let analisisAcciones  = '';
+  let analisisRiesgos        = '';
+  let analisisOportunidades  = '';
+  let analisisAcciones       = '';
+  let riesgosToggle          = null;
+  let oportunidadesToggle    = null;
   let analisisSaved     = false;
   let step1Dirty        = false;
   let step2Dirty        = false;
@@ -785,7 +792,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
   function canSend() {
     if (!actividad) return false;
     if (['enviado_revision','pendiente_revision','aprobado_revisor','cerrado'].includes(actividad.estado)) return false;
-    if (!avanceSaved || !evidenciaSaved || !analisisSaved) return false;
+    if (!avanceSaved || !evidenciaSaved) return false;
     if (actividad.estado === 'observado' && !correctionMade && !correctionNote.trim()) return false;
     return actividad.archivosEvidencia.length > 0 || justSaved;
   }
@@ -1070,7 +1077,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
         ? (actividad && actividad.estado === 'observado' ? 'Todo listo. Puedes enviar la corrección.' : 'Todo listo. Puedes enviar el reporte a revisión.')
         : !avanceSaved    ? 'Registra el avance del período (paso 1) para continuar.'
         : !evidenciaSaved ? 'Guarda el medio de verificación (paso 2) para continuar.'
-        : !analisisSaved  ? 'Completa el análisis de datos (paso 3) para continuar.'
         : (actividad && actividad.estado === 'observado' && !correctionMade && !correctionNote.trim())
             ? 'Modifica al menos un paso, guárdalo, o escribe una nota de corrección para habilitar el envío.'
             : 'Carga evidencia o agrega una justificación para habilitar el envío.';
@@ -1408,16 +1414,26 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
   function updateAnalisisBtn() {
     const btn = document.querySelector('#secComentarios .btn-save-avance');
     if (!btn) return;
-    const mainOk   = analisisLogro.trim() || analisisCausas.trim();
-    const fieldsOk = mainOk && analisisRiesgos.trim() && analisisOportunidades.trim() && analisisAcciones.trim();
-    const dirtyOk  = !(actividad && actividad.estado === 'observado') || step3Dirty;
-    btn.disabled = !(fieldsOk && dirtyOk);
+    const dirtyOk = !(actividad && actividad.estado === 'observado') || step3Dirty;
+    btn.disabled = !dirtyOk;
   }
   function onAnalisisLogro(v)        { analisisLogro = v; step3Dirty = true; updateAnalisisBtn(); }
   function onAnalisisCausas(v)       { analisisCausas = v; step3Dirty = true; updateAnalisisBtn(); }
   function onAnalisisRiesgos(v)      { analisisRiesgos = v; step3Dirty = true; updateAnalisisBtn(); }
   function onAnalisisOportunidades(v){ analisisOportunidades = v; step3Dirty = true; updateAnalisisBtn(); }
   function onAnalisisAcciones(v)     { analisisAcciones = v; step3Dirty = true; updateAnalisisBtn(); }
+  function setRiesgosToggle(val) {
+    riesgosToggle = val;
+    if (!val) analisisRiesgos = '';
+    step3Dirty = true;
+    renderPage();
+  }
+  function setOportunidadesToggle(val) {
+    oportunidadesToggle = val;
+    if (!val) analisisOportunidades = '';
+    step3Dirty = true;
+    renderPage();
+  }
 
   function guardarEvidencia() {
     if (!_animStep2) {
@@ -1840,10 +1856,6 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
       : 'Explica las causas por las que no se logró la meta';
     const analisisValue   = analisisExito ? analisisLogro : analisisCausas;
     const analisisChange  = analisisExito ? 'onAnalisisLogro' : 'onAnalisisCausas';
-    const analisisComplete = analisisValue.trim().length > 0
-      && analisisRiesgos.trim().length > 0
-      && analisisOportunidades.trim().length > 0
-      && analisisAcciones.trim().length > 0;
     const analisisHint    = analisisExito
       ? 'Describe qué acciones contribuyeron al cumplimiento de la meta…'
       : 'Describe los factores que impidieron alcanzar la meta…';
@@ -1851,6 +1863,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     // El form aparece siempre que el avance esté guardado (aunque no se pueda
     // determinar la comparación con la meta, se muestra por defecto el campo de causas)
     const avanceRegistrado = avanceSaved && avanceValue !== 'Sin avance';
+    const analisisComplete = avanceRegistrado;
 
     const analisisEditForm = !avanceRegistrado
       ? `<p style="font-size:13px;color:var(--color-text-secondary)">El análisis estará disponible una vez que se haya registrado el avance del período.</p>`
@@ -1858,24 +1871,31 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
          <span class="analisis-q" style="margin-top:0">${analisisLabel}</span>
          <span class="analisis-caption">${analisisCaption}</span>
          <textarea class="txt-area" rows="3" oninput="${analisisChange}(this.value)" placeholder="${analisisHint}">${analisisValue}</textarea>
-         <span class="analisis-q">Riesgos</span>
+         ${!analisisExito ? `
+         <span class="analisis-q">¿Identificaste Riesgos?</span>
          <span class="analisis-caption">Explica las situaciones o cambios que pongan en peligro lograr la meta del indicador:</span>
-         <textarea class="txt-area" rows="3" oninput="onAnalisisRiesgos(this.value)" placeholder="Describe posibles amenazas o factores que dificulten el cumplimiento futuro…">${analisisRiesgos}</textarea>
-         <span class="analisis-q">Oportunidades</span>
+         <div class="yn-toggle">
+           <button class="yn-btn yn-si${riesgosToggle === true ? ' active' : ''}" onclick="setRiesgosToggle(true)">Sí</button>
+           <button class="yn-btn yn-no${riesgosToggle === false ? ' active' : ''}" onclick="setRiesgosToggle(false)">No</button>
+         </div>
+         ${riesgosToggle === true ? `<textarea class="txt-area" rows="3" oninput="onAnalisisRiesgos(this.value)" placeholder="Describe posibles amenazas o factores que dificulten el cumplimiento futuro…">${analisisRiesgos}</textarea>` : ''}
+         <span class="analisis-q">¿Identificaste Oportunidades?</span>
          <span class="analisis-caption">Explica las situaciones o cambios que puedan aprovecharse para lograr la meta del indicador:</span>
-         <textarea class="txt-area" rows="3" oninput="onAnalisisOportunidades(this.value)" placeholder="Describe factores favorables o áreas de mejora que puedan potenciarse…">${analisisOportunidades}</textarea>
-         <span class="analisis-q">Toma de decisiones</span>
-         <span class="analisis-caption">Explica las acciones implementadas y/o propuestas para mejorar el resultado del indicador:</span>
-         <textarea class="txt-area" rows="3" oninput="onAnalisisAcciones(this.value)" placeholder="Describe las decisiones tomadas o acciones concretas en marcha o propuestas…">${analisisAcciones}</textarea>
+         <div class="yn-toggle">
+           <button class="yn-btn yn-si${oportunidadesToggle === true ? ' active' : ''}" onclick="setOportunidadesToggle(true)">Sí</button>
+           <button class="yn-btn yn-no${oportunidadesToggle === false ? ' active' : ''}" onclick="setOportunidadesToggle(false)">No</button>
+         </div>
+         ${oportunidadesToggle === true ? `<textarea class="txt-area" rows="3" oninput="onAnalisisOportunidades(this.value)" placeholder="Describe factores favorables o áreas de mejora que puedan potenciarse…">${analisisOportunidades}</textarea>` : ''}
+         ` : ''}
          <button class="btn-save-avance" onclick="guardarAnalisis()" style="margin-top:14px" ${analisisComplete && (act.estado !== 'observado' || step3Dirty) ? '' : 'disabled'}>
            ${SAVE_S} Guardar análisis
          </button>`;
 
     const analisisReadOnly = analisisSaved && avanceRegistrado
       ? `<div class="ro-analisis-field"><span class="ro-analisis-label">${analisisLabel}</span><p class="ro-analisis-value">${analisisValue || '—'}</p></div>
-         <div class="ro-analisis-field"><span class="ro-analisis-label">Riesgos</span><p class="ro-analisis-value">${analisisRiesgos || '—'}</p></div>
-         <div class="ro-analisis-field"><span class="ro-analisis-label">Oportunidades</span><p class="ro-analisis-value">${analisisOportunidades || '—'}</p></div>
-         <div class="ro-analisis-field"><span class="ro-analisis-label">Toma de decisiones</span><p class="ro-analisis-value">${analisisAcciones || '—'}</p></div>`
+         ${!analisisExito ? `
+         <div class="ro-analisis-field"><span class="ro-analisis-label">Riesgos identificados</span><p class="ro-analisis-value">${riesgosToggle === true ? (analisisRiesgos || '—') : riesgosToggle === false ? 'No' : '—'}</p></div>
+         <div class="ro-analisis-field"><span class="ro-analisis-label">Oportunidades identificadas</span><p class="ro-analisis-value">${oportunidadesToggle === true ? (analisisOportunidades || '—') : oportunidadesToggle === false ? 'No' : '—'}</p></div>` : ''}`
       : `<p style="font-size:13px;color:var(--color-text-secondary)">Sin análisis registrado para este período.</p>`;
 
     const analisisContent = step3Editable ? analisisEditForm : analisisReadOnly;
