@@ -874,6 +874,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+          <button class="iso-filter-btn" id="db-iso-btn" onclick="dbToggleISO()">Indicadores ISO</button>
           <!-- View toggle -->
           <div class="db-view-toggle" style="margin-bottom:0">
             <button class="db-vt-btn active" id="db-vt-cards" onclick="dbSetView('cards')">
@@ -959,6 +960,49 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
       <script>
       (function(){
         var MESES_SHORT = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+        // Indicadores marcados como ISO 9001 (lookup compartido entre secciones)
+        var ISO_NAMES_SET = {
+          // Tablero (DATA)
+          '% Solicitudes de Soporte Técnico':true,
+          '% Programa Mantenimiento TI Anual':true,
+          '% Protección de Información (Respaldos)':true,
+          '% Sistemas Informáticos en Operación':true,
+          '% Solicitudes Desarrollo y Modificaciones SAP':true,
+          'Eficiencia Operativa (lps captado / lps producido)':true,
+          'Cumplimiento Cloro Residual NOM-127':true,
+          '% Atención a Fugas de Agua':true,
+          '% Desazolves Atendidos':true,
+          '% Parámetros de Calidad NOM-001-SEMARNAT-2021':true,
+          '% Cumplimiento Programa Supervisión PTAR':true,
+          'Eficiencia Comercial':true,
+          '% Medición Real':true,
+          // Metas (MTR_DATA)
+          '% Soporte Técnico':true,
+          '% Mantenimiento TI':true,
+          '% Protección de Información':true,
+          '% Sistemas en Operación':true,
+          '% Desarrollo SAP':true,
+          'Eficiencia Operativa':true,
+          'Cloro Residual NOM-127':true,
+          '% Atención Fugas':true,
+          '% Desazolves':true,
+          '% Calidad Agua NOM-001':true,
+          '% Supervisión PTAR':true,
+          // Transparencia (TR_DATA)
+          '% Solicitudes de Soporte Técnico atendidas':true,
+          '% Sistemas informáticos en operación':true,
+          '% Personal con competencias certificadas':true,
+          'Eficiencia Operativa de Potabilización':true,
+          '% Fugas de Agua atendidas':true,
+          '% Desazolves atendidos conforme al programa':true,
+          '% Parámetros calidad NOM-001-SEMARNAT-2021 cumplidos':true,
+          '% Supervisiones PTAR realizadas conforme al programa':true,
+          '% Micromedición (usuarios con medidor activo)':true,
+          '% Avance en el Programa de Calidad y Mejora Continua':true,
+        };
+        function isISOInd(name) { return !!ISO_NAMES_SET[name]; }
+        var _dbFilterISO = false;
 
         var DATA = {
           'Administrativa': [
@@ -1105,7 +1149,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         }
 
         function buildPanel(ger) {
-          var inds = DATA[ger];
+          var inds = DATA[ger].filter(function(ind){ return !_dbFilterISO || isISOInd(ind.n); });
           var byP = {};
           inds.forEach(function(ind) {
             if (!byP[ind.p]) byP[ind.p] = [];
@@ -1258,7 +1302,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         }
 
         function buildTablePanel(ger) {
-          var inds = DATA[ger];
+          var inds = DATA[ger].filter(function(ind){ return !_dbFilterISO || isISOInd(ind.n); });
           var byP = {};
           inds.forEach(function(ind){ if(!byP[ind.p]) byP[ind.p]=[]; byP[ind.p].push(ind); });
           var rowsHtml = '';
@@ -1333,6 +1377,23 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           });
           _currentGer = ger;
           if (_currentView === 'table') dbRefreshPDF();
+        };
+
+        function dbRebuildPanels() {
+          panelIds.forEach(function(g) {
+            var id = g.replace(/\s/g,'-');
+            var panel = document.getElementById('db-panel-'+id);
+            if (!panel) return;
+            panel.querySelector('.db-view-cards').innerHTML = buildPanel(g);
+            panel.querySelector('.db-view-table').innerHTML = buildTablePanel(g);
+          });
+          if (_currentView === 'table') dbRefreshPDF();
+        }
+        window.dbToggleISO = function() {
+          _dbFilterISO = !_dbFilterISO;
+          var btn = document.getElementById('db-iso-btn');
+          if (btn) btn.classList.toggle('active', _dbFilterISO);
+          dbRebuildPanels();
         };
 
         var PDF_CSS = [
@@ -1844,6 +1905,9 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .mtr-filter-row {display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
 .mtr-filter-btn {background:var(--color-neutral-100);border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--color-text-secondary);padding:6px 14px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s;}
 .mtr-filter-btn.active {background:var(--color-primary);color:var(--color-bg);}
+.iso-filter-btn {display:inline-flex;align-items:center;gap:5px;background:var(--color-bg);border:1.5px solid var(--color-border);font-family:inherit;font-size:12px;font-weight:700;color:var(--color-text-secondary);padding:5px 13px;border-radius:999px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.iso-filter-btn:hover {border-color:var(--color-primary);color:var(--color-primary);}
+.iso-filter-btn.active {background:var(--color-primary);border-color:var(--color-primary);color:white;}
 .mtr-stats {display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
 .mtr-stat {background:var(--color-bg);border:1px solid var(--color-border);border-radius:12px;padding:10px 16px;display:flex;align-items:center;gap:10px;}
 .mtr-stat-num {font-size:22px;font-weight:700;}
@@ -1871,7 +1935,10 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 
       <div class="mtr-stats" id="mtr-stats-row"></div>
 
-      <div class="mtr-filter-row" id="mtr-filters"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div class="mtr-filter-row" id="mtr-filters"></div>
+        <button class="iso-filter-btn" id="mtr-iso-btn" onclick="mtrToggleISO()">Indicadores ISO</button>
+      </div>
 
       <div class="db-table-wrap">
         <table class="db-excel-table" id="mtr-table">
@@ -1951,13 +2018,14 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           return 'td-mes '+(s==='ok'?'td-ok':s==='warn'?'td-warn':s==='bad'?'td-bad':'');
         }
         var _mtrFilter = 'Todas';
+        var _mtrFilterISO = false;
         function renderMtr(filter) {
           _mtrFilter = filter;
           var ok=0,warn=0,bad=0,nd=0;
           var rows='';
           Object.keys(MTR_DATA).forEach(function(g){
             if(filter!=='Todas' && filter!==g) return;
-            MTR_DATA[g].forEach(function(ind){
+            MTR_DATA[g].filter(function(ind){ return !_mtrFilterISO || isISOInd(ind.n); }).forEach(function(ind){
               var lv=lastV(ind.m); var v=lv?lv.v:null;
               var s=st(v,ind.meta);
               if(s==='ok')ok++;else if(s==='warn')warn++;else if(s==='bad')bad++;else nd++;
@@ -1982,6 +2050,12 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         }).join('');
         renderMtr('Todas');
         window.mtrFilter = function(f){ renderMtr(f); };
+        window.mtrToggleISO = function() {
+          _mtrFilterISO = !_mtrFilterISO;
+          var btn = document.getElementById('mtr-iso-btn');
+          if (btn) btn.classList.toggle('active', _mtrFilterISO);
+          renderMtr(_mtrFilter);
+        };
         window.mtrDownload = function(){
           if(typeof XLSX==='undefined'){ alert('Librería aún no cargada.'); return; }
           var wb=XLSX.utils.book_new();
@@ -2185,6 +2259,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+          <button class="iso-filter-btn" id="mt-iso-btn" onclick="mtToggleISO()">Indicadores ISO</button>
           <div class="db-view-toggle" style="margin-bottom:0">
             <button class="db-vt-btn active" id="mt-vt-cards" onclick="mtSetView('cards')">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
@@ -2214,7 +2289,8 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
       <script>
       (function() {
         var src = (typeof ACTIVIDADES_ENLACE !== 'undefined') ? ACTIVIDADES_ENLACE : [];
-        var _mtGer = '';
+        var _mtGer  = '';
+        var _mtISO  = false;
         var _mtView = 'cards';
 
         // Period labels per frequency
@@ -2410,7 +2486,10 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         }
 
         function getFiltered() {
-          return _mtGer ? src.filter(function(a){ return a.gerencia === _mtGer; }) : src;
+          return src.filter(function(a){
+            return (_mtGer ? a.gerencia === _mtGer : true) &&
+                   (!_mtISO || (a.iso && a.iso.toLowerCase() === 'x'));
+          });
         }
 
         function byGerencia(acts) {
@@ -2481,6 +2560,13 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           var open    = panel.classList.contains('open');
           panel.classList.toggle('open', !open);
           trigger.classList.toggle('open', !open);
+        };
+
+        window.mtToggleISO = function() {
+          _mtISO = !_mtISO;
+          var btn = document.getElementById('mt-iso-btn');
+          if (btn) btn.classList.toggle('active', _mtISO);
+          render();
         };
 
         window.mtPickGer = function(ger, label) {
@@ -2697,6 +2783,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         </div>
 
         <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+          <button class="iso-filter-btn" id="tr-iso-btn" onclick="trToggleISO()">Indicadores ISO</button>
           <!-- View toggle -->
           <div class="db-view-toggle" style="margin-bottom:0">
             <button class="db-vt-btn active" id="tr-vt-normal" onclick="trSetView('normal')">
@@ -2807,6 +2894,13 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         var TR_CUR_GER   = 'Administrativa';
         var TR_CUR_TRIM  = 'Q1';
         var TR_CUR_UNID  = 'Todas';
+        var _trFilterISO = false;
+        window.trToggleISO = function() {
+          _trFilterISO = !_trFilterISO;
+          var btn = document.getElementById('tr-iso-btn');
+          if (btn) btn.classList.toggle('active', _trFilterISO);
+          trRender();
+        };
         var _trView = 'normal';
         var _trMembreteConfig = (function() {
           var cfg = { logoLeft: null, logoRight: null, title: '' };
@@ -2917,7 +3011,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           var gerData = TR_DATA[TR_CUR_GER];
           if (!gerData) return '';
           var inds = gerData.indicadores.filter(function(ind){
-            return TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID;
+            return (TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID) && (!_trFilterISO || isISOInd(ind.nombre));
           });
           var paginateScript = '<scr'+'ipt>window.onload=function(){'
             +'var AH=736,AW=960;'
@@ -3419,7 +3513,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             return;
           }
           var inds = gerData.indicadores.filter(function(ind){
-            return TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID;
+            return (TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID) && (!_trFilterISO || isISOInd(ind.nombre));
           });
           if (!inds.length) {
             tbody.innerHTML = '<tr><td colspan="9" class="tr-empty">Sin indicadores para la unidad responsable seleccionada.</td></tr>';
@@ -3466,7 +3560,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           var gerData = TR_DATA[TR_CUR_GER];
           if (!gerData) return;
           var inds = gerData.indicadores.filter(function(ind){
-            return TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID;
+            return (TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID) && (!_trFilterISO || isISOInd(ind.nombre));
           });
           var trimLabel = {Q1:'1er Trimestre',Q2:'2do Trimestre',Q3:'3er Trimestre',Q4:'4to Trimestre'}[TR_CUR_TRIM] || TR_CUR_TRIM;
           var rows = [
@@ -3509,7 +3603,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           var gerData = TR_DATA[TR_CUR_GER];
           if (!gerData) return;
           var inds = gerData.indicadores.filter(function(ind){
-            return TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID;
+            return (TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID) && (!_trFilterISO || isISOInd(ind.nombre));
           });
           var trimLabel = {Q1:'Enero – Marzo',Q2:'Abril – Junio',Q3:'Julio – Septiembre',Q4:'Octubre – Diciembre'}[TR_CUR_TRIM] || TR_CUR_TRIM;
           var statusCls = function(resN, metaN) {
