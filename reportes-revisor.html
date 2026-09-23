@@ -28,7 +28,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .db-sum-num {font-size:24px;font-weight:700;line-height:1;}
 .db-sum-lbl {font-size:11px;color:var(--color-text-secondary);font-weight:500;margin-top:2px;}
 /* Gerencia info bar */
-    .db-ger-bar {display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+    .db-ger-bar {display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--color-bg);border:1px solid var(--color-border);border-radius:14px;padding:12px 16px;margin-bottom:16px;}
 .db-ger-label {display:inline-flex;align-items:center;gap:8px;background:var(--color-info-tint);color:var(--color-info);font-size:13px;font-weight:700;padding:8px 16px;border-radius:999px;}
 .db-ger-label svg {width:15px;height:15px;flex-shrink:0;}
 .db-dl-btn {display:inline-flex;align-items:center;gap:8px;background:var(--color-primary);color:var(--color-bg);font-size:13px;font-weight:700;font-family:inherit;padding:9px 18px;border-radius:999px;border:none;cursor:pointer;transition:background .15s;}
@@ -119,10 +119,21 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 .mbr-ed-input {width:100%;font-size:13px;font-family:inherit;font-weight:500;color:var(--color-text-primary);padding:8px 12px;border:1px solid var(--color-border);border-radius:8px;outline:none;transition:border-color .15s;box-sizing:border-box;}
 .mbr-ed-input:focus {border-color:var(--color-primary);}
 .mbr-ed-hint {font-size:11px;color:var(--color-text-muted);line-height:1.5;}
-/* ISO filter button */
-.iso-filter-btn {display:inline-flex;align-items:center;gap:5px;background:var(--color-bg);border:1.5px solid var(--color-border);font-family:inherit;font-size:12px;font-weight:700;color:var(--color-text-secondary);padding:5px 13px;border-radius:999px;cursor:pointer;transition:all .15s;white-space:nowrap;}
-.iso-filter-btn:hover {border-color:var(--color-primary);color:var(--color-primary);}
-.iso-filter-btn.active {background:var(--color-primary);border-color:var(--color-primary);color:white;}
+/* Custom dropdown */
+.tr-dd-wrap {position:relative;}
+.tr-dd-trigger {display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;border:1px solid var(--color-border);border-radius:8px;background:var(--color-bg);cursor:pointer;font-family:inherit;font-size:13px;color:var(--color-text-primary);transition:border-color .15s,box-shadow .15s;user-select:none;white-space:nowrap;}
+.tr-dd-trigger:hover {border-color:var(--color-primary);}
+.tr-dd-trigger.open {border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(139,29,58,.1);}
+.tr-dd-chevron {flex-shrink:0;width:15px;height:15px;color:var(--color-text-secondary);transition:transform .2s;}
+.tr-dd-trigger.open .tr-dd-chevron {transform:rotate(180deg);}
+.tr-dd-panel {position:absolute;top:calc(100% + 5px);left:0;min-width:100%;background:var(--color-bg);border:1px solid var(--color-border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:300;overflow:hidden;display:none;}
+.tr-dd-panel.open {display:block;animation:rvrFadeIn .12s ease;}
+@keyframes rvrFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.tr-dd-opt {display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;font-size:13px;color:var(--color-text-primary);transition:background .1s;white-space:nowrap;}
+.tr-dd-opt:hover {background:var(--color-primary-tint);color:var(--color-primary);}
+.tr-dd-opt.selected {color:var(--color-primary);font-weight:600;background:#FDF2F5;}
+.tr-dd-check {width:14px;height:14px;flex-shrink:0;stroke:var(--color-primary);}
+.tr-dd-opt:not(.selected) .tr-dd-check {visibility:hidden;}
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script>
@@ -184,44 +195,43 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     <!-- Summary ribbon -->
     <div class="db-summary" id="db-summary-row"></div>
 
-    <!-- Gerencia label + descarga -->
+    <!-- Control bar: gerencia + filtros + acciones -->
     <div class="db-ger-bar">
       <div class="db-ger-label" id="db-ger-label">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg>
         <span id="db-ger-name">—</span>
       </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <button class="db-dl-btn" onclick="dbDownloadExcel()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Excel
-        </button>
-        <button class="btn db-dl-btn-ghost" id="rvr-btn-pdf" onclick="rvrDownloadPDF()" style="opacity:.35;cursor:not-allowed;pointer-events:none" title="Disponible solo en vista PDF">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
-          PDF
-        </button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="tr-dd-wrap" id="rvrDDIso" style="min-width:200px;">
+          <div class="tr-dd-trigger" id="rvrDDIsoTrigger" onclick="rvrToggleISODD()">
+            <span id="rvrDDIsoLabel">Todos los indicadores</span>
+            <svg class="tr-dd-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="tr-dd-panel" id="rvrDDIsoPanel">
+            <div class="tr-dd-opt selected" data-val="all" onclick="rvrPickISO('all','Todos los indicadores')">
+              <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Todos los indicadores
+            </div>
+            <div class="tr-dd-opt" data-val="iso" onclick="rvrPickISO('iso','Solo indicadores ISO')">
+              <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Solo indicadores ISO
+            </div>
+          </div>
+        </div>
+        <div class="db-view-toggle" style="margin-bottom:0;">
+          <button class="db-vt-btn" id="db-vt-cards" onclick="dbSetView('cards')">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
+            Tarjetas
+          </button>
+          <button class="db-vt-btn active" id="db-vt-pdf" onclick="dbSetView('pdf')">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+            Vista PDF
+          </button>
+        </div>
         <button class="btn db-dl-btn-ghost" onclick="rvrToggleMembreteEditor()" title="Configurar membrete del PDF">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Membrete
         </button>
-      </div>
-    </div>
-
-    <!-- Filter + view toggle bar -->
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <button class="iso-filter-btn" id="db-iso-btn" onclick="dbToggleISO()">Indicadores ISO</button>
-      <div class="db-view-toggle" style="margin-bottom:0;">
-      <button class="db-vt-btn active" id="db-vt-cards" onclick="dbSetView('cards')">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
-        Tarjetas
-      </button>
-      <button class="db-vt-btn" id="db-vt-table" onclick="dbSetView('table')">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m2.25-2.25h7.5m-7.5 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m8.625-2.25c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m7.5 0h2.25"/></svg>
-        Vista tabla
-      </button>
-      <button class="db-vt-btn" id="db-vt-pdf" onclick="dbSetView('pdf')">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
-        Vista PDF
-      </button>
       </div>
     </div>
 
@@ -274,6 +284,12 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
 
     <!-- PDF Preview -->
     <div id="rvr-pdf-preview" style="display:none; background:#525659; border-radius:12px; padding:28px 20px; overflow:auto;">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+        <button onclick="rvrDownloadPDF()" style="display:inline-flex;align-items:center;gap:8px;background:white;color:#1F2937;font-size:13px;font-weight:700;font-family:inherit;padding:9px 18px;border-radius:999px;border:none;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25);transition:background .15s;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar PDF
+        </button>
+      </div>
       <iframe id="rvr-pdf-iframe" scrolling="no" style="border:none; display:block; width:1056px; margin:0 auto; border-radius:2px;"></iframe>
     </div>
 
@@ -539,7 +555,7 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     }).join('');
   }
 
-  var _currentView = 'cards';
+  var _currentView = 'pdf';
   var _currentInds = [];
   var _currentGerLabel = '';
 
@@ -577,6 +593,12 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     '.c-warn{background:#FEF9C3!important;color:#A16207;}',
     '.c-bad{background:#FEE2E2!important;color:#B91C1C;}',
     '.proc-hdr td{background:#F3F4F6!important;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#6B7280;padding:5px 6px;border-bottom:1px solid #E5E7EB;}',
+    '.iso-tag{display:inline-block;font-size:8px;font-weight:800;letter-spacing:.05em;color:#fff;background:#374151;border-radius:4px;padding:1px 5px;margin-right:5px;vertical-align:middle;white-space:nowrap;}',
+    '.signature-block{margin-top:48px;display:flex;justify-content:center;}',
+    '.signature-inner{text-align:center;width:260px;}',
+    '.signature-line{border:none;border-top:1.5px solid #374151;margin-bottom:8px;}',
+    '.signature-name{font-size:10px;font-weight:700;color:#111827;margin-bottom:3px;}',
+    '.signature-cargo{font-size:9px;color:#6B7280;}',
   ].join('');
 
   function buildPDFTableContent(inds, gerLabel) {
@@ -610,8 +632,9 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
           var cls = st==='ok'?'c-ok':st==='warn'?'c-warn':st==='bad'?'c-bad':'';
           return '<td class="c-val '+cls+'">'+fmtCell(v,ind)+'</td>';
         }).join('');
+        var isoTag = isISOInd(ind.n) ? '<span class="iso-tag">ISO</span>' : '';
         rowsHtml += '<tr>'
-          +'<td class="c-ind">'+ind.n+'</td>'
+          +'<td class="c-ind">'+isoTag+ind.n+'</td>'
           +'<td class="c-meta">'+fmtMetaCell(ind)+'</td>'
           +'<td class="c-per">'+ind.per+'</td>'
           +cells+'</tr>';
@@ -621,8 +644,19 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
       +'<th style="min-width:200px;text-align:left">Indicador</th>'
       +'<th>Meta</th><th>Period.</th>'+colsHtml
       +'</tr></thead>';
+    var gerKey = gerenciaKey(gerLabel);
+    var cargo = gerKey === 'Planeación Estratégica'
+      ? 'Gerente General de Gerencia de Planeación Estratégica'
+      : 'Gerente General de Gerencia ' + (gerKey || gerLabel);
+    var signatureHtml = '<div class="signature-block">'
+      +'<div class="signature-inner">'
+      +'<hr class="signature-line">'
+      +'<div class="signature-name">Nombre y Firma</div>'
+      +'<div class="signature-cargo">'+cargo+'</div>'
+      +'</div></div>';
     return '<div class="page"><div class="page-content">'+membrete
       +'<table class="ex-table">'+thead+'<tbody>'+rowsHtml+'</tbody></table>'
+      +signatureHtml
       +'</div></div>';
   }
 
@@ -753,18 +787,10 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
   window.dbSetView = function(view) {
     _currentView = view;
     document.getElementById('db-vt-cards').classList.toggle('active', view==='cards');
-    document.getElementById('db-vt-table').classList.toggle('active', view==='table');
     document.getElementById('db-vt-pdf').classList.toggle('active', view==='pdf');
     document.querySelectorAll('.db-view-cards').forEach(function(el){ el.style.display = view==='cards'?'':'none'; });
-    document.querySelectorAll('.db-view-table').forEach(function(el){ el.style.display = view==='table'?'':'none'; });
     document.getElementById('rvr-pdf-preview').style.display = view==='pdf' ? '' : 'none';
     if (view === 'pdf') refreshPDF();
-    var pdfBtn = document.getElementById('rvr-btn-pdf');
-    if (pdfBtn) {
-      pdfBtn.style.opacity = view==='pdf' ? '1' : '.35';
-      pdfBtn.style.cursor = view==='pdf' ? 'pointer' : 'not-allowed';
-      pdfBtn.style.pointerEvents = view==='pdf' ? '' : 'none';
-    }
   };
 
   window.dbDownloadExcel = function() {
@@ -808,17 +834,39 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
     var c = document.getElementById('db-panels-container');
     if (!c) return;
     var cards = c.querySelector('.db-view-cards');
-    var tbl = c.querySelector('.db-view-table');
     if (cards) cards.innerHTML = buildCardsPanel(inds);
-    if (tbl) tbl.innerHTML = buildTablePanel(inds, _currentGerLabel);
     if (_currentView === 'pdf') refreshPDF();
   }
-  window.dbToggleISO = function() {
-    _dbFilterISO = !_dbFilterISO;
-    var btn = document.getElementById('db-iso-btn');
-    if (btn) btn.classList.toggle('active', _dbFilterISO);
+  window.rvrToggleISODD = function() {
+    var trigger = document.getElementById('rvrDDIsoTrigger');
+    var panel = document.getElementById('rvrDDIsoPanel');
+    if (!trigger || !panel) return;
+    var isOpen = panel.classList.contains('open');
+    trigger.classList.toggle('open', !isOpen);
+    panel.classList.toggle('open', !isOpen);
+  };
+  window.rvrPickISO = function(val, label) {
+    _dbFilterISO = (val === 'iso');
+    var lbl = document.getElementById('rvrDDIsoLabel');
+    if (lbl) lbl.textContent = label;
+    var trigger = document.getElementById('rvrDDIsoTrigger');
+    var panel = document.getElementById('rvrDDIsoPanel');
+    if (trigger) trigger.classList.remove('open');
+    if (panel) {
+      panel.classList.remove('open');
+      panel.querySelectorAll('.tr-dd-opt').forEach(function(opt){
+        opt.classList.toggle('selected', opt.dataset.val === val);
+      });
+    }
     rvrRebuildPanels();
   };
+  document.addEventListener('click', function(e) {
+    var wrap = document.getElementById('rvrDDIso');
+    if (wrap && !wrap.contains(e.target)) {
+      document.getElementById('rvrDDIsoTrigger').classList.remove('open');
+      document.getElementById('rvrDDIsoPanel').classList.remove('open');
+    }
+  });
 
   // ── Auth check & render ──────────────────────────────────────────────────
   var user = Session.requireAuth();
@@ -843,9 +891,8 @@ body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface)
   buildSummary(_allInds);
 
   var container = document.getElementById('db-panels-container');
-  container.innerHTML =
-    '<div class="db-view-cards">'+buildCardsPanel(_allInds)+'</div>'+
-    '<div class="db-view-table" style="display:none">'+buildTablePanel(_allInds, user.gerencia || key)+'</div>';
+  container.innerHTML = '<div class="db-view-cards" style="display:none">'+buildCardsPanel(_allInds)+'</div>';
+  window.dbSetView('pdf');
 
 })();
 </script>
