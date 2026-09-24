@@ -145,10 +145,6 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605"/></svg>
         Tablero de indicadores de desempeño
       </button>
-      <button class="sec-nav-item" id="snav-tablero-planeacion" onclick="switchSection('tablero-planeacion')">
-        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z"/></svg>
-        Tablero Ger. de Planeación Estratégica
-      </button>
       <button class="sec-nav-item" id="snav-matriz" onclick="switchSection('matriz')" style="display:none">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25"/></svg>
         Matriz informativa
@@ -168,6 +164,10 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
       <button class="sec-nav-item" id="snav-graficas" onclick="switchSection('graficas')" style="display:none">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
         Generador de gráficas
+      </button>
+      <button class="sec-nav-item" id="snav-tablero-planeacion" onclick="switchSection('tablero-planeacion')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z"/></svg>
+        Tablero Ger. de Planeación Estratégica
       </button>
     </div>
     <div class="sec-nav-group">
@@ -754,6 +754,9 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .db-spark-lbl {font-size:8px;color:var(--color-neutral-300);font-weight:500;width:10px;text-align:center;}
 /* Status + period row */
         .db-card-footer {display:flex;align-items:center;justify-content:space-between;margin-top:2px;}
+        .db-card-obs {font-size:10px;color:var(--color-text-muted);margin-top:6px;line-height:1.45;padding-top:6px;border-top:1px solid var(--color-border);}
+        .db-card-obs b {color:var(--color-text-primary);font-weight:600;font-style:normal;}
+        .iso-tag-tbl {display:inline-block;font-size:8px;font-weight:800;letter-spacing:.04em;color:#fff;background:#374151;border-radius:3px;padding:1px 4px;margin-right:5px;vertical-align:middle;line-height:1.5;}
 .db-status {font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;}
 .db-status-ok {background:var(--color-success-tint);color:var(--color-success-dark);}
 .db-status-warn {background:var(--color-warning-tint);color:var(--color-warning-text);}
@@ -806,12 +809,17 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .mbr-ed-htitle {font-size:13px;font-weight:700;color:var(--color-text-primary);display:flex;align-items:center;gap:8px;}
 .mbr-ed-close {background:none;border:none;cursor:pointer;color:var(--color-text-muted);padding:4px;border-radius:6px;display:flex;align-items:center;line-height:1;transition:background .12s,color .12s;}
 .mbr-ed-close:hover {background:var(--color-neutral-100);color:var(--color-text-primary);}
+.mbr-ed-actions {display:flex;gap:8px;align-items:center;}
+.mbr-ed-save {font-size:12px;font-weight:700;font-family:inherit;padding:6px 16px;border-radius:7px;border:none;background:var(--color-primary);color:#fff;cursor:pointer;transition:background .12s;}
+.mbr-ed-save:hover {background:var(--color-accent-dark);}
+.mbr-ed-cancel {font-size:12px;font-weight:600;font-family:inherit;padding:6px 14px;border-radius:7px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-secondary);cursor:pointer;transition:border-color .12s,color .12s;}
+.mbr-ed-cancel:hover {border-color:var(--color-text-primary);color:var(--color-text-primary);}
 .mbr-ed-body {display:flex;gap:24px;align-items:flex-start;}
-.mbr-ed-logo-col {flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;width:120px;}
+.mbr-ed-logo-col {flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;width:148px;}
 .mbr-ed-col-label {font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;text-align:center;}
-.mbr-ed-preview {width:80px;height:80px;border-radius:8px;border:1.5px dashed var(--color-neutral-300);background:var(--color-neutral-50);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;transition:border-color .12s,background .12s;}
+.mbr-ed-preview {width:128px;height:80px;border-radius:8px;border:1.5px dashed var(--color-neutral-300);background:var(--color-neutral-50);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;transition:border-color .12s,background .12s;}
 .mbr-ed-preview:hover {border-color:var(--color-primary);background:#FFF5F7;}
-.mbr-ed-preview img {max-width:80px;max-height:80px;object-fit:contain;}
+.mbr-ed-preview img {max-width:128px;max-height:80px;object-fit:contain;}
 .mbr-ed-ph {font-size:8px;color:var(--color-text-muted);font-weight:600;text-align:center;line-height:1.5;padding:8px;pointer-events:none;}
 .mbr-ed-logo-btns {display:flex;gap:6px;}
 .mbr-ed-sub-btn {font-size:11px;font-weight:600;font-family:inherit;padding:5px 12px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text-primary);cursor:pointer;transition:border-color .12s,color .12s;}
@@ -873,78 +881,36 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             </div>
           </div>
         </div>
+        <div class="tr-filter-group">
+          <label class="tr-filter-label">Indicadores</label>
+          <div class="tr-dd-wrap" id="dbDDISO" style="min-width:180px">
+            <div class="tr-dd-trigger" id="dbDDISOTrigger" onclick="dbToggleISODD()">
+              <span id="dbDDISOLabel">Todos los indicadores</span>
+              <svg class="tr-dd-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="tr-dd-panel" id="dbDDISOPanel">
+              <div class="tr-dd-opt selected" data-val="all" onclick="dbPickISO(false,'Todos los indicadores')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Todos los indicadores
+              </div>
+              <div class="tr-dd-opt" data-val="iso" onclick="dbPickISO(true,'Indicadores ISO')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Indicadores ISO
+              </div>
+            </div>
+          </div>
+        </div>
         <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
-          <button class="iso-filter-btn" id="db-iso-btn" onclick="dbToggleISO()">Indicadores ISO</button>
           <!-- View toggle -->
           <div class="db-view-toggle" style="margin-bottom:0">
-            <button class="db-vt-btn active" id="db-vt-cards" onclick="dbSetView('cards')">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
-              Tarjetas
-            </button>
-            <button class="db-vt-btn" id="db-vt-table" onclick="dbSetView('table')">
+            <button class="db-vt-btn active" id="db-vt-table" onclick="dbSetView('table')">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m2.25-2.25h7.5m-7.5 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m8.625-2.25c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m7.5 0h2.25"/></svg>
               Vista tabla
             </button>
-          </div>
-          <!-- Descargas -->
-          <button class="tr-dl-btn" onclick="dbDownloadExcel()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Excel
-          </button>
-          <button class="tr-dl-btn" id="db-btn-pdf" onclick="dbDownloadPDF()" style="opacity:.35;cursor:not-allowed;pointer-events:none" title="Disponible solo en vista tabla">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
-            PDF
-          </button>
-          <button class="tr-dl-btn" id="db-btn-mbr" onclick="toggleMembreteEditor()" title="Configurar membrete del PDF">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Membrete
-          </button>
-        </div>
-      </div>
-
-      <!-- Membrete editor -->
-      <div id="db-mbr-editor" class="mbr-editor" style="display:none">
-        <div class="mbr-ed-header">
-          <div class="mbr-ed-htitle">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Configuración del membrete
-          </div>
-          <button class="mbr-ed-close" onclick="toggleMembreteEditor()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
-        </div>
-        <div class="mbr-ed-body">
-          <!-- Logo izquierdo -->
-          <div class="mbr-ed-logo-col">
-            <div class="mbr-ed-col-label">Logo izquierdo</div>
-            <div class="mbr-ed-preview" id="mbr-preview-left" onclick="document.getElementById('mbr-input-left').click()">
-              <div class="mbr-ed-ph" id="mbr-ph-left">Escudo<br>Tamaulipas</div>
-            </div>
-            <input type="file" accept="image/*" id="mbr-input-left" style="display:none" onchange="onMembreteLogoUpload('left',this)">
-            <div class="mbr-ed-logo-btns">
-              <button class="mbr-ed-sub-btn" onclick="document.getElementById('mbr-input-left').click()">Subir</button>
-              <button class="mbr-ed-clr-btn" id="mbr-clear-left" onclick="clearMembreteLogo('left')" style="display:none">Quitar</button>
-            </div>
-          </div>
-          <!-- Centro -->
-          <div class="mbr-ed-center">
-            <div>
-              <div class="mbr-ed-field-label">Título del reporte</div>
-              <input type="text" class="mbr-ed-input" id="mbr-input-title" placeholder="Tablero de Desempeño · Indicadores MIR COMAPA Sur" oninput="onMembreteTitleChange(this.value)">
-            </div>
-            <div class="mbr-ed-hint">El nombre de la gerencia y la fecha de generación se añaden automáticamente en cada página.</div>
-          </div>
-          <!-- Logo derecho -->
-          <div class="mbr-ed-logo-col">
-            <div class="mbr-ed-col-label">Logo derecho</div>
-            <div class="mbr-ed-preview" id="mbr-preview-right" onclick="document.getElementById('mbr-input-right').click()">
-              <div class="mbr-ed-ph" id="mbr-ph-right">Logo<br>COMAPA Sur</div>
-            </div>
-            <input type="file" accept="image/*" id="mbr-input-right" style="display:none" onchange="onMembreteLogoUpload('right',this)">
-            <div class="mbr-ed-logo-btns">
-              <button class="mbr-ed-sub-btn" onclick="document.getElementById('mbr-input-right').click()">Subir</button>
-              <button class="mbr-ed-clr-btn" id="mbr-clear-right" onclick="clearMembreteLogo('right')" style="display:none">Quitar</button>
-            </div>
+            <button class="db-vt-btn" id="db-vt-cards" onclick="dbSetView('cards')">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
+              Tarjetas
+            </button>
           </div>
         </div>
       </div>
@@ -953,8 +919,69 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
       <div id="db-panels-container"></div>
 
       <!-- PDF Preview (table view) -->
-      <div id="db-pdf-preview" style="display:none; background:#525659; border-radius:12px; padding:28px 20px; overflow:auto;">
-        <iframe id="db-pdf-iframe" scrolling="no" style="border:none; display:block; width:1056px; margin:0 auto; border-radius:2px;"></iframe>
+      <div id="db-pdf-preview" style="background:#525659; border-radius:12px; padding:20px 20px 28px; overflow:auto;">
+        <div style="max-width:1056px;margin:0 auto;">
+          <!-- Toolbar -->
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px;">
+            <button id="db-btn-mbr" onclick="toggleMembreteEditor()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Membrete
+            </button>
+            <button id="db-btn-pdf" onclick="dbDownloadPDF()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+              Descargar PDF
+            </button>
+          </div>
+          <!-- Membrete editor -->
+          <div id="db-mbr-editor" class="mbr-editor" style="display:none; margin-bottom:14px;">
+            <div class="mbr-ed-header">
+              <div class="mbr-ed-htitle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Configuración del membrete
+              </div>
+              <div class="mbr-ed-actions">
+                <button class="mbr-ed-cancel" onclick="dbCancelMembrete()">Cancelar</button>
+                <button class="mbr-ed-save" onclick="dbSaveMembrete()">Guardar</button>
+              </div>
+            </div>
+            <div class="mbr-ed-body">
+              <!-- Logo izquierdo -->
+              <div class="mbr-ed-logo-col">
+                <div class="mbr-ed-col-label">Logo izquierdo</div>
+                <div class="mbr-ed-preview" id="mbr-preview-left" onclick="document.getElementById('mbr-input-left').click()">
+                  <div class="mbr-ed-ph" id="mbr-ph-left">Escudo<br>Tamaulipas</div>
+                </div>
+                <input type="file" accept="image/*" id="mbr-input-left" style="display:none" onchange="onMembreteLogoUpload('left',this)">
+                <div class="mbr-ed-logo-btns">
+                  <button class="mbr-ed-sub-btn" onclick="document.getElementById('mbr-input-left').click()">Subir</button>
+                  <button class="mbr-ed-clr-btn" id="mbr-clear-left" onclick="clearMembreteLogo('left')" style="display:none">Quitar</button>
+                </div>
+              </div>
+              <!-- Centro -->
+              <div class="mbr-ed-center">
+                <div>
+                  <div class="mbr-ed-field-label">Título del reporte</div>
+                  <input type="text" class="mbr-ed-input" id="mbr-input-title" placeholder="Tablero de Desempeño · Indicadores MIR COMAPA Sur" oninput="onMembreteTitleChange(this.value)">
+                </div>
+                <div class="mbr-ed-hint">El nombre de la gerencia y la fecha de generación se añaden automáticamente en cada página.</div>
+              </div>
+              <!-- Logo derecho -->
+              <div class="mbr-ed-logo-col">
+                <div class="mbr-ed-col-label">Logo derecho</div>
+                <div class="mbr-ed-preview" id="mbr-preview-right" onclick="document.getElementById('mbr-input-right').click()">
+                  <div class="mbr-ed-ph" id="mbr-ph-right">Logo<br>COMAPA Sur</div>
+                </div>
+                <input type="file" accept="image/*" id="mbr-input-right" style="display:none" onchange="onMembreteLogoUpload('right',this)">
+                <div class="mbr-ed-logo-btns">
+                  <button class="mbr-ed-sub-btn" onclick="document.getElementById('mbr-input-right').click()">Subir</button>
+                  <button class="mbr-ed-clr-btn" id="mbr-clear-right" onclick="clearMembreteLogo('right')" style="display:none">Quitar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- iframe -->
+          <iframe id="db-pdf-iframe" scrolling="no" style="border:none; display:block; width:1056px; border-radius:2px;"></iframe>
+        </div>
       </div>
 
       <script>
@@ -963,20 +990,43 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 
         // Indicadores marcados como ISO 9001 (lookup compartido entre secciones)
         var ISO_NAMES_SET = {
-          // Tablero (DATA)
-          '% Solicitudes de Soporte Técnico':true,
-          '% Programa Mantenimiento TI Anual':true,
-          '% Protección de Información (Respaldos)':true,
-          '% Sistemas Informáticos en Operación':true,
-          '% Solicitudes Desarrollo y Modificaciones SAP':true,
-          'Eficiencia Operativa (lps captado / lps producido)':true,
-          'Cumplimiento Cloro Residual NOM-127':true,
-          '% Atención a Fugas de Agua':true,
-          '% Desazolves Atendidos':true,
-          '% Parámetros de Calidad NOM-001-SEMARNAT-2021':true,
-          '% Cumplimiento Programa Supervisión PTAR':true,
-          'Eficiencia Comercial':true,
-          '% Medición Real':true,
+          // Tablero (DATA) — nombres del Numbers Q3 2026
+          'Porcentaje de cumplimiento a los parámetros de calidad del agua NOM-001-SEMARNAT-2021':true,
+          'Porcentaje de cumplimiento al Programa Anual de Supervisión de Plantas de Tratamiento de Aguas Residuales':true,
+          'Porcentaje de eficiencia física':true,
+          'Porcentaje de eficiencia operativa':true,
+          'Porcentaje de muestras de agua que cumplen norma':true,
+          'Porcentaje de avance físico':true,
+          'Porcentaje de avance financiero':true,
+          'Porcentaje de atención de fugas de agua':true,
+          'Porcentaje de desazolves atendidos':true,
+          'Porcentaje de instalaciones realizadas':true,
+          'Programa anual de obras entregado':true,
+          'Porcentaje de solicitudes de soporte técnico realizadas':true,
+          'Porcentaje del Programa de mantenimiento TI anual ejecutada':true,
+          'Porcentaje de Solicitudes Desarrollo y Modificación a Módulos del Sistema':true,
+          'Porcentaje de protección de información':true,
+          'Porcentaje de sistemas informáticos y comunicaciones en operación':true,
+          'Porcentaje de cumplimiento a pedidos':true,
+          'Porcentaje de personal competente':true,
+          'Porcentaje de cumplimiento del programa de capacitación':true,
+          'Porcentaje de ingresos recaudados':true,
+          'Porcentaje de solicitudes con pedido':true,
+          'Porcentaje de presupuesto sostenible gestionado':true,
+          'Porcentaje de avance de ingreso recaudado':true,
+          'Porcentaje de avance de egresos devengados':true,
+          'Número de seguidores impactados a través de campañas':true,
+          'Porcentaje de notas de prensa escrita publicadas':true,
+          'Porcentaje de notas digitales publicadas':true,
+          'Número de personas impactados a través de campañas':true,
+          'Porcentaje de eficiencia comercial':true,
+          'Porcentaje de medición ejecutado':true,
+          'Porcentaje de cumplimiento al programa de escuadras modificadas':true,
+          'Porcentaje de cambios de tarifa':true,
+          'Porcentaje de contratación realizada':true,
+          'Reducir usuarios en rezago':true,
+          'Atención a la Industria y el Comercio':true,
+          'Porcentaje de aplicación de tarifa preferencial':true,
           // Metas (MTR_DATA)
           '% Soporte Técnico':true,
           '% Mantenimiento TI':true,
@@ -1004,50 +1054,28 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         function isISOInd(name) { return !!ISO_NAMES_SET[name]; }
         var _dbFilterISO = false;
 
-        var DATA = {
-          'Administrativa': [
-            { p:'Tecnologías de la Información', n:'% Solicitudes de Soporte Técnico', meta:1, pct:true, per:'Mensual', m:[0.97,0.99,0.97,0.99,0.99,null,null,null,null,null,null,null] },
-            { p:'Tecnologías de la Información', n:'% Programa Mantenimiento TI Anual', meta:0.9, pct:true, per:'Semestral', m:[1,1,1,1,1,null,null,null,null,null,null,null] },
-            { p:'Tecnologías de la Información', n:'% Protección de Información (Respaldos)', meta:1, pct:true, per:'Mensual', m:[1,1,0.99,1,0.997,null,null,null,null,null,null,null] },
-            { p:'Tecnologías de la Información', n:'% Sistemas Informáticos en Operación', meta:1, pct:true, per:'Mensual', m:[null,null,null,0.97,0.957,null,null,null,null,null,null,null] },
-            { p:'Tecnologías de la Información', n:'% Solicitudes Desarrollo y Modificaciones SAP', meta:0.9, pct:true, per:'Trimestral', m:[null,null,1,null,null,null,null,null,null,null,null,null] },
-            { p:'Adquisiciones', n:'% Solicitudes con Pedido', meta:0.81, pct:true, per:'Trimestral', m:[null,null,0.497,null,null,null,null,null,null,null,null,null] },
-            { p:'Servicios Generales', n:'% Pedidos Realizados / Solicitados', meta:0.92, pct:true, per:'Mensual', m:[1,0.27,null,null,null,null,null,null,null,null,null,null] },
-            { p:'Comunicación e Imagen', n:'Seguidores impactados por campaña', meta:2700000, pct:false, unit:'M', per:'Mensual', m:[1680000,2100000,3670000,4500000,null,null,null,null,null,null,null,null] },
-            { p:'Comunicación e Imagen', n:'# Notas de prensa escritas', meta:120, pct:false, unit:'', per:'Mensual', m:[72,91,175,227,null,null,null,null,null,null,null,null] },
-            { p:'Comunicación e Imagen', n:'# Publicaciones digitales', meta:250, pct:false, unit:'', per:'Mensual', m:[175,231,349,443,null,null,null,null,null,null,null,null] },
-            { p:'Comunicación e Imagen', n:'Personas impactadas cultura del agua', meta:2833, pct:false, unit:'', per:'Mensual', m:[2500,2800,2460,2760,null,null,null,null,null,null,null,null] },
-            { p:'Gestión de Recursos', n:'Ingreso (Presupuestado / Recaudado)', meta:0.22, pct:true, per:'Trimestral', m:[null,null,0.25,null,null,null,null,null,null,null,null,null] },
-            { p:'Gestión de Recursos', n:'Egreso (Presupuestado / Devengado)', meta:0.22, pct:true, per:'Trimestral', m:[null,null,0.21,null,null,null,null,null,null,null,null,null] },
-            { p:'Gestión de Recursos', n:'Presupuesto Sostenible (Ingreso / Gasto)', meta:0.01, pct:true, per:'Trimestral', m:[null,null,0.16,null,null,null,null,null,null,null,null,null] }
-          ],
-          'Comercial': [
-            { p:'Contratación y Servicio al Usuario', n:'% Contratación', meta:1, pct:true, per:'Mensual', m:[1.15,0.64,0.86,1.04,1.79,null,null,null,null,null,null,null] },
-            { p:'Contratación y Servicio al Usuario', n:'% Cierre de Solicitudes', meta:1, pct:true, per:'Mensual', m:[1,1,1,0.7889,0.7718,null,null,null,null,null,null,null] },
-            { p:'Contratación y Servicio al Usuario', n:'% Aplicación Tarifa Preferencial (T12)', meta:0.9, pct:true, per:'Mensual', m:[0.95,0.82,0.73,0.95,0.96,null,null,null,null,null,null,null] },
-            { p:'Contratación y Servicio al Usuario', n:'% Atención a la Industria y Comercio', meta:0.8, pct:true, per:'Mensual', m:[null,null,null,0.95,1,null,null,null,null,null,null,null] },
-            { p:'Medición y Cobranza', n:'Eficiencia Comercial', meta:0.8, pct:true, per:'Mensual', m:[0.823,0.808,0.838,0.769,0.823,null,null,null,null,null,null,null] },
-            { p:'Medición y Cobranza', n:'% Reducción Usuarios en Rezago', meta:0.014, pct:true, per:'Mensual', m:[0.04,0.01,0.008,0.035,-0.026,null,null,null,null,null,null,null] },
-            { p:'Medición y Cobranza', n:'% Medición Real', meta:0.75, pct:true, per:'Mensual', m:[0.7263,0.7218,0.7203,0.7186,0.718,null,null,null,null,null,null,null] },
-            { p:'Medición y Cobranza', n:'% Cumplimiento Modificación de Escuadras', meta:0.1, pct:true, per:'Mensual', m:[0.09,0.11,0.15,0.1,0.12,null,null,null,null,null,null,null] },
-            { p:'Medición y Cobranza', n:'% Cambio de Tarifas', meta:1, pct:true, per:'Mensual', m:[1,1,1,1,1,null,null,null,null,null,null,null] }
-          ],
-          'Técnica': [
-            { p:'Potabilización', n:'Eficiencia Operativa (lps captado / lps producido)', meta:0.9, pct:true, per:'Mensual', m:[0.79,0.82,0.8916,0.8248,0.8541,null,null,null,null,null,null,null] },
-            { p:'Potabilización', n:'Cumplimiento Cloro Residual NOM-127', meta:1, pct:true, per:'Mensual', m:[1,1,1,1,1,null,null,null,null,null,null,null] },
-            { p:'Suministro y Alcantarillado', n:'% Atención a Fugas de Agua', meta:0.81, pct:true, per:'Mensual', m:[0.36,0.94,1,0.56,0.52,null,null,null,null,null,null,null] },
-            { p:'Suministro y Alcantarillado', n:'% Desazolves Atendidos', meta:0.81, pct:true, per:'Mensual', m:[0.52,1,0.73,0.28,0.35,null,null,null,null,null,null,null] },
-            { p:'Suministro y Alcantarillado', n:'% Instalaciones Realizadas', meta:0.71, pct:true, per:'Mensual', m:[0.81,0.46,0.43,0.86,0.74,null,null,null,null,null,null,null] },
-            { p:'Proyectos e Ingeniería', n:'Avance Físico de Obra', meta:1, pct:true, per:'Mensual', m:[0,0,0.3,0.58,null,null,null,null,null,null,null,null] },
-            { p:'Proyectos e Ingeniería', n:'Avance Financiero de Obra', meta:1, pct:true, per:'Mensual', m:[0,0,0.09,0,null,null,null,null,null,null,null,null] },
-            { p:'Proyectos e Ingeniería', n:'% Cumplimiento Programa de Obra', meta:0.25, pct:true, per:'Trimestral', m:[null,null,0.2,0.2,null,null,null,null,null,null,null,null] }
-          ],
-          'Planeación Estratégica': [
-            { p:'Tratamiento de Aguas Residuales', n:'% Parámetros de Calidad NOM-001-SEMARNAT-2021', meta:1, pct:true, per:'Mensual', m:[1,1,1,1,1,null,null,null,null,null,null,null] },
-            { p:'Tratamiento de Aguas Residuales', n:'% Cumplimiento Programa Supervisión PTAR', meta:1, pct:true, per:'Mensual', m:[1,1,1,1,1,null,null,null,null,null,null,null] },
-            { p:'Planeación Estratégica', n:'% Cumplimiento al POA', meta:0.81, pct:true, per:'Trimestral', m:[null,null,null,null,null,null,null,null,null,null,null,null] }
-          ]
-        };
+        // Fuente única: ACTIVIDADES_ENLACE (mir-actividades-data.js) — Q3 2026
+        var DATA = (function() {
+          var NULL12 = [null,null,null,null,null,null,null,null,null,null,null,null];
+          var result = {};
+          (typeof ACTIVIDADES_ENLACE !== 'undefined' ? ACTIVIDADES_ENLACE : []).forEach(function(act) {
+            var ger = act.gerencia || 'Sin gerencia';
+            if (!result[ger]) result[ger] = [];
+            var pct = act.unidadMedida === 'Porcentaje' || act.unidadMedida === 'Variación';
+            result[ger].push({
+              p:    act.unidadResponsable || '',
+              n:    act.nombreIndicador   || '',
+              meta: act.metaAnual,
+              pct:  pct,
+              per:  act.frecuenciaMedicion || 'Anual',
+              m:    act.mMeta  || NULL12,
+              unit: pct ? '' : (act.unidadMedida || ''),
+              obs:  act.observacionesMIR  || null,
+              iso:  act.iso
+            });
+          });
+          return result;
+        })();
 
         function lastVal(m) {
           for (var i = m.length - 1; i >= 0; i--) { if (m[i] !== null) return { val: m[i], idx: i }; }
@@ -1058,7 +1086,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           return null;
         }
         function getStatus(val, meta) {
-          if (val === null) return 'nd';
+          if (val === null || meta === null || meta === undefined) return 'nd';
           var r = meta !== 0 ? val / meta : (val > 0 ? 1 : 0);
           if (r >= 0.95) return 'ok';
           if (r >= 0.80) return 'warn';
@@ -1083,10 +1111,11 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           var totalW = nB * (bW + gap) - gap;
           var sx = (W - totalW) / 2;
           var posVals = data.filter(function(v){ return v !== null && v > 0; });
-          var maxV = posVals.length ? Math.max.apply(null, posVals) : meta;
-          maxV = Math.max(maxV * 1.1, meta * 1.25);
-          var metaRatio = Math.min(meta / maxV, 1);
-          var metaY = H - metaRatio * H;
+          var hasMeta = meta !== null && meta !== undefined;
+          var maxV = posVals.length ? Math.max.apply(null, posVals) : (hasMeta ? meta : 1);
+          maxV = hasMeta ? Math.max(maxV * 1.1, meta * 1.25) : maxV * 1.1 || 1;
+          var metaRatio = hasMeta ? Math.min(meta / maxV, 1) : null;
+          var metaY = hasMeta ? H - metaRatio * H : null;
           var bars = data.map(function(v, i) {
             var x = sx + i * (bW + gap);
             if (v === null) return '<rect x="'+x+'" y="'+(H-2)+'" width="'+bW+'" height="2" rx="1" fill="#E8E0E1"/>';
@@ -1097,7 +1126,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             var fill = st==='ok'?'#15803D': st==='warn'?'#C27803':'#DC2626';
             return '<rect x="'+x+'" y="'+y+'" width="'+bW+'" height="'+bH+'" rx="2" fill="'+fill+'" opacity="0.75"/>';
           }).join('');
-          var ml = '<line x1="'+sx+'" y1="'+metaY.toFixed(1)+'" x2="'+(sx+totalW)+'" y2="'+metaY.toFixed(1)+'" stroke="#8B1D3A" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.45"/>';
+          var ml = hasMeta ? '<line x1="'+sx+'" y1="'+metaY.toFixed(1)+'" x2="'+(sx+totalW)+'" y2="'+metaY.toFixed(1)+'" stroke="#8B1D3A" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.45"/>' : '';
           return '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+bars+ml+'</svg>';
         }
 
@@ -1117,7 +1146,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             deltaHtml = '<span class="db-val-delta '+(up?'db-delta-up':'db-delta-dn')+'">'+(up?'↑':'↓')+' '+ds+'</span>';
           }
           var vsMeta = '';
-          if (val !== null) {
+          if (val !== null && ind.meta !== null && ind.meta !== undefined) {
             var diff = val - ind.meta;
             var ds2 = ind.pct ? ((diff>=0?'+':'')+((diff*100).toFixed(1))+'pp') : ((diff>=0?'+':'')+diff.toFixed(0));
             vsMeta = '<span style="font-size:10px;color:var(--color-text-muted);margin-left:6px;">vs meta: '+ds2+'</span>';
@@ -1142,6 +1171,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
                 MESES_SHORT.map(function(l){ return '<span class="db-spark-lbl">'+l[0]+'</span>'; }).join('')+
               '</div>'+
             '</div>'+
+            (ind.obs ? '<div class="db-card-obs"><b>Obs:</b> '+ind.obs+'</div>' : '')+
             '<div class="db-card-footer">'+
               '<span class="db-period-tag">'+ind.per+'</span>'+
             '</div>'+
@@ -1190,7 +1220,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         }
 
         var MESES_FULL = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-        var _currentView = 'cards';
+        var _currentView = 'table';
         var _membreteConfig = (function() {
           var cfg = { logoLeft: null, logoRight: null, title: '' };
           try {
@@ -1202,67 +1232,15 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         })();
         var _currentGer = Object.keys(DATA)[0];
 
-        var ANALISIS = {
-          '% Solicitudes de Soporte Técnico': {
-            acc: 'Se atendieron 847 tickets; el 99% fue resuelto en tiempo y forma según el SLA establecido.',
-            rie: 'El 1% sin resolver corresponde a solicitudes con equipo sin refacciones disponibles en almacén.',
-            opp: 'La implementación del sistema de tickets automatizado redujo el tiempo de respuesta promedio en un 12%.',
-            dec: 'Se solicitó autorización para adquirir refacciones críticas con prioridad alta en equipos de producción.'
-          },
-          '% Solicitudes con Pedido': {
-            acc: 'Se procesaron 47 solicitudes en Q1; 23 contaron con pedido formalizado en SAP.',
-            rie: 'Retraso en firma de contratos marco por cambios en la normativa de adquisiciones públicas; 24 solicitudes pendientes de autorización.',
-            opp: 'La digitalización del proceso de firma en SAP puede reducir los tiempos de formalización de pedidos en un 30%.',
-            dec: 'Se coordinó con la Gerencia Jurídica la revisión de contratos pendientes; meta Q2: alcanzar 75%.'
-          },
-          'Seguidores Impactados por Campaña': {
-            acc: 'Campaña "Cultura del Agua" generó contenido viral con 3 videos en tendencia nacional; alianza con influencers locales.',
-            rie: 'Alta dependencia de contenido viral; en meses sin campaña activa el alcance cae significativamente.',
-            opp: 'Posicionamiento como referente de gestión hídrica en Tamaulipas atrae colaboraciones institucionales.',
-            dec: 'Se aprobaron 4 campañas digitales para el segundo semestre para mantener el alcance mensual.'
-          },
-          'Eficiencia Comercial': {
-            acc: 'Se procesaron 2,847 pagos en el mes; se habilitaron puntos de pago alternos en farmacias y tiendas de conveniencia.',
-            rie: 'Cartera de rezago acumulada supera $993M; usuarios con atraso elevado reducen la eficiencia de cobro.',
-            opp: 'Las nuevas tarifas vigentes desde abril 2026 incrementarán la base de facturación en los próximos meses.',
-            dec: 'Se activó programa de convenios de pago hasta 12 meses para usuarios con rezago mayor a 3 bimestres.'
-          },
-          '% Cierre de Solicitudes': {
-            acc: 'Se recibieron 318 solicitudes de aclaración; 246 fueron resueltas; 72 pendientes por documentación incompleta del usuario.',
-            rie: 'Aumento en solicitudes por lecturas elevadas derivadas de fugas internas no reportadas por el usuario.',
-            opp: 'Implementación de citas en línea puede agilizar la atención y reducir el tiempo de resolución promedio.',
-            dec: 'Se habilitó canal de WhatsApp para envío de documentación y seguimiento sin visita presencial.'
-          },
-          '% Medición Real': {
-            acc: 'Se rehabilitaron 234 medidores inoperantes en el mes; instalación de 118 nuevas tomas con medidor.',
-            rie: 'Medidores dañados por obras de pavimentación y vandalismo; costo de reposición alto con presupuesto limitado.',
-            opp: 'Programa de sustitución de medidores obsoletos con financiamiento CONAGUA 2026 puede incrementar 3-4 puntos porcentuales.',
-            dec: 'Se priorizó la instalación en zonas de alto consumo para maximizar el impacto en facturación.'
-          },
-          '% Atención a Fugas de Agua': {
-            acc: 'Se atendieron 234 reportes de 454 programados; cuadrillas operaron con 6 de 9 brigadas disponibles.',
-            rie: '3 brigadas fuera de operación por mantenimiento de equipo; zona norte presenta alta incidencia de fugas en red antigua.',
-            opp: 'El mapa de calor de fugas permite priorizar zonas críticas y optimizar los tiempos de traslado.',
-            dec: 'Se solicitó contratación de 2 brigadas adicionales; se aprobó compra de equipo de detección electrónica de fugas.'
-          },
-          'Eficiencia Operativa (lps captado / lps producido)': {
-            acc: 'Plantas operaron a 85.4% promedio: Altavista a 1,579 lps y Laguna de la Puerta a 743 lps.',
-            rie: 'Nivel de bocatoma en 1.05 m (límite mínimo operativo); la temporada de estiaje puede reducir el volumen captado.',
-            opp: 'El inicio de la temporada de lluvias en junio-julio aumentará los niveles de captación y la eficiencia operativa.',
-            dec: 'Se reforzó el monitoreo diario de niveles; protocolo de emergencia activado si bocatoma baja de 0.9 m.'
-          },
-          '% Parámetros de Calidad NOM-001-SEMARNAT-2021': {
-            acc: 'PTAR Tierra Negra y PTAR Morelos cumplieron todos los parámetros fisicoquímicos y microbiológicos de la NOM-001-SEMARNAT-2021 durante los cinco meses.',
-            rie: 'La temporada de lluvias puede incrementar la carga contaminante en afluentes; se requiere monitoreo reforzado.',
-            opp: 'Los resultados consistentes fortalecen el expediente para renovación de certificación ante SEMARNAT.',
-            dec: 'Se mantiene frecuencia de muestreo semanal y se contrató laboratorio externo acreditado EMA para auditoría semestral.'
-          }
-        };
+        // Observaciones reales del MIR Q3 2026 (columna Observaciones del consolidado)
+        var ANALISIS = {};
 
         function buildAnalysisRow(ind) {
-          var a = ANALISIS[ind.n];
+          var a = ANALISIS[ind.n] || {};
           var TOTAL_COLS = 15;
-          if (!a) {
+          // obs can come from DATA indicator directly
+          var nota = a.nota || ind.obs || null;
+          if (!nota && !a.acc && !a.rie && !a.opp && !a.dec) {
             return '<tr style="background:var(--color-neutral-50);">'+
               '<td colspan="'+TOTAL_COLS+'" style="padding:6px 16px 8px 40px;border-bottom:2px solid var(--color-border);">'+
                 '<span style="font-size:11px;color:var(--color-neutral-300);font-style:italic;">Sin análisis registrado para este período.</span>'+
@@ -1270,6 +1248,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             '</tr>';
           }
           var items = [
+            { lbl:'Observaciones',       val:nota,  bg:'#F3F4F6', tc:'#374151' },
             { lbl:'Acciones',            val:a.acc, bg:'#DCFCE7', tc:'#15803D' },
             { lbl:'Riesgos',             val:a.rie, bg:'#FEE2E2', tc:'#B91C1C' },
             { lbl:'Oportunidades',       val:a.opp, bg:'#DBEAFE', tc:'#1D4ED8' },
@@ -1296,9 +1275,10 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           return v.toString();
         }
         function fmtMetaCell(ind) {
+          if (ind.meta === null || ind.meta === undefined) return '—';
           if (ind.pct) return (ind.meta*100).toFixed(0)+'%';
           if (ind.unit === 'M') return (ind.meta/1000000).toFixed(1)+'M';
-          return ind.meta.toString();
+          return ind.meta.toLocaleString('es-MX');
         }
 
         function buildTablePanel(ger) {
@@ -1315,8 +1295,9 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
                 var cls = st==='ok'?'c-ok':st==='warn'?'c-warn':st==='bad'?'c-bad':'';
                 return '<td class="c-val '+cls+'">'+fmtCell(v,ind)+'</td>';
               }).join('');
+              var isoPrefix = isISOInd(ind.n) ? '<span class="iso-tag-tbl">ISO</span>' : '';
               rowsHtml += '<tr>'+
-                '<td class="c-ind">'+ind.n+'</td>'+
+                '<td class="c-ind">'+isoPrefix+ind.n+'</td>'+
                 '<td class="c-meta">'+fmtMetaCell(ind)+'</td>'+
                 '<td class="c-per">'+ind.per+'</td>'+
                 cells+
@@ -1327,8 +1308,8 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           var _now = new Date();
           var _meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
           var _fecha = _now.getDate()+' de '+_meses[_now.getMonth()]+' de '+_now.getFullYear();
-          var _imgStyle = 'max-width:60px;max-height:60px;object-fit:contain;border-radius:4px;';
-          var _logoWrap = 'width:60px;height:60px;flex-shrink:0;display:flex;align-items:center;justify-content:center;';
+          var _imgStyle = 'max-width:100px;max-height:60px;object-fit:contain;border-radius:4px;';
+          var _logoWrap = 'width:100px;height:60px;flex-shrink:0;display:flex;align-items:center;justify-content:center;';
           var logoL = _membreteConfig.logoLeft
             ? '<div style="'+_logoWrap+'"><img src="'+_membreteConfig.logoLeft+'" style="'+_imgStyle+'"></div>'
             : '<div class="mbr-logo">Escudo<br>Tamaulipas</div>';
@@ -1369,7 +1350,9 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           '</div>';
         }).join('');
         container.innerHTML = panelsHtml;
+        container.style.display = 'none';
         buildSummary();
+        setTimeout(dbRefreshPDF, 0);
 
         window.dbSwitchGer = function(ger) {
           document.querySelectorAll('.db-panel').forEach(function(p){
@@ -1389,10 +1372,21 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           });
           if (_currentView === 'table') dbRefreshPDF();
         }
-        window.dbToggleISO = function() {
-          _dbFilterISO = !_dbFilterISO;
-          var btn = document.getElementById('db-iso-btn');
-          if (btn) btn.classList.toggle('active', _dbFilterISO);
+        window.dbToggleISODD = function() {
+          var trigger = document.getElementById('dbDDISOTrigger');
+          var panel   = document.getElementById('dbDDISOPanel');
+          var open    = panel.classList.contains('open');
+          panel.classList.toggle('open', !open);
+          trigger.classList.toggle('open', !open);
+        };
+        window.dbPickISO = function(val, label) {
+          _dbFilterISO = val;
+          document.getElementById('dbDDISOLabel').textContent = label;
+          document.getElementById('dbDDISOPanel').querySelectorAll('.tr-dd-opt').forEach(function(opt){
+            opt.classList.toggle('selected', (opt.dataset.val === 'iso') === val);
+          });
+          document.getElementById('dbDDISOPanel').classList.remove('open');
+          document.getElementById('dbDDISOTrigger').classList.remove('open');
           dbRebuildPanels();
         };
 
@@ -1402,7 +1396,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           '.page{width:1056px;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.45);border-radius:2px;padding:40px 48px;box-sizing:border-box;overflow:visible;}',
           '.page-content{width:100%;}',
           '.membrete{display:flex;align-items:center;gap:20px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #1F2937;}',
-          '.mbr-logo{width:60px;height:60px;flex-shrink:0;border-radius:6px;border:1.5px dashed #9CA3AF;display:flex;align-items:center;justify-content:center;text-align:center;font-size:7px;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:.04em;line-height:1.4;}',
+          '.mbr-logo{width:100px;height:60px;flex-shrink:0;border-radius:6px;border:1.5px dashed #9CA3AF;display:flex;align-items:center;justify-content:center;text-align:center;font-size:7px;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:.04em;line-height:1.4;}',
           '.mbr-center{flex:1;text-align:center;}',
           '.mbr-title{font-size:11px;font-weight:800;color:#374151;text-transform:uppercase;letter-spacing:.06em;}',
           '.mbr-ger{font-size:14px;font-weight:700;color:#111827;margin-top:4px;}',
@@ -1414,6 +1408,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           '.ex-table tbody tr:nth-child(even){background:#F9FAFB;}',
           '.ex-table tbody td{padding:6px 6px;border-bottom:1px solid #E5E7EB;border-right:1px solid #F3F4F6;vertical-align:middle;font-size:10px;}',
           '.c-ind{font-weight:600;color:#111827;max-width:220px;white-space:normal;line-height:1.3;}',
+          '.iso-tag-tbl{display:inline-block;font-size:8px;font-weight:800;letter-spacing:.04em;color:#fff;background:#374151;border-radius:3px;padding:1px 4px;margin-right:5px;vertical-align:middle;line-height:1.5;}',
           '.c-meta{text-align:center;font-weight:700;color:#374151;}',
           '.c-per{text-align:center;font-size:10px;color:#6B7280;}',
           '.c-val{text-align:center;font-weight:600;}',
@@ -1423,6 +1418,11 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           '.c-bad{background:#FEE2E2!important;color:#B91C1C;}',
           '.proc-hdr td{background:#F3F4F6!important;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#6B7280;padding:5px 6px;border-bottom:1px solid #E5E7EB;}',
           '.analysis-row td{background:#FAFAFA!important;font-size:10px;color:#4B5563;padding:5px 8px;border-bottom:1px solid #E5E7EB;white-space:normal;line-height:1.4;}',
+          '@media print{@page{size:letter landscape;margin:0;}body{background:#fff!important;padding:0!important;gap:0!important;display:block!important;}',
+          '.page{width:100%!important;box-shadow:none!important;border-radius:0!important;padding:24px 32px!important;height:auto!important;overflow:visible!important;page-break-after:always;break-after:page;}',
+          '.page:last-child{page-break-after:auto;break-after:auto;}',
+          '.ex-table thead th{-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+          '.c-ok,.c-warn,.c-bad,.proc-hdr td,.ex-table tbody tr:nth-child(even){-webkit-print-color-adjust:exact;print-color-adjust:exact;}}',
         ].join('');
 
         function buildPDFDocument(gers) {
@@ -1493,6 +1493,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             } catch(e) {}
           };
         }
+        window.dbRefreshPDF = dbRefreshPDF;
 
         window.dbToggleDD = function() {
           var trigger = document.getElementById('dbDDGerTrigger');
@@ -1519,6 +1520,12 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             if (panel)   panel.classList.remove('open');
             if (trigger) trigger.classList.remove('open');
           }
+          if (!e.target.closest('#dbDDISO')) {
+            var panel   = document.getElementById('dbDDISOPanel');
+            var trigger = document.getElementById('dbDDISOTrigger');
+            if (panel)   panel.classList.remove('open');
+            if (trigger) trigger.classList.remove('open');
+          }
         });
 
         function _mbrUpdatePreview(side) {
@@ -1541,17 +1548,44 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           }
         }
 
+        var _membreteSnapshot = null;
         window.toggleMembreteEditor = function() {
           var ed = document.getElementById('db-mbr-editor');
           if (!ed) return;
           var opening = ed.style.display === 'none';
           ed.style.display = opening ? '' : 'none';
           if (opening) {
+            _membreteSnapshot = { title: _membreteConfig.title, logoLeft: _membreteConfig.logoLeft, logoRight: _membreteConfig.logoRight };
             var ti = document.getElementById('mbr-input-title');
             if (ti) ti.value = _membreteConfig.title;
             _mbrUpdatePreview('left');
             _mbrUpdatePreview('right');
           }
+        };
+        window.dbSaveMembrete = function() {
+          _membreteSnapshot = null;
+          var ed = document.getElementById('db-mbr-editor');
+          if (ed) ed.style.display = 'none';
+        };
+        window.dbCancelMembrete = function() {
+          if (_membreteSnapshot) {
+            _membreteConfig.title = _membreteSnapshot.title;
+            _membreteConfig.logoLeft = _membreteSnapshot.logoLeft;
+            _membreteConfig.logoRight = _membreteSnapshot.logoRight;
+            try {
+              if (_membreteConfig.logoLeft) localStorage.setItem('comapa-mbr-logo-left', _membreteConfig.logoLeft);
+              else localStorage.removeItem('comapa-mbr-logo-left');
+              if (_membreteConfig.logoRight) localStorage.setItem('comapa-mbr-logo-right', _membreteConfig.logoRight);
+              else localStorage.removeItem('comapa-mbr-logo-right');
+              localStorage.setItem('comapa-mbr-title', _membreteConfig.title);
+            } catch(e) {}
+            _mbrUpdatePreview('left');
+            _mbrUpdatePreview('right');
+            if (_currentView === 'table') dbRefreshPDF();
+            _membreteSnapshot = null;
+          }
+          var ed = document.getElementById('db-mbr-editor');
+          if (ed) ed.style.display = 'none';
         };
 
         window.onMembreteLogoUpload = function(side, input) {
@@ -1591,12 +1625,6 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           document.getElementById('db-panels-container').style.display = view==='cards' ? '' : 'none';
           document.getElementById('db-pdf-preview').style.display = view==='table' ? '' : 'none';
           if (view === 'table') dbRefreshPDF();
-          var pdfBtn = document.getElementById('db-btn-pdf');
-          if (pdfBtn) {
-            pdfBtn.style.opacity = view==='table' ? '1' : '.35';
-            pdfBtn.style.cursor = view==='table' ? 'pointer' : 'not-allowed';
-            pdfBtn.style.pointerEvents = view==='table' ? '' : 'none';
-          }
         };
 
         window.dbDownloadPDF = function() {
@@ -1712,10 +1740,6 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 18.75A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75M3 18.75v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
             Mayo 2026
           </span>
-          <button class="tr-dl-btn" onclick="gpeDownload()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Descargar Excel
-          </button>
         </div>
       </div>
 
@@ -1926,10 +1950,6 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 18.75A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75M3 18.75v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
             Corte mayo 2026
           </span>
-          <button class="db-dl-btn" onclick="mtrDownload()">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
-            Descargar Excel
-          </button>
         </div>
       </div>
 
@@ -1937,7 +1957,25 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
         <div class="mtr-filter-row" id="mtr-filters"></div>
-        <button class="iso-filter-btn" id="mtr-iso-btn" onclick="mtrToggleISO()">Indicadores ISO</button>
+        <div class="tr-filter-group">
+          <label class="tr-filter-label">Indicadores</label>
+          <div class="tr-dd-wrap" id="mtrDDISO" style="min-width:180px">
+            <div class="tr-dd-trigger" id="mtrDDISOTrigger" onclick="mtrToggleISODD()">
+              <span id="mtrDDISOLabel">Todos los indicadores</span>
+              <svg class="tr-dd-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="tr-dd-panel" id="mtrDDISOPanel">
+              <div class="tr-dd-opt selected" data-val="all" onclick="mtrPickISO(false,'Todos los indicadores')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Todos los indicadores
+              </div>
+              <div class="tr-dd-opt" data-val="iso" onclick="mtrPickISO(true,'Indicadores ISO')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Indicadores ISO
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="db-table-wrap">
@@ -2050,12 +2088,31 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         }).join('');
         renderMtr('Todas');
         window.mtrFilter = function(f){ renderMtr(f); };
-        window.mtrToggleISO = function() {
-          _mtrFilterISO = !_mtrFilterISO;
-          var btn = document.getElementById('mtr-iso-btn');
-          if (btn) btn.classList.toggle('active', _mtrFilterISO);
+        window.mtrToggleISODD = function() {
+          var trigger = document.getElementById('mtrDDISOTrigger');
+          var panel   = document.getElementById('mtrDDISOPanel');
+          var open    = panel.classList.contains('open');
+          panel.classList.toggle('open', !open);
+          trigger.classList.toggle('open', !open);
+        };
+        window.mtrPickISO = function(val, label) {
+          _mtrFilterISO = val;
+          document.getElementById('mtrDDISOLabel').textContent = label;
+          document.getElementById('mtrDDISOPanel').querySelectorAll('.tr-dd-opt').forEach(function(opt){
+            opt.classList.toggle('selected', (opt.dataset.val === 'iso') === val);
+          });
+          document.getElementById('mtrDDISOPanel').classList.remove('open');
+          document.getElementById('mtrDDISOTrigger').classList.remove('open');
           renderMtr(_mtrFilter);
         };
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('#mtrDDISO')) {
+            var panel   = document.getElementById('mtrDDISOPanel');
+            var trigger = document.getElementById('mtrDDISOTrigger');
+            if (panel)   panel.classList.remove('open');
+            if (trigger) trigger.classList.remove('open');
+          }
+        });
         window.mtrDownload = function(){
           if(typeof XLSX==='undefined'){ alert('Librería aún no cargada.'); return; }
           var wb=XLSX.utils.book_new();
@@ -2115,10 +2172,6 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 18.75A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75M3 18.75v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
             Mayo 2026
           </span>
-          <button class="db-dl-btn" onclick="pcaDownload()">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
-            Descargar Excel
-          </button>
         </div>
       </div>
 
@@ -2258,22 +2311,36 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             </div>
           </div>
         </div>
+        <div class="tr-filter-group">
+          <label class="tr-filter-label">Indicadores</label>
+          <div class="tr-dd-wrap" id="mtDDISO" style="min-width:180px">
+            <div class="tr-dd-trigger" id="mtDDISOTrigger" onclick="mtToggleISODD()">
+              <span id="mtDDISOLabel">Todos los indicadores</span>
+              <svg class="tr-dd-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="tr-dd-panel" id="mtDDISOPanel">
+              <div class="tr-dd-opt selected" data-val="all" onclick="mtPickISO(false,'Todos los indicadores')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Todos los indicadores
+              </div>
+              <div class="tr-dd-opt" data-val="iso" onclick="mtPickISO(true,'Indicadores ISO')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Indicadores ISO
+              </div>
+            </div>
+          </div>
+        </div>
         <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
-          <button class="iso-filter-btn" id="mt-iso-btn" onclick="mtToggleISO()">Indicadores ISO</button>
           <div class="db-view-toggle" style="margin-bottom:0">
-            <button class="db-vt-btn active" id="mt-vt-cards" onclick="mtSetView('cards')">
-              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
-              Tarjetas
-            </button>
-            <button class="db-vt-btn" id="mt-vt-table" onclick="mtSetView('table')">
+            <button class="db-vt-btn active" id="mt-vt-table" onclick="mtSetView('table')">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m2.25-2.25h7.5m-7.5 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m8.625-2.25c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m7.5 0h2.25"/></svg>
               Vista tabla
             </button>
+            <button class="db-vt-btn" id="mt-vt-cards" onclick="mtSetView('cards')">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
+              Tarjetas
+            </button>
           </div>
-          <button class="tr-dl-btn" onclick="mtDownloadExcel()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Excel
-          </button>
         </div>
       </div>
 
@@ -2281,17 +2348,84 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
       <div class="db-summary" id="mt-summary-row"></div>
 
       <!-- Cards container -->
-      <div id="mt-panels-container"></div>
+      <div id="mt-panels-container" style="display:none"></div>
 
-      <!-- Table container -->
-      <div id="mt-table-container" style="display:none"></div>
+      <!-- PDF Preview (table view) -->
+      <div id="mt-pdf-preview" style="background:#525659; border-radius:12px; padding:20px 20px 28px; overflow:auto;">
+        <div style="max-width:1056px;margin:0 auto;">
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px;">
+            <button onclick="mtToggleMembreteEditor()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Membrete
+            </button>
+            <button onclick="mtDownloadPDF()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+              Descargar PDF
+            </button>
+          </div>
+          <div id="mt-mbr-editor" class="mbr-editor" style="display:none; margin-bottom:14px;">
+            <div class="mbr-ed-header">
+              <div class="mbr-ed-htitle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Configuración del membrete
+              </div>
+              <div class="mbr-ed-actions">
+                <button class="mbr-ed-cancel" onclick="mtCancelMembrete()">Cancelar</button>
+                <button class="mbr-ed-save" onclick="mtSaveMembrete()">Guardar</button>
+              </div>
+            </div>
+            <div class="mbr-ed-body">
+              <div class="mbr-ed-logo-col">
+                <div class="mbr-ed-col-label">Logo izquierdo</div>
+                <div class="mbr-ed-preview" id="mt-mbr-preview-left" onclick="document.getElementById('mt-mbr-input-left').click()">
+                  <div class="mbr-ed-ph" id="mt-mbr-ph-left">Escudo<br>Tamaulipas</div>
+                </div>
+                <input type="file" accept="image/*" id="mt-mbr-input-left" style="display:none" onchange="onMtMembreteLogoUpload('left',this)">
+                <div class="mbr-ed-logo-btns">
+                  <button class="mbr-ed-sub-btn" onclick="document.getElementById('mt-mbr-input-left').click()">Subir</button>
+                  <button class="mbr-ed-clr-btn" id="mt-mbr-clear-left" onclick="clearMtMembreteLogo('left')" style="display:none">Quitar</button>
+                </div>
+              </div>
+              <div class="mbr-ed-center">
+                <div>
+                  <div class="mbr-ed-field-label">Título del reporte</div>
+                  <input type="text" class="mbr-ed-input" id="mt-mbr-input-title" placeholder="Reporte de Metas · Indicadores MIR COMAPA Sur" oninput="onMtMembreteTitleChange(this.value)">
+                </div>
+                <div class="mbr-ed-hint">El nombre de la gerencia y la fecha se añaden automáticamente en cada página.</div>
+              </div>
+              <div class="mbr-ed-logo-col">
+                <div class="mbr-ed-col-label">Logo derecho</div>
+                <div class="mbr-ed-preview" id="mt-mbr-preview-right" onclick="document.getElementById('mt-mbr-input-right').click()">
+                  <div class="mbr-ed-ph" id="mt-mbr-ph-right">Logo<br>COMAPA Sur</div>
+                </div>
+                <input type="file" accept="image/*" id="mt-mbr-input-right" style="display:none" onchange="onMtMembreteLogoUpload('right',this)">
+                <div class="mbr-ed-logo-btns">
+                  <button class="mbr-ed-sub-btn" onclick="document.getElementById('mt-mbr-input-right').click()">Subir</button>
+                  <button class="mbr-ed-clr-btn" id="mt-mbr-clear-right" onclick="clearMtMembreteLogo('right')" style="display:none">Quitar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <iframe id="mt-pdf-iframe" scrolling="no" style="border:none; display:block; width:1056px; border-radius:2px;"></iframe>
+        </div>
+      </div>
 
       <script>
       (function() {
         var src = (typeof ACTIVIDADES_ENLACE !== 'undefined') ? ACTIVIDADES_ENLACE : [];
         var _mtGer  = '';
         var _mtISO  = false;
-        var _mtView = 'cards';
+        var _mtView = 'table';
+
+        var _mtMembreteConfig = (function() {
+          var cfg = { logoLeft: null, logoRight: null, title: '' };
+          try {
+            cfg.logoLeft  = localStorage.getItem('comapa-mt-logo-left')  || null;
+            cfg.logoRight = localStorage.getItem('comapa-mt-logo-right') || null;
+            cfg.title     = localStorage.getItem('comapa-mt-title')      || '';
+          } catch(e) {}
+          return cfg;
+        })();
 
         // Period labels per frequency
         var FREQ_PERIODS = {
@@ -2310,13 +2444,19 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 
         function isPct(act) { return act.unidadMedida === 'Porcentaje' || act.unidadMedida === 'Variación'; }
 
-        // Generate plausible demo meta when metaAnual is null
+        // Month indices (0-based) where each frequency records its period values
+        var FREQ_MONTH_IDX = {
+          'Anual':         [11],
+          'Semestral':     [5, 11],
+          'Trimestral':    [2, 5, 8, 11],
+          'Cuatrimestral': [3, 7, 11],
+          'Bimestral':     [1, 3, 5, 7, 9, 11],
+          'Mensual':       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        };
+
+        // Returns the annual meta value (real data, null if not available)
         function getDemoMeta(act) {
-          if (act.metaAnual !== null && act.metaAnual !== undefined) return act.metaAnual;
-          var n = act.no || 1;
-          if (act.unidadMedida === 'Porcentaje') return 0.75 + ((n * 7) % 24) * 0.01;
-          if (act.unidadMedida === 'Variación')  return 0.03 + ((n * 3) % 8) * 0.01;
-          return 50 + ((n * 17) % 451);
+          return (act.metaAnual !== null && act.metaAnual !== undefined) ? act.metaAnual : null;
         }
 
         function fmtMeta(val, act) {
@@ -2325,18 +2465,24 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           return Math.round(val).toLocaleString('es-MX');
         }
 
-        // Returns array of per-period meta values
+        // Returns array of per-period meta values from real mMeta data
         function getPeriodMetas(act) {
-          var annual = getDemoMeta(act);
           var periods = FREQ_PERIODS[act.frecuenciaMedicion] || ['Anual'];
-          if (isPct(act)) {
-            // Porcentaje: maintain the same target every period
-            return periods.map(function() { return annual; });
-          } else {
-            // Número: distribute annual total across periods
-            var perPeriod = annual / periods.length;
-            return periods.map(function() { return perPeriod; });
+          if (act.mMeta) {
+            var idxs = FREQ_MONTH_IDX[act.frecuenciaMedicion] || [11];
+            return idxs.map(function(i) { return act.mMeta[i]; });
           }
+          return periods.map(function() { return null; });
+        }
+
+        // Returns array of per-period avance values from real mAvance data
+        function getPeriodAvances(act) {
+          var periods = FREQ_PERIODS[act.frecuenciaMedicion] || ['Anual'];
+          if (act.mAvance) {
+            var idxs = FREQ_MONTH_IDX[act.frecuenciaMedicion] || [11];
+            return idxs.map(function(i) { return act.mAvance[i]; });
+          }
+          return periods.map(function() { return null; });
         }
 
         function buildMtCard(act) {
@@ -2502,6 +2648,203 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           return map;
         }
 
+        var MT_PDF_CSS = [
+          '*{margin:0;padding:0;box-sizing:border-box}',
+          'body{background:#525659;font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;padding:28px 20px;display:flex;flex-direction:column;align-items:center;gap:28px;}',
+          '.page{width:1056px;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.45);border-radius:2px;padding:40px 48px;box-sizing:border-box;}',
+          '.membrete{display:flex;align-items:center;gap:20px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #1F2937;}',
+          '.mbr-logo{width:100px;height:60px;flex-shrink:0;border-radius:6px;border:1.5px dashed #9CA3AF;display:flex;align-items:center;justify-content:center;text-align:center;font-size:7px;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:.04em;line-height:1.4;}',
+          '.mbr-center{flex:1;text-align:center;}',
+          '.mbr-title{font-size:11px;font-weight:800;color:#374151;text-transform:uppercase;letter-spacing:.06em;}',
+          '.mbr-ger{font-size:14px;font-weight:700;color:#111827;margin-top:4px;}',
+          '.mbr-fecha{font-size:9px;color:#6B7280;margin-top:3px;}',
+          '.freq-hdr{display:flex;align-items:center;gap:8px;padding:8px 0 6px;margin-bottom:6px;border-bottom:1px solid #E5E7EB;margin-top:14px;}',
+          '.freq-hdr:first-of-type{margin-top:0;}',
+          '.freq-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.04em;color:#8B1D3A;background:#F5E8EC;border-radius:999px;padding:3px 10px;}',
+          '.freq-count{font-size:10px;color:#6B7280;}',
+          '.ex-table{border-collapse:collapse;font-size:11px;width:100%;margin-bottom:4px;}',
+          '.ex-table thead tr{background:#1F2937;}',
+          '.ex-table thead th{background:#1F2937;color:#fff;font-weight:700;font-size:10px;padding:8px 6px;white-space:nowrap;text-align:center;border-right:1px solid rgba(255,255,255,.1);}',
+          '.ex-table thead th:first-child{text-align:left;min-width:220px;}',
+          '.ex-table tbody tr:nth-child(even){background:#F9FAFB;}',
+          '.ex-table tbody td{padding:6px 6px;border-bottom:1px solid #E5E7EB;border-right:1px solid #F3F4F6;vertical-align:middle;font-size:10px;}',
+          '.c-ind{font-weight:600;color:#111827;white-space:normal;line-height:1.3;}',
+          '.iso-tag-tbl{display:inline-block;font-size:8px;font-weight:800;letter-spacing:.04em;color:#fff;background:#374151;border-radius:3px;padding:1px 4px;margin-right:5px;vertical-align:middle;line-height:1.5;}',
+          '.c-meta{text-align:center;font-weight:700;color:#374151;}',
+          '.c-period{text-align:center;font-size:10px;color:#374151;}',
+          '.ur-hdr td{background:#F3F4F6;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#6B7280;padding:5px 6px;border-bottom:1px solid #E5E7EB;}',
+          '.ind-meta-row td{padding:0;}',
+          '.meta-grid{display:grid;grid-template-columns:auto 1fr 1fr;gap:0;border-top:1px dashed #E5E7EB;padding:6px 14px 8px;background:#FAFAFA;}',
+          '.meta-item{display:flex;flex-direction:column;gap:2px;padding:3px 10px 3px 0;}',
+          '.meta-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6B7280;}',
+          '.meta-val{font-size:10px;color:#111827;line-height:1.4;}',
+          '.meta-formula{font-style:italic;}',
+          '.nivel-bdg{display:inline-block;background:#F3F4F6;color:#6B7280;font-size:9px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap;}',
+          '@media print{@page{size:letter landscape;margin:0;}body{background:#fff!important;padding:0!important;gap:0!important;display:block!important;}',
+          '.page{width:100%!important;box-shadow:none!important;border-radius:0!important;padding:24px 32px!important;height:auto!important;overflow:visible!important;page-break-after:always;break-after:page;}',
+          '.page:last-child{page-break-after:auto;break-after:auto;}',
+          '.ex-table thead th{-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+          '.ex-table tbody tr:nth-child(even){-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+          '.ur-hdr td,.meta-grid{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}',
+        ].join('');
+
+        function buildMtMembrete(ger) {
+          var iS = 'max-width:100px;max-height:60px;object-fit:contain;border-radius:4px;';
+          var wS = 'width:100px;height:60px;flex-shrink:0;display:flex;align-items:center;justify-content:center;';
+          var logoL = _mtMembreteConfig.logoLeft
+            ? '<div style="'+wS+'"><img src="'+_mtMembreteConfig.logoLeft+'" style="'+iS+'"></div>'
+            : '<div class="mbr-logo">Logo</div>';
+          var logoR = _mtMembreteConfig.logoRight
+            ? '<div style="'+wS+'"><img src="'+_mtMembreteConfig.logoRight+'" style="'+iS+'"></div>'
+            : '<div class="mbr-logo">Logo</div>';
+          var title = _mtMembreteConfig.title
+            ? _mtMembreteConfig.title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+            : 'Reporte de Metas · Indicadores MIR COMAPA Sur';
+          var fecha = new Date().toLocaleDateString('es-MX', {year:'numeric',month:'long'});
+          return '<div class="membrete">'+logoL+'<div class="mbr-center"><div class="mbr-title">'+title+'</div>'+
+            '<div class="mbr-ger">'+esc(ger)+'</div><div class="mbr-fecha">'+fecha+'</div></div>'+logoR+'</div>';
+        }
+
+        function buildMtPDFDocument() {
+          var filtered = getFiltered();
+          if (!filtered.length) return '<!DOCTYPE html><html><body style="font-family:sans-serif;padding:40px;color:#666;background:#fff;">Sin indicadores para mostrar.<\/body><\/html>';
+          var map = byGerencia(filtered);
+          var pages = Object.keys(map).sort().map(function(ger) {
+            var acts = map[ger];
+            var byFreq = {};
+            acts.forEach(function(a) { var f = a.frecuenciaMedicion||'Anual'; if (!byFreq[f]) byFreq[f]=[]; byFreq[f].push(a); });
+            var freqKeys = Object.keys(byFreq).sort(function(a,b){
+              var ia=FREQ_ORDER.indexOf(a), ib=FREQ_ORDER.indexOf(b);
+              if (ia===-1) ia=99; if (ib===-1) ib=99; return ia-ib;
+            });
+            var tables = freqKeys.map(function(f) {
+              var fas = byFreq[f];
+              var periods = FREQ_PERIODS[f] || ['Anual'];
+              var nCols = 2 + periods.length;
+              var periodHdrs = periods.map(function(p){ return '<th>'+esc(p)+'</th>'; }).join('');
+              // Sort by unidad responsable, then build rows with unidad headers + data+meta pairs
+              var sorted = fas.slice().sort(function(a,b){ return (a.unidadResponsable||'').localeCompare(b.unidadResponsable||''); });
+              var lastU = null;
+              var rows = sorted.map(function(a) {
+                var uRow = '';
+                var u = a.unidadResponsable || 'Sin unidad';
+                if (u !== lastU) {
+                  uRow = '<tr data-kind="u" class="ur-hdr"><td colspan="'+nCols+'">'+esc(u)+'</td></tr>';
+                  lastU = u;
+                }
+                var metas = getPeriodMetas(a);
+                var isoTag = (a.iso && a.iso.toLowerCase()==='x') ? '<span class="iso-tag-tbl">ISO</span>' : '';
+                var pCells = metas.map(function(v){ return '<td class="c-period">'+fmtMeta(v,a)+'</td>'; }).join('');
+                var dataRow = '<tr data-kind="d"><td class="c-ind">'+isoTag+esc(a.nombreIndicador)+'</td>'+
+                  '<td class="c-meta">'+fmtMeta(getDemoMeta(a),a)+'</td>'+pCells+'</tr>';
+                var metaRow = '<tr data-kind="m" class="ind-meta-row"><td colspan="'+nCols+'">'+
+                  '<div class="meta-grid">'+
+                    '<div class="meta-item"><span class="meta-lbl">Nivel MIR</span>'+
+                      '<span class="nivel-bdg">'+esc(a.nivel||'—')+'</span></div>'+
+                    '<div class="meta-item"><span class="meta-lbl">Descripción del objetivo</span>'+
+                      '<span class="meta-val">'+esc(a.resumenNarrativo||'—')+'</span></div>'+
+                    '<div class="meta-item"><span class="meta-lbl">Fórmula utilizada</span>'+
+                      '<span class="meta-val meta-formula">'+
+                        '<span style="display:block;border-bottom:1px solid #E5E7EB;padding-bottom:2px;margin-bottom:2px;">'+esc(a.numerador||'—')+'</span>'+
+                        '<span style="display:block">'+esc(a.denominador||'—')+'</span>'+
+                      '</span></div>'+
+                  '</div></td></tr>';
+                return uRow + dataRow + metaRow;
+              }).join('');
+              return '<div class="freq-hdr"><span class="freq-badge">'+esc(f)+'</span>'+
+                '<span class="freq-count">'+fas.length+' indicador'+(fas.length!==1?'es':'')+'</span></div>'+
+                '<table class="ex-table"><thead><tr>'+
+                  '<th style="text-align:left">Indicador</th><th>Meta anual</th>'+periodHdrs+
+                '</tr></thead><tbody>'+rows+'</tbody></table>';
+            }).join('');
+            return '<div class="page">'+buildMtMembrete(ger)+tables+'</div>';
+          }).join('');
+
+          // Pagination script — groups rows into atomic units (unidad-hdr bundled with
+          // its first indicator, data+meta rows always kept together) before paginating.
+          var paginateScript = '<scr'+'ipt>window.onload=function(){'+
+            'var PAGE_H=816,PAD=40,AH=PAGE_H-PAD*2;'+
+            'Array.from(document.querySelectorAll(".page")).forEach(function(orig){'+
+              'var mbr=orig.querySelector(".membrete");'+
+              'var mbrH=mbr?(mbr.offsetHeight+14):0;'+
+              'if(orig.scrollHeight<=PAGE_H){orig.style.height=PAGE_H+"px";orig.style.overflow="hidden";return;}'+
+              'var blocks=Array.from(orig.children).filter(function(c){return c!==mbr;});'+
+              'var allG=[];var bi=0;'+
+              'while(bi<blocks.length){'+
+                'var b=blocks[bi];'+
+                'if(b.classList.contains("freq-hdr")){'+
+                  'var tbl=(blocks[bi+1]&&blocks[bi+1].tagName==="TABLE")?blocks[bi+1]:null;'+
+                  'var thead=tbl?tbl.querySelector("thead"):null;'+
+                  'var rows=tbl?Array.from(tbl.querySelectorAll("tbody tr")):[];'+
+                  'allG.push({hdr:b,thead:thead,rows:rows});bi+=tbl?2:1;'+
+                '}else{bi++;}'+
+              '}'+
+              // Group rows into atomic units: unidad header bundled with next indicator
+              'function mkUnits(rows){'+
+                'var units=[],ri=0;'+
+                'while(ri<rows.length){'+
+                  'var r=rows[ri];'+
+                  'if(r.dataset.kind==="u"){'+
+                    // Bundle unidad header with the first d+m pair that follows
+                    'if(ri+2<rows.length&&rows[ri+1].dataset.kind==="d"&&rows[ri+2].dataset.kind==="m"){'+
+                      'units.push([r,rows[ri+1],rows[ri+2]]);ri+=3;'+
+                    '}else if(ri+1<rows.length&&rows[ri+1].dataset.kind==="d"){'+
+                      'units.push([r,rows[ri+1]]);ri+=2;'+
+                    '}else{units.push([r]);ri++;}'+
+                  '}else if(r.dataset.kind==="d"&&ri+1<rows.length&&rows[ri+1].dataset.kind==="m"){'+
+                    'units.push([r,rows[ri+1]]);ri+=2;'+
+                  '}else{units.push([r]);ri++;}'+
+                '}'+
+                'return units;'+
+              '}'+
+              'var pgs=[],cur=[],usedH=mbrH;'+
+              'allG.forEach(function(grp){'+
+                'var hH=grp.hdr?(grp.hdr.offsetHeight+6):0;'+
+                'var tH=grp.thead?grp.thead.offsetHeight:0;'+
+                'if(usedH+hH+tH>AH&&cur.length>0){pgs.push(cur);cur=[];usedH=mbrH;}'+
+                'var sl={hdr:grp.hdr,thead:grp.thead,rows:[]};'+
+                'usedH+=hH+tH;'+
+                'mkUnits(grp.rows).forEach(function(unit){'+
+                  'var uh=unit.reduce(function(s,r){return s+r.offsetHeight;},0);'+
+                  'if(usedH+uh>AH){cur.push(sl);pgs.push(cur);cur=[];usedH=mbrH+tH;sl={hdr:null,thead:grp.thead,rows:[]};}'+
+                  'unit.forEach(function(r){sl.rows.push(r.cloneNode(true));});'+
+                  'usedH+=uh;'+
+                '});'+
+                'cur.push(sl);'+
+              '});'+
+              'if(cur.length>0)pgs.push(cur);'+
+              'var parent=orig.parentNode,next=orig.nextSibling;'+
+              'pgs.forEach(function(pg){'+
+                'var np=document.createElement("div");'+
+                'np.className="page";np.style.height=PAGE_H+"px";np.style.overflow="hidden";'+
+                'if(mbr)np.appendChild(mbr.cloneNode(true));'+
+                'pg.forEach(function(sl){'+
+                  'if(sl.hdr)np.appendChild(sl.hdr.cloneNode(true));'+
+                  'var nt=document.createElement("table");nt.className="ex-table";'+
+                  'if(sl.thead)nt.appendChild(sl.thead.cloneNode(true));'+
+                  'var nb=document.createElement("tbody");'+
+                  'sl.rows.forEach(function(r){nb.appendChild(r);});'+
+                  'nt.appendChild(nb);np.appendChild(nt);'+
+                '});'+
+                'parent.insertBefore(np,next);'+
+              '});'+
+              'parent.removeChild(orig);'+
+            '});'+
+          '};<\/scr'+'ipt>';
+
+          return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'+MT_PDF_CSS+'<\/style><\/head><body>'+pages+paginateScript+'<\/body><\/html>';
+        }
+
+        function mtRefreshPDF() {
+          var iframe = document.getElementById('mt-pdf-iframe');
+          if (!iframe) return;
+          iframe.srcdoc = buildMtPDFDocument();
+          iframe.onload = function() {
+            try { var h = iframe.contentDocument.documentElement.scrollHeight; iframe.style.height = h+'px'; } catch(e) {}
+          };
+        }
+        window.mtRefreshPDF = mtRefreshPDF;
+
         function renderCards() {
           var filtered = getFiltered();
           var container = document.getElementById('mt-panels-container');
@@ -2513,18 +2856,6 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
               html += '<h2 style="font-size:15px;font-weight:700;color:var(--color-text-primary);margin:24px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--color-border)">'+esc(ger)+'</h2>';
             }
             html += buildMtPanel(map[ger]);
-          });
-          container.innerHTML = html;
-        }
-
-        function renderTable() {
-          var filtered = getFiltered();
-          var container = document.getElementById('mt-table-container');
-          if (!filtered.length) { container.innerHTML = '<p style="color:var(--color-text-secondary);padding:24px 0;font-size:13px;">Sin indicadores para esta gerencia.</p>'; return; }
-          var map = byGerencia(filtered);
-          var html = '';
-          Object.keys(map).sort().forEach(function(ger) {
-            html += buildMtTableSection(ger, map[ger]);
           });
           container.innerHTML = html;
         }
@@ -2551,7 +2882,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         function render() {
           renderSummary();
           if (_mtView === 'cards') { renderCards(); }
-          else { renderTable(); }
+          else { setTimeout(mtRefreshPDF, 0); }
         }
 
         window.mtToggleDD = function() {
@@ -2562,10 +2893,21 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           trigger.classList.toggle('open', !open);
         };
 
-        window.mtToggleISO = function() {
-          _mtISO = !_mtISO;
-          var btn = document.getElementById('mt-iso-btn');
-          if (btn) btn.classList.toggle('active', _mtISO);
+        window.mtToggleISODD = function() {
+          var trigger = document.getElementById('mtDDISOTrigger');
+          var panel   = document.getElementById('mtDDISOPanel');
+          var open    = panel.classList.contains('open');
+          panel.classList.toggle('open', !open);
+          trigger.classList.toggle('open', !open);
+        };
+        window.mtPickISO = function(val, label) {
+          _mtISO = val;
+          document.getElementById('mtDDISOLabel').textContent = label;
+          document.getElementById('mtDDISOPanel').querySelectorAll('.tr-dd-opt').forEach(function(opt){
+            opt.classList.toggle('selected', (opt.dataset.val === 'iso') === val);
+          });
+          document.getElementById('mtDDISOPanel').classList.remove('open');
+          document.getElementById('mtDDISOTrigger').classList.remove('open');
           render();
         };
 
@@ -2587,6 +2929,12 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             if (panel)   panel.classList.remove('open');
             if (trigger) trigger.classList.remove('open');
           }
+          if (!e.target.closest('#mtDDISO')) {
+            var panel   = document.getElementById('mtDDISOPanel');
+            var trigger = document.getElementById('mtDDISOTrigger');
+            if (panel)   panel.classList.remove('open');
+            if (trigger) trigger.classList.remove('open');
+          }
         });
 
         window.mtSetView = function(view) {
@@ -2594,8 +2942,96 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           document.getElementById('mt-vt-cards').classList.toggle('active', view==='cards');
           document.getElementById('mt-vt-table').classList.toggle('active', view==='table');
           document.getElementById('mt-panels-container').style.display = view==='cards' ? '' : 'none';
-          document.getElementById('mt-table-container').style.display  = view==='table'  ? '' : 'none';
+          document.getElementById('mt-pdf-preview').style.display = view==='table' ? '' : 'none';
           render();
+        };
+
+        function _mtMbrUpdatePreview(side) {
+          var preview = document.getElementById('mt-mbr-preview-'+side);
+          var ph      = document.getElementById('mt-mbr-ph-'+side);
+          var clrBtn  = document.getElementById('mt-mbr-clear-'+side);
+          var dataUrl = side === 'left' ? _mtMembreteConfig.logoLeft : _mtMembreteConfig.logoRight;
+          if (!preview) return;
+          var existing = preview.querySelector('img');
+          if (existing) existing.parentNode.removeChild(existing);
+          if (dataUrl) {
+            var img = document.createElement('img'); img.src = dataUrl;
+            preview.appendChild(img);
+            if (ph) ph.style.display = 'none';
+            if (clrBtn) clrBtn.style.display = '';
+          } else {
+            if (ph) ph.style.display = '';
+            if (clrBtn) clrBtn.style.display = 'none';
+          }
+        }
+
+        var _mtMembreteSnapshot = null;
+        window.mtToggleMembreteEditor = function() {
+          var ed = document.getElementById('mt-mbr-editor');
+          if (!ed) return;
+          var opening = ed.style.display === 'none';
+          ed.style.display = opening ? '' : 'none';
+          if (opening) {
+            _mtMembreteSnapshot = { title: _mtMembreteConfig.title, logoLeft: _mtMembreteConfig.logoLeft, logoRight: _mtMembreteConfig.logoRight };
+            var ti = document.getElementById('mt-mbr-input-title');
+            if (ti) ti.value = _mtMembreteConfig.title;
+            _mtMbrUpdatePreview('left');
+            _mtMbrUpdatePreview('right');
+          }
+        };
+        window.mtSaveMembrete = function() {
+          _mtMembreteSnapshot = null;
+          var ed = document.getElementById('mt-mbr-editor');
+          if (ed) ed.style.display = 'none';
+        };
+        window.mtCancelMembrete = function() {
+          if (_mtMembreteSnapshot) {
+            _mtMembreteConfig.title     = _mtMembreteSnapshot.title;
+            _mtMembreteConfig.logoLeft  = _mtMembreteSnapshot.logoLeft;
+            _mtMembreteConfig.logoRight = _mtMembreteSnapshot.logoRight;
+            try {
+              if (_mtMembreteConfig.logoLeft)  localStorage.setItem('comapa-mt-logo-left',  _mtMembreteConfig.logoLeft);
+              else localStorage.removeItem('comapa-mt-logo-left');
+              if (_mtMembreteConfig.logoRight) localStorage.setItem('comapa-mt-logo-right', _mtMembreteConfig.logoRight);
+              else localStorage.removeItem('comapa-mt-logo-right');
+              localStorage.setItem('comapa-mt-title', _mtMembreteConfig.title);
+            } catch(e) {}
+            _mtMbrUpdatePreview('left');
+            _mtMbrUpdatePreview('right');
+            if (_mtView === 'table') mtRefreshPDF();
+            _mtMembreteSnapshot = null;
+          }
+          var ed = document.getElementById('mt-mbr-editor');
+          if (ed) ed.style.display = 'none';
+        };
+        window.onMtMembreteLogoUpload = function(side, input) {
+          var file = input.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            var url = e.target.result;
+            if (side === 'left') _mtMembreteConfig.logoLeft = url; else _mtMembreteConfig.logoRight = url;
+            try { localStorage.setItem('comapa-mt-logo-'+side, url); } catch(e2) {}
+            _mtMbrUpdatePreview(side);
+            if (_mtView === 'table') mtRefreshPDF();
+            input.value = '';
+          };
+          reader.readAsDataURL(file);
+        };
+        window.clearMtMembreteLogo = function(side) {
+          if (side === 'left') _mtMembreteConfig.logoLeft = null; else _mtMembreteConfig.logoRight = null;
+          try { localStorage.removeItem('comapa-mt-logo-'+side); } catch(e) {}
+          _mtMbrUpdatePreview(side);
+          if (_mtView === 'table') mtRefreshPDF();
+        };
+        window.onMtMembreteTitleChange = function(val) {
+          _mtMembreteConfig.title = val;
+          try { localStorage.setItem('comapa-mt-title', val); } catch(e) {}
+          if (_mtView === 'table') mtRefreshPDF();
+        };
+        window.mtDownloadPDF = function() {
+          var iframe = document.getElementById('mt-pdf-iframe');
+          if (iframe && iframe.contentWindow) iframe.contentWindow.print();
         };
 
         window.mtDownloadExcel = function() {
@@ -2703,6 +3139,24 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 .tr-meta-formula {font-style:italic;color:var(--color-text-primary);}
 /* Empty state */
         .tr-empty {padding:40px;text-align:center;color:var(--color-text-secondary);font-size:13px;}
+/* Quarter section header (stacked mode) */
+.tr-trim-hdr td {background:var(--color-neutral-100);color:var(--color-text-primary);font-size:11px;font-weight:700;padding:8px 14px;border-top:2px solid var(--color-border);border-bottom:1px solid var(--color-border);text-transform:uppercase;letter-spacing:.05em;}
+/* Multi-quarter column group headers */
+.tr-group-q1,.tr-group-q3{background:#1E3A5F!important;border-bottom:2px solid var(--color-info)!important;}
+.tr-group-q2,.tr-group-q4{background:#14532D!important;border-bottom:2px solid var(--color-success)!important;}
+.tr-sub-q1,.tr-sub-q3{background:#172F4D!important;}
+.tr-sub-q2,.tr-sub-q4{background:#0F3D22!important;}
+.tr-th-q{min-width:90px;text-align:right;}
+.tr-th-q-res{font-weight:700;}
+/* Section hierarchy */
+.tr-loading{padding:40px;text-align:center;color:var(--color-text-secondary);font-size:13px;}
+.tr-unit-section{margin-bottom:32px;}
+.tr-freq-section{margin-bottom:20px;}
+.tr-ger-hdr{background:var(--color-text-primary);color:#fff;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:10px 16px;border-radius:6px 6px 0 0;margin-bottom:0;}
+.tr-unit-hdr{background:var(--color-neutral-200);color:var(--color-text-primary);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:8px 16px;border-left:3px solid var(--color-info);margin-bottom:4px;}
+.tr-freq-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary);padding:6px 2px 4px;border-bottom:1px solid var(--color-border);margin-bottom:4px;}
+.tr-unit-section .tr-table-wrap{margin-bottom:0;}
+.tr-freq-section .tr-table{width:100%;}
 </style>
 
       <div class="page-header">
@@ -2723,6 +3177,10 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
               <svg class="tr-dd-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
             <div class="tr-dd-panel" id="trDDGerPanel">
+              <div class="tr-dd-opt" data-val="Todas" onclick="trPickGer('Todas')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Todas las gerencias
+              </div>
               <div class="tr-dd-opt selected" data-val="Administrativa" onclick="trPickGer('Administrativa')">
                 <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                 Gerencia Administrativa
@@ -2747,11 +3205,15 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           <label class="tr-filter-label">Trimestre</label>
           <div class="tr-dd-wrap" id="trDDTrim">
             <div class="tr-dd-trigger" id="trDDTrimTrigger" onclick="trToggleDD('Trim')">
-              <span id="trDDTrimLabel">1er Trimestre</span>
+              <span id="trDDTrimLabel">Todos los trimestres</span>
               <svg class="tr-dd-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
             <div class="tr-dd-panel" id="trDDTrimPanel">
-              <div class="tr-dd-opt selected" data-val="Q1" onclick="trPickTrim('Q1','1er Trimestre')">
+              <div class="tr-dd-opt selected" data-val="Todas" onclick="trPickTrim('Todas','Todos los trimestres')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Todos los trimestres
+              </div>
+              <div class="tr-dd-opt" data-val="Q1" onclick="trPickTrim('Q1','1er Trimestre')">
                 <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                 1er Trimestre
               </div>
@@ -2782,8 +3244,27 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           </div>
         </div>
 
+        <div class="tr-filter-group">
+          <label class="tr-filter-label">Indicadores</label>
+          <div class="tr-dd-wrap" id="trDDISO" style="min-width:180px">
+            <div class="tr-dd-trigger" id="trDDISOTrigger" onclick="trToggleISODD()">
+              <span id="trDDISOLabel">Todos los indicadores</span>
+              <svg class="tr-dd-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="tr-dd-panel" id="trDDISOPanel">
+              <div class="tr-dd-opt selected" data-val="all" onclick="trPickISO(false,'Todos los indicadores')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Todos los indicadores
+              </div>
+              <div class="tr-dd-opt" data-val="iso" onclick="trPickISO(true,'Indicadores ISO')">
+                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Indicadores ISO
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
-          <button class="iso-filter-btn" id="tr-iso-btn" onclick="trToggleISO()">Indicadores ISO</button>
           <!-- View toggle -->
           <div class="db-view-toggle" style="margin-bottom:0">
             <button class="db-vt-btn active" id="tr-vt-normal" onclick="trSetView('normal')">
@@ -2800,7 +3281,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             CSV
           </button>
-          <button class="tr-dl-btn" id="tr-btn-pdf" onclick="trDownloadPDF()" style="opacity:.35;cursor:not-allowed;pointer-events:none" title="Disponible solo en vista PDF">
+          <button class="tr-dl-btn" id="tr-btn-pdf" onclick="trDownloadPDF()" title="Descargar PDF">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
             PDF
           </button>
@@ -2858,29 +3339,8 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 
       <!-- ── Vista normal (tabla) ── -->
       <div id="tr-view-normal">
-      <div class="tr-table-wrap">
-        <table class="tr-table">
-          <thead>
-            <tr class="tr-header-group">
-              <th rowspan="2" class="tr-th-indicador">Indicador</th>
-              <th rowspan="2" class="tr-th-udm">U. de medida</th>
-              <th colspan="3" class="tr-th-group tr-group-meta">Meta programada del trimestre</th>
-              <th colspan="3" class="tr-th-group tr-group-res">Resultado alcanzado del trimestre</th>
-              <th rowspan="2" class="tr-th-acum">Resultado acumulado al trimestre</th>
-            </tr>
-            <tr class="tr-header-sub">
-              <th class="tr-th-var tr-sub-meta">Variable 1</th>
-              <th class="tr-th-var tr-sub-meta">Variable 2</th>
-              <th class="tr-th-calc tr-sub-meta">Meta</th>
-              <th class="tr-th-var tr-sub-res">Variable 1</th>
-              <th class="tr-th-var tr-sub-res">Variable 2</th>
-              <th class="tr-th-calc tr-sub-res">Resultado</th>
-            </tr>
-          </thead>
-          <tbody id="trTableBody">
-            <tr><td colspan="9" class="tr-empty">Cargando indicadores…</td></tr>
-          </tbody>
-        </table>
+      <div class="tr-table-wrap" id="trNormalContent">
+        <div class="tr-loading">Cargando indicadores…</div>
       </div>
       </div><!-- /#tr-view-normal -->
 
@@ -2892,13 +3352,24 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
       <script>
       (function(){
         var TR_CUR_GER   = 'Administrativa';
-        var TR_CUR_TRIM  = 'Q1';
+        var TR_CUR_TRIM  = 'Todas';
         var TR_CUR_UNID  = 'Todas';
         var _trFilterISO = false;
-        window.trToggleISO = function() {
-          _trFilterISO = !_trFilterISO;
-          var btn = document.getElementById('tr-iso-btn');
-          if (btn) btn.classList.toggle('active', _trFilterISO);
+        window.trToggleISODD = function() {
+          var trigger = document.getElementById('trDDISOTrigger');
+          var panel   = document.getElementById('trDDISOPanel');
+          var open    = panel.classList.contains('open');
+          panel.classList.toggle('open', !open);
+          trigger.classList.toggle('open', !open);
+        };
+        window.trPickISO = function(val, label) {
+          _trFilterISO = val;
+          document.getElementById('trDDISOLabel').textContent = label;
+          document.getElementById('trDDISOPanel').querySelectorAll('.tr-dd-opt').forEach(function(opt){
+            opt.classList.toggle('selected', (opt.dataset.val === 'iso') === val);
+          });
+          document.getElementById('trDDISOPanel').classList.remove('open');
+          document.getElementById('trDDISOTrigger').classList.remove('open');
           trRender();
         };
         var _trView = 'normal';
@@ -2918,7 +3389,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           '.page{width:1056px;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.45);border-radius:2px;padding:40px 48px;box-sizing:border-box;overflow:visible;}',
           '.page-content{width:100%;}',
           '.membrete{display:flex;align-items:center;gap:20px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #1F2937;}',
-          '.mbr-logo{width:60px;height:60px;flex-shrink:0;border-radius:6px;border:1.5px dashed #9CA3AF;display:flex;align-items:center;justify-content:center;text-align:center;font-size:7px;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:.04em;line-height:1.4;}',
+          '.mbr-logo{width:100px;height:60px;flex-shrink:0;border-radius:6px;border:1.5px dashed #9CA3AF;display:flex;align-items:center;justify-content:center;text-align:center;font-size:7px;color:#9CA3AF;font-weight:700;text-transform:uppercase;letter-spacing:.04em;line-height:1.4;}',
           '.mbr-center{flex:1;text-align:center;} .mbr-title{font-size:11px;font-weight:800;color:#374151;text-transform:uppercase;letter-spacing:.06em;}',
           '.mbr-ger{font-size:13px;font-weight:700;color:#111827;margin-top:4px;} .mbr-fecha{font-size:9px;color:#6B7280;margin-top:3px;}',
           '.tr-tbl{border-collapse:collapse;font-size:10px;width:100%;}',
@@ -2939,6 +3410,21 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           '.sub-item{padding:2px 10px 4px 0;font-size:9px;line-height:1.4;}',
           '.sub-lbl{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#6B7280;display:block;margin-bottom:1px;}',
           '.sub-val{color:#374151;} .sub-em{color:#374151;font-style:italic;}',
+          '@media print{@page{size:letter landscape;margin:0;}body{background:#fff!important;padding:0!important;gap:0!important;display:block!important;}',
+          '.page{width:100%!important;box-shadow:none!important;border-radius:0!important;padding:40px 48px!important;height:auto!important;overflow:visible!important;page-break-after:always;break-after:page;}',
+          '.page:last-child{page-break-after:auto;break-after:auto;}',
+          '.page-content{width:100%!important;}',
+          '.th-base,.th-meta,.th-meta-g,.th-meta-bold,.th-res,.th-res-g,.th-res-bold,.th-acum{-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+          '.chip-ok,.chip-warn,.chip-bad,.chip-nd,.sub-grid,.tr-tbl .tr-data-row:nth-child(4n+3) td,.tr-tbl .tr-data-row:nth-child(4n+4) td{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}',
+          '.tr-trim-hdr-pdf td{background:#e8edf2;color:#1a2a3a;font-size:11px;font-weight:700;padding:6px 12px;text-transform:uppercase;letter-spacing:.05em;border-top:2px solid #b0bec9;border-bottom:1px solid #b0bec9;}',
+          '.iso-tag-tbl{display:inline-block;font-size:8px;font-weight:800;letter-spacing:.04em;color:#fff;background:#374151;border-radius:3px;padding:1px 4px;margin-right:5px;vertical-align:middle;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+          '.th-qg{text-align:center;font-size:9px;font-weight:700;letter-spacing:.04em;padding:6px 4px;border:1px solid rgba(255,255,255,.15);}',
+          '.th-q1-g,.th-q3-g{background:#1E3A5F;} .th-q2-g,.th-q4-g{background:#14532D;}',
+          '.th-q{min-width:60px;text-align:right;font-size:8.5px;font-weight:600;padding:5px 4px;border:1px solid rgba(255,255,255,.12);}',
+          '.th-q1,.th-q3{background:#172F4D;} .th-q2,.th-q4{background:#0F3D22;}',
+          '.th-q1-g,.th-q2-g,.th-q3-g,.th-q4-g,.th-q1,.th-q2,.th-q3,.th-q4{-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+          '.pdf-sec-hdr{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#1a2a3a;padding:5px 0 4px;border-bottom:2px solid #1E3A5F;margin:8px 0 4px;}',
+          '.pdf-sec-freq{font-weight:600;color:#374151;text-transform:none;}',
         ].join('');
 
         function trChipCls(resN, metaN) {
@@ -2947,8 +3433,10 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           return r >= 0.95 ? 'chip chip-ok' : r >= 0.80 ? 'chip chip-warn' : 'chip chip-bad';
         }
 
-        function trBuildPDFContent(inds, trim, ger, unid) {
-          var trimLabel = {Q1:'1er Trimestre',Q2:'2do Trimestre',Q3:'3er Trimestre',Q4:'4to Trimestre'}[trim] || trim;
+        function trBuildPDFContent() {
+          var grouped = trGetGrouped();
+          if (!grouped.length) return '';
+          var allMode = TR_CUR_TRIM === 'Todas';
           var _now = new Date();
           var _meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
           var _fecha = _now.getDate()+' de '+_meses[_now.getMonth()]+' de '+_now.getFullYear();
@@ -2962,104 +3450,236 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             : '<div class="mbr-logo">Logo<br>COMAPA Sur</div>';
           var mbrTit = (_trMembreteConfig.title || 'Reporte de Transparencia · Información Pública de Oficio')
             .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-          var mbrGer = 'Gerencia '+ger+' · '+trimLabel+' 2026'+(unid !== 'Todas' ? ' · '+unid : '');
-          var membrete = '<div class="membrete">'+logoL
-            +'<div class="mbr-center"><div class="mbr-title">'+mbrTit+'</div>'
-            +'<div class="mbr-ger">'+mbrGer+'</div>'
-            +'<div class="mbr-fecha">Generado el '+_fecha+'</div></div>'+logoR+'</div>';
+          var trimLabels = {Q1:'1er Trimestre',Q2:'2do Trimestre',Q3:'3er Trimestre',Q4:'4to Trimestre'};
+          var periodLabel = allMode ? 'Todos los periodos' : (trimLabels[TR_CUR_TRIM] || TR_CUR_TRIM);
+          var showGerHdr = TR_CUR_GER === 'Todas' && grouped.length > 1;
           var v = function(x){ return (x !== null && x !== undefined) ? x : '—'; };
-          var rowsHtml = '';
-          inds.forEach(function(ind) {
-            var qd = ind.q[trim] || {};
-            var cc = trChipCls(qd.resN, qd.metaN);
-            rowsHtml += '<tr class="tr-data-row">'
-              +'<td class="td-ind">'+ind.nombre+'</td>'
-              +'<td class="td-ctr">'+ind.udm+'</td>'
-              +'<td class="td-num td-meta">'+v(qd.v1m)+'</td>'
-              +'<td class="td-num td-meta">'+v(qd.v2m)+'</td>'
-              +'<td class="td-num td-meta td-meta-bold">'+v(qd.meta)+'</td>'
-              +'<td class="td-num">'+v(qd.v1r)+'</td>'
-              +'<td class="td-num">'+v(qd.v2r)+'</td>'
-              +'<td class="td-num td-acum"><span class="'+cc+'">'+v(qd.res)+'</span></td>'
-              +'<td class="td-num td-acum"><span class="'+cc+'">'+v(qd.acum)+'</span></td>'
-              +'</tr>';
-            rowsHtml += '<tr class="tr-sub-row">'
-              +'<td colspan="9"><div class="sub-grid">'
+          var qcls = ['th-q1-g','th-q2-g','th-q3-g','th-q4-g'];
+          var qscls = ['th-q1','th-q2','th-q3','th-q4'];
+
+          function pdfIsoTag(ind) {
+            return (ind.iso && ind.iso.toLowerCase()==='x') ? '<span class="iso-tag-tbl">ISO</span>' : '';
+          }
+          function pdfSubRow(ind, ncols) {
+            return '<tr class="tr-sub-row" data-kind="s"><td colspan="'+ncols+'"><div class="sub-grid">'
               +'<div class="sub-item"><span class="sub-lbl">Descripción del objetivo</span><span class="sub-val">'+ind.objetivo+'</span></div>'
               +'<div class="sub-item"><span class="sub-lbl">Fórmula utilizada</span><span class="sub-val sub-em">'+ind.formula+'</span></div>'
               +'<div class="sub-item"><span class="sub-lbl">Unidad responsable</span><span class="sub-val">'+ind.ur+'</span></div>'
               +'<div class="sub-item"><span class="sub-lbl">Frecuencia</span><span class="sub-val">'+ind.freq+'</span></div>'
               +'</div></td></tr>';
+          }
+
+          function buildFreqTable(freqKey, inds) {
+            var sampleM = inds.length > 0 ? (inds[0].m || []) : [];
+            var np = sampleM.length;
+            if (np === 0) return '';
+            var rows = '';
+            if (freqKey === 'Mensual') {
+              var ncols = 3 + 12;
+              var thead = '<thead><tr>'
+                +'<th class="th-base th-ind">Indicador</th>'
+                +'<th class="th-base th-udm">UDM</th>'
+                +'<th class="th-meta-bold">Meta Anual</th>';
+              sampleM.forEach(function(pd){ thead += '<th class="th-meta" style="min-width:40px;text-align:center;">'+pd.lbl+'</th>'; });
+              thead += '</tr></thead>';
+              inds.forEach(function(ind){
+                var it = pdfIsoTag(ind);
+                rows += '<tr class="tr-data-row" data-kind="d">'
+                  +'<td class="td-ind">'+it+ind.nombre+'</td>'
+                  +'<td class="td-ctr">'+ind.udm+'</td>'
+                  +'<td class="td-num td-meta">'+v(ind.metaAnual)+'</td>';
+                (ind.m||[]).forEach(function(pd){
+                  var cc = trChipCls(pd.resN, pd.metaN);
+                  rows += '<td class="td-num td-acum" style="text-align:center;"><span class="'+cc+'">'+v(pd.res)+'</span></td>';
+                });
+                rows += '</tr>'+pdfSubRow(ind, ncols);
+              });
+              return '<table class="tr-tbl">'+thead+'<tbody>'+rows+'</tbody></table>';
+            }
+            if (np === 1) {
+              var ncols = 5;
+              var thead = '<thead><tr>'
+                +'<th rowspan="2" class="th-base th-ind">Indicador</th>'
+                +'<th rowspan="2" class="th-base th-udm">UDM</th>'
+                +'<th colspan="3" class="th-meta-g">Resultado Anual</th>'
+                +'</tr><tr>'
+                +'<th class="th-meta">Meta</th><th class="th-res-bold">Resultado</th><th class="th-acum">Acumulado</th>'
+                +'</tr></thead>';
+              inds.forEach(function(ind){
+                var pd=(ind.m||[])[0]||{}; var cc=trChipCls(pd.resN,pd.metaN); var it=pdfIsoTag(ind);
+                rows += '<tr class="tr-data-row" data-kind="d">'
+                  +'<td class="td-ind">'+it+ind.nombre+'</td>'
+                  +'<td class="td-ctr">'+ind.udm+'</td>'
+                  +'<td class="td-num td-meta">'+v(pd.meta)+'</td>'
+                  +'<td class="td-num td-acum"><span class="'+cc+'">'+v(pd.res)+'</span></td>'
+                  +'<td class="td-num td-acum"><span class="'+cc+'">'+v(pd.acum)+'</span></td>'
+                  +'</tr>'+pdfSubRow(ind, ncols);
+              });
+              return '<table class="tr-tbl">'+thead+'<tbody>'+rows+'</tbody></table>';
+            }
+            var ncols = 2 + np * 3;
+            var thead = '<thead><tr>'
+              +'<th rowspan="2" class="th-base th-ind">Indicador</th>'
+              +'<th rowspan="2" class="th-base th-udm">UDM</th>';
+            sampleM.forEach(function(pd,i){ thead += '<th colspan="3" class="th-qg '+qcls[i%4]+'">'+pd.lbl+'</th>'; });
+            thead += '</tr><tr>';
+            sampleM.forEach(function(pd,i){
+              var sc=qscls[i%4];
+              thead += '<th class="th-q '+sc+'">Meta</th><th class="th-q '+sc+'">Resultado</th><th class="th-q '+sc+'">Acum.</th>';
+            });
+            thead += '</tr></thead>';
+            inds.forEach(function(ind){
+              var it=pdfIsoTag(ind);
+              rows += '<tr class="tr-data-row" data-kind="d">'
+                +'<td class="td-ind">'+it+ind.nombre+'</td>'
+                +'<td class="td-ctr">'+ind.udm+'</td>';
+              (ind.m||[]).forEach(function(pd){
+                var cc=trChipCls(pd.resN,pd.metaN);
+                rows += '<td class="td-num td-meta">'+v(pd.meta)+'</td>'
+                  +'<td class="td-num td-acum"><span class="'+cc+'">'+v(pd.res)+'</span></td>'
+                  +'<td class="td-num td-acum"><span class="'+cc+'">'+v(pd.acum)+'</span></td>';
+              });
+              rows += '</tr>'+pdfSubRow(ind, ncols);
+            });
+            return '<table class="tr-tbl">'+thead+'<tbody>'+rows+'</tbody></table>';
+          }
+
+          function buildSingleTable(inds) {
+            var ncols = 9;
+            var thead = '<thead><tr>'
+              +'<th rowspan="2" class="th-base th-ind">Indicador</th>'
+              +'<th rowspan="2" class="th-base th-udm">U. medida</th>'
+              +'<th colspan="3" class="th-meta-g">Meta programada del trimestre</th>'
+              +'<th colspan="3" class="th-res-g">Resultado alcanzado del trimestre</th>'
+              +'<th rowspan="2" class="th-acum">Resultado acumulado</th>'
+              +'</tr><tr>'
+              +'<th class="th-meta">Variable 1</th><th class="th-meta">Variable 2</th><th class="th-meta-bold">Meta</th>'
+              +'<th class="th-res">Variable 1</th><th class="th-res">Variable 2</th><th class="th-res-bold">Resultado</th>'
+              +'</tr></thead>';
+            var rows = '';
+            inds.forEach(function(ind){
+              var qd=ind.q[TR_CUR_TRIM]||{}; var cc=trChipCls(qd.resN,qd.metaN); var it=pdfIsoTag(ind);
+              rows += '<tr class="tr-data-row" data-kind="d">'
+                +'<td class="td-ind">'+it+ind.nombre+'</td>'
+                +'<td class="td-ctr">'+ind.udm+'</td>'
+                +'<td class="td-num td-meta">'+v(qd.v1m)+'</td>'
+                +'<td class="td-num td-meta">'+v(qd.v2m)+'</td>'
+                +'<td class="td-num td-meta td-meta-bold">'+v(qd.meta)+'</td>'
+                +'<td class="td-num">'+v(qd.v1r)+'</td>'
+                +'<td class="td-num">'+v(qd.v2r)+'</td>'
+                +'<td class="td-num td-acum"><span class="'+cc+'">'+v(qd.res)+'</span></td>'
+                +'<td class="td-num td-acum"><span class="'+cc+'">'+v(qd.acum)+'</span></td>'
+                +'</tr>'+pdfSubRow(ind, ncols);
+            });
+            return '<table class="tr-tbl">'+thead+'<tbody>'+rows+'</tbody></table>';
+          }
+
+          var html = '';
+          grouped.forEach(function(gg) {
+            var mbrGer = 'Gerencia '+gg.ger+' · '+periodLabel+' 2026';
+            gg.unidades.forEach(function(ug) {
+              var membrete = '<div class="membrete">'+logoL
+                +'<div class="mbr-center"><div class="mbr-title">'+mbrTit+'</div>'
+                +'<div class="mbr-ger">'+mbrGer+'</div>'
+                +'<div class="mbr-fecha">Generado el '+_fecha+'</div></div>'+logoR+'</div>';
+              var gerPfx = showGerHdr ? 'Gerencia '+gg.ger+' &middot; ' : '';
+              if (allMode) {
+                ug.freqGroups.forEach(function(fg) {
+                  var secHdr = '<div class="pdf-sec-hdr">'+gerPfx+ug.ur+' &middot; <span class="pdf-sec-freq">'+fg.freqKey+'</span></div>';
+                  html += '<div class="page"><div class="page-content">'+membrete+secHdr+buildFreqTable(fg.freqKey,fg.inds)+'</div></div>';
+                });
+              } else {
+                var secHdr = '<div class="pdf-sec-hdr">'+gerPfx+ug.ur+'</div>';
+                html += '<div class="page"><div class="page-content">'+membrete+secHdr+buildSingleTable(ug.allInds)+'</div></div>';
+              }
+            });
           });
-          var thead = '<thead>'
-            +'<tr>'
-            +'<th rowspan="2" class="th-base th-ind">Indicador</th>'
-            +'<th rowspan="2" class="th-base th-udm">U. medida</th>'
-            +'<th colspan="3" class="th-meta-g">Meta programada del trimestre</th>'
-            +'<th colspan="3" class="th-res-g">Resultado alcanzado del trimestre</th>'
-            +'<th rowspan="2" class="th-acum">Resultado acumulado</th>'
-            +'</tr><tr>'
-            +'<th class="th-meta">Variable 1</th><th class="th-meta">Variable 2</th><th class="th-meta-bold">Meta</th>'
-            +'<th class="th-res">Variable 1</th><th class="th-res">Variable 2</th><th class="th-res-bold">Resultado</th>'
-            +'</tr></thead>';
-          return '<div class="page"><div class="page-content">'+membrete
-            +'<table class="tr-tbl">'+thead+'<tbody>'+rowsHtml+'</tbody></table>'
-            +'</div></div>';
+          return html;
         }
 
         function trBuildPDFDocument() {
-          var gerData = TR_DATA[TR_CUR_GER];
-          if (!gerData) return '';
-          var inds = gerData.indicadores.filter(function(ind){
-            return (TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID) && (!_trFilterISO || isISOInd(ind.nombre));
-          });
           var paginateScript = '<scr'+'ipt>window.onload=function(){'
             +'var AH=736,AW=960;'
-            +'function fin(p){p.style.height="816px";p.style.overflow="hidden";}'
+            +'function gh(el){return el?el.offsetHeight:0;}'
+            +'function mkUnits(rows){'
+              +'var u=[],i=0;'
+              +'while(i<rows.length){'
+                +'var k=rows[i].dataset.kind;'
+                +'if(k==="d"&&i+1<rows.length&&rows[i+1].dataset.kind==="s"){'
+                  +'u.push([rows[i],rows[i+1]]);i+=2;'
+                +'}else{u.push([rows[i]]);i++;}'
+              +'}'
+              +'return u;'
+            +'}'
+            +'function mkPg(mbr,items,parent){'
+              +'var pg=document.createElement("div");pg.className="page";'
+              +'pg.style.height="816px";pg.style.overflow="hidden";'
+              +'var pc=document.createElement("div");pc.className="page-content";'
+              +'if(mbr)pc.appendChild(mbr.cloneNode(true));'
+              +'items.forEach(function(el){pc.appendChild(el);});'
+              +'pg.appendChild(pc);parent.appendChild(pg);'
+            +'}'
             +'var pages=Array.from(document.querySelectorAll(".page"));'
-            +'pages.forEach(function(page){'
-              +'var content=page.querySelector(".page-content");'
-              +'if(!content){fin(page);return;}'
-              +'content.style.width=AW+"px";'
-              +'if(content.scrollHeight<=AH){fin(page);return;}'
-              +'var mbr=content.querySelector(".membrete");'
-              +'var tbl=content.querySelector(".tr-tbl");'
-              +'if(!tbl){fin(page);return;}'
-              +'var thead=tbl.querySelector("thead");'
-              +'var tbody=tbl.querySelector("tbody");'
-              +'if(!tbody){fin(page);return;}'
-              +'var mbrH=mbr?(mbr.offsetHeight+14):0;'
-              +'var thH=thead?thead.offsetHeight:0;'
-              +'var dataRows=Array.from(tbody.querySelectorAll(".tr-data-row"));'
-              +'var groups=[[]],usedH=mbrH+thH;'
-              +'dataRows.forEach(function(dr){'
-                +'var sr=dr.nextElementSibling;'
-                +'var ph=dr.offsetHeight+(sr?sr.offsetHeight:0);'
-                +'if(usedH+ph>AH&&groups[groups.length-1].length>0){'
-                  +'groups.push([]);usedH=mbrH+thH;'
-                +'}'
-                +'var pair=[dr.cloneNode(true)];'
-                +'if(sr)pair.push(sr.cloneNode(true));'
-                +'groups[groups.length-1].push(pair);'
-                +'usedH+=ph;'
-              +'});'
-              +'var parent=page.parentNode,next=page.nextSibling;'
-              +'groups.forEach(function(group,i){'
-                +'var np=document.createElement("div");np.className="page";'
-                +'np.style.height="816px";np.style.overflow="hidden";'
-                +'var nc=document.createElement("div");nc.className="page-content";nc.style.width=AW+"px";'
-                +'if(mbr)nc.appendChild(mbr.cloneNode(true));'
-                +'var nt=document.createElement("table");nt.className="tr-tbl";'
-                +'if(thead)nt.appendChild(thead.cloneNode(true));'
-                +'var nb=document.createElement("tbody");'
-                +'group.forEach(function(pair){pair.forEach(function(r){nb.appendChild(r);});});'
-                +'nt.appendChild(nb);nc.appendChild(nt);np.appendChild(nc);'
-                +'parent.insertBefore(np,next);'
-              +'});'
-              +'parent.removeChild(page);'
+            +'if(!pages.length)return;'
+            +'var parent=pages[0].parentNode;'
+            +'pages.forEach(function(pg){var pc=pg.querySelector(".page-content");if(pc)pc.style.width=AW+"px";});'
+            +'var mbrH=gh(pages[0].querySelector(".membrete"))+14;'
+            +'var secs=pages.map(function(pg){'
+              +'var pc=pg.querySelector(".page-content");'
+              +'return{mbr:pc&&pc.querySelector(".membrete"),hdr:pc&&pc.querySelector(".pdf-sec-hdr"),tbl:pc&&pc.querySelector(".tr-tbl")};'
+            +'});'
+            +'function secH(s){return gh(s.hdr)+4+(s.tbl?s.tbl.scrollHeight:0);}'
+            +'var bins=[],bin=[],usedH=mbrH;'
+            +'secs.forEach(function(s){'
+              +'var sh=secH(s);'
+              +'if(sh>AH-mbrH){'
+                +'if(bin.length){bins.push({normal:true,secs:bin});bin=[];usedH=mbrH;}'
+                +'bins.push({split:true,sec:s});'
+              +'}else if(usedH+sh>AH&&bin.length>0){'
+                +'bins.push({normal:true,secs:bin});bin=[s];usedH=mbrH+sh;'
+              +'}else{bin.push(s);usedH+=sh;}'
+            +'});'
+            +'if(bin.length)bins.push({normal:true,secs:bin});'
+            +'pages.forEach(function(p){parent.removeChild(p);});'
+            +'bins.forEach(function(b){'
+              +'if(b.normal){'
+                +'var mbr=b.secs[0].mbr,items=[];'
+                +'b.secs.forEach(function(s){'
+                  +'if(s.hdr)items.push(s.hdr.cloneNode(true));'
+                  +'if(s.tbl)items.push(s.tbl.cloneNode(true));'
+                +'});'
+                +'mkPg(mbr,items,parent);'
+              +'}else{'
+                +'var s=b.sec,mbr=s.mbr,tbl=s.tbl;'
+                +'if(!tbl){mkPg(mbr,[],parent);return;}'
+                +'var thead=tbl.querySelector("thead");'
+                +'var tbody=tbl.querySelector("tbody");'
+                +'if(!tbody){mkPg(mbr,[],parent);return;}'
+                +'var thH=gh(thead),hdrH=gh(s.hdr)+4;'
+                +'var allRows=Array.from(tbody.querySelectorAll("tr[data-kind]"));'
+                +'var units=mkUnits(allRows);'
+                +'var grps=[[]],uH=mbrH+hdrH+thH;'
+                +'units.forEach(function(unit){'
+                  +'var ph=unit.reduce(function(sm,r){return sm+r.offsetHeight;},0);'
+                  +'if(uH+ph>AH&&grps[grps.length-1].length>0){grps.push([]);uH=mbrH+hdrH+thH;}'
+                  +'grps[grps.length-1].push(unit);uH+=ph;'
+                +'});'
+                +'grps.forEach(function(grp){'
+                  +'var nt=document.createElement("table");nt.className="tr-tbl";'
+                  +'if(thead)nt.appendChild(thead.cloneNode(true));'
+                  +'var nb=document.createElement("tbody");'
+                  +'grp.forEach(function(unit){unit.forEach(function(r){nb.appendChild(r);});});'
+                  +'nt.appendChild(nb);'
+                  +'var items=[];'
+                  +'if(s.hdr)items.push(s.hdr.cloneNode(true));'
+                  +'items.push(nt);'
+                  +'mkPg(mbr,items,parent);'
+                +'});'
+              +'}'
             +'});'
           +'};<\/scr'+'ipt>';
-          var content = trBuildPDFContent(inds, TR_CUR_TRIM, TR_CUR_GER, TR_CUR_UNID);
+          var content = trBuildPDFContent();
+          if (!content) return '';
           return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'
             +TR_PDF_CSS
             +'<\/style>'
@@ -3083,12 +3703,6 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           document.getElementById('tr-view-normal').style.display = view==='normal' ? '' : 'none';
           document.getElementById('tr-pdf-preview').style.display = view==='pdf' ? '' : 'none';
           if (view === 'pdf') trRefreshPDF();
-          var pdfBtn = document.getElementById('tr-btn-pdf');
-          if (pdfBtn) {
-            pdfBtn.style.opacity = view==='pdf' ? '1' : '.35';
-            pdfBtn.style.cursor = view==='pdf' ? 'pointer' : 'not-allowed';
-            pdfBtn.style.pointerEvents = view==='pdf' ? '' : 'none';
-          }
         };
 
         function _trMbrUpdatePreview(side) {
@@ -3151,268 +3765,120 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           if (_trView === 'pdf') trRefreshPDF();
         };
 
-        var TR_DATA = {
-          'Administrativa': {
-            unidades: ['Tecnologías de la Información','Adquisiciones','Capital Humano','Comunicación e Imagen','Gestión de Recursos'],
-            indicadores: [
-              {
-                nombre: '% Solicitudes de Soporte Técnico atendidas',
-                objetivo: 'Garantizar la atención oportuna de las solicitudes de soporte técnico reportadas por usuarios internos en el tiempo de respuesta establecido.',
-                formula: '(Solicitudes de soporte técnico atendidas / Total de solicitudes recibidas) × 100',
-                udm:'%', ur:'Tecnologías de la Información', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'2,520',v2m:'2,520',meta:'100%',metaN:100,v1r:'2,468',v2r:'2,519',res:'97.97%',resN:97.97,acum:'97.97%'},
-                  Q2:{v1m:'2,400',v2m:'2,400',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'2,400',v2m:'2,400',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'2,400',v2m:'2,400',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Sistemas informáticos en operación',
-                objetivo: 'Mantener la disponibilidad de los sistemas informáticos institucionales para garantizar la continuidad operativa.',
-                formula: '(Sistemas en operación / Total de sistemas informáticos institucionales) × 100',
-                udm:'%', ur:'Tecnologías de la Información', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'18',v2m:'18',meta:'100%',metaN:100,v1r:'17',v2r:'18',res:'94.44%',resN:94.44,acum:'94.44%'},
-                  Q2:{v1m:'18',v2m:'18',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'18',v2m:'18',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'18',v2m:'18',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Solicitudes con pedido formalizado en SAP',
-                objetivo: 'Asegurar que las solicitudes de compra cuenten con el pedido de adquisición formalizado en el sistema SAP dentro del período.',
-                formula: '(Solicitudes con pedido generado en SAP / Total de solicitudes de adquisición generadas) × 100',
-                udm:'%', ur:'Adquisiciones', freq:'Trimestral',
-                q:{
-                  Q1:{v1m:'47',v2m:'58',meta:'81%',metaN:81,v1r:'23',v2r:'46',res:'49.7%',resN:49.7,acum:'49.7%'},
-                  Q2:{v1m:'50',v2m:'62',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'45',v2m:'55',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'50',v2m:'62',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Personal con competencias certificadas',
-                objetivo: 'Garantizar que el personal cuente con las competencias certificadas necesarias para desempeñar sus funciones conforme al perfil de puesto.',
-                formula: '(Personal con competencias certificadas / Total de personal del proceso) × 100',
-                udm:'%', ur:'Capital Humano', freq:'Semestral',
-                q:{
-                  Q1:{v1m:'874',v2m:'1,248',meta:'70%',metaN:70,v1r:'172',v2r:'1,248',res:'13.8%',resN:13.8,acum:'13.8%'},
-                  Q2:{v1m:'874',v2m:'1,248',meta:'70%',metaN:70,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'874',v2m:'1,248',meta:'70%',metaN:70,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'874',v2m:'1,248',meta:'70%',metaN:70,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: 'Seguidores impactados por campaña de comunicación',
-                objetivo: 'Ampliar el alcance de la comunicación institucional para posicionar a COMAPA Sur como referente en cultura del agua en la región.',
-                formula: 'Número total de seguidores / alcance acumulado en plataformas digitales oficiales durante el período',
-                udm:'Personas', ur:'Comunicación e Imagen', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'2,700,000',v2m:'3 meses',meta:'2,700,000',metaN:2700000,v1r:'7,450,000',v2r:'3 meses',res:'7,450,000',resN:7450000,acum:'7,450,000'},
-                  Q2:{v1m:'2,700,000',v2m:'3 meses',meta:'2,700,000',metaN:2700000,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'2,700,000',v2m:'3 meses',meta:'2,700,000',metaN:2700000,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'2,700,000',v2m:'3 meses',meta:'2,700,000',metaN:2700000,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Ingreso presupuestado recaudado',
-                objetivo: 'Asegurar la captación de ingresos conforme al presupuesto aprobado para el ejercicio fiscal 2026.',
-                formula: '(Ingreso total recaudado en el período / Ingreso total presupuestado anual) × 100',
-                udm:'%', ur:'Gestión de Recursos', freq:'Trimestral',
-                q:{
-                  Q1:{v1m:'$35,735,856',v2m:'$162,434,800',meta:'22%',metaN:22,v1r:'$40,590,000',v2r:'$162,434,800',res:'25%',resN:25,acum:'25%'},
-                  Q2:{v1m:'$35,735,856',v2m:'$162,434,800',meta:'22%',metaN:22,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'$35,735,856',v2m:'$162,434,800',meta:'22%',metaN:22,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'$35,735,856',v2m:'$162,434,800',meta:'22%',metaN:22,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              }
-            ]
-          },
-          'Comercial': {
-            unidades: ['Contratación y Servicio al Usuario','Medición y Cobranza'],
-            indicadores: [
-              {
-                nombre: '% de Contratación',
-                objetivo: 'Incrementar la cobertura del servicio mediante la formalización de nuevos contratos de agua potable y/o drenaje en el período.',
-                formula: '(Contratos de servicio realizados / Solicitudes de servicio aprobadas) × 100',
-                udm:'%', ur:'Contratación y Servicio al Usuario', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'300',v2m:'300',meta:'100%',metaN:100,v1r:'789',v2r:'267',res:'295.5%',resN:295.5,acum:'295.5%'},
-                  Q2:{v1m:'300',v2m:'300',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'300',v2m:'300',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'300',v2m:'300',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Cierre de Solicitudes de aclaración',
-                objetivo: 'Resolver la totalidad de las solicitudes de aclaración de consumo recibidas en el período establecido.',
-                formula: '(Solicitudes de aclaración resueltas / Total de solicitudes de aclaración recibidas) × 100',
-                udm:'%', ur:'Contratación y Servicio al Usuario', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'900',v2m:'900',meta:'100%',metaN:100,v1r:'900',v2r:'900',res:'100%',resN:100,acum:'100%'},
-                  Q2:{v1m:'900',v2m:'900',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'900',v2m:'900',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'900',v2m:'900',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Tarifa preferencial aplicada correctamente',
-                objetivo: 'Garantizar la aplicación correcta de la tarifa preferencial a los usuarios que cumplan con los criterios establecidos.',
-                formula: '(Usuarios con tarifa preferencial aplicada / Inspecciones realizadas con derecho a tarifa) × 100',
-                udm:'%', ur:'Contratación y Servicio al Usuario', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'60',v2m:'75',meta:'80%',metaN:80,v1r:'51',v2r:'73',res:'69.9%',resN:69.9,acum:'69.9%'},
-                  Q2:{v1m:'60',v2m:'75',meta:'80%',metaN:80,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'60',v2m:'75',meta:'80%',metaN:80,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'60',v2m:'75',meta:'80%',metaN:80,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: 'Eficiencia Comercial',
-                objetivo: 'Maximizar la proporción de la facturación que se convierte en recaudación efectiva para sostener la operación del organismo.',
-                formula: '(Monto total recaudado en el período / Monto total facturado en el período) × 100',
-                udm:'%', ur:'Medición y Cobranza', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'$195,000,000',v2m:'$243,000,000',meta:'80%',metaN:80,v1r:'$202,072,960',v2r:'$245,359,914',res:'82.36%',resN:82.36,acum:'82.36%'},
-                  Q2:{v1m:'$195,000,000',v2m:'$243,000,000',meta:'80%',metaN:80,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'$195,000,000',v2m:'$243,000,000',meta:'80%',metaN:80,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'$195,000,000',v2m:'$243,000,000',meta:'80%',metaN:80,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Micromedición (usuarios con medidor activo)',
-                objetivo: 'Incrementar el porcentaje de usuarios con medidor en operación para mejorar la precisión de la facturación por consumo real.',
-                formula: '(Usuarios con medidor en operación / Total de usuarios en el padrón) × 100',
-                udm:'%', ur:'Medición y Cobranza', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'130,500',v2m:'174,000',meta:'75%',metaN:75,v1r:'125,884',v2r:'173,862',res:'72.41%',resN:72.41,acum:'72.41%'},
-                  Q2:{v1m:'130,500',v2m:'174,000',meta:'75%',metaN:75,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'130,500',v2m:'174,000',meta:'75%',metaN:75,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'130,500',v2m:'174,000',meta:'75%',metaN:75,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              }
-            ]
-          },
-          'Técnica': {
-            unidades: ['Potabilización','Suministro y Alcantarillado','Proyectos e Ingeniería'],
-            indicadores: [
-              {
-                nombre: 'Eficiencia Operativa de Potabilización',
-                objetivo: 'Optimizar la relación entre el volumen captado y el volumen producido para reducir las pérdidas en el proceso de potabilización.',
-                formula: '(Volumen de agua producida (m³) / Volumen de agua captada (m³)) × 100',
-                udm:'%', ur:'Potabilización', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'18,000,000 m³',v2m:'20,000,000 m³',meta:'90%',metaN:90,v1r:'17,021,763 m³',v2r:'20,209,000 m³',res:'84.2%',resN:84.2,acum:'84.2%'},
-                  Q2:{v1m:'18,000,000 m³',v2m:'20,000,000 m³',meta:'90%',metaN:90,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'18,000,000 m³',v2m:'20,000,000 m³',meta:'90%',metaN:90,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'18,000,000 m³',v2m:'20,000,000 m³',meta:'90%',metaN:90,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Fugas de Agua atendidas',
-                objetivo: 'Reducir las pérdidas físicas de agua en la red de distribución mediante la atención oportuna de fugas reportadas.',
-                formula: '(Fugas de agua atendidas en el período / Fugas de agua reportadas en el período) × 100',
-                udm:'%', ur:'Suministro y Alcantarillado', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'1,200',v2m:'1,481',meta:'81%',metaN:81,v1r:'714',v2r:'1,079',res:'66.2%',resN:66.2,acum:'66.2%'},
-                  Q2:{v1m:'1,200',v2m:'1,481',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'1,200',v2m:'1,481',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'1,200',v2m:'1,481',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Desazolves atendidos conforme al programa',
-                objetivo: 'Mantener la red de alcantarillado en condiciones óptimas de operación ejecutando el programa trimestral de desazolves.',
-                formula: '(Desazolves realizados en el período / Desazolves programados en el período) × 100',
-                udm:'%', ur:'Suministro y Alcantarillado', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'600',v2m:'741',meta:'81%',metaN:81,v1r:'476',v2r:'685',res:'69.5%',resN:69.5,acum:'69.5%'},
-                  Q2:{v1m:'600',v2m:'741',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'600',v2m:'741',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'600',v2m:'741',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Instalaciones de acometidas realizadas',
-                objetivo: 'Ejecutar el programa de nuevas instalaciones de acometidas domiciliarias de agua potable y drenaje conforme al programa trimestral.',
-                formula: '(Instalaciones de acometidas realizadas / Instalaciones de acometidas programadas) × 100',
-                udm:'%', ur:'Suministro y Alcantarillado', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'630',v2m:'780',meta:'81%',metaN:81,v1r:'621',v2r:'779',res:'79.7%',resN:79.7,acum:'79.7%'},
-                  Q2:{v1m:'630',v2m:'780',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'630',v2m:'780',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'630',v2m:'780',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Avance Físico de Obra conforme al programa',
-                objetivo: 'Ejecutar los proyectos de infraestructura hidráulica conforme al calendario de obra aprobado y al presupuesto asignado.',
-                formula: '(Avance físico ejecutado acumulado / Avance físico programado acumulado) × 100',
-                udm:'%', ur:'Proyectos e Ingeniería', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'30%',v2m:'100%',meta:'30%',metaN:30,v1r:'30%',v2r:'100%',res:'30%',resN:30,acum:'30%'},
-                  Q2:{v1m:'70%',v2m:'100%',meta:'70%',metaN:70,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'90%',v2m:'100%',meta:'90%',metaN:90,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'100%',v2m:'100%',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              }
-            ]
-          },
-          'Planeación Estratégica': {
-            unidades: ['Tratamiento de Aguas Residuales','Planeación Estratégica'],
-            indicadores: [
-              {
-                nombre: '% Parámetros calidad NOM-001-SEMARNAT-2021 cumplidos',
-                objetivo: 'Garantizar que el efluente de las plantas de tratamiento cumpla los parámetros de la NOM-001-SEMARNAT-2021 antes de su descarga al cuerpo receptor.',
-                formula: '(Parámetros de NOM-001 que cumplen la norma / Total de parámetros evaluados en el período) × 100',
-                udm:'%', ur:'Tratamiento de Aguas Residuales', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'36',v2m:'36',meta:'100%',metaN:100,v1r:'36',v2r:'36',res:'100%',resN:100,acum:'100%'},
-                  Q2:{v1m:'36',v2m:'36',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'36',v2m:'36',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'36',v2m:'36',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Supervisiones PTAR realizadas conforme al programa',
-                objetivo: 'Supervisar el funcionamiento técnico de las plantas de tratamiento de aguas residuales conforme al programa de supervisión anual aprobado.',
-                formula: '(Supervisiones PTAR realizadas en el período / Supervisiones PTAR programadas en el período) × 100',
-                udm:'%', ur:'Tratamiento de Aguas Residuales', freq:'Mensual',
-                q:{
-                  Q1:{v1m:'12',v2m:'12',meta:'100%',metaN:100,v1r:'12',v2r:'12',res:'100%',resN:100,acum:'100%'},
-                  Q2:{v1m:'12',v2m:'12',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'12',v2m:'12',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'12',v2m:'12',meta:'100%',metaN:100,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Cumplimiento del Programa Operativo Anual (POA)',
-                objetivo: 'Ejecutar las actividades del Programa Operativo Anual de la Gerencia de Planeación Estratégica en tiempo, forma y costo programado.',
-                formula: '(Actividades del POA cumplidas en el período / Actividades del POA programadas en el período) × 100',
-                udm:'%', ur:'Planeación Estratégica', freq:'Trimestral',
-                q:{
-                  Q1:{v1m:'42',v2m:'52',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q2:{v1m:'42',v2m:'52',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'42',v2m:'52',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'42',v2m:'52',meta:'81%',metaN:81,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              },
-              {
-                nombre: '% Avance en el Programa de Calidad y Mejora Continua',
-                objetivo: 'Ejecutar el programa institucional de mejora continua conforme a la metodología del Sistema de Gestión de Calidad ISO 9001.',
-                formula: '(Acciones de calidad ejecutadas en el período / Acciones de calidad programadas en el período) × 100',
-                udm:'%', ur:'Planeación Estratégica', freq:'Trimestral',
-                q:{
-                  Q1:{v1m:'8',v2m:'10',meta:'80%',metaN:80,v1r:'7',v2r:'10',res:'70%',resN:70,acum:'70%'},
-                  Q2:{v1m:'8',v2m:'10',meta:'80%',metaN:80,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q3:{v1m:'8',v2m:'10',meta:'80%',metaN:80,v1r:null,v2r:null,res:null,resN:null,acum:null},
-                  Q4:{v1m:'8',v2m:'10',meta:'80%',metaN:80,v1r:null,v2r:null,res:null,resN:null,acum:null}
-                }
-              }
-            ]
+        // Fuente única: ACTIVIDADES_ENLACE (mir-actividades-data.js) — Q3 2026
+        var TR_DATA = (function() {
+          var src = typeof ACTIVIDADES_ENLACE !== 'undefined' ? ACTIVIDADES_ENLACE : [];
+          var result = {};
+
+          // Quarter-end month indices (0-based): Q1=Mar, Q2=Jun, Q3=Sep, Q4=Dec
+          var Q_IDX = { Q1: 2, Q2: 5, Q3: 8, Q4: 11 };
+
+          // End-month indices per frequency
+          var FREQ_MONTHS = {
+            'Mensual':       [0,1,2,3,4,5,6,7,8,9,10,11],
+            'Bimestral':     [1,3,5,7,9,11],
+            'Cuatrimestral': [3,7,11],
+            'Trimestral':    [2,5,8,11],
+            'Semestral':     [5,11],
+            'Anual':         [11]
+          };
+          var FREQ_PERIOD_LABELS = {
+            'Mensual':       ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+            'Bimestral':     ['B1','B2','B3','B4','B5','B6'],
+            'Cuatrimestral': ['C1','C2','C3'],
+            'Trimestral':    ['T1','T2','T3','T4'],
+            'Semestral':     ['S1','S2'],
+            'Anual':         ['Anual']
+          };
+
+          function fmtV(val, isPct) {
+            if (val === null || val === undefined) return null;
+            if (isPct) {
+              var p = val * 100;
+              return (p % 1 === 0 ? p.toFixed(0) : p.toFixed(1)) + '%';
+            }
+            return val % 1 === 0 ? val.toLocaleString('es-MX') : val.toFixed(2);
           }
-        };
+
+          function udmShort(u) {
+            if (u === 'Porcentaje' || u === 'Variación') return '%';
+            if (u === 'Número') return 'Núm.';
+            return u || '';
+          }
+
+          function buildFormula(act) {
+            var num = act.numerador || '';
+            var den = act.denominador || '';
+            if (num && den) return num + ' / ' + den;
+            return num || den || '—';
+          }
+
+          src.forEach(function(act) {
+            var ger = (act.gerencia || '').replace(/^Gerencia(?:\s+de)?\s+/i, '') || 'Sin gerencia';
+            if (!result[ger]) result[ger] = { unidades: [], indicadores: [] };
+
+            // Collect unique unidades
+            var ur = act.unidadResponsable || '';
+            if (ur && result[ger].unidades.indexOf(ur) === -1) {
+              result[ger].unidades.push(ur);
+            }
+
+            var isPct = act.unidadMedida === 'Porcentaje' || act.unidadMedida === 'Variación';
+            var mm  = act.mMeta   || [];
+            var mav = act.mAvance || [];
+
+            // Build quarterly data from monthly arrays
+            var q = {};
+            ['Q1','Q2','Q3','Q4'].forEach(function(qk) {
+              var idx    = Q_IDX[qk];
+              var mVal   = mm[idx]  !== undefined ? mm[idx]  : null;
+              var avVal  = mav[idx] !== undefined ? mav[idx] : null;
+              var metaN  = mVal  !== null ? (isPct ? Math.round(mVal  * 100 * 10) / 10 : mVal)  : null;
+              var resN   = avVal !== null ? (isPct ? Math.round(avVal * 100 * 10) / 10 : avVal) : null;
+              q[qk] = {
+                v1m:   act.numerador   || '—',
+                v2m:   act.denominador || '—',
+                meta:  fmtV(mVal,  isPct) || '—',
+                metaN: metaN,
+                v1r:   null,
+                v2r:   null,
+                res:   fmtV(avVal, isPct),
+                resN:  resN,
+                acum:  fmtV(avVal, isPct)
+              };
+            });
+
+            // Build periods array (m[]) for all-periods view
+            var freqKey = act.frecuenciaMedicion || 'Trimestral';
+            var fMons   = FREQ_MONTHS[freqKey]       || FREQ_MONTHS['Trimestral'];
+            var fLbls   = FREQ_PERIOD_LABELS[freqKey] || FREQ_PERIOD_LABELS['Trimestral'];
+            var mPeriods = fMons.map(function(idx, i) {
+              var mVal  = mm[idx]  !== undefined ? mm[idx]  : null;
+              var avVal = mav[idx] !== undefined ? mav[idx] : null;
+              var metaN = mVal  !== null ? (isPct ? Math.round(mVal  * 100 * 10) / 10 : mVal)  : null;
+              var resN  = avVal !== null ? (isPct ? Math.round(avVal * 100 * 10) / 10 : avVal) : null;
+              return { lbl: fLbls[i], meta: fmtV(mVal, isPct) || '—', metaN: metaN, res: fmtV(avVal, isPct), resN: resN, acum: fmtV(avVal, isPct) };
+            });
+
+            var maVal = (act.metaAnual !== undefined && act.metaAnual !== null) ? act.metaAnual : null;
+
+            result[ger].indicadores.push({
+              nombre:    act.nombreIndicador   || '',
+              objetivo:  act.resumenNarrativo   || '—',
+              formula:   buildFormula(act),
+              udm:       udmShort(act.unidadMedida),
+              ur:        ur,
+              freq:      act.frecuenciaMedicion || '—',
+              freqKey:   freqKey,
+              iso:       act.iso,
+              q:         q,
+              m:         mPeriods,
+              metaAnual: fmtV(maVal, isPct) || '—'
+            });
+          });
+
+          return result;
+        })();
 
         function trGetStatus(resN, metaN) {
           if (resN === null || resN === undefined || metaN === null || metaN === undefined) return 'nd';
@@ -3425,7 +3891,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         // Close all dropdowns when clicking outside
         document.addEventListener('click', function(e) {
           if (!e.target.closest('#sec-transparencia .tr-dd-wrap')) {
-            ['Ger','Trim','Unid'].forEach(function(k) {
+            ['Ger','Trim','Unid','ISO'].forEach(function(k) {
               var p = document.getElementById('trDD'+k+'Panel');
               var t = document.getElementById('trDD'+k+'Trigger');
               if (p) p.classList.remove('open');
@@ -3454,6 +3920,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         function trPickGer(ger) {
           TR_CUR_GER = ger;
           var labels = {
+            'Todas':'Todas las gerencias',
             'Administrativa':'Gerencia Administrativa',
             'Comercial':'Gerencia Comercial',
             'Técnica':'Gerencia Técnica',
@@ -3505,101 +3972,251 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           TR_CUR_UNID = 'Todas';
         }
 
-        function trRender() {
-          var gerData = TR_DATA[TR_CUR_GER];
-          var tbody = document.getElementById('trTableBody');
-          if (!gerData) {
-            tbody.innerHTML = '<tr><td colspan="9" class="tr-empty">Sin datos para la gerencia seleccionada.</td></tr>';
-            return;
+        function trGetCurrentInds() {
+          if (TR_CUR_GER === 'Todas') {
+            var all = [];
+            Object.keys(TR_DATA).forEach(function(g) {
+              TR_DATA[g].indicadores.forEach(function(ind) {
+                if (!_trFilterISO || isISOInd(ind.nombre)) all.push(ind);
+              });
+            });
+            return all;
           }
-          var inds = gerData.indicadores.filter(function(ind){
+          var gerData = TR_DATA[TR_CUR_GER];
+          if (!gerData) return null;
+          return gerData.indicadores.filter(function(ind) {
             return (TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID) && (!_trFilterISO || isISOInd(ind.nombre));
           });
-          if (!inds.length) {
-            tbody.innerHTML = '<tr><td colspan="9" class="tr-empty">Sin indicadores para la unidad responsable seleccionada.</td></tr>';
+        }
+
+        var _FREQ_ORDER = ['Mensual','Bimestral','Cuatrimestral','Trimestral','Semestral','Anual'];
+
+        function trGetGrouped() {
+          var result = [];
+          var gers = TR_CUR_GER === 'Todas' ? Object.keys(TR_DATA) : [TR_CUR_GER];
+          gers.forEach(function(ger) {
+            var gerData = TR_DATA[ger]; if (!gerData) return;
+            var unitMap = {};
+            gerData.indicadores.forEach(function(ind) {
+              if (_trFilterISO && !(ind.iso && ind.iso.toLowerCase() === 'x')) return;
+              if (TR_CUR_UNID !== 'Todas' && ind.ur !== TR_CUR_UNID) return;
+              var ur = ind.ur || 'Sin unidad';
+              if (!unitMap[ur]) unitMap[ur] = {};
+              var fk = ind.freqKey || 'Trimestral';
+              if (!unitMap[ur][fk]) unitMap[ur][fk] = [];
+              unitMap[ur][fk].push(ind);
+            });
+            var unidades = Object.keys(unitMap).map(function(ur) {
+              var freqGroups = [];
+              _FREQ_ORDER.forEach(function(fk) {
+                if (unitMap[ur][fk] && unitMap[ur][fk].length) freqGroups.push({freqKey:fk, inds:unitMap[ur][fk]});
+              });
+              Object.keys(unitMap[ur]).forEach(function(fk) {
+                if (_FREQ_ORDER.indexOf(fk) === -1) freqGroups.push({freqKey:fk, inds:unitMap[ur][fk]});
+              });
+              var allInds = [];
+              freqGroups.forEach(function(fg){ fg.inds.forEach(function(i){ allInds.push(i); }); });
+              return {ur:ur, freqGroups:freqGroups, allInds:allInds};
+            }).filter(function(u){ return u.allInds.length > 0; });
+            if (unidades.length) result.push({ger:ger, unidades:unidades});
+          });
+          return result;
+        }
+
+        function _trMetaRow(ind, ncols) {
+          var h = '<tr class="tr-meta-row"><td colspan="'+ncols+'" class="tr-td-meta"><div class="tr-meta-grid">';
+          h += '<div class="tr-meta-item"><span class="tr-meta-label">Descripción del objetivo</span><span class="tr-meta-value">'+ind.objetivo+'</span></div>';
+          h += '<div class="tr-meta-item"><span class="tr-meta-label">Fórmula utilizada</span><span class="tr-meta-value tr-meta-formula">'+ind.formula+'</span></div>';
+          h += '<div class="tr-meta-item tr-meta-short"><span class="tr-meta-label">Unidad responsable</span><span class="tr-meta-value">'+ind.ur+'</span></div>';
+          h += '<div class="tr-meta-item tr-meta-short"><span class="tr-meta-label">Frecuencia de medición</span><span class="tr-meta-value">'+ind.freq+'</span></div>';
+          h += '</div></td></tr>';
+          return h;
+        }
+
+        function trBuildFreqTableHTML(freqKey, inds) {
+          var v = function(x){ return (x !== null && x !== undefined) ? x : '—'; };
+          var iso = function(ind){ return (ind.iso && ind.iso.toLowerCase()==='x') ? '<span class="iso-tag-tbl">ISO</span>' : ''; };
+          var qcls = ['tr-group-q1','tr-group-q2','tr-group-q3','tr-group-q4'];
+          var scls = ['tr-sub-q1','tr-sub-q2','tr-sub-q3','tr-sub-q4'];
+          var sampleM = inds.length > 0 ? (inds[0].m || []) : [];
+          var np = sampleM.length;
+          if (np === 0) return '';
+
+          if (freqKey === 'Mensual') {
+            var ncols = 15; // ind+udm+metaAnual+12months
+            var thead = '<thead><tr>'
+              +'<th class="tr-th-indicador">Indicador</th>'
+              +'<th class="tr-th-udm">UDM</th>'
+              +'<th class="tr-th-calc tr-sub-meta" style="min-width:76px;text-align:right;">Meta anual</th>';
+            sampleM.forEach(function(pd){ thead += '<th class="tr-th-q tr-sub-meta" style="min-width:68px;text-align:center;">'+pd.lbl+'</th>'; });
+            thead += '</tr></thead>';
+            var tbody = '<tbody>';
+            inds.forEach(function(ind, i){
+              var ev = i%2===0?' tr-row-even':' tr-row-odd';
+              tbody += '<tr class="tr-indicador-row'+ev+'"><td class="tr-td-indicador">'+iso(ind)+ind.nombre+'</td><td class="tr-td-center">'+ind.udm+'</td>';
+              tbody += '<td class="tr-td-num tr-col-meta">'+v(ind.metaAnual)+'</td>';
+              (ind.m||[]).forEach(function(pd){
+                var st=trGetStatus(pd.resN,pd.metaN); var chip={ok:'tr-chip-ok',warn:'tr-chip-warn',bad:'tr-chip-bad',nd:'tr-chip-nd'}[st];
+                tbody += '<td class="tr-td-num tr-col-acum"><span class="tr-res-chip '+chip+'">'+v(pd.res)+'</span></td>';
+              });
+              tbody += '</tr>'+_trMetaRow(ind, ncols);
+            });
+            return '<table class="tr-table">'+thead+tbody+'</tbody></table>';
+          }
+
+          if (np === 1) {
+            // Anual — 5 columns
+            var ncols = 5;
+            var thead = '<thead><tr><th class="tr-th-indicador">Indicador</th><th class="tr-th-udm">UDM</th>'
+              +'<th class="tr-th-calc tr-sub-meta" style="min-width:90px;text-align:right;">Meta</th>'
+              +'<th class="tr-th-calc tr-sub-res" style="min-width:90px;text-align:right;">Resultado</th>'
+              +'<th class="tr-th-acum">Acumulado</th></tr></thead>';
+            var tbody = '<tbody>';
+            inds.forEach(function(ind, i){
+              var pd=(ind.m||[])[0]||{}; var st=trGetStatus(pd.resN,pd.metaN); var chip={ok:'tr-chip-ok',warn:'tr-chip-warn',bad:'tr-chip-bad',nd:'tr-chip-nd'}[st];
+              var ev = i%2===0?' tr-row-even':' tr-row-odd';
+              tbody += '<tr class="tr-indicador-row'+ev+'"><td class="tr-td-indicador">'+iso(ind)+ind.nombre+'</td><td class="tr-td-center">'+ind.udm+'</td>';
+              tbody += '<td class="tr-td-num tr-col-meta">'+v(pd.meta)+'</td>';
+              tbody += '<td class="tr-td-num tr-col-res"><span class="tr-res-chip '+chip+'">'+v(pd.res)+'</span></td>';
+              tbody += '<td class="tr-td-num tr-col-acum"><span class="tr-res-chip '+chip+'">'+v(pd.acum)+'</span></td></tr>';
+              tbody += _trMetaRow(ind, ncols);
+            });
+            return '<table class="tr-table">'+thead+tbody+'</tbody></table>';
+          }
+
+          // Generic multi-period (Trimestral, Semestral, Cuatrimestral, Bimestral)
+          var ncols = 2 + np * 3;
+          var thead = '<thead><tr><th rowspan="2" class="tr-th-indicador">Indicador</th><th rowspan="2" class="tr-th-udm">UDM</th>';
+          sampleM.forEach(function(pd,i){ thead += '<th colspan="3" class="tr-th-group '+qcls[i%4]+'">'+pd.lbl+'</th>'; });
+          thead += '</tr><tr>';
+          sampleM.forEach(function(pd,i){ var sc=scls[i%4]; thead += '<th class="tr-th-q '+sc+'">Meta</th><th class="tr-th-q '+sc+'">Resultado</th><th class="tr-th-q tr-th-q-res '+sc+'">Acum.</th>'; });
+          thead += '</tr></thead>';
+          var tbody = '<tbody>';
+          inds.forEach(function(ind, i){
+            var ev = i%2===0?' tr-row-even':' tr-row-odd';
+            tbody += '<tr class="tr-indicador-row'+ev+'"><td class="tr-td-indicador">'+iso(ind)+ind.nombre+'</td><td class="tr-td-center">'+ind.udm+'</td>';
+            (ind.m||[]).forEach(function(pd){
+              var st=trGetStatus(pd.resN,pd.metaN); var chip={ok:'tr-chip-ok',warn:'tr-chip-warn',bad:'tr-chip-bad',nd:'tr-chip-nd'}[st];
+              tbody += '<td class="tr-td-num tr-col-meta">'+v(pd.meta)+'</td>';
+              tbody += '<td class="tr-td-num tr-col-res"><span class="tr-res-chip '+chip+'">'+v(pd.res)+'</span></td>';
+              tbody += '<td class="tr-td-num tr-col-acum"><span class="tr-res-chip '+chip+'">'+v(pd.acum)+'</span></td>';
+            });
+            tbody += '</tr>'+_trMetaRow(ind, ncols);
+          });
+          return '<table class="tr-table">'+thead+tbody+'</tbody></table>';
+        }
+
+        function trBuildSinglePeriodTableHTML(inds) {
+          var v = function(x){ return (x !== null && x !== undefined) ? x : '—'; };
+          var thead = '<thead><tr class="tr-header-group">'
+            +'<th rowspan="2" class="tr-th-indicador">Indicador</th>'
+            +'<th rowspan="2" class="tr-th-udm">U. de medida</th>'
+            +'<th colspan="3" class="tr-th-group tr-group-meta">Meta programada</th>'
+            +'<th colspan="3" class="tr-th-group tr-group-res">Resultado alcanzado</th>'
+            +'<th rowspan="2" class="tr-th-acum">Acumulado</th>'
+            +'</tr><tr class="tr-header-sub">'
+            +'<th class="tr-th-var tr-sub-meta">Variable 1</th><th class="tr-th-var tr-sub-meta">Variable 2</th><th class="tr-th-calc tr-sub-meta">Meta</th>'
+            +'<th class="tr-th-var tr-sub-res">Variable 1</th><th class="tr-th-var tr-sub-res">Variable 2</th><th class="tr-th-calc tr-sub-res">Resultado</th>'
+            +'</tr></thead>';
+          var tbody = '<tbody>';
+          inds.forEach(function(ind, i){
+            var qd=ind.q[TR_CUR_TRIM]||{}; var st=trGetStatus(qd.resN,qd.metaN); var chip={ok:'tr-chip-ok',warn:'tr-chip-warn',bad:'tr-chip-bad',nd:'tr-chip-nd'}[st];
+            var isoTag=(ind.iso&&ind.iso.toLowerCase()==='x')?'<span class="iso-tag-tbl">ISO</span>':'';
+            var ev=i%2===0?' tr-row-even':' tr-row-odd';
+            tbody += '<tr class="tr-indicador-row'+ev+'"><td class="tr-td-indicador">'+isoTag+ind.nombre+'</td><td class="tr-td-center">'+ind.udm+'</td>';
+            tbody += '<td class="tr-td-num tr-col-meta">'+v(qd.v1m)+'</td><td class="tr-td-num tr-col-meta">'+v(qd.v2m)+'</td><td class="tr-td-num tr-col-meta tr-col-meta-bold">'+v(qd.meta)+'</td>';
+            tbody += '<td class="tr-td-num tr-col-res">'+v(qd.v1r)+'</td><td class="tr-td-num tr-col-res">'+v(qd.v2r)+'</td>';
+            tbody += '<td class="tr-td-num tr-col-res"><span class="tr-res-chip '+chip+'">'+v(qd.res)+'</span></td>';
+            tbody += '<td class="tr-td-num tr-col-acum"><span class="tr-res-chip '+chip+'">'+v(qd.acum)+'</span></td></tr>';
+            tbody += _trMetaRow(ind, 9);
+          });
+          return '<table class="tr-table">'+thead+tbody+'</tbody></table>';
+        }
+
+        function trRender() {
+          var container = document.getElementById('trNormalContent');
+          var grouped = trGetGrouped();
+          if (!grouped.length) {
+            container.innerHTML = '<div class="tr-loading">Sin indicadores para la selección actual.</div>';
             return;
           }
+          var allMode = TR_CUR_TRIM === 'Todas';
+          var showGerHdr = TR_CUR_GER === 'Todas' && grouped.length > 1;
           var html = '';
-          inds.forEach(function(ind, idx) {
-            var qd = ind.q[TR_CUR_TRIM] || {};
-            var status = trGetStatus(qd.resN, qd.metaN);
-            var chip = {ok:'tr-chip-ok', warn:'tr-chip-warn', bad:'tr-chip-bad', nd:'tr-chip-nd'}[status];
-            var v  = function(x){ return (x !== null && x !== undefined) ? x : '—'; };
-
-            var evenCls = idx % 2 === 0 ? ' tr-row-even' : ' tr-row-odd';
-
-            // Main data row
-            html += '<tr class="tr-indicador-row' + evenCls + '">';
-            html += '<td class="tr-td-indicador">' + ind.nombre + '</td>';
-            html += '<td class="tr-td-center">' + ind.udm + '</td>';
-            html += '<td class="tr-td-num tr-col-meta">' + v(qd.v1m) + '</td>';
-            html += '<td class="tr-td-num tr-col-meta">' + v(qd.v2m) + '</td>';
-            html += '<td class="tr-td-num tr-col-meta tr-col-meta-bold">' + v(qd.meta) + '</td>';
-            html += '<td class="tr-td-num tr-col-res">' + v(qd.v1r) + '</td>';
-            html += '<td class="tr-td-num tr-col-res">' + v(qd.v2r) + '</td>';
-            html += '<td class="tr-td-num tr-col-res"><span class="tr-res-chip ' + chip + '">' + v(qd.res) + '</span></td>';
-            html += '<td class="tr-td-num tr-col-acum"><span class="tr-res-chip ' + chip + '">' + v(qd.acum) + '</span></td>';
-            html += '</tr>';
-
-            // Metadata sub-row
-            html += '<tr class="tr-meta-row' + evenCls + '">';
-            html += '<td colspan="9" class="tr-td-meta">';
-            html += '<div class="tr-meta-grid">';
-            html += '<div class="tr-meta-item"><span class="tr-meta-label">Descripción del objetivo</span><span class="tr-meta-value">' + ind.objetivo + '</span></div>';
-            html += '<div class="tr-meta-item"><span class="tr-meta-label">Fórmula utilizada</span><span class="tr-meta-value tr-meta-formula">' + ind.formula + '</span></div>';
-            html += '<div class="tr-meta-item tr-meta-short"><span class="tr-meta-label">Unidad responsable</span><span class="tr-meta-value">' + ind.ur + '</span></div>';
-            html += '<div class="tr-meta-item tr-meta-short"><span class="tr-meta-label">Frecuencia de medición</span><span class="tr-meta-value">' + ind.freq + '</span></div>';
-            html += '</div>';
-            html += '</td>';
-            html += '</tr>';
+          grouped.forEach(function(gerGroup) {
+            if (showGerHdr) html += '<div class="tr-ger-hdr">Gerencia '+gerGroup.ger+'</div>';
+            gerGroup.unidades.forEach(function(unitGroup) {
+              html += '<div class="tr-unit-section"><div class="tr-unit-hdr">'+unitGroup.ur+'</div>';
+              if (allMode) {
+                unitGroup.freqGroups.forEach(function(fg) {
+                  html += '<div class="tr-freq-section">';
+                  if (unitGroup.freqGroups.length > 1) {
+                    html += '<div class="tr-freq-hdr">'+fg.freqKey+' · '+fg.inds.length+' indicador'+(fg.inds.length!==1?'es':'')+'</div>';
+                  }
+                  html += '<div class="tr-table-wrap">'+trBuildFreqTableHTML(fg.freqKey, fg.inds)+'</div>';
+                  html += '</div>';
+                });
+              } else {
+                html += '<div class="tr-table-wrap">'+trBuildSinglePeriodTableHTML(unitGroup.allInds)+'</div>';
+              }
+              html += '</div>';
+            });
           });
-          tbody.innerHTML = html;
+          container.innerHTML = html;
         }
 
         function trDownloadCSV() {
-          var gerData = TR_DATA[TR_CUR_GER];
-          if (!gerData) return;
-          var inds = gerData.indicadores.filter(function(ind){
-            return (TR_CUR_UNID === 'Todas' || ind.ur === TR_CUR_UNID) && (!_trFilterISO || isISOInd(ind.nombre));
-          });
-          var trimLabel = {Q1:'1er Trimestre',Q2:'2do Trimestre',Q3:'3er Trimestre',Q4:'4to Trimestre'}[TR_CUR_TRIM] || TR_CUR_TRIM;
-          var rows = [
-            ['Gerencia','Unidad responsable','Indicador','Unidad de medida','Frecuencia',
-             'Variable 1 (Meta)','Variable 2 (Meta)','Meta programada',
-             'Variable 1 (Resultado)','Variable 2 (Resultado)','Resultado alcanzado','Resultado acumulado',
-             'Descripción del objetivo','Fórmula utilizada']
-          ];
-          inds.forEach(function(ind) {
-            var qd = ind.q[TR_CUR_TRIM] || {};
-            var v = function(x){ return (x !== null && x !== undefined) ? x : ''; };
-            rows.push([
-              TR_CUR_GER, ind.ur, ind.nombre, ind.udm, ind.freq,
-              v(qd.v1m), v(qd.v2m), v(qd.meta),
-              v(qd.v1r), v(qd.v2r), v(qd.res), v(qd.acum),
-              ind.objetivo, ind.formula
-            ]);
+          var grouped = trGetGrouped();
+          if (!grouped.length) return;
+          var gerLabel = TR_CUR_GER === 'Todas' ? 'Todas las gerencias' : 'Gerencia '+TR_CUR_GER;
+          var allMode = TR_CUR_TRIM === 'Todas';
+          var v = function(x){ return (x !== null && x !== undefined) ? x : ''; };
+          var rows = [['Gerencia','Unidad responsable','Frecuencia','Período','Indicador','UDM','Meta programada','Resultado alcanzado','Resultado acumulado','Descripción del objetivo','Fórmula']];
+          grouped.forEach(function(gg) {
+            gg.unidades.forEach(function(ug) {
+              if (allMode) {
+                ug.freqGroups.forEach(function(fg) {
+                  fg.inds.forEach(function(ind) {
+                    (ind.m||[]).forEach(function(pd) {
+                      rows.push(['Gerencia '+gg.ger, ug.ur, fg.freqKey, pd.lbl, ind.nombre, ind.udm, v(pd.meta), v(pd.res), v(pd.acum), ind.objetivo, ind.formula]);
+                    });
+                  });
+                });
+              } else {
+                ug.allInds.forEach(function(ind) {
+                  var qd = ind.q[TR_CUR_TRIM] || {};
+                  rows.push(['Gerencia '+gg.ger, ug.ur, ind.freq, TR_CUR_TRIM, ind.nombre, ind.udm, v(qd.meta), v(qd.res), v(qd.acum), ind.objetivo, ind.formula]);
+                });
+              }
+            });
           });
           var csv = rows.map(function(row){
-            return row.map(function(cell){
-              var s = String(cell).replace(/"/g,'""');
-              return /[,"\n]/.test(s) ? '"' + s + '"' : s;
-            }).join(',');
+            return row.map(function(cell){ var s=String(cell).replace(/"/g,'""'); return /[,"\n]/.test(s)?'"'+s+'"':s; }).join(',');
           }).join('\r\n');
-          var blob = new Blob(['﻿' + csv], {type:'text/csv;charset=utf-8;'});
+          var blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
           var url = URL.createObjectURL(blob);
           var a = document.createElement('a');
           a.href = url;
-          a.download = 'COMSUR-Transparencia-' + TR_CUR_GER.replace(/\s+/g,'-') + '-' + TR_CUR_TRIM + '.csv';
+          var suffix = allMode ? 'Todos-Periodos' : TR_CUR_TRIM;
+          a.download = 'COMSUR-Transparencia-'+gerLabel.replace(/\s+/g,'-')+'-'+suffix+'.csv';
           document.body.appendChild(a); a.click();
           document.body.removeChild(a); URL.revokeObjectURL(url);
         }
 
         function trDownloadPDF() {
           var iframe = document.getElementById('tr-pdf-iframe');
-          if (iframe && iframe.contentWindow) iframe.contentWindow.print();
+          if (!iframe) return;
+          iframe.srcdoc = trBuildPDFDocument();
+          iframe.onload = function() {
+            try {
+              iframe.style.height = iframe.contentDocument.documentElement.scrollHeight + 'px';
+              iframe.contentWindow.print();
+            } catch(e) {}
+            iframe.onload = null;
+          };
         }
 
-        function _trDownloadPDF_old() {
+        function _trDownloadPDF_old_REMOVED() {
           var gerData = TR_DATA[TR_CUR_GER];
           if (!gerData) return;
           var inds = gerData.indicadores.filter(function(ind){
@@ -3691,6 +4308,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
         window.trPickUnid             = trPickUnid;
         window.trDownloadCSV          = trDownloadCSV;
         window.trDownloadPDF          = trDownloadPDF;
+        window.trRefreshPDF           = trRefreshPDF;
 
         // Init
         trBuildUnidadDD('Administrativa');
@@ -4203,6 +4821,25 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
     document.querySelectorAll('.sec-nav-item').forEach(b => b.classList.remove('active'));
     document.getElementById('sec-' + id).classList.add('active');
     document.getElementById('snav-' + id).classList.add('active');
+    // Refresh PDF previews on section reveal — iframes can't measure DOM
+    // heights while their container is display:none. rAF ensures the browser
+    // has completed the layout pass for the now-visible section before the
+    // iframe reloads and the pagination script measures offsetHeights.
+    if (id === 'metas' && typeof window.mtRefreshPDF === 'function') {
+      if (document.getElementById('mt-pdf-preview').style.display !== 'none') {
+        requestAnimationFrame(function() { window.mtRefreshPDF(); });
+      }
+    }
+    if (id === 'tablero-desempeno' && typeof window.dbRefreshPDF === 'function') {
+      if (document.getElementById('db-pdf-preview').style.display !== 'none') {
+        requestAnimationFrame(function() { window.dbRefreshPDF(); });
+      }
+    }
+    if (id === 'transparencia' && typeof window.trRefreshPDF === 'function') {
+      if (document.getElementById('tr-pdf-preview').style.display !== 'none') {
+        requestAnimationFrame(function() { window.trRefreshPDF(); });
+      }
+    }
   }
 
   var _toastTimer;
