@@ -11,7 +11,7 @@
   <script src="demo-data.js"></script>
   <script src="shared-ui.js"></script>
   <script src="planeacion-data.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <style>
 *,*::before,*::after {margin:0;padding:0;box-sizing:border-box;}
 body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--color-surface);color:var(--color-text-primary);display:flex;min-height:100vh;}
@@ -159,9 +159,9 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
       </button>
       <button class="sec-nav-item" id="snav-transparencia" onclick="switchSection('transparencia')">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
-        Reporte de transparencia
+        Reporte trimestral
       </button>
-      <button class="sec-nav-item" id="snav-graficas" onclick="switchSection('graficas')" style="display:none">
+      <button class="sec-nav-item" id="snav-graficas" onclick="switchSection('graficas')">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
         Generador de gráficas
       </button>
@@ -3161,7 +3161,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 
       <div class="page-header">
         <div>
-          <h1 class="page-title">Reporte de transparencia</h1>
+          <h1 class="page-title">Reporte trimestral</h1>
           <p class="page-subtitle">Información pública de oficio — indicadores por gerencia, trimestre y unidad responsable</p>
         </div>
       </div>
@@ -3205,15 +3205,11 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           <label class="tr-filter-label">Trimestre</label>
           <div class="tr-dd-wrap" id="trDDTrim">
             <div class="tr-dd-trigger" id="trDDTrimTrigger" onclick="trToggleDD('Trim')">
-              <span id="trDDTrimLabel">Todos los trimestres</span>
+              <span id="trDDTrimLabel">1er Trimestre</span>
               <svg class="tr-dd-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
             <div class="tr-dd-panel" id="trDDTrimPanel">
-              <div class="tr-dd-opt selected" data-val="Todas" onclick="trPickTrim('Todas','Todos los trimestres')">
-                <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                Todos los trimestres
-              </div>
-              <div class="tr-dd-opt" data-val="Q1" onclick="trPickTrim('Q1','1er Trimestre')">
+              <div class="tr-dd-opt selected" data-val="Q1" onclick="trPickTrim('Q1','1er Trimestre')">
                 <svg class="tr-dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                 1er Trimestre
               </div>
@@ -3327,7 +3323,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
               <div class="mbr-ed-center">
                 <div>
                   <div class="mbr-ed-field-label">Título del reporte</div>
-                  <input type="text" class="mbr-ed-input" id="tr-mbr-input-title" placeholder="Reporte de Transparencia · Información Pública de Oficio" oninput="onTRMembreteTitleChange(this.value)">
+                  <input type="text" class="mbr-ed-input" id="tr-mbr-input-title" placeholder="Reporte Trimestral · Información Pública de Oficio" oninput="onTRMembreteTitleChange(this.value)">
                 </div>
                 <div class="mbr-ed-hint">La gerencia, el trimestre y la fecha de generación se añaden automáticamente en cada página.</div>
               </div>
@@ -3351,7 +3347,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
       <script>
       (function(){
         var TR_CUR_GER   = 'Administrativa';
-        var TR_CUR_TRIM  = 'Todas';
+        var TR_CUR_TRIM  = 'Q1';
         var TR_CUR_UNID  = 'Todas';
         var _trFilterISO = false;
         window.trToggleISODD = function() {
@@ -3447,7 +3443,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           var logoR = _trMembreteConfig.logoRight
             ? '<div style="'+_wS+'"><img src="'+_trMembreteConfig.logoRight+'" style="'+_iS+'"></div>'
             : '<div class="mbr-logo">Logo<br>COMAPA Sur</div>';
-          var mbrTit = (_trMembreteConfig.title || 'Reporte de Transparencia · Información Pública de Oficio')
+          var mbrTit = (_trMembreteConfig.title || 'Reporte Trimestral · Información Pública de Oficio')
             .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
           var trimLabels = {Q1:'1er Trimestre',Q2:'2do Trimestre',Q3:'3er Trimestre',Q4:'4to Trimestre'};
           var periodLabel = allMode ? 'Todos los periodos' : (trimLabels[TR_CUR_TRIM] || TR_CUR_TRIM);
@@ -4224,7 +4220,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
           var a = document.createElement('a');
           a.href = url;
           var suffix = allMode ? 'Todos-Periodos' : TR_CUR_TRIM;
-          a.download = 'COMSUR-Transparencia-'+gerLabel.replace(/\s+/g,'-')+'-'+suffix+'.csv';
+          a.download = 'COMSUR-ReporteTrimestral-'+gerLabel.replace(/\s+/g,'-')+'-'+suffix+'.csv';
           document.body.appendChild(a); a.click();
           document.body.removeChild(a); URL.revokeObjectURL(url);
         }
@@ -4290,7 +4286,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
 
           var win = window.open('','_blank');
           win.document.write('<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">'
-            + '<title>Reporte de Transparencia — COMAPA Sur</title>'
+            + '<title>Reporte Trimestral — COMAPA Sur</title>'
             + '<style>'
             + '* {margin:0;padding:0;box-sizing:border-box;}'
             + 'body {font-family:Arial,sans-serif;font-size:11px;color:#111;padding:20px;}'
@@ -4307,7 +4303,7 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
             + '.meta {color:#1D4ED8;} .bold {font-weight:700;} .acum {text-align:center;}'
             + '@media print {body{padding:10px;} @page{size:A4 landscape;margin:12mm;}}'
             + '<\/style><\/head><body>'
-            + '<h1>Reporte de Transparencia — COMAPA Sur</h1>'
+            + '<h1>Reporte Trimestral — COMAPA Sur</h1>'
             + '<p class="sub-h">Información pública de oficio — indicadores de desempeño</p>'
             + '<div class="meta-bar">'
             + '<span><strong>Gerencia:</strong> ' + TR_CUR_GER + '</span>'
@@ -4346,472 +4342,666 @@ td {padding:12px 16px;vertical-align:middle;font-size:13px;}
     </div>
 
     <!-- ══ Generador de gráficas ══ -->
-    <div class="section" id="sec-graficas" style="display:none">
+    <div class="section" id="sec-graficas">
       <style>
-.gfx-stepper {display:flex;align-items:center;gap:0;margin-bottom:24px;padding:16px 24px;background:var(--color-bg);border:1px solid var(--color-border);border-radius:12px;}
-.gfx-step {display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.gfx-step-num {width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:var(--color-border);color:var(--color-text-secondary);transition:all .2s;}
-.gfx-step-label {font-size:12px;font-weight:500;color:var(--color-text-secondary);white-space:nowrap;}
-.gfx-step.active .gfx-step-num {background:var(--color-primary);color:var(--color-bg);}
-.gfx-step.active .gfx-step-label {color:var(--color-primary);font-weight:700;}
-.gfx-step.done .gfx-step-num {background:var(--color-success);color:var(--color-bg);}
-.gfx-step.done .gfx-step-label {color:var(--color-success);}
-.gfx-step-connector {flex:1;height:2px;background:var(--color-border);margin:0 16px;min-width:24px;transition:background .3s;}
-.gfx-step-connector.done {background:var(--color-success);}
-.gfx-panel {min-height:280px;margin-bottom:20px;}
-.gfx-panel-title {font-size:18px;font-weight:700;color:var(--color-text-primary);margin-bottom:6px;}
-.gfx-panel-sub {font-size:13px;color:var(--color-text-secondary);margin-bottom:24px;}
-.gfx-cards {display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-.gfx-chart-cards {display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-.gfx-card {background:var(--color-bg);border:2px solid var(--color-border);border-radius:14px;padding:20px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;gap:10px;}
-.gfx-card:hover {border-color:var(--color-primary);box-shadow:0 4px 16px rgba(139,29,58,.08);transform:translateY(-1px);}
-.gfx-card.selected {border-color:var(--color-primary);background:#FDF2F5;}
-.gfx-card-icon {width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;}
-.gfx-card-title {font-size:14px;font-weight:700;color:var(--color-text-primary);}
-.gfx-card-desc {font-size:12px;color:var(--color-text-secondary);line-height:1.5;}
-.gfx-card-tag {display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--color-surface);color:var(--color-text-secondary);margin-top:auto;align-self:flex-start;}
-.gfx-chart-icon {font-size:26px;margin-bottom:4px;}
-.gfx-filters {background:var(--color-bg);border:1px solid var(--color-border);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:20px;}
-.gfx-filter-label {font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-bottom:8px;display:block;}
-.gfx-option-group {display:flex;flex-wrap:wrap;gap:8px;}
-.gfx-option {padding:7px 16px;border-radius:999px;border:1.5px solid var(--color-border);background:var(--color-bg);font-family:inherit;font-size:13px;cursor:pointer;color:var(--color-text-secondary);transition:all .15s;}
-.gfx-option:hover {border-color:var(--color-primary);color:var(--color-primary);}
-.gfx-option.selected {background:var(--color-primary);border-color:var(--color-primary);color:var(--color-bg);font-weight:600;}
-.gfx-result-wrap {background:var(--color-bg);border:1px solid var(--color-border);border-radius:12px;padding:24px;}
-.gfx-result-header {display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:16px;}
-.gfx-result-actions {display:flex;gap:8px;flex-shrink:0;}
-.gfx-btn-action {display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:1px solid var(--color-border);background:var(--color-bg);font-family:inherit;font-size:12px;font-weight:600;color:var(--color-text-secondary);cursor:pointer;transition:all .15s;white-space:nowrap;}
-.gfx-btn-action:hover {border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-tint);}
-.gfx-chart-container {position:relative;height:400px;margin-bottom:16px;}
-.gfx-data-toggle {cursor:pointer;padding:8px 0;font-size:12px;color:var(--color-primary);font-weight:600;display:inline-flex;align-items:center;gap:6px;background:none;border:none;font-family:inherit;}
-.gfx-data-table-wrap {display:none;border:1px solid var(--color-border);border-radius:10px;overflow:auto;margin-top:12px;max-height:320px;}
-.gfx-data-table-wrap.visible {display:block;}
-.gfx-data-table-wrap table {width:100%;border-collapse:collapse;font-size:12px;}
-.gfx-data-table-wrap thead th {background:var(--color-text-primary);color:var(--color-bg);padding:8px 12px;text-align:left;font-size:11px;position:sticky;top:0;}
-.gfx-data-table-wrap tbody td {padding:8px 12px;border-bottom:1px solid var(--color-neutral-100);}
-.gfx-data-table-wrap tbody tr:last-child td {border-bottom:none;}
-.gfx-data-table-wrap tbody tr:nth-child(even) td {background:var(--color-neutral-50);}
-.gfx-nav {display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid var(--color-border);}
-.gfx-btn-back {display:flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);}
-.gfx-btn-back:hover {background:var(--color-border);}
-.gfx-btn-next {display:flex;align-items:center;gap:6px;padding:10px 24px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:none;background:var(--color-primary);color:var(--color-bg);}
-.gfx-btn-next:hover:not(:disabled) {filter:brightness(1.1);}
-.gfx-btn-next:disabled {background:var(--color-border);color:var(--color-text-secondary);cursor:not-allowed;}
-.gfx-btn-next.green {background:var(--color-success);}
-</style>
+.gfx2-progress{display:flex;align-items:center;padding:16px 24px;background:var(--color-bg);border:1px solid var(--color-border);border-radius:12px;margin-bottom:20px;}
+.gfx2-dot{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;}
+.gfx2-dot-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:var(--color-neutral-100);color:var(--color-text-secondary);transition:all .25s;}
+.gfx2-dot-lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);white-space:nowrap;transition:color .25s;}
+.gfx2-dot.active .gfx2-dot-circle{background:var(--color-primary);color:#fff;}
+.gfx2-dot.active .gfx2-dot-lbl{color:var(--color-primary);font-weight:700;}
+.gfx2-dot.done .gfx2-dot-circle{background:var(--color-success);color:#fff;}
+.gfx2-dot.done .gfx2-dot-lbl{color:var(--color-success);}
+.gfx2-line{flex:1;height:2px;background:var(--color-border);margin:0 12px;margin-bottom:18px;transition:background .3s;}
+.gfx2-line.done{background:var(--color-success);}
+.gfx2-panel{min-height:320px;margin-bottom:20px;}
+.gfx2-heading{font-size:20px;font-weight:800;color:var(--color-text-primary);margin-bottom:4px;}
+.gfx2-sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:28px;line-height:1.55;}
+.gfx2-topic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.gfx2-topic-card{padding:24px;border:2px solid var(--color-border);border-radius:16px;cursor:pointer;transition:all .18s;position:relative;}
+.gfx2-topic-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.09);}
+.gfx2-topic-card.sel{border-color:var(--gfx2-color, var(--color-primary));}
+.gfx2-topic-accent{width:36px;height:4px;border-radius:4px;margin-bottom:16px;}
+.gfx2-topic-title{font-size:15px;font-weight:700;color:var(--color-text-primary);margin-bottom:6px;}
+.gfx2-topic-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.6;}
+.gfx2-topic-check{position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;}
+.gfx2-topic-card.sel .gfx2-topic-check{display:flex;}
+.gfx2-viz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.gfx2-viz-card{padding:20px;border:2px solid var(--color-border);border-radius:12px;cursor:pointer;transition:all .15s;}
+.gfx2-viz-card:hover{border-color:var(--color-primary);}
+.gfx2-viz-card.sel{border-color:var(--color-primary);background:var(--color-primary-tint,#FDF2F5);}
+.gfx2-viz-icon{font-size:24px;color:var(--color-text-secondary);margin-bottom:10px;font-family:monospace;}
+.gfx2-viz-title{font-size:13px;font-weight:700;color:var(--color-text-primary);margin-bottom:4px;}
+.gfx2-viz-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.5;}
+.gfx2-filter-section{margin-bottom:24px;}
+.gfx2-filter-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-bottom:10px;display:block;}
+.gfx2-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.gfx2-pill{padding:8px 18px;border-radius:999px;border:1.5px solid var(--color-border);background:var(--color-bg);font-family:inherit;font-size:13px;cursor:pointer;color:var(--color-text-secondary);transition:all .15s;}
+.gfx2-pill:hover{border-color:var(--color-primary);color:var(--color-primary);}
+.gfx2-pill.sel{background:var(--color-primary);border-color:var(--color-primary);color:#fff;font-weight:600;}
+.gfx2-result{background:var(--color-bg);border:1px solid var(--color-border);border-radius:16px;padding:28px;}
+.gfx2-result-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px;}
+.gfx2-result-title{font-size:17px;font-weight:700;color:var(--color-text-primary);margin-bottom:3px;}
+.gfx2-result-ctx{font-size:12px;color:var(--color-text-secondary);}
+.gfx2-result-actions{display:flex;gap:8px;flex-shrink:0;}
+.gfx2-act-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:1px solid var(--color-border);background:var(--color-bg);font-family:inherit;font-size:12px;font-weight:600;color:var(--color-text-secondary);cursor:pointer;transition:all .15s;}
+.gfx2-act-btn:hover{border-color:var(--color-primary);color:var(--color-primary);}
+.gfx2-canvas-wrap{position:relative;height:420px;margin-bottom:20px;min-height:420px;}
+.gfx2-canvas-wrap canvas{display:block;width:100%!important;}
+.gfx2-toggle-data{padding:8px 0;font-size:12px;color:var(--color-primary);font-weight:600;display:inline-flex;align-items:center;gap:6px;background:none;border:none;font-family:inherit;cursor:pointer;}
+.gfx2-data-tbl{display:none;margin-top:12px;border:1px solid var(--color-border);border-radius:10px;overflow:auto;max-height:300px;}
+.gfx2-data-tbl.vis{display:block;}
+.gfx2-data-tbl table{width:100%;border-collapse:collapse;font-size:12px;}
+.gfx2-data-tbl thead th{background:var(--color-text-primary);color:#fff;padding:8px 12px;text-align:left;font-size:11px;position:sticky;top:0;}
+.gfx2-data-tbl tbody td{padding:8px 12px;border-bottom:1px solid var(--color-neutral-100);}
+.gfx2-data-tbl tbody tr:last-child td{border-bottom:none;}
+.gfx2-data-tbl tbody tr:nth-child(even) td{background:var(--color-neutral-50,#F9FAFB);}
+.gfx2-foot{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid var(--color-border);}
+.gfx2-btn-sec{display:flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-secondary);transition:background .15s;}
+.gfx2-btn-sec:hover{background:var(--color-border);}
+.gfx2-btn-pri{display:flex;align-items:center;gap:6px;padding:10px 24px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border:none;background:var(--color-primary);color:#fff;transition:filter .15s;}
+.gfx2-btn-pri:hover:not(:disabled){filter:brightness(1.1);}
+.gfx2-btn-pri:disabled{background:var(--color-border);color:var(--color-text-secondary);cursor:not-allowed;}
+.gfx2-btn-pri.success{background:var(--color-success);}
+      </style>
 
       <div class="page-header">
         <div>
           <h1 class="page-title">Generador de gráficas</h1>
-          <p class="page-subtitle">Crea visualizaciones de datos para presentaciones en 4 pasos</p>
+          <p class="page-subtitle">Crea visualizaciones de datos para presentaciones en pocos pasos</p>
         </div>
       </div>
 
-      <div class="gfx-stepper">
-        <div class="gfx-step active" id="gfxDot1"><div class="gfx-step-num">1</div><span class="gfx-step-label">Tema</span></div>
-        <div class="gfx-step-connector" id="gfxLine1"></div>
-        <div class="gfx-step" id="gfxDot2"><div class="gfx-step-num">2</div><span class="gfx-step-label">Tipo de gráfica</span></div>
-        <div class="gfx-step-connector" id="gfxLine2"></div>
-        <div class="gfx-step" id="gfxDot3"><div class="gfx-step-num">3</div><span class="gfx-step-label">Filtros</span></div>
-        <div class="gfx-step-connector" id="gfxLine3"></div>
-        <div class="gfx-step" id="gfxDot4"><div class="gfx-step-num">4</div><span class="gfx-step-label">Resultado</span></div>
-      </div>
-
-      <div class="gfx-panel" id="gfxPanel"></div>
-
-      <div class="gfx-nav">
-        <button class="gfx-btn-back" id="gfxBtnBack" onclick="gfxBack()">← Atrás</button>
-        <button class="gfx-btn-next" id="gfxBtnNext" onclick="gfxNext()">Siguiente →</button>
+      <div class="gfx2-progress" id="gfx2Progress"></div>
+      <div class="gfx2-panel" id="gfx2Panel"></div>
+      <div class="gfx2-foot">
+        <button class="gfx2-btn-sec" id="gfx2BtnBack" onclick="gfx2Back()" style="visibility:hidden">← Atrás</button>
+        <button class="gfx2-btn-pri" id="gfx2BtnNext" onclick="gfx2Next()" disabled>Siguiente →</button>
       </div>
 
       <script>
       (function(){
-        var GFX={step:1,topic:null,chart:null,filters:{},inst:null};
 
-        var TOPICS=[
-          {id:'mir-estado',    color:'#7C3AED',bg:'#F5F3FF',icon:'📋',title:'Estado del reporte MIR',   desc:'Distribución de estados — cerrado, pendiente, en revisión — por gerencia y coordinación.',fuente:'136 indicadores MIR'},
-          {id:'mir-estructura',color:'#0891B2',bg:'#E0F2FE',icon:'🏗️',title:'Estructura de la MIR',    desc:'Composición por nivel (Fin/Propósito/Componente/Actividad), frecuencia y tipo.',          fuente:'136 indicadores MIR'},
-          {id:'kpi',           color:'#059669',bg:'#D1FAE5',icon:'📈',title:'Cumplimiento de KPIs',    desc:'Resultados enero–mayo 2026 vs metas para los 31 indicadores de desempeño.',               fuente:'Tablero Ene–May 2026'},
-          {id:'planeacion',    color:'#D97706',bg:'#FEF3C7',icon:'🎯',title:'Planeación de metas',     desc:'Estado de aprobación y brechas entre línea base y meta anual por gerencia.',              fuente:'Planeación 2026'},
-          {id:'transparencia', color:'#0F766E',bg:'#CCFBF1',icon:'👁️',title:'Reporte trimestral',     desc:'Meta programada vs resultado alcanzado por trimestre y unidad responsable.',               fuente:'Reporte de transparencia'},
-          {id:'ejecutivo',     color:'#8B1D3A',bg:'#FDF2F5',icon:'⚡',title:'Ejecutivo / GPE',         desc:'Indicadores clave de eficiencia y gestión para la alta dirección.',                       fuente:'Tablero GPE Mayo 2026'},
+        /* ── State ─────────────────────────────────────────────────────── */
+        var S = { step: 1, topic: null, viz: null, filters: {}, chart: null };
+
+        /* ── Data helpers ──────────────────────────────────────────────── */
+        var Q_END = { Q1:2, Q2:5, Q3:8, Q4:11 };
+        var FREQ_MONTHS = {
+          'Mensual':       [0,1,2,3,4,5,6,7,8,9,10,11],
+          'Bimestral':     [1,3,5,7,9,11],
+          'Cuatrimestral': [3,7,11],
+          'Trimestral':    [2,5,8,11],
+          'Semestral':     [5,11],
+          'Anual':         [11]
+        };
+        var MES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        var GER_COLOR = {
+          'Gerencia Administrativa':            '#059669',
+          'Gerencia Comercial':                 '#8B1D3A',
+          'Gerencia Técnica':                   '#0891B2',
+          'Gerencia de Planeación Estratégica': '#7C3AED'
+        };
+        var GER_SHORT = {
+          'Gerencia Administrativa':            'Administrativa',
+          'Gerencia Comercial':                 'Comercial',
+          'Gerencia Técnica':                   'Técnica',
+          'Gerencia de Planeación Estratégica': 'Planeación Est.'
+        };
+        var ALL_GERS = ['Gerencia Administrativa','Gerencia Comercial','Gerencia Técnica','Gerencia de Planeación Estratégica'];
+
+        function allData() { return typeof ACTIVIDADES_ENLACE !== 'undefined' ? ACTIVIDADES_ENLACE : []; }
+        function filtData() {
+          var g = S.filters.gerencia;
+          var a = allData();
+          return (g && g !== 'Todas') ? a.filter(function(x){ return x.gerencia === g; }) : a;
+        }
+        function getMonthIdx(ind, qKey) {
+          var qEnd = Q_END[qKey];
+          if (qEnd === undefined) return null;
+          var ms = FREQ_MONTHS[ind.frecuenciaMedicion] || [];
+          var ok = ms.filter(function(m){ return m <= qEnd; });
+          return ok.length ? ok[ok.length - 1] : null;
+        }
+        function cumplSt(avance, meta) {
+          if (avance === null || avance === undefined || meta === null || meta === undefined || meta === 0) return 'nd';
+          var r = avance / meta;
+          return r >= 0.95 ? 'ok' : r >= 0.80 ? 'warn' : 'bad';
+        }
+        function pct(v, d) { return (v !== null && v !== undefined) ? v.toFixed(d !== undefined ? d : 1) + '%' : '—'; }
+
+        /* ── Config ────────────────────────────────────────────────────── */
+        var TOPICS = [
+          { id:'cumplimiento', title:'Cumplimiento del periodo',  desc:'¿Qué tan cerca están los indicadores de su meta en un trimestre?', color:'#059669', bg:'#D1FAE5' },
+          { id:'composicion',  title:'Composición y estructura',  desc:'¿Cómo se distribuyen los indicadores por nivel MIR, tipo y frecuencia?', color:'#7C3AED', bg:'#EDE9FE' },
+          { id:'avance',       title:'Avance vs Meta',            desc:'Comparativa directa entre la meta programada y el resultado alcanzado.', color:'#8B1D3A', bg:'#FDF2F5' },
+          { id:'tendencia',    title:'Tendencia mensual',         desc:'Evolución del % de cumplimiento mes a mes durante 2026.', color:'#0891B2', bg:'#E0F2FE' },
+        ];
+        var VIZ = {
+          'cumplimiento': [
+            { id:'cumpl-donut',    icon:'◯', title:'Distribución global',  desc:'Donut mostrando cuántos indicadores cumplen, están en riesgo o no cumplen.' },
+            { id:'cumpl-gers',     icon:'▦', title:'Por gerencia',         desc:'Barras apiladas comparando el cumplimiento en cada gerencia.' },
+          ],
+          'composicion': [
+            { id:'comp-nivel', icon:'▦', title:'Por nivel MIR',  desc:'Distribución Propósito / Componente / Actividad por gerencia.' },
+            { id:'comp-tipo',  icon:'◯', title:'Por tipo',        desc:'Indicadores de Gestión vs Estratégicos.' },
+            { id:'comp-freq',  icon:'▌', title:'Por frecuencia',  desc:'Cuántos indicadores se miden mensual, trimestral, anual, etc.' },
+          ],
+          'avance': [
+            { id:'av-gers',    icon:'▦', title:'Por gerencia',           desc:'Meta vs avance promedio para cada gerencia en el periodo.' },
+            { id:'av-ranking', icon:'≡', title:'Ranking de indicadores', desc:'Indicadores ordenados por % de avance vs meta.' },
+          ],
+          'tendencia': [
+            { id:'tend-cumpl', icon:'⌇', title:'% Cumplimiento mensual', desc:'Líneas con el % de indicadores que cumplen su meta cada mes del año.' },
+          ],
+        };
+        var NEEDS_PERIOD = { cumplimiento:true, avance:true, composicion:false, tendencia:false };
+        var GER_OPTS = [
+          { val:'Todas',                                lbl:'Todas' },
+          { val:'Gerencia Administrativa',              lbl:'Administrativa' },
+          { val:'Gerencia Comercial',                   lbl:'Comercial' },
+          { val:'Gerencia Técnica',                     lbl:'Técnica' },
+          { val:'Gerencia de Planeación Estratégica',   lbl:'Planeación Est.' },
+        ];
+        var PERIOD_OPTS = [
+          { val:'Q1', lbl:'1er Trimestre' },
+          { val:'Q2', lbl:'2do Trimestre' },
+          { val:'Q3', lbl:'3er Trimestre' },
+          { val:'Q4', lbl:'4to Trimestre' },
         ];
 
-        var CHARTS={
-          'mir-estado':    [{id:'est-donut',   icon:'◍',title:'Distribución global de estados',    desc:'Donut con el conteo de indicadores en cada estado de reporte.'},{id:'est-gerencias',icon:'▦',title:'Estados por gerencia',              desc:'Barras apiladas comparando avance de reporte en cada gerencia.'},{id:'est-unidades', icon:'≡',title:'Indicadores por unidad responsable',desc:'Barras horizontales con la carga de indicadores por coordinación.'}],
-          'mir-estructura':[{id:'est-nivel',   icon:'▦',title:'Indicadores por nivel MIR',        desc:'Distribución Fin / Propósito / Componente / Actividad.'},{id:'est-freq',     icon:'▌',title:'Frecuencias de medición',            desc:'Cuántos indicadores se miden mensual, trimestral, anual, etc.'},{id:'est-tipo',     icon:'◍',title:'Tipo de indicador',                 desc:'Indicadores de Gestión vs Estratégicos por gerencia.'}],
-          'kpi':           [{id:'kpi-donut',   icon:'◍',title:'Cumplimiento global',              desc:'% de KPIs que cumplen, están en riesgo o no cumplen la meta.'},{id:'kpi-evolucion',icon:'⌇',title:'Evolución mensual por gerencia',    desc:'Líneas con % de indicadores en cumplimiento por gerencia Ene–May.'},{id:'kpi-ranking',  icon:'≡',title:'Ranking de indicadores',            desc:'Barras horizontales ordenadas por cumplimiento vs meta.'}],
-          'planeacion':    [{id:'pla-estados', icon:'◍',title:'Estado de aprobación de metas',    desc:'Donut con el avance del proceso de aprobación de metas 2026.'},{id:'pla-brecha',   icon:'▦',title:'Línea base vs meta anual',          desc:'Brecha entre el valor inicial y la meta 2026 por indicador.'}],
-          'transparencia': [{id:'tra-barras',  icon:'▦',title:'Meta vs resultado trimestral',     desc:'Barras agrupadas comparando meta programada y resultado alcanzado.'},{id:'tra-brecha',   icon:'≡',title:'Indicadores con mayor brecha',      desc:'Ordenados por diferencia meta–resultado del período.'}],
-          'ejecutivo':     [{id:'eje-efcom',   icon:'⌇',title:'Eficiencia comercial mensual',     desc:'Línea de recaudación Ene–May vs meta del 80%.'},{id:'eje-gerencias',icon:'▌',title:'Cumplimiento por gerencia — mayo',   desc:'% de KPIs que cumplen su meta en el último período con datos.'}],
-        };
-
-        var FDEFS={
-          'mir-estado':    [{key:'gerencia',label:'Gerencia',opts:['Todas','Gerencia de Planeación Estratégica','Gerencia Administrativa','Gerencia Comercial','Gerencia Técnica'],lbls:['Todas','Planeación Estratégica','Administrativa','Comercial','Técnica'],def:'Todas'}],
-          'mir-estructura':[{key:'gerencia',label:'Gerencia',opts:['Todas','Gerencia de Planeación Estratégica','Gerencia Administrativa','Gerencia Comercial','Gerencia Técnica'],lbls:['Todas','Planeación Estratégica','Administrativa','Comercial','Técnica'],def:'Todas'}],
-          'kpi':           [{key:'gerencia',label:'Gerencia',opts:['Todas','Administrativa','Comercial','Técnica','Planeación Estratégica'],lbls:['Todas','Administrativa','Comercial','Técnica','Planeación Estratégica'],def:'Todas'},{key:'mes',label:'Período',opts:['Enero','Febrero','Marzo','Abril','Mayo'],lbls:['Enero','Febrero','Marzo','Abril','Mayo'],def:'Mayo'}],
-          'planeacion':    [{key:'gerencia',label:'Gerencia',opts:['Todas','comercial','planeacion','tecnica','administrativa'],lbls:['Todas','Comercial','Planeación','Técnica','Administrativa'],def:'Todas'}],
-          'transparencia': [{key:'gerencia',label:'Gerencia',opts:['Administrativa','Comercial','Técnica','Planeación Estratégica'],lbls:['Administrativa','Comercial','Técnica','Planeación Estrat.'],def:'Administrativa'},{key:'trimestre',label:'Trimestre',opts:['Q1','Q2','Q3','Q4'],lbls:['1er Trim.','2do Trim.','3er Trim.','4to Trim.'],def:'Q1'}],
-          'ejecutivo':     null,
-        };
-
-        var GK={
-          'Administrativa':[
-            {p:'Tec. Información',n:'% Soporte TI',         meta:1,      m:[0.97,0.99,0.97,0.99,0.99,null,null,null,null,null,null,null]},
-            {p:'Tec. Información',n:'% Mantenimiento TI',   meta:0.9,    m:[1,1,1,1,1,null,null,null,null,null,null,null]},
-            {p:'Tec. Información',n:'% Protección Info',    meta:1,      m:[1,1,0.99,1,0.997,null,null,null,null,null,null,null]},
-            {p:'Tec. Información',n:'% Sistemas Op.',       meta:1,      m:[null,null,null,0.97,0.957,null,null,null,null,null,null,null]},
-            {p:'Tec. Información',n:'% Desarrollo SAP',     meta:0.9,    m:[null,null,1,null,null,null,null,null,null,null,null,null]},
-            {p:'Adquisiciones',   n:'% Pedidos Realizados', meta:0.81,   m:[null,null,0.497,null,null,null,null,null,null,null,null,null]},
-            {p:'Serv. Generales', n:'% Solic. con Pedido',  meta:0.92,   m:[1,0.27,null,null,null,null,null,null,null,null,null,null]},
-            {p:'Comunicación',    n:'Seguidores impactados',meta:2700000,m:[1680000,2100000,3670000,4500000,null,null,null,null,null,null,null,null]},
-            {p:'Comunicación',    n:'# Notas de prensa',    meta:120,    m:[72,91,175,227,null,null,null,null,null,null,null,null]},
-            {p:'Comunicación',    n:'# Publicaciones',      meta:250,    m:[175,231,349,443,null,null,null,null,null,null,null,null]},
-            {p:'Comunicación',    n:'Personas cultura agua',meta:2833,   m:[2500,2800,2460,2760,null,null,null,null,null,null,null,null]},
-            {p:'Gest. Recursos',  n:'Ingreso presupuestado',meta:0.22,   m:[null,null,0.25,null,null,null,null,null,null,null,null,null]},
-            {p:'Gest. Recursos',  n:'Egreso presupuestado', meta:0.22,   m:[null,null,0.21,null,null,null,null,null,null,null,null,null]},
-            {p:'Gest. Recursos',  n:'Presup. sostenible',   meta:0.01,   m:[null,null,0.16,null,null,null,null,null,null,null,null,null]},
-          ],
-          'Comercial':[
-            {p:'Contratación', n:'% Contratación',         meta:1,    m:[1.15,0.64,0.86,1.04,1.79,null,null,null,null,null,null,null]},
-            {p:'Contratación', n:'% Cierre Solicitudes',   meta:1,    m:[1,1,1,0.789,0.772,null,null,null,null,null,null,null]},
-            {p:'Contratación', n:'% Tarifa Preferencial',  meta:0.9,  m:[0.95,0.82,0.73,0.95,0.96,null,null,null,null,null,null,null]},
-            {p:'Contratación', n:'% Atención Ind./Com.',   meta:0.8,  m:[null,null,null,0.95,1,null,null,null,null,null,null,null]},
-            {p:'Med. Cobranza',n:'Eficiencia Comercial',   meta:0.8,  m:[0.823,0.808,0.838,0.769,0.823,null,null,null,null,null,null,null]},
-            {p:'Med. Cobranza',n:'% Reducción Rezago',     meta:0.014,m:[0.04,0.01,0.008,0.035,-0.026,null,null,null,null,null,null,null]},
-            {p:'Med. Cobranza',n:'% Micromedición',        meta:0.75, m:[0.7263,0.7218,0.7203,0.7186,0.718,null,null,null,null,null,null,null]},
-            {p:'Med. Cobranza',n:'% Cambio Escuadras',     meta:0.1,  m:[0.09,0.11,0.15,0.1,0.12,null,null,null,null,null,null,null]},
-            {p:'Med. Cobranza',n:'% Cambio Tarifas',       meta:1,    m:[1,1,1,1,1,null,null,null,null,null,null,null]},
-          ],
-          'Técnica':[
-            {p:'Potabilización',n:'Eficiencia Operativa',  meta:0.9, m:[0.79,0.82,0.8916,0.8248,0.8541,null,null,null,null,null,null,null]},
-            {p:'Potabilización',n:'Cumpl. NOM-127 Cloro',  meta:1,   m:[1,1,1,1,1,null,null,null,null,null,null,null]},
-            {p:'Suministro',    n:'% Atención Fugas',      meta:0.81,m:[0.36,0.94,1,0.56,0.52,null,null,null,null,null,null,null]},
-            {p:'Suministro',    n:'% Desazolves',          meta:0.81,m:[0.52,1,0.73,0.28,0.35,null,null,null,null,null,null,null]},
-            {p:'Suministro',    n:'% Instalaciones',       meta:0.71,m:[0.81,0.46,0.43,0.86,0.74,null,null,null,null,null,null,null]},
-            {p:'Proyectos',     n:'Avance físico obra',    meta:1,   m:[0,0,0.3,0.58,null,null,null,null,null,null,null,null]},
-            {p:'Proyectos',     n:'Avance financiero obra',meta:1,   m:[0,0,0.09,0,null,null,null,null,null,null,null,null]},
-            {p:'Proyectos',     n:'% Cumpl. Prog. Obra',   meta:0.25,m:[null,null,0.2,0.2,null,null,null,null,null,null,null,null]},
-          ],
-          'Planeación Estratégica':[
-            {p:'Trat. Aguas',n:'% Calidad NOM-001',   meta:1,   m:[1,1,1,1,1,null,null,null,null,null,null,null]},
-            {p:'Trat. Aguas',n:'% Supervisión PTAR',  meta:1,   m:[1,1,1,1,1,null,null,null,null,null,null,null]},
-            {p:'Planeación', n:'% Cumplimiento POA',  meta:0.81,m:[null,null,null,null,null,null,null,null,null,null,null,null]},
-          ],
-        };
-
-        var GT={
-          'Administrativa':        {inds:['% Soporte TI','% Sistemas TI','% Pedidos SAP','% Personal competente','Seguidores campaña','% Ingreso presup.'],Q1:{m:[100,100,81,70,2700000,22],r:[97.97,94.44,49.7,13.8,7450000,25]}},
-          'Comercial':             {inds:['% Contratación','% Cierre Solic.','% Tarifa Pref.','Efic. Comercial','% Micromedición'],Q1:{m:[100,100,80,80,75],r:[295.5,100,69.9,82.36,72.41]}},
-          'Técnica':               {inds:['Efic. Potabilización','% Fugas atend.','% Desazolves','% Instalaciones','% Avance Obra'],Q1:{m:[90,81,81,71,30],r:[84.2,66.2,69.5,70,30]}},
-          'Planeación Estratégica':{inds:['% Calidad NOM-001','% Superv. PTAR','% Cumpl. POA'],Q1:{m:[100,100,81],r:[100,100,null]}},
-        };
-
-        var MI={Enero:0,Febrero:1,Marzo:2,Abril:3,Mayo:4};
-        var GC={'Gerencia de Planeación Estratégica':'#7C3AED','Gerencia Administrativa':'#065F46','Gerencia Comercial':'#8B1D3A','Gerencia Técnica':'#0891B2','Administrativa':'#065F46','Comercial':'#8B1D3A','Técnica':'#0891B2','Planeación Estratégica':'#7C3AED'};
-        var EC={cerrado:{l:'Cerrado',c:'#059669'},aprobado:{l:'Aprobado',c:'#7C3AED'},enviado_revision:{l:'En revisión',c:'#1D4ED8'},observado:{l:'Observado',c:'#EA580C'},pendiente_carga:{l:'Pendiente carga',c:'#6B7280'},listo_validar:{l:'Listo a validar',c:'#0891B2'}};
-        var PEC={pendiente:{l:'Sin capturar',c:'#6B7280'},borrador:{l:'Borrador',c:'#92400E'},enviado:{l:'Enviado a revisor',c:'#1D4ED8'},observado:{l:'Con observaciones',c:'#EA580C'},aprobado:{l:'Aprobado',c:'#059669'},bloqueado:{l:'Meta fijada',c:'#16A34A'},cambio_en_revision:{l:'Cambio en revisión',c:'#7C3AED'}};
-
-        function gst(v,m){if(v===null||v===undefined) return 'nd';var r=m!==0?v/m:(v>0?1:0);return r>=0.95?'ok':r>=0.8?'warn':'bad';}
-
-        function upd(){
-          for(var i=1;i<=4;i++){
-            var d=document.getElementById('gfxDot'+i);if(!d) continue;
-            d.className='gfx-step'+(i===GFX.step?' active':i<GFX.step?' done':'');
-            if(i<4){var l=document.getElementById('gfxLine'+i);if(l) l.className='gfx-step-connector'+(i<GFX.step?' done':'');}
+        /* ── Progress ──────────────────────────────────────────────────── */
+        var STEP_LABELS = ['Tema', 'Visualización', 'Filtros', 'Resultado'];
+        function renderProgress() {
+          var h = '';
+          for (var i = 1; i <= 4; i++) {
+            var cls = i < S.step ? 'done' : i === S.step ? 'active' : '';
+            h += '<div class="gfx2-dot '+cls+'">';
+            h += '<div class="gfx2-dot-circle">' + (i < S.step ? '✓' : i) + '</div>';
+            h += '<span class="gfx2-dot-lbl">' + STEP_LABELS[i-1] + '</span></div>';
+            if (i < 4) h += '<div class="gfx2-line' + (i < S.step ? ' done' : '') + '"></div>';
           }
-          var bb=document.getElementById('gfxBtnBack'),bn=document.getElementById('gfxBtnNext');
-          if(bb) bb.style.visibility=GFX.step===1?'hidden':'visible';
-          if(bn){
-            bn.disabled=(GFX.step===1&&!GFX.topic)||(GFX.step===2&&!GFX.chart);
-            bn.className='gfx-btn-next'+(GFX.step===4?' green':'');
-            bn.textContent=GFX.step===4?'+ Nueva gráfica':((GFX.step===3||(GFX.step===2&&!FDEFS[GFX.topic]))?'Generar gráfica →':'Siguiente →');
-          }
+          document.getElementById('gfx2Progress').innerHTML = h;
         }
 
-        function s1(){
-          var h='<p class="gfx-panel-title">¿Sobre qué tema quieres generar una gráfica?</p>';
-          h+='<p class="gfx-panel-sub">Elige el área de datos que deseas visualizar. Cada tema tiene distintos tipos de gráficas disponibles.</p>';
-          h+='<div class="gfx-cards">';
-          TOPICS.forEach(function(t){
-            h+='<div class="gfx-card'+(GFX.topic===t.id?' selected':'')+'" onclick="gfxTopic(\''+t.id+'\')">';
-            h+='<div class="gfx-card-icon" style="background:'+t.bg+'">'+t.icon+'</div>';
-            h+='<div class="gfx-card-title">'+t.title+'</div>';
-            h+='<div class="gfx-card-desc">'+t.desc+'</div>';
-            h+='<span class="gfx-card-tag">'+t.fuente+'</span></div>';
+        /* ── Step renderers ────────────────────────────────────────────── */
+        function renderStep1() {
+          var h = '<p class="gfx2-heading">¿Qué quieres visualizar?</p>';
+          h += '<p class="gfx2-sub">Elige el tipo de análisis que deseas generar. Cada tema ofrece distintas visualizaciones.</p>';
+          h += '<div class="gfx2-topic-grid">';
+          TOPICS.forEach(function(t) {
+            var sel = S.topic === t.id;
+            h += '<div class="gfx2-topic-card'+(sel?' sel':'')+'" style="--gfx2-color:'+t.color+'" onclick="gfx2PickTopic(\''+t.id+'\')">';
+            h += '<div class="gfx2-topic-accent" style="background:'+t.color+'"></div>';
+            h += '<div class="gfx2-topic-title">'+t.title+'</div>';
+            h += '<div class="gfx2-topic-desc">'+t.desc+'</div>';
+            h += '<div class="gfx2-topic-check" style="background:'+t.color+'">✓</div>';
+            h += '</div>';
           });
-          h+='</div>';
-          document.getElementById('gfxPanel').innerHTML=h;
+          h += '</div>';
+          document.getElementById('gfx2Panel').innerHTML = h;
         }
 
-        function s2(){
-          var t=TOPICS.find(function(x){return x.id===GFX.topic;})||{};
-          var opts=CHARTS[GFX.topic]||[];
-          var h='<p class="gfx-panel-title">¿Qué tipo de gráfica quieres ver?</p>';
-          h+='<p class="gfx-panel-sub">Tema: <strong>'+t.title+'</strong> — Elige cómo visualizar los datos.</p>';
-          h+='<div class="gfx-chart-cards">';
-          opts.forEach(function(c){
-            h+='<div class="gfx-card'+(GFX.chart===c.id?' selected':'')+'" onclick="gfxChart(\''+c.id+'\')">';
-            h+='<div class="gfx-chart-icon" style="color:'+t.color+'">'+c.icon+'</div>';
-            h+='<div class="gfx-card-title">'+c.title+'</div>';
-            h+='<div class="gfx-card-desc">'+c.desc+'</div></div>';
+        function renderStep2() {
+          var t = TOPICS.find(function(x){ return x.id === S.topic; }) || {};
+          var opts = VIZ[S.topic] || [];
+          var h = '<p class="gfx2-heading">¿Cómo quieres ver los datos?</p>';
+          h += '<p class="gfx2-sub">Tema: <strong>'+t.title+'</strong> — Elige el tipo de visualización.</p>';
+          h += '<div class="gfx2-viz-grid">';
+          opts.forEach(function(v) {
+            var sel = S.viz === v.id;
+            h += '<div class="gfx2-viz-card'+(sel?' sel':'')+'" onclick="gfx2PickViz(\''+v.id+'\')">';
+            h += '<div class="gfx2-viz-icon">'+v.icon+'</div>';
+            h += '<div class="gfx2-viz-title">'+v.title+'</div>';
+            h += '<div class="gfx2-viz-desc">'+v.desc+'</div>';
+            h += '</div>';
           });
-          h+='</div>';
-          document.getElementById('gfxPanel').innerHTML=h;
+          h += '</div>';
+          document.getElementById('gfx2Panel').innerHTML = h;
         }
 
-        function s3(){
-          var fds=FDEFS[GFX.topic]||[];
-          var h='<p class="gfx-panel-title">Configura los filtros</p>';
-          h+='<p class="gfx-panel-sub">Define el alcance de los datos que quieres graficar.</p>';
-          h+='<div class="gfx-filters">';
-          fds.forEach(function(f){
-            h+='<div><span class="gfx-filter-label">'+f.label+'</span><div class="gfx-option-group">';
-            f.opts.forEach(function(o,i){
-              var cur=GFX.filters[f.key]!==undefined?GFX.filters[f.key]:f.def;
-              h+='<button class="gfx-option'+(cur===o?' selected':'')+'" onclick="gfxFilt(\''+f.key+'\',\''+o+'\')">'+f.lbls[i]+'</button>';
+        function renderStep3() {
+          var needsPeriod = NEEDS_PERIOD[S.topic];
+          var h = '<p class="gfx2-heading">Configura el alcance</p>';
+          h += '<p class="gfx2-sub">Define qué datos quieres incluir en la gráfica.</p>';
+          // Gerencia filter
+          h += '<div class="gfx2-filter-section"><span class="gfx2-filter-lbl">Gerencia</span><div class="gfx2-pills">';
+          GER_OPTS.forEach(function(o) {
+            var cur = S.filters.gerencia || 'Todas';
+            h += '<button class="gfx2-pill'+(cur===o.val?' sel':'')+'" onclick="gfx2SetFilt(\'gerencia\',\''+o.val+'\')">'+o.lbl+'</button>';
+          });
+          h += '</div></div>';
+          // Period filter (only when needed)
+          if (needsPeriod) {
+            h += '<div class="gfx2-filter-section"><span class="gfx2-filter-lbl">Trimestre</span><div class="gfx2-pills">';
+            PERIOD_OPTS.forEach(function(o) {
+              var cur = S.filters.periodo || 'Q1';
+              h += '<button class="gfx2-pill'+(cur===o.val?' sel':'')+'" onclick="gfx2SetFilt(\'periodo\',\''+o.val+'\')">'+o.lbl+'</button>';
             });
-            h+='</div></div>';
+            h += '</div></div>';
+          }
+          document.getElementById('gfx2Panel').innerHTML = h;
+        }
+
+        function renderStep4() {
+          var t = TOPICS.find(function(x){ return x.id === S.topic; }) || {};
+          var v = (VIZ[S.topic]||[]).find(function(x){ return x.id === S.viz; }) || {};
+          var ctx = [];
+          if (S.filters.gerencia && S.filters.gerencia !== 'Todas') ctx.push(GER_SHORT[S.filters.gerencia] || S.filters.gerencia);
+          if (S.filters.periodo) {
+            var po = PERIOD_OPTS.find(function(p){ return p.val === S.filters.periodo; });
+            if (po) ctx.push(po.lbl);
+          }
+          var h = '<div class="gfx2-result">';
+          h += '<div class="gfx2-result-hdr"><div>';
+          h += '<div class="gfx2-result-title">'+v.title+'</div>';
+          h += '<div class="gfx2-result-ctx">'+t.title+(ctx.length?' · '+ctx.join(' · '):'')+'</div>';
+          h += '</div><div class="gfx2-result-actions">';
+          h += '<button class="gfx2-act-btn" onclick="gfx2PNG()"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PNG</button>';
+          h += '</div></div>';
+          h += '<div class="gfx2-canvas-wrap"><canvas id="gfx2Canvas"></canvas></div>';
+          h += '<button class="gfx2-toggle-data" id="gfx2TblBtn" onclick="gfx2ToggleTbl()">▼ Ver datos</button>';
+          h += '<div class="gfx2-data-tbl" id="gfx2TblWrap"></div>';
+          h += '</div>';
+          document.getElementById('gfx2Panel').innerHTML = h;
+          requestAnimationFrame(function(){ requestAnimationFrame(buildChart); });
+        }
+
+        /* ── Navigation ────────────────────────────────────────────────── */
+        function render() {
+          renderProgress();
+          if      (S.step === 1) renderStep1();
+          else if (S.step === 2) renderStep2();
+          else if (S.step === 3) renderStep3();
+          else                   renderStep4();
+          var back = document.getElementById('gfx2BtnBack');
+          var next = document.getElementById('gfx2BtnNext');
+          if (back) back.style.visibility = S.step === 1 ? 'hidden' : 'visible';
+          if (next) {
+            next.disabled = (S.step === 1 && !S.topic) || (S.step === 2 && !S.viz);
+            next.className = 'gfx2-btn-pri' + (S.step === 4 ? ' success' : '');
+            next.textContent = S.step === 4 ? '+ Nueva gráfica' : 'Siguiente →';
+          }
+        }
+
+        function destroyChart() { if (S.chart) { S.chart.destroy(); S.chart = null; } }
+
+        window.gfx2Next = function() {
+          if (S.step === 4) { S.step=1; S.topic=null; S.viz=null; S.filters={}; destroyChart(); render(); return; }
+          if (S.step === 1 && !S.topic) return;
+          if (S.step === 2 && !S.viz)   return;
+          // Skip step 2 when topic has only 1 viz (auto-select it)
+          if (S.step === 1 && (VIZ[S.topic]||[]).length === 1) {
+            S.viz = VIZ[S.topic][0].id;
+            S.step = 3;
+          } else {
+            S.step++;
+          }
+          render();
+        };
+
+        window.gfx2Back = function() {
+          if (S.step === 1) return;
+          destroyChart();
+          // Reverse the skip: if going back from step 3 and topic has 1 viz, go to step 1
+          if (S.step === 3 && (VIZ[S.topic]||[]).length === 1) {
+            S.step = 1;
+          } else {
+            S.step--;
+          }
+          render();
+        };
+
+        window.gfx2PickTopic = function(id) {
+          S.topic = id; S.viz = null; S.filters = { gerencia:'Todas', periodo:'Q1' };
+          render();
+        };
+        window.gfx2PickViz = function(id) { S.viz = id; render(); };
+        window.gfx2SetFilt = function(k, v) { S.filters[k] = v; renderStep3(); };
+
+        /* ── Chart builders ────────────────────────────────────────────── */
+        function buildTable(heads, rows) {
+          var h = '<table><thead><tr>' + heads.map(function(x){ return '<th>'+x+'</th>'; }).join('') + '</tr></thead><tbody>';
+          rows.forEach(function(r){ h += '<tr>' + r.map(function(c){ return '<td>'+(c===null||c===undefined?'—':c)+'</td>'; }).join('') + '</tr>'; });
+          h += '</tbody></table>';
+          var el = document.getElementById('gfx2TblWrap'); if (el) el.innerHTML = h;
+        }
+
+        window.gfx2ToggleTbl = function() {
+          var el = document.getElementById('gfx2TblWrap'), btn = document.getElementById('gfx2TblBtn');
+          if (!el) return;
+          var v = el.classList.toggle('vis');
+          if (btn) btn.textContent = v ? '▲ Ocultar datos' : '▼ Ver datos';
+        };
+
+        window.gfx2PNG = function() {
+          var c = document.getElementById('gfx2Canvas'); if (!c || !S.chart) return;
+          var a = document.createElement('a'); a.href = c.toDataURL('image/png');
+          a.download = 'COMSUR-'+S.viz+'.png'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        };
+
+        function buildChart() {
+          destroyChart();
+          var canvas = document.getElementById('gfx2Canvas');
+          if (!canvas) { console.error('gfx2: canvas not found'); return; }
+          var ctx = canvas.getContext('2d');
+          var id = S.viz;
+          try {
+            if      (id === 'cumpl-donut')  chartCumplDonut(ctx);
+            else if (id === 'cumpl-gers')   chartCumplGers(ctx);
+            else if (id === 'comp-nivel')   chartCompNivel(ctx);
+            else if (id === 'comp-tipo')    chartCompTipo(ctx);
+            else if (id === 'comp-freq')    chartCompFreq(ctx);
+            else if (id === 'av-gers')      chartAvGers(ctx);
+            else if (id === 'av-ranking')   chartAvRanking(ctx);
+            else if (id === 'tend-cumpl')   chartTendCumpl(ctx);
+            else {
+              var wrap = canvas.closest('.gfx2-canvas-wrap');
+              if (wrap) wrap.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#6B7280;font-size:13px;">Tipo de gráfica no reconocido: '+id+'</div>';
+            }
+          } catch(e) {
+            console.error('gfx2 chart error:', e);
+            var wrap = canvas.closest('.gfx2-canvas-wrap');
+            if (wrap) wrap.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#EF4444;font-size:13px;padding:20px;text-align:center;">Error al generar la gráfica:<br><code style="font-size:11px;">'+e.message+'</code></div>';
+          }
+        }
+
+        var CUMPL_STATUS = [
+          { key:'ok',   label:'Cumple (≥95%)', color:'#10B981' },
+          { key:'warn', label:'En riesgo',      color:'#F59E0B' },
+          { key:'bad',  label:'No cumple',      color:'#EF4444' },
+          { key:'nd',   label:'Sin dato',       color:'#D1D5DB' },
+        ];
+
+        function getCumplCounts(inds, qKey) {
+          var c = { ok:0, warn:0, bad:0, nd:0 };
+          inds.forEach(function(ind) {
+            var idx = getMonthIdx(ind, qKey);
+            if (idx === null) { c.nd++; return; }
+            var st = cumplSt(ind.mAvance ? ind.mAvance[idx] : null, ind.mMeta ? ind.mMeta[idx] : null);
+            c[st]++;
           });
-          h+='</div>';
-          document.getElementById('gfxPanel').innerHTML=h;
+          return c;
         }
 
-        function s4(){
-          var t=TOPICS.find(function(x){return x.id===GFX.topic;})||{};
-          var ch=(CHARTS[GFX.topic]||[]).find(function(x){return x.id===GFX.chart;})||{};
-          var fsum=[];
-          (FDEFS[GFX.topic]||[]).forEach(function(f){var v=GFX.filters[f.key];var idx=f.opts.indexOf(v);if(idx>=0) fsum.push(f.lbls[idx]);});
-          var h='<div class="gfx-result-wrap">';
-          h+='<div class="gfx-result-header"><div>';
-          h+='<div class="gfx-panel-title" style="margin-bottom:2px">'+ch.title+'</div>';
-          h+='<div class="gfx-panel-sub" style="margin:0">'+t.title+(fsum.length?' · '+fsum.join(' · '):'')+'</div>';
-          h+='</div><div class="gfx-result-actions">';
-          h+='<button class="gfx-btn-action" onclick="gfxPNG()"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PNG</button>';
-          h+='<button class="gfx-btn-action" onclick="gfxCSV()"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> CSV</button>';
-          h+='</div></div>';
-          h+='<div class="gfx-chart-container"><canvas id="gfxCanvas"></canvas></div>';
-          h+='<button class="gfx-data-toggle" id="gfxTogBtn" onclick="gfxTbl()">▼ Ver datos</button>';
-          h+='<div class="gfx-data-table-wrap" id="gfxTblWrap"></div></div>';
-          document.getElementById('gfxPanel').innerHTML=h;
-          setTimeout(buildChart,50);
-        }
-
-        function render(){
-          if(GFX.step===1) s1();
-          else if(GFX.step===2) s2();
-          else if(GFX.step===3) s3();
-          else s4();
-          upd();
-        }
-
-        function gfxNext(){
-          if(GFX.step===4){gfxReset();return;}
-          if(GFX.step===1&&!GFX.topic) return;
-          if(GFX.step===2&&!GFX.chart) return;
-          if(GFX.step===2&&!FDEFS[GFX.topic]) GFX.step=4;
-          else GFX.step++;
-          dst();render();
-        }
-        function gfxBack(){
-          if(GFX.step===1) return;
-          if(GFX.step===4&&!FDEFS[GFX.topic]) GFX.step=2;
-          else GFX.step--;
-          dst();render();
-        }
-        function gfxReset(){GFX.step=1;GFX.topic=null;GFX.chart=null;GFX.filters={};dst();render();}
-        function gfxTopic(id){GFX.topic=id;GFX.chart=null;GFX.filters={};(FDEFS[id]||[]).forEach(function(f){GFX.filters[f.key]=f.def;});render();}
-        function gfxChart(id){GFX.chart=id;render();}
-        function gfxFilt(k,v){GFX.filters[k]=v;s3();}
-        function dst(){if(GFX.inst){GFX.inst.destroy();GFX.inst=null;}}
-
-        function buildChart(){
-          dst();
-          var canvas=document.getElementById('gfxCanvas');if(!canvas) return;
-          var ctx=canvas.getContext('2d'),id=GFX.chart;
-          if(id==='est-donut')    estDonut(ctx);
-          else if(id==='est-gerencias') estGerencias(ctx);
-          else if(id==='est-unidades')  estUnidades(ctx);
-          else if(id==='est-nivel')     estNivel(ctx);
-          else if(id==='est-freq')      estFreq(ctx);
-          else if(id==='est-tipo')      estTipo(ctx);
-          else if(id==='kpi-donut')     kpiDonut(ctx);
-          else if(id==='kpi-evolucion') kpiEvo(ctx);
-          else if(id==='kpi-ranking')   kpiRank(ctx);
-          else if(id==='pla-estados')   plaEst(ctx);
-          else if(id==='pla-brecha')    plaBrecha(ctx);
-          else if(id==='tra-barras')    traBarras(ctx);
-          else if(id==='tra-brecha')    traBrecha(ctx);
-          else if(id==='eje-efcom')     ejeEfcom(ctx);
-          else if(id==='eje-gerencias') ejeGers(ctx);
-        }
-
-        function tbl(heads,rows){
-          var h='<table><thead><tr>'+heads.map(function(x){return '<th>'+x+'</th>';}).join('')+'</tr></thead><tbody>';
-          rows.forEach(function(r){h+='<tr>'+r.map(function(c){return '<td>'+(c===null||c===undefined?'—':c)+'</td>';}).join('')+'</tr>';});
-          h+='</tbody></table>';
-          var el=document.getElementById('gfxTblWrap');if(el) el.innerHTML=h;
-        }
-        function gfxTbl(){
-          var el=document.getElementById('gfxTblWrap'),btn=document.getElementById('gfxTogBtn');
-          if(!el) return;var v=el.classList.toggle('visible');
-          if(btn) btn.textContent=v?'▲ Ocultar datos':'▼ Ver datos';
-        }
-        function gfxPNG(){
-          var c=document.getElementById('gfxCanvas');if(!c||!GFX.inst) return;
-          var a=document.createElement('a');a.href=c.toDataURL('image/png');
-          a.download='COMSUR-'+GFX.chart+'.png';document.body.appendChild(a);a.click();document.body.removeChild(a);
-        }
-        function gfxCSV(){
-          var w=document.getElementById('gfxTblWrap');if(!w) return;
-          var vis=w.classList.contains('visible');if(!vis) w.classList.add('visible');
-          var rows=[];
-          w.querySelectorAll('tr').forEach(function(tr){
-            rows.push(Array.from(tr.querySelectorAll('th,td')).map(function(c){var s=c.textContent;return /[,"\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;}).join(','));
+        function chartCumplDonut(ctx) {
+          var data = filtData();
+          var qKey = S.filters.periodo || 'Q1';
+          var c = getCumplCounts(data, qKey);
+          var items = CUMPL_STATUS.filter(function(s){ return c[s.key] > 0; });
+          S.chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: items.map(function(s){ return s.label + ' (' + c[s.key] + ')'; }),
+              datasets: [{
+                data: items.map(function(s){ return c[s.key]; }),
+                backgroundColor: items.map(function(s){ return s.color; }),
+                borderWidth: 3, borderColor: '#fff', hoverOffset: 10
+              }]
+            },
+            options: {
+              cutout: '70%', responsive: true, maintainAspectRatio: false,
+              plugins: {
+                legend: { position: 'right', labels: { padding: 20, font: { size: 13 }, usePointStyle: true, pointStyleWidth: 10 } },
+                tooltip: { callbacks: { label: function(c2){ return ' ' + c2.label + ' — ' + ((c2.parsed / data.length) * 100).toFixed(1) + '%'; } } }
+              },
+              animation: { duration: 500, easing: 'easeOutQuart' }
+            }
           });
-          if(!vis) w.classList.remove('visible');
-          var blob=new Blob(['﻿'+rows.join('\r\n')],{type:'text/csv;charset=utf-8;'});
-          var url=URL.createObjectURL(blob);
-          var a=document.createElement('a');a.href=url;a.download='COMSUR-'+GFX.chart+'.csv';
-          document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+          buildTable(['Estado','N','%'], items.map(function(s){
+            return [s.label.split(' (')[0], c[s.key], ((c[s.key]/data.length)*100).toFixed(1)+'%'];
+          }));
         }
 
-        var GER4=['Gerencia de Planeación Estratégica','Gerencia Administrativa','Gerencia Comercial','Gerencia Técnica'];
-        var GL4=['Planeación Est.','Administrativa','Comercial','Técnica'];
-        function gf(){return GFX.filters.gerencia;}
-        function actSrc(){var a=typeof ACTIVIDADES_ENLACE!=='undefined'?ACTIVIDADES_ENLACE:[];var g=gf();return(g&&g!=='Todas')?a.filter(function(x){return x.gerencia===g;}):a;}
-
-        function estDonut(ctx){
-          var src=actSrc();var cnt={};
-          src.forEach(function(a){cnt[a.estado]=(cnt[a.estado]||0)+1;});
-          var k=Object.keys(EC).filter(function(e){return cnt[e]>0;});
-          GFX.inst=new Chart(ctx,{type:'doughnut',data:{labels:k.map(function(e){return EC[e].l+' ('+cnt[e]+')'}),datasets:[{data:k.map(function(e){return cnt[e];}),backgroundColor:k.map(function(e){return EC[e].c;}),borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'62%',plugins:{legend:{position:'right',labels:{padding:16,font:{size:12}}}},animation:{duration:600}}});
-          tbl(['Estado','N','%'],k.map(function(e){return[EC[e].l,cnt[e],((cnt[e]/src.length)*100).toFixed(1)+'%'];}));
+        function chartCumplGers(ctx) {
+          var all = allData();
+          var qKey = S.filters.periodo || 'Q1';
+          var ds = CUMPL_STATUS.map(function(st) {
+            var vals = ALL_GERS.map(function(g) {
+              return getCumplCounts(all.filter(function(a){ return a.gerencia===g; }), qKey)[st.key];
+            });
+            return { label: st.label, data: vals, backgroundColor: st.color, borderRadius: 4, borderSkipped: false };
+          }).filter(function(d){ return d.data.some(function(v){ return v > 0; }); });
+          S.chart = new Chart(ctx, {
+            type: 'bar',
+            data: { labels: ALL_GERS.map(function(g){ return GER_SHORT[g]; }), datasets: ds },
+            options: {
+              responsive: true, maintainAspectRatio: false,
+              scales: { x: { stacked:true, grid:{ display:false } }, y: { stacked:true } },
+              plugins: { legend: { position:'top', labels:{ font:{ size:12 }, usePointStyle:true } } },
+              animation: { duration: 500 }
+            }
+          });
         }
 
-        function estGerencias(ctx){
-          var src=typeof ACTIVIDADES_ENLACE!=='undefined'?ACTIVIDADES_ENLACE:[];
-          var ek=Object.keys(EC);
-          var ds=ek.map(function(e){return{label:EC[e].l,data:GER4.map(function(g){return src.filter(function(a){return a.gerencia===g&&a.estado===e;}).length;}),backgroundColor:EC[e].c,borderRadius:2};}).filter(function(d){return d.data.some(function(v){return v>0;});});
-          GFX.inst=new Chart(ctx,{type:'bar',data:{labels:GL4,datasets:ds},options:{indexAxis:'x',responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true}},plugins:{legend:{position:'top',labels:{font:{size:11}}}},animation:{duration:600}}});
-          tbl(['Gerencia'].concat(ek.map(function(e){return EC[e].l;})),GL4.map(function(g,i){var r=[GL4[i]];ek.forEach(function(e){r.push(src.filter(function(a){return a.gerencia===GER4[i]&&a.estado===e;}).length);});return r;}));
+        function chartCompNivel(ctx) {
+          var data = filtData();
+          var g = S.filters.gerencia;
+          var isAll = !g || g === 'Todas';
+          var niveles = ['Propósito','Componente','Actividad'];
+          var colors  = ['#7C3AED','#0891B2','#059669'];
+          if (isAll) {
+            var all = allData();
+            var ds = niveles.map(function(n, i) {
+              return {
+                label: n,
+                data: ALL_GERS.map(function(gg){ return all.filter(function(a){ return a.gerencia===gg && a.nivel===n; }).length; }),
+                backgroundColor: colors[i], borderRadius: 4, borderSkipped: false
+              };
+            });
+            S.chart = new Chart(ctx, {
+              type: 'bar',
+              data: { labels: ALL_GERS.map(function(g){ return GER_SHORT[g]; }), datasets: ds },
+              options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: { x: { stacked:true, grid:{ display:false } }, y: { stacked:true } },
+                plugins: { legend: { position:'top', labels:{ font:{ size:12 }, usePointStyle:true } } },
+                animation: { duration: 500 }
+              }
+            });
+          } else {
+            var counts = niveles.map(function(n){ return data.filter(function(a){ return a.nivel===n; }).length; });
+            S.chart = new Chart(ctx, {
+              type: 'doughnut',
+              data: {
+                labels: niveles.map(function(n,i){ return n+' ('+counts[i]+')'; }),
+                datasets: [{ data: counts, backgroundColor: colors, borderWidth:3, borderColor:'#fff', hoverOffset:10 }]
+              },
+              options: {
+                cutout:'70%', responsive:true, maintainAspectRatio:false,
+                plugins: { legend: { position:'right', labels: { padding:20, font:{ size:13 }, usePointStyle:true } } },
+                animation: { duration:500 }
+              }
+            });
+          }
+          buildTable(['Nivel','N'], niveles.map(function(n){ return [n, data.filter(function(a){ return a.nivel===n; }).length]; }));
         }
 
-        function estUnidades(ctx){
-          var src=actSrc();var cnt={};
-          src.forEach(function(a){cnt[a.unidadResponsable]=(cnt[a.unidadResponsable]||0)+1;});
-          var s=Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];}).slice(0,15);
-          var cH=document.querySelector('#sec-graficas .gfx-chart-container');
-          if(cH) cH.style.height=Math.max(400,s.length*28+80)+'px';
-          GFX.inst=new Chart(ctx,{type:'bar',data:{labels:s.map(function(u){return u.length>40?u.substring(0,38)+'…':u;}),datasets:[{label:'Indicadores',data:s.map(function(u){return cnt[u];}),backgroundColor:'#8B1D3A',borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:'#F3F4F6'}},y:{grid:{display:false},ticks:{font:{size:11}}}},plugins:{legend:{display:false}},animation:{duration:600}}});
-          tbl(['Unidad responsable','N'],s.map(function(u){return[u,cnt[u]];}));
+        function chartCompTipo(ctx) {
+          var data = filtData();
+          var tipos = ['Gestión','Estratégico'];
+          var colors = ['#8B1D3A','#7C3AED'];
+          var counts = tipos.map(function(t){ return data.filter(function(a){ return a.tipoIndicador===t; }).length; });
+          S.chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: tipos.map(function(t,i){ return t+' ('+counts[i]+')'; }),
+              datasets: [{ data:counts, backgroundColor:colors, borderWidth:3, borderColor:'#fff', hoverOffset:10 }]
+            },
+            options: {
+              cutout:'70%', responsive:true, maintainAspectRatio:false,
+              plugins: { legend: { position:'right', labels:{ padding:20, font:{ size:14 }, usePointStyle:true, pointStyleWidth:10 } } },
+              animation: { duration:500 }
+            }
+          });
+          buildTable(['Tipo','N','%'], tipos.map(function(t,i){
+            return [t, counts[i], ((counts[i]/Math.max(data.length,1))*100).toFixed(1)+'%'];
+          }));
         }
 
-        function estNivel(ctx){
-          var src=actSrc();var niv=['Fin','Propósito','Componente','Actividad'];var clr=['#8B1D3A','#7C3AED','#0891B2','#059669'];
-          var g=gf();var isAll=!g||g==='Todas';
-          var ds=niv.map(function(n,i){return{label:n,data:isAll?GER4.map(function(gg){return src.filter(function(a){return a.gerencia===gg&&a.nivel===n;}).length;}):[src.filter(function(a){return a.nivel===n;}).length],backgroundColor:clr[i],borderRadius:4};});
-          GFX.inst=new Chart(ctx,{type:'bar',data:{labels:isAll?GL4:[g.replace('Gerencia de ','').replace('Gerencia ','')],datasets:ds},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true}},plugins:{legend:{position:'top',labels:{font:{size:11}}}},animation:{duration:600}}});
-          tbl(['Nivel','N'],niv.map(function(n){return[n,src.filter(function(a){return a.nivel===n;}).length];}));
+        function chartCompFreq(ctx) {
+          var data = filtData();
+          var freqs = ['Mensual','Trimestral','Semestral','Anual','Cuatrimestral','Bimestral'];
+          var colors = ['#8B1D3A','#0891B2','#059669','#7C3AED','#D97706','#EA580C'];
+          var pairs = freqs.map(function(f,i){ return { f:f, n:data.filter(function(a){ return a.frecuenciaMedicion===f; }).length, c:colors[i] }; }).filter(function(p){ return p.n>0; });
+          S.chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: pairs.map(function(p){ return p.f; }),
+              datasets: [{ label:'Indicadores', data:pairs.map(function(p){ return p.n; }), backgroundColor:pairs.map(function(p){ return p.c; }), borderRadius:8, borderSkipped:false }]
+            },
+            options: {
+              responsive:true, maintainAspectRatio:false,
+              scales: { x:{ grid:{ display:false } }, y:{ ticks:{ stepSize:10 } } },
+              plugins: { legend:{ display:false } },
+              animation: { duration:500 }
+            }
+          });
+          buildTable(['Frecuencia','N'], pairs.map(function(p){ return [p.f, p.n]; }));
         }
 
-        function estFreq(ctx){
-          var src=typeof ACTIVIDADES_ENLACE!=='undefined'?ACTIVIDADES_ENLACE:[];
-          var fr=['Mensual','Trimestral','Semestral','Anual','Bimestral'];var clr=['#8B1D3A','#0891B2','#059669','#7C3AED','#D97706'];
-          var cnt=fr.map(function(f){return src.filter(function(a){return a.frecuenciaMedicion===f;}).length;});
-          GFX.inst=new Chart(ctx,{type:'bar',data:{labels:fr,datasets:[{label:'Indicadores',data:cnt,backgroundColor:clr,borderRadius:6}]},options:{scales:{x:{grid:{display:false}},y:{ticks:{stepSize:10}}},plugins:{legend:{display:false}},responsive:true,maintainAspectRatio:false,animation:{duration:600}}});
-          tbl(['Frecuencia','N'],fr.map(function(f,i){return[f,cnt[i]];}));
+        function chartAvGers(ctx) {
+          var all = allData();
+          var qKey = S.filters.periodo || 'Q1';
+          var metas = [], avances = [], labels = [];
+          ALL_GERS.forEach(function(g) {
+            var ginds = all.filter(function(a){ return a.gerencia===g; });
+            var ratios = [];
+            ginds.forEach(function(ind) {
+              var idx = getMonthIdx(ind, qKey);
+              if (idx === null) return;
+              var meta = ind.mMeta ? ind.mMeta[idx] : null;
+              var avance = ind.mAvance ? ind.mAvance[idx] : null;
+              if (meta !== null && meta > 0 && avance !== null) ratios.push((avance/meta)*100);
+            });
+            labels.push(GER_SHORT[g]);
+            metas.push(100);
+            avances.push(ratios.length ? Math.round(ratios.reduce(function(a,b){return a+b;},0)/ratios.length) : null);
+          });
+          S.chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [
+                { label:'Meta', data:metas, backgroundColor:'#E5E7EB', borderRadius:4, borderSkipped:false },
+                { label:'Avance promedio', data:avances, backgroundColor:'#8B1D3A', borderRadius:4, borderSkipped:false }
+              ]
+            },
+            options: {
+              responsive:true, maintainAspectRatio:false,
+              scales: {
+                x:{ grid:{ display:false } },
+                y:{ max:130, ticks:{ callback:function(v){ return v+'%'; } } }
+              },
+              plugins: { legend:{ position:'top', labels:{ font:{ size:12 }, usePointStyle:true } } },
+              animation: { duration:500 }
+            }
+          });
+          buildTable(['Gerencia','Meta','Avance prom.'], labels.map(function(l,i){
+            return [l, '100%', avances[i]!==null ? avances[i]+'%' : '—'];
+          }));
         }
 
-        function estTipo(ctx){
-          var src=actSrc();var ti=['Gestión','Estratégico'];
-          var cnt=ti.map(function(t){return src.filter(function(a){return a.tipoIndicador===t;}).length;});
-          GFX.inst=new Chart(ctx,{type:'doughnut',data:{labels:ti.map(function(t,i){return t+' ('+cnt[i]+')'}),datasets:[{data:cnt,backgroundColor:['#8B1D3A','#7C3AED'],borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'62%',plugins:{legend:{position:'right',labels:{padding:16,font:{size:13}}}},animation:{duration:600}}});
-          tbl(['Tipo','N','%'],ti.map(function(t,i){return[t,cnt[i],((cnt[i]/Math.max(src.length,1))*100).toFixed(1)+'%'];}));
+        function chartAvRanking(ctx) {
+          var data = filtData();
+          var qKey = S.filters.periodo || 'Q1';
+          var items = [];
+          data.forEach(function(ind) {
+            var idx = getMonthIdx(ind, qKey);
+            if (idx === null) return;
+            var meta = ind.mMeta ? ind.mMeta[idx] : null;
+            var avance = ind.mAvance ? ind.mAvance[idx] : null;
+            if (meta === null || meta === 0 || avance === null) return;
+            items.push({ nombre:ind.nombreIndicador, pct:Math.round((avance/meta)*100), ger:ind.gerencia });
+          });
+          items.sort(function(a,b){ return b.pct-a.pct; });
+          if (items.length > 20) items = items.slice(0, 20);
+          var wrap = document.querySelector('#sec-graficas .gfx2-canvas-wrap');
+          if (wrap) wrap.style.height = Math.max(420, items.length * 32 + 80) + 'px';
+          S.chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: items.map(function(x){ return x.nombre.length>38 ? x.nombre.substring(0,36)+'…' : x.nombre; }),
+              datasets: [
+                { label:'% vs meta', data:items.map(function(x){ return Math.min(x.pct,150); }),
+                  backgroundColor:items.map(function(x){ return x.pct>=95?'#10B981':x.pct>=80?'#F59E0B':'#EF4444'; }),
+                  borderRadius:4, borderSkipped:false },
+                { type:'line', label:'Meta 100%', data:items.map(function(){ return 100; }),
+                  borderColor:'#8B1D3A', borderDash:[5,3], borderWidth:1.5, pointRadius:0, fill:false }
+              ]
+            },
+            options: {
+              indexAxis:'y', responsive:true, maintainAspectRatio:false,
+              scales: {
+                x:{ grid:{ color:'#F3F4F6' }, ticks:{ callback:function(v){ return v+'%'; } } },
+                y:{ grid:{ display:false }, ticks:{ font:{ size:11 } } }
+              },
+              plugins: { legend:{ display:false } },
+              animation: { duration:500 }
+            }
+          });
+          buildTable(['Indicador','Gerencia','% vs meta'], items.map(function(x){
+            return [x.nombre, GER_SHORT[x.ger]||x.ger, x.pct+'%'];
+          }));
         }
 
-        function kpiDonut(ctx){
-          var g=gf();var mi=MI[GFX.filters.mes]!==undefined?MI[GFX.filters.mes]:4;
-          var src=[];(g==='Todas'?Object.keys(GK):[g]).forEach(function(gg){if(GK[gg]) src=src.concat(GK[gg]);});
-          var ok=0,wa=0,ba=0,nd=0;
-          src.forEach(function(i){var st=gst(i.m[mi],i.meta);if(st==='ok')ok++;else if(st==='warn')wa++;else if(st==='bad')ba++;else nd++;});
-          var pts=[{l:'Cumple',v:ok,c:'#059669'},{l:'En riesgo',v:wa,c:'#D97706'},{l:'No cumple',v:ba,c:'#DC2626'},{l:'Sin datos',v:nd,c:'#D1D5DB'}].filter(function(p){return p.v>0;});
-          GFX.inst=new Chart(ctx,{type:'doughnut',data:{labels:pts.map(function(p){return p.l+' ('+p.v+')'}),datasets:[{data:pts.map(function(p){return p.v;}),backgroundColor:pts.map(function(p){return p.c;}),borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'62%',plugins:{legend:{position:'right',labels:{padding:16,font:{size:12}}}},animation:{duration:600}}});
-          tbl(['Estado','N','%'],pts.map(function(p){return[p.l,p.v,((p.v/Math.max(src.length,1))*100).toFixed(0)+'%'];}));
+        function chartTendCumpl(ctx) {
+          var all = allData();
+          var g = S.filters.gerencia;
+          var gers = (g && g !== 'Todas') ? [g] : ALL_GERS;
+          var ds = gers.map(function(ger) {
+            var ginds = all.filter(function(a){ return a.gerencia===ger; });
+            var data = MES.map(function(_, mi) {
+              var withData = ginds.filter(function(ind){
+                return (FREQ_MONTHS[ind.frecuenciaMedicion]||[]).indexOf(mi) >= 0;
+              });
+              if (!withData.length) return null;
+              var ok = withData.filter(function(ind){
+                return cumplSt(ind.mAvance?ind.mAvance[mi]:null, ind.mMeta?ind.mMeta[mi]:null) === 'ok';
+              }).length;
+              return Math.round((ok/withData.length)*100);
+            });
+            var color = GER_COLOR[ger] || '#8B1D3A';
+            return { label:GER_SHORT[ger]||ger, data:data, borderColor:color, backgroundColor:color+'18',
+              borderWidth:2.5, pointRadius:4, pointHoverRadius:6, tension:0.3, fill:true, spanGaps:false };
+          });
+          S.chart = new Chart(ctx, {
+            type: 'line',
+            data: { labels:MES, datasets:ds },
+            options: {
+              responsive:true, maintainAspectRatio:false,
+              scales: {
+                x:{ grid:{ display:false } },
+                y:{ min:0, max:100, ticks:{ callback:function(v){ return v+'%'; } } }
+              },
+              plugins: {
+                legend: { position:'top', labels:{ font:{ size:12 }, usePointStyle:true } },
+                tooltip: { callbacks:{ label:function(c){ return ' '+c.dataset.label+': '+(c.parsed.y!==null?c.parsed.y+'%':'—'); } } }
+              },
+              animation: { duration:500 }
+            }
+          });
+          var rows = gers.map(function(ger){
+            var ginds = all.filter(function(a){ return a.gerencia===ger; });
+            var row = [GER_SHORT[ger]||ger];
+            MES.forEach(function(_, mi){
+              var withData = ginds.filter(function(ind){ return (FREQ_MONTHS[ind.frecuenciaMedicion]||[]).indexOf(mi)>=0; });
+              if (!withData.length) { row.push('—'); return; }
+              var ok = withData.filter(function(ind){ return cumplSt(ind.mAvance?ind.mAvance[mi]:null,ind.mMeta?ind.mMeta[mi]:null)==='ok'; }).length;
+              row.push(Math.round((ok/withData.length)*100)+'%');
+            });
+            return row;
+          });
+          buildTable(['Gerencia'].concat(MES), rows);
         }
 
-        function kpiEvo(ctx){
-          var labs=['Ene','Feb','Mar','Abr','May'];
-          var ds=Object.keys(GK).map(function(g){return{label:g,data:[0,1,2,3,4].map(function(mi){var wd=GK[g].filter(function(i){return i.m[mi]!==null;});if(!wd.length) return null;return Math.round((wd.filter(function(i){return gst(i.m[mi],i.meta)==='ok';}).length/wd.length)*100);}),borderColor:GC[g]||'#ccc',backgroundColor:(GC[g]||'#ccc')+'33',borderWidth:2.5,pointRadius:5,tension:0.3,fill:false};});
-          GFX.inst=new Chart(ctx,{type:'line',data:{labels:labs,datasets:ds},options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:0,max:100,ticks:{callback:function(v){return v+'%';}}},x:{grid:{display:false}}},plugins:{legend:{position:'top',labels:{font:{size:11}}}},animation:{duration:600}}});
-          tbl(['Gerencia'].concat(labs),Object.keys(GK).map(function(g){return[g].concat([0,1,2,3,4].map(function(mi){var wd=GK[g].filter(function(i){return i.m[mi]!==null;});if(!wd.length) return'—';return Math.round((wd.filter(function(i){return gst(i.m[mi],i.meta)==='ok';}).length/wd.length)*100)+'%';}));}));
-        }
-
-        function kpiRank(ctx){
-          var g=gf();var mi=MI[GFX.filters.mes]!==undefined?MI[GFX.filters.mes]:4;
-          var src=[];(g==='Todas'?Object.keys(GK):[g]).forEach(function(gg){if(GK[gg]) src=src.concat(GK[gg].map(function(i){return{n:i.n,v:i.m[mi],meta:i.meta};}));});
-          src=src.filter(function(i){return i.v!==null;}).sort(function(a,b){return(b.v/b.meta)-(a.v/a.meta);}).slice(0,16);
-          var clr=src.map(function(i){var s=gst(i.v,i.meta);return s==='ok'?'#059669':s==='warn'?'#D97706':'#DC2626';});
-          var cH=document.querySelector('#sec-graficas .gfx-chart-container');
-          if(cH) cH.style.height=Math.max(400,src.length*28+80)+'px';
-          GFX.inst=new Chart(ctx,{type:'bar',data:{labels:src.map(function(i){return i.n.length>32?i.n.substring(0,30)+'…':i.n;}),datasets:[{label:'% vs meta',data:src.map(function(i){return Math.min((i.v/i.meta)*100,200);}),backgroundColor:clr,borderRadius:4},{type:'line',label:'Meta 100%',data:src.map(function(){return 100;}),borderColor:'#8B1D3A',borderDash:[5,3],borderWidth:1.5,pointRadius:0,fill:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:'#F3F4F6'},ticks:{callback:function(v){return v+'%';}}},y:{grid:{display:false},ticks:{font:{size:11}}}},plugins:{legend:{display:false}},animation:{duration:600}}});
-          tbl(['Indicador','Resultado','Meta','% vs meta'],src.map(function(i){return[i.n,i.v,i.meta,((i.v/i.meta)*100).toFixed(1)+'%'];}));
-        }
-
-        function plaEst(ctx){
-          var planes=typeof getAllPlanes==='function'?getAllPlanes():(typeof SEED_PLANES!=='undefined'?SEED_PLANES:[]);
-          var g=gf();if(g&&g!=='Todas') planes=planes.filter(function(p){return p.gerencia===g;});
-          var cnt={};planes.forEach(function(p){cnt[p.estado]=(cnt[p.estado]||0)+1;});
-          var k=Object.keys(cnt).filter(function(e){return PEC[e];});
-          GFX.inst=new Chart(ctx,{type:'doughnut',data:{labels:k.map(function(e){return PEC[e].l+' ('+cnt[e]+')'}),datasets:[{data:k.map(function(e){return cnt[e];}),backgroundColor:k.map(function(e){return PEC[e].c;}),borderWidth:2,borderColor:'#fff',hoverOffset:8}]},options:{cutout:'62%',plugins:{legend:{position:'right',labels:{padding:16,font:{size:12}}}},animation:{duration:600}}});
-          tbl(['Estado','N'],k.map(function(e){return[PEC[e].l,cnt[e]];}));
-        }
-
-        function plaBrecha(ctx){
-          var planes=typeof getAllPlanes==='function'?getAllPlanes():(typeof SEED_PLANES!=='undefined'?SEED_PLANES:[]);
-          var g=gf();if(g&&g!=='Todas') planes=planes.filter(function(p){return p.gerencia===g;});
-          planes=planes.filter(function(p){return p.lineaBase!==undefined&&p.metaAnual!==undefined;});
-          GFX.inst=new Chart(ctx,{type:'bar',data:{labels:planes.map(function(p){return p.id;}),datasets:[{label:'Línea base',data:planes.map(function(p){return p.lineaBase;}),backgroundColor:'#6B7280',borderRadius:3},{label:'Meta anual 2026',data:planes.map(function(p){return p.metaAnual;}),backgroundColor:'#8B1D3A',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{ticks:{callback:function(v){return v+'%';}}}},plugins:{legend:{position:'top',labels:{font:{size:11}}}},animation:{duration:600}}});
-          tbl(['ID','Línea base','Meta 2026','Brecha'],planes.map(function(p){return[p.id,p.lineaBase+'%',p.metaAnual+'%','+'+(p.metaAnual-p.lineaBase)+'pp'];}));
-        }
-
-        function traBarras(ctx){
-          var g=gf()||'Administrativa';var tr=GFX.filters.trimestre||'Q1';
-          var d=GT[g];if(!d) return;var qd=d[tr]||d['Q1'];
-          GFX.inst=new Chart(ctx,{type:'bar',data:{labels:d.inds,datasets:[{label:'Meta programada',data:qd.m,backgroundColor:'#93C5FD',borderRadius:4},{label:'Resultado alcanzado',data:qd.r.map(function(v){return v===null?0:v;}),backgroundColor:qd.r.map(function(v,i){if(v===null) return'#D1D5DB';var rt=v/qd.m[i];return rt>=0.95?'#059669':rt>=0.8?'#D97706':'#DC2626';}),borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{}},plugins:{legend:{position:'top',labels:{font:{size:11}}}},animation:{duration:600}}});
-          tbl(['Indicador','Meta','Resultado','Estado'],d.inds.map(function(n,i){var v=qd.r[i];var st=v===null?'Sin datos':v/qd.m[i]>=0.95?'Cumple':v/qd.m[i]>=0.8?'En riesgo':'No cumple';return[n,qd.m[i],v,st];}));
-        }
-
-        function traBrecha(ctx){
-          var g=gf()||'Administrativa';var tr=GFX.filters.trimestre||'Q1';
-          var d=GT[g];if(!d) return;var qd=d[tr]||d['Q1'];
-          var pts=d.inds.map(function(n,i){var v=qd.r[i];if(v===null) return null;return{n:n,br:qd.m[i]-v,m:qd.m[i],r:v};}).filter(Boolean).sort(function(a,b){return b.br-a.br;});
-          GFX.inst=new Chart(ctx,{type:'bar',data:{labels:pts.map(function(p){return p.n;}),datasets:[{label:'Brecha (meta − resultado)',data:pts.map(function(p){return p.br;}),backgroundColor:pts.map(function(p){return p.r>=p.m?'#059669':p.r/p.m>=0.8?'#D97706':'#DC2626';}),borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:'#F3F4F6'}},y:{grid:{display:false},ticks:{font:{size:11}}}},plugins:{legend:{display:false}},animation:{duration:600}}});
-          tbl(['Indicador','Meta','Resultado','Brecha'],pts.map(function(p){return[p.n,p.m,p.r,p.br.toFixed(1)];}));
-        }
-
-        function ejeEfcom(ctx){
-          var ind=GK['Comercial'].find(function(i){return i.n==='Eficiencia Comercial';});
-          var vals=ind?[0,1,2,3,4].map(function(i){return ind.m[i]!==null?(ind.m[i]*100):null;}):[];
-          GFX.inst=new Chart(ctx,{type:'line',data:{labels:['Ene','Feb','Mar','Abr','May'],datasets:[{label:'Eficiencia Comercial (%)',data:vals,borderColor:'#8B1D3A',backgroundColor:'rgba(139,29,58,.08)',borderWidth:2.5,pointRadius:6,pointBackgroundColor:'#8B1D3A',tension:0.3,fill:true},{label:'Meta (80%)',data:[80,80,80,80,80],borderColor:'#059669',borderDash:[5,3],borderWidth:1.5,pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:60,max:100,ticks:{callback:function(v){return v+'%';}}},x:{grid:{display:false}}},plugins:{legend:{position:'top',labels:{font:{size:11}}}},animation:{duration:600}}});
-          tbl(['Mes','Eficiencia Comercial','Meta'],['Ene','Feb','Mar','Abr','May'].map(function(m,i){return[m,vals[i]!==null?vals[i].toFixed(1)+'%':'—','80%'];}));
-        }
-
-        function ejeGers(ctx){
-          var gers=Object.keys(GK);var mi=4;
-          var pcts=gers.map(function(g){var inds=GK[g].filter(function(i){return i.m[mi]!==null;});if(!inds.length) return 0;return Math.round((inds.filter(function(i){return gst(i.m[mi],i.meta)==='ok';}).length/inds.length)*100);});
-          GFX.inst=new Chart(ctx,{type:'bar',data:{labels:gers,datasets:[{label:'% KPIs cumpliendo meta — Mayo',data:pcts,backgroundColor:gers.map(function(g){return GC[g]||'#ccc';}),borderRadius:6},{type:'line',label:'Objetivo (95%)',data:gers.map(function(){return 95;}),borderColor:'#059669',borderDash:[5,3],borderWidth:1.5,pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false}},y:{min:0,max:100,ticks:{callback:function(v){return v+'%';}}}},plugins:{legend:{display:false}},animation:{duration:600}}});
-          tbl(['Gerencia','% Cumplimiento (Mayo)'],gers.map(function(g,i){return[g,pcts[i]+'%'];}));
-        }
-
-        window.gfxNext=gfxNext;window.gfxBack=gfxBack;
-        window.gfxTopic=gfxTopic;window.gfxChart=gfxChart;window.gfxFilt=gfxFilt;
-        window.gfxTbl=gfxTbl;window.gfxPNG=gfxPNG;window.gfxCSV=gfxCSV;
-
+        /* ── Init ──────────────────────────────────────────────────────── */
         render();
+
       })();
       </script>
     </div>
+
 
   </main>
 </div>
